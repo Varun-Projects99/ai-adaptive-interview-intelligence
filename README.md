@@ -1,7 +1,7 @@
 # ai-adaptive-interview-intelligence
 ai-adaptive-interview-intelligence/
 │
-├── backend/
+├── backend//
 │   ├── app.py
 │   ├── config.py
 │   ├── requirements.txt
