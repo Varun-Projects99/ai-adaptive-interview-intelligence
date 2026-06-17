@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InterviewIQ — Upload Resume</title>
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body class="grid-bg">
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-logo">
+    <div class="logo-dot"></div>InterviewIQ
+  </div>
+  <div class="navbar-right">
+    <div class="chip accent">Powered by Claude AI</div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<main style="min-height:100vh;display:flex;align-items:center;justify-content:center;
+             padding:100px 40px 60px;position:relative;z-index:1">
+
+  <!-- Background glow -->
+  <div style="position:absolute;width:700px;height:700px;pointer-events:none;
+              background:radial-gradient(circle,rgba(0,212,255,.06) 0%,transparent 70%);
+              top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+
+  <div style="width:100%;max-width:580px;display:flex;flex-direction:column;
+              align-items:center;gap:28px">
+
+    <!-- Badge -->
+    <div class="chip accent fade-up" style="display:inline-flex;align-items:center;gap:8px">
+      <div class="logo-dot" style="width:6px;height:6px"></div>
+      AI-Powered Mock Interviews
+    </div>
+
+    <!-- Headline -->
+    <h1 class="font-heading fade-up fade-up-1"
+        style="font-size:clamp(42px,7vw,78px);font-weight:800;line-height:.95;
+               letter-spacing:-3px;text-align:center">
+      Ace Your <span style="color:var(--accent)">Next</span><br>
+      <span style="-webkit-text-stroke:1.5px rgba(0,212,255,.4);color:transparent">Interview</span>
+    </h1>
+
+    <!-- Sub -->
+    <p class="fade-up fade-up-2"
+       style="font-size:15px;color:var(--text-muted);text-align:center;
+              line-height:1.75;max-width:430px">
+      Upload your resume — Claude extracts your skills and generates a fully
+      adaptive mock interview with live emotion &amp; voice analysis.
+    </p>
+
+    <!-- UPLOAD CARD -->
+    <div class="card w-full fade-up fade-up-3"
+         style="display:flex;flex-direction:column;gap:20px">
+
+      <!-- Drop zone -->
+      <div id="drop-zone"
+           style="border:2px dashed var(--border2);padding:48px 24px;
+                  display:flex;flex-direction:column;align-items:center;gap:14px;
+                  cursor:pointer;transition:all .25s;position:relative;overflow:hidden"
+           onclick="document.getElementById('file-input').click()"
+           ondragover="event.preventDefault();this.style.borderColor='var(--accent)'"
+           ondragleave="this.style.borderColor='var(--border2)'"
+           ondrop="handleDrop(event)">
+        <div style="width:52px;height:52px;border:1px solid var(--border2);
+                    display:flex;align-items:center;justify-content:center;
+                    font-size:22px;background:var(--surface2)">📄</div>
+        <div class="font-heading" id="drop-label"
+             style="font-size:17px;font-weight:700">Drop your resume here</div>
+        <div class="font-mono text-muted" id="drop-sub"
+             style="font-size:11px;letter-spacing:.1em;text-transform:uppercase">
+          PDF format · Max 5 MB
+        </div>
+        <input type="file" id="file-input" accept=".pdf" style="display:none"
+               onchange="handleFile(this.files[0])">
+      </div>
+
+      <!-- Progress bar -->
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+      <div id="status-msg" class="font-mono text-muted"
+           style="font-size:11px;letter-spacing:.08em;text-align:center;min-height:16px">
+        No file selected
+      </div>
+
+      <!-- Detected skills -->
+      <div id="skills-area" style="display:none;flex-direction:column;gap:10px">
+        <div class="font-mono text-muted"
+             style="font-size:10px;letter-spacing:.15em;text-transform:uppercase">
+          Detected Skills
+        </div>
+        <div id="skills-grid" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+      </div>
+
+      <!-- CTA button -->
+      <button class="btn btn-primary btn-full" id="start-btn" disabled
+              onclick="uploadResume()">
+        <span class="btn-text">Upload &amp; Start Interview</span>
+        <div class="spinner" style="border-top-color:#000"></div>
+      </button>
+    </div>
+
+    <!-- FEATURE TILES -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+                background:var(--border);border:1px solid var(--border);
+                width:100%" class="fade-up fade-up-3">
+      <div class="card" style="padding:18px;gap:8px;display:flex;flex-direction:column">
+        <div style="font-size:20px">🤖</div>
+        <div class="font-heading" style="font-size:13px;font-weight:700">Adaptive AI</div>
+        <div style="font-size:12px;color:var(--text-muted);line-height:1.6">
+          Questions adjust to your skill level in real time
+        </div>
+      </div>
+      <div class="card" style="padding:18px;gap:8px;display:flex;flex-direction:column">
+        <div style="font-size:20px">😐</div>
+        <div class="font-heading" style="font-size:13px;font-weight:700">Emotion Read</div>
+        <div style="font-size:12px;color:var(--text-muted);line-height:1.6">
+          Webcam detects confidence, stress and nerves
+        </div>
+      </div>
+      <div class="card" style="padding:18px;gap:8px;display:flex;flex-direction:column">
+        <div style="font-size:20px">🎙️</div>
+        <div class="font-heading" style="font-size:13px;font-weight:700">Voice Score</div>
+        <div style="font-size:12px;color:var(--text-muted);line-height:1.6">
+          Speech rate, pauses and filler words tracked
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script src="/assets/js/session.js"></script>
+<script>
+let selectedFile = null;
+
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById("drop-zone").style.borderColor = "var(--border2)";
+  const f = e.dataTransfer.files[0];
+  if (f) handleFile(f);
+}
+
+function handleFile(file) {
+  if (!file.name.toLowerCase().endsWith(".pdf")) {
+    showToast("Only PDF files are supported.", "err"); return;
+  }
+  if (file.size > 5 * 1024 * 1024) {
+    showToast("File is too large. Max 5 MB.", "err"); return;
+  }
+  selectedFile = file;
+  document.getElementById("drop-label").textContent = file.name;
+  document.getElementById("drop-sub").textContent   =
+    (file.size / 1024).toFixed(0) + " KB · Ready to upload";
+  setStatus("File ready — click button to upload", "", 10);
+  document.getElementById("start-btn").disabled = false;
+}
+
+async function uploadResume() {
+  if (!selectedFile) return;
+  const btn = document.getElementById("start-btn");
+  btn.classList.add("loading"); btn.disabled = true;
+
+  try {
+    // 1. Start session
+    setStatus("Starting session...", "", 20);
+    const sess = await apiPost("/api/session/start");
+    Session.id = sess.session_id;
+
+    // 2. Upload resume + extract skills
+    setStatus("Extracting skills from resume...", "", 40);
+    const form = new FormData();
+    form.append("session_id", Session.id);
+    form.append("resume", selectedFile);
+    const up = await apiPost("/api/resume/upload", form, true);
+    Session.skills = up.skills_detected;
+    showSkills(up.skills_detected);
+    setStatus(`✓ ${up.skill_count} skills detected`, "ok", 65);
+
+    // 3. Generate questions via Claude
+    setStatus("Generating questions with Claude AI...", "", 82);
+    const qd = await apiPost("/api/questions/generate", { session_id: Session.id });
+    Session.total = qd.total_questions;
+    setStatus(`✓ ${qd.total_questions} questions ready — launching interview...`, "ok", 100);
+
+    setTimeout(() => { window.location.href = "/interview"; }, 1000);
+
+  } catch(e) {
+    setStatus("Error: " + e.message, "err", 0);
+    btn.classList.remove("loading"); btn.disabled = false;
+    showToast(e.message, "err");
+  }
+}
+
+function showSkills(skills) {
+  const grid = document.getElementById("skills-grid");
+  grid.innerHTML = "";
+  skills.forEach((s, i) => {
+    const c = document.createElement("div");
+    c.className = "skill-chip";
+    c.textContent = s;
+    c.style.animationDelay = (i * 0.05) + "s";
+    grid.appendChild(c);
+  });
+  document.getElementById("skills-area").style.display = "flex";
+}
+
+function setStatus(msg, cls, pct) {
+  const el = document.getElementById("status-msg");
+  el.textContent = msg;
+  el.style.color = cls === "ok"  ? "var(--success)"
+                 : cls === "err" ? "var(--danger)"
+                 : "var(--text-muted)";
+  if (pct !== undefined)
+    document.getElementById("progress-fill").style.width = pct + "%";
+}
+</script>
+</body>
+</html>

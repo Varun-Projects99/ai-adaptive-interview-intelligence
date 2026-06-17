@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InterviewIQ — Live Interview</title>
+<link rel="stylesheet" href="/assets/css/style.css">
+<style>
+body { overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
+
+/* ── TOPBAR ── */
+.topbar {
+  height: 56px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px;
+  background: var(--surface); border-bottom: 1px solid var(--border);
+}
+.tb-logo { font-family:var(--fh); font-weight:800; font-size:17px;
+           letter-spacing:-.5px; display:flex; align-items:center; gap:8px; }
+#timer   { font-family:var(--fm); font-size:14px; color:var(--accent); letter-spacing:.1em; }
+
+/* ── MAIN GRID ── */
+.layout { display: grid; grid-template-columns: 1fr 310px; flex: 1; overflow: hidden; }
+
+/* ── LEFT ── */
+.left-panel { display: flex; flex-direction: column; padding: 18px; gap: 14px; overflow-y: auto; }
+
+/* Question card */
+.q-card { background:var(--surface); border:1px solid var(--border); padding:26px;
+          display:flex; flex-direction:column; gap:14px; }
+.q-meta { display:flex; justify-content:space-between; align-items:center; }
+.q-idx  { font-family:var(--fm); font-size:11px; letter-spacing:.1em;
+          text-transform:uppercase; color:var(--text-muted); }
+.q-text { font-family:var(--fh); font-size:19px; font-weight:700;
+          line-height:1.4; letter-spacing:-.3px; }
+.q-skill{ font-family:var(--fm); font-size:11px; color:var(--accent);
+          letter-spacing:.1em; text-transform:uppercase; }
+
+/* Answer card */
+.answer-card { background:var(--surface); border:1px solid var(--border); padding:20px;
+               display:flex; flex-direction:column; gap:14px; flex:1; }
+
+.panel-text  { display:flex; flex-direction:column; gap:10px; }
+.panel-voice { display:none; flex-direction:column; align-items:center; gap:14px; padding:8px 0; }
+
+.mic-btn {
+  width:64px; height:64px; border-radius:50%;
+  background:var(--surface2); border:2px solid var(--border2);
+  font-size:26px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:all .2s;
+}
+.mic-btn:hover { border-color:var(--accent); }
+.mic-btn.recording {
+  border-color:var(--danger); background:rgba(255,61,90,.1);
+  animation: pulse-mic 1s ease-in-out infinite;
+}
+@keyframes pulse-mic {
+  0%,100% { box-shadow: 0 0 0 0 rgba(255,61,90,.3); }
+  50%      { box-shadow: 0 0 0 14px rgba(255,61,90,0); }
+}
+
+#voice-status     { font-family:var(--fm); font-size:11px; color:var(--text-muted); letter-spacing:.08em; }
+#voice-transcript { font-size:13px; color:var(--text-muted); font-style:italic;
+                    text-align:center; min-height:38px; line-height:1.6; max-width:340px; }
+
+.answer-footer { display:flex; gap:10px; }
+.btn-skip {
+  background:transparent; border:1px solid var(--border2); color:var(--text-muted);
+  font-family:var(--fm); font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+  padding:13px 16px; cursor:pointer; transition:all .2s;
+}
+.btn-skip:hover { border-color:var(--text-muted); color:var(--text); }
+
+/* ── RIGHT PANEL ── */
+.right-panel {
+  background:var(--surface); border-left:1px solid var(--border);
+  display:flex; flex-direction:column; overflow-y:auto;
+}
+.cam-wrap { aspect-ratio:4/3; flex-shrink:0; background:#000; position:relative; overflow:hidden; }
+.cam-wrap video { width:100%; height:100%; object-fit:cover; display:block; }
+
+.side-sec { padding:14px 16px; border-bottom:1px solid var(--border);
+            display:flex; flex-direction:column; gap:10px; }
+
+.viol-row { display:flex; justify-content:space-between; align-items:center;
+            font-size:12px; padding:6px 10px;
+            background:var(--surface2); border:1px solid var(--border); }
+.viol-row.active { border-color:var(--danger); background:rgba(255,61,90,.06); color:var(--danger); }
+.viol-cnt { font-family:var(--fm); font-size:13px; }
+
+/* ── TERMINATE ── */
+.terminate-overlay { gap:24px; }
+.term-icon  { font-size:60px; }
+.term-title { font-family:var(--fh); font-size:40px; font-weight:800;
+              color:var(--danger); letter-spacing:-1px; }
+.term-msg   { font-size:15px; color:var(--text-muted); text-align:center;
+              max-width:380px; line-height:1.7; }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="tb-logo">
+    <div class="logo-dot rec"></div>
+    InterviewIQ — Live Session
+  </div>
+  <span id="timer">00:00</span>
+  <div style="display:flex;gap:8px">
+    <div class="vbadge" id="vbadge-tab">
+      <div class="vbadge-dot" id="vdot-tab"></div>TAB
+    </div>
+    <div class="vbadge" id="vbadge-cam">
+      <div class="vbadge-dot" id="vdot-cam"></div>CAM
+    </div>
+    <div class="vbadge" id="vbadge-win">
+      <div class="vbadge-dot" id="vdot-win"></div>WIN
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="layout">
+
+  <!-- ═══ LEFT ═══ -->
+  <div class="left-panel">
+
+    <!-- Question card -->
+    <div class="q-card">
+      <div class="q-meta">
+        <div class="q-idx" id="q-index">Question — / —</div>
+        <div class="diff-badge easy" id="q-diff">EASY</div>
+      </div>
+      <div class="q-text" id="q-text">Loading your first question...</div>
+      <div class="q-skill" id="q-skill"></div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="q-bar" style="width:0%"></div>
+      </div>
+    </div>
+
+    <!-- Answer card -->
+    <div class="answer-card">
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab-btn active" id="tab-text"
+                onclick="switchTab('text')">⌨️&nbsp; Type Answer</button>
+        <button class="tab-btn" id="tab-voice"
+                onclick="switchTab('voice')">🎙️&nbsp; Speak Answer</button>
+      </div>
+
+      <!-- Text panel -->
+      <div class="panel-text" id="panel-text">
+        <textarea id="answer-text" rows="6"
+          placeholder="Type your answer here...&#10;&#10;Be detailed — explain reasoning, give examples, mention trade-offs.">
+        </textarea>
+      </div>
+
+      <!-- Voice panel -->
+      <div class="panel-voice" id="panel-voice">
+        <div class="waveform" id="waveform">
+          <div class="wave-bar" style="height:8px"></div>
+          <div class="wave-bar" style="height:16px"></div>
+          <div class="wave-bar" style="height:12px"></div>
+          <div class="wave-bar" style="height:20px"></div>
+          <div class="wave-bar" style="height:10px"></div>
+          <div class="wave-bar" style="height:18px"></div>
+          <div class="wave-bar" style="height:14px"></div>
+          <div class="wave-bar" style="height:22px"></div>
+        </div>
+        <button class="mic-btn" id="mic-btn" onclick="Voice.toggle()">🎙️</button>
+        <div id="voice-status">Click mic to start speaking</div>
+        <div id="voice-transcript">Your spoken answer will appear here...</div>
+      </div>
+
+      <!-- Footer buttons -->
+      <div class="answer-footer">
+        <button class="btn btn-primary" id="submit-btn"
+                style="flex:1" onclick="submitAnswer()">
+          <span class="btn-text">Submit Answer</span>
+          <div class="spinner" style="border-top-color:#000"></div>
+        </button>
+        <button class="btn-skip" onclick="skipQuestion()">Skip</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ RIGHT ═══ -->
+  <div class="right-panel">
+
+    <!-- Webcam -->
+    <div class="cam-wrap">
+      <video id="webcam" autoplay muted playsinline></video>
+      <div class="cam-face-status ok" id="cam-face">● FACE OK</div>
+      <div class="cam-emotion emotion-badge neutral" id="cam-emotion">NEUTRAL</div>
+    </div>
+
+    <!-- Live performance meters -->
+    <div class="side-sec">
+      <div class="section-title" style="margin-bottom:0">Live Performance</div>
+      <div class="metric">
+        <div class="metric-row">
+          <span class="metric-name">Technical</span>
+          <span class="metric-val" id="tech-val">—</span>
+        </div>
+        <div class="metric-bar">
+          <div class="metric-fill tech" id="tech-bar" style="width:0%"></div>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-row">
+          <span class="metric-name">Voice Confidence</span>
+          <span class="metric-val" id="conf-val">—</span>
+        </div>
+        <div class="metric-bar">
+          <div class="metric-fill conf" id="conf-bar" style="width:0%"></div>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-row">
+          <span class="metric-name">Emotion Score</span>
+          <span class="metric-val" id="emot-val">—</span>
+        </div>
+        <div class="metric-bar">
+          <div class="metric-fill emot" id="emot-bar" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Emotion timeline dots -->
+    <div class="side-sec">
+      <div class="section-title" style="margin-bottom:0">Emotion Timeline</div>
+      <div class="emot-history" id="emot-history"></div>
+    </div>
+
+    <!-- Integrity monitor -->
+    <div class="side-sec">
+      <div class="section-title" style="margin-bottom:0">Integrity Monitor</div>
+      <div class="flex-col gap-8">
+        <div class="integrity-item viol-row" id="tab-switch-count">
+  Tab Switch 0 / 3
+</div>
+
+<div class="integrity-item viol-row" id="camera-exit-count">
+  Camera Exit 0 / 3
+</div>
+
+<div class="integrity-item viol-row" id="window-move-count">
+  Window Move 0 / 3
+</div>  
+      </div>
+    </div>
+
+    <!-- AI Insights -->
+    <div class="side-sec">
+      <div class="section-title">AI Insights</div>
+      <p id="personality">Personality: -</p>
+      <p id="level">Level: -</p>
+      <p id="weak">Weak Areas: -</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- FEEDBACK OVERLAY -->
+<div class="overlay" id="feedback-overlay">
+  <div class="fb-card">
+    <div>
+      <div class="font-mono text-muted"
+           style="font-size:10px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px">
+        Answer Score
+      </div>
+      <div class="score-val great" id="fb-score" style="font-size:52px">0</div>
+    </div>
+    <div class="text-muted" id="fb-feedback" style="font-size:14px;line-height:1.7"></div>
+    <div>
+      <div class="font-mono text-muted"
+           style="font-size:10px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px">
+        Strengths
+      </div>
+      <div class="flex-col gap-6" id="fb-strengths"></div>
+    </div>
+    <div>
+      <div class="font-mono text-muted"
+           style="font-size:10px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px">
+        Improve
+      </div>
+      <div class="flex-col gap-6" id="fb-improvements"></div>
+    </div>
+    <div style="text-align:center">
+      <span class="chip success" id="fb-next-diff"></span>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="closeFeedback()">
+      Next Question →
+    </button>
+  </div>
+</div>
+
+<!-- TERMINATE OVERLAY -->
+<div class="overlay terminate-overlay" id="terminate-overlay">
+  <div class="term-icon">🚫</div>
+  <div class="term-title">Interview Terminated</div>
+  <div class="term-msg">
+    You exceeded 3 integrity violations. The session has been automatically ended.
+  </div>
+  <button class="btn btn-danger" onclick="goToReport()">View Final Report</button>
+</div>
+
+<!-- WARN BANNER (integrity violations) -->
+<div class="warn-banner" id="warn-banner"></div>
+
+<!-- SCRIPTS — load order matters -->
+<script src="/assets/js/session.js"></script>
+<script src="/assets/js/integrity.js"></script>
+<script src="/assets/js/emotion.js"></script>
+<script src="/assets/js/voice.js"></script>
+<script src="/assets/js/interview.js"></script>
+<script>
+
+// 🚀 AI INSIGHTS
+async function fetchInsights(sessionId) {
+    const res = await fetch("/api/ai/insights", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({session_id: sessionId})
+    });
+
+    const data = await res.json();
+
+    document.getElementById("personality").innerText =
+        "Personality: " + (data.personality || "-");
+
+    document.getElementById("level").innerText =
+        "Level: " + (data.candidate_level || "-");
+
+    document.getElementById("weak").innerText =
+        "Weak: " + (data.weak_areas?.join(", ") || "-");
+}
+
+
+// 🚀 FOLLOW-UP
+async function fetchFollowup(answer) {
+    const res = await fetch("/api/ai/followup", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({answer: answer})
+    });
+
+    const data = await res.json();
+
+    let followDiv = document.getElementById("followup");
+
+    if (!followDiv) {
+        followDiv = document.createElement("div");
+        followDiv.id = "followup";
+        followDiv.style.marginTop = "15px";
+        followDiv.style.color = "yellow";
+        document.querySelector(".answer-card").appendChild(followDiv);
+    }
+
+    followDiv.innerText = "Follow-up: " + data.followup_question;
+}
+
+
+// 🚀 HOOK INTO EXISTING FUNCTION
+const oldSubmit = submitAnswer;
+
+submitAnswer = async function () {
+    const answer = document.getElementById("answer-text")?.value || "";
+
+    await oldSubmit();  // original function
+
+    if (window.sessionId) {
+        fetchInsights(window.sessionId);
+    }
+
+    fetchFollowup(answer);
+};
+
+
+// 🚀 START APP
+initInterview();
+
+</script>
+
+</body>
+</html>

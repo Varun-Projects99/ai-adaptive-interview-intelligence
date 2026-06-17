@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InterviewIQ — Dashboard</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        :root {
+            --neon-cyan: #00d4ff;
+            --neon-purple: #8b5cf6;
+            --neon-pink: #ff00ff;
+            --neon-green: #10f59a;
+            --card-bg: rgba(13, 19, 25, 0.8);
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 24px 60px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dashboard-header {
+            grid-column: 1 / -1;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .dashboard-header h1 {
+            font-family: var(--fh);
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .dashboard-header p {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-family: var(--fm);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .db-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+        }
+
+        .db-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s;
+        }
+
+        .db-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .db-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.1);
+        }
+
+        .db-card .icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .db-card:hover .icon {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        .db-card h2 {
+            font-family: var(--fh);
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0;
+            color: var(--text);
+        }
+
+        .db-card p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .db-card .card-footer {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .db-card .tag {
+            font-family: var(--fm);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            background: rgba(0, 212, 255, 0.1);
+            padding: 4px 8px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .db-card .btn-link {
+            font-family: var(--fm);
+            font-size: 12px;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+
+        .db-card:hover .btn-link {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        /* Cyberpunk Corner accents */
+        .corner {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border: 1px solid var(--accent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .db-card:hover .corner { opacity: 0.5; }
+        .corner-tl { top: 0; left: 0; border-right: none; border-bottom: none; }
+        .corner-br { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+        /* Animation for grid entry */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .db-card {
+            animation: fadeInUp 0.5s ease backwards;
+        }
+
+        .db-card:nth-child(1) { animation-delay: 0.1s; }
+        .db-card:nth-child(2) { animation-delay: 0.2s; }
+        .db-card:nth-child(3) { animation-delay: 0.3s; }
+        .db-card:nth-child(4) { animation-delay: 0.4s; }
+        .db-card:nth-child(5) { animation-delay: 0.5s; }
+        .db-card:nth-child(6) { animation-delay: 0.6s; }
+
+        /* Glow effects for specific cards */
+        .card-ai:hover { box-shadow: 0 0 20px rgba(0, 212, 255, 0.2); }
+        .card-resume:hover { box-shadow: 0 0 20px rgba(139, 92, 246, 0.2); }
+        .card-career:hover { box-shadow: 0 0 20px rgba(16, 245, 154, 0.2); }
+        .card-coding:hover { box-shadow: 0 0 20px rgba(255, 0, 255, 0.2); }
+        .card-hr:hover { box-shadow: 0 0 20px rgba(255, 176, 32, 0.2); }
+        .card-reports:hover { box-shadow: 0 0 20px rgba(0, 212, 255, 0.2); }
+
+    </style>
+</head>
+<body class="grid-bg">
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <div class="logo-dot"></div>InterviewIQ
+        </div>
+        <div class="navbar-right">
+            <div class="chip accent">System Online</div>
+            <div class="chip" style="margin-left: 10px;">User_Admin</div>
+        </div>
+    </nav>
+
+    <!-- DASHBOARD CONTENT -->
+    <main class="dashboard-container">
+        <div class="dashboard-header">
+            <p>Welcome back, Candidate</p>
+            <h1>Mission <span style="color:var(--accent)">Control</span></h1>
+        </div>
+
+        <!-- AI INTERVIEW -->
+        <div class="db-card card-ai" onclick="window.location.href='http://127.0.0.1:5000/interview'" style="cursor:pointer;">
+            <div class="corner corner-tl"></div>
+            <div class="corner corner-br"></div>
+            <div class="icon">🤖</div>
+            <h2>AI Interview</h2>
+            <p>Adaptive mock interviews with real-time emotion and voice analysis powered by Claude AI.</p>
+            <div class="card-footer">
+                <span class="tag">Active</span>
+                <span class="btn-link">Initialize _</span>
+            </div>
+        </div>
+
+        <!-- RESUME ANALYZER -->
+        <div class="db-card card-resume">
+            <div class="corner corner-tl"></div>
+            <div class="corner corner-br"></div>
+            <div class="icon">📄</div>
+            <h2>Resume Analyzer</h2>
+            <p>Extract skills and get AI insights on how well your profile matches industry standards.</p>
+            <div class="card-footer">
+                <span class="tag" style="color:var(--accent2); border-color:rgba(139, 92, 246, 0.2); background:rgba(139, 92, 246, 0.1);">Parser</span>
+                <span class="btn-link">Upload _</span>
+            </div>
+        </div>
+
+        <!-- CAREER PATH -->
+        <div class="db-card card-career">
+            <div class="corner corner-tl"></div>
+            <div class="corner corner-br"></div>
+            <div class="icon">🚀</div>
+            <h2>Career Path</h2>
+            <p>Visualize your career trajectory and identify the missing skills for your dream role.</p>
+            <div class="card-footer">
+                <span class="tag" style="color:var(--success); border-color:rgba(16, 245, 154, 0.2); background:rgba(16, 245, 154, 0.1);">Strategy</span>
+                <span class="btn-link">Map _</span>
+            </div>
+        </div>
+
+        <!-- CODING PRACTICE -->
+        <div class="db-card card-coding">
+            <div class="corner corner-tl"></div>
+            <div class="corner corner-br"></div>
+            <div class="icon">💻</div>
+            <h2>Coding Practice</h2>
+            <p>Solve algorithm challenges in our integrated IDE with real-time complexity feedback.</p>
+            <div class="card-footer">
+                <span class="tag" style="color:var(--neon-pink); border-color:rgba(255, 0, 255, 0.2); background:rgba(255, 0, 255, 0.1);">Terminal</span>
+                <span class="btn-link">Compile _</span>
+            </div>
+        </div>
+
+        <!-- HR INTERVIEW -->
+        <div class="db-card card-hr">
+            <div class="corner corner-tl"></div>
+            <div class="corner corner-br"></div>
+            <div class="icon">🤝</div>
+            <h2>HR Interview</h2>
+            <p>Master behavioral questions and soft skills through specialized HR simulation modules.</p>
+            <div class="card-footer">
+                <span class="tag" style="color:var(--warn); border-color:rgba(255, 176, 32, 0.2); background:rgba(255, 176, 32, 0.1);">Soft Skills</span>
+                <span class="btn-link">Engage _</span>
+            </div>
+        </div>
+
+        <!-- REPORTS -->
+        <div class="db-card card-reports">
+            <div class="corner corner-tl"></div>
+            <div class="corner corner-br"></div>
+            <div class="icon">📊</div>
+            <h2>Performance Reports</h2>
+            <p>Detailed breakdown of your strengths, weaknesses, and progress over time.</p>
+            <div class="card-footer">
+                <span class="tag">Analytics</span>
+                <span class="btn-link">View _</span>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Background glow -->
+    <div style="position:fixed;width:800px;height:800px;pointer-events:none;
+                background:radial-gradient(circle,rgba(0,212,255,.04) 0%,transparent 70%);
+                top:50%;left:50%;transform:translate(-50%,-50%);z-index:0"></div>
+
+    <script src="/assets/js/session.js"></script>
+</body>
+</html>

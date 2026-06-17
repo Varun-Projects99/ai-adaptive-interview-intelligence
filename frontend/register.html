@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InterviewIQ — Register</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .register-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 48px;
+            width: 100%;
+            max-width: 440px;
+            position: relative;
+            backdrop-filter: blur(10px);
+            z-index: 1;
+            animation: fade-up 0.5s ease both;
+        }
+
+        /* Cyberpunk Corner accents */
+        .corner {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border: 1px solid var(--accent);
+            opacity: 0.5;
+        }
+        .corner-tl { top: 0; left: 0; border-right: none; border-bottom: none; }
+        .corner-br { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+        .register-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .register-header .logo {
+            font-family: var(--fh);
+            font-weight: 800;
+            font-size: 24px;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .register-header h1 {
+            font-family: var(--fh);
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.5px;
+        }
+
+        .register-header p {
+            font-family: var(--fm);
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-top: 4px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: var(--fm);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            color: var(--text);
+            padding: 14px;
+            font-family: var(--fb);
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.1);
+        }
+
+        .footer-links {
+            text-align: center;
+            margin-top: 24px;
+            font-family: var(--fb);
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .footer-links a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 4px;
+            transition: opacity 0.3s;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+            opacity: 0.8;
+        }
+
+        /* Background glow */
+        .glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            pointer-events: none;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.05) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+        }
+
+    </style>
+</head>
+<body class="grid-bg">
+
+    <div class="glow"></div>
+
+    <div class="register-card">
+        <div class="corner corner-tl"></div>
+        <div class="corner corner-br"></div>
+
+        <div class="register-header">
+            <div class="logo">
+                <div class="logo-dot"></div>
+                InterviewIQ
+            </div>
+            <h1>Create Profile</h1>
+            <p>Initialize Your Candidate Identity</p>
+        </div>
+
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="John Doe" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="name@example.com" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Security Key</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Confirm Key</label>
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="••••••••" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-full">
+                <span class="btn-text">Activate Protocol</span>
+            </button>
+        </form>
+
+        <p class="footer-links">
+            Already have an account? <a href="/login">Access System</a>
+        </p>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Simple password match check
+            const pass = document.getElementById('password').value;
+            const confirm = document.getElementById('confirm-password').value;
+            
+            if (pass !== confirm) {
+                alert("Security keys do not match!");
+                return;
+            }
+
+            // Simulate successful registration
+            localStorage.setItem('sessionToken', 'registered_user_token_' + Date.now());
+            
+            // Redirect to login
+            window.location.href = '/login';
+        });
+    </script>
+</body>
+</html>

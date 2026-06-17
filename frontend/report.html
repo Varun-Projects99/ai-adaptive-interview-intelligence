@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InterviewIQ — Performance Report</title>
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body class="grid-bg">
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-logo">
+    <div class="logo-dot done"></div>
+    InterviewIQ — Report
+  </div>
+  <div class="navbar-right">
+    <button class="btn btn-outline" style="padding:8px 18px;font-size:13px"
+            onclick="Session.clear(); window.location.href='/'">
+      ← New Interview
+    </button>
+  </div>
+</nav>
+
+<!-- PAGE BODY -->
+<main style="max-width:920px;margin:0 auto;padding:88px 40px 60px;
+             position:relative;z-index:1">
+  <div id="report-body">
+    <div class="loading-state">
+      <div class="load-spin"></div>
+      <div class="load-msg">Generating your performance report...</div>
+    </div>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script src="/assets/js/session.js"></script>
+<script src="/assets/js/report.js"></script>
+</body>
+</html>
