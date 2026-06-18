@@ -178,7 +178,7 @@ function renderReport(d) {
     <!-- ACTIONS -->
     <div class="flex gap-12">
       <button class="btn btn-primary" style="flex:1"
-              onclick="Session.clear(); window.location.href='/'">
+              onclick="Session.clear(); window.location.href='/dashboard'">
         🔄 Start New Interview
       </button>
       <button class="btn btn-outline" style="flex:1" onclick="window.print()">
@@ -188,12 +188,18 @@ function renderReport(d) {
   `;
 }
 
+function scoreClass(score) {
+  if (score >= 75) return "great";
+  if (score >= 50) return "ok";
+  return "poor";
+}
+
 function renderError(msg) {
   document.getElementById("report-body").innerHTML = `
     <div class="loading-state">
       <div style="font-size:48px">⚠️</div>
       <div class="font-mono" style="color:var(--danger);font-size:13px;text-align:center">${msg}</div>
-      <button class="btn btn-primary" onclick="window.location.href='/'">← Go Back</button>
+      <button class="btn btn-primary" onclick="window.location.href='/dashboard'">← Go Back</button>
     </div>`;
 }
 

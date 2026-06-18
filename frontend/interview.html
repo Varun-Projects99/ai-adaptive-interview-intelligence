@@ -372,8 +372,8 @@ submitAnswer = async function () {
 
     await oldSubmit();  // original function
 
-    if (window.sessionId) {
-        fetchInsights(window.sessionId);
+    if (Session.id) {
+        fetchInsights(Session.id);
     }
 
     fetchFollowup(answer);

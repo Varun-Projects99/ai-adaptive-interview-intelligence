@@ -19,13 +19,25 @@ sys.path.append(os.path.dirname(__file__))
 # ── Module imports (graceful fallbacks if a lib is missing) ──────────────────
 
 try:
-    from modules.resume_parser import extract_skills_from_resume
+    from modules.resume_parser import extract_skills_from_resume, analyze_resume_data
     print("[OK] resume_parser loaded")
 except Exception as e:
     print(f"[WARN] resume_parser: {e}")
 
     def extract_skills_from_resume(path):
         return ["Python", "Machine Learning", "Data Structures"]
+
+    def analyze_resume_data(path):
+        return {
+            "score": 75,
+            "ats_score": 80,
+            "detected_skills": ["Python", "Machine Learning", "Data Structures"],
+            "career_paths": ["Software Engineer"],
+            "strengths": ["Clear sections"],
+            "improvements": ["More detail"],
+            "formatting_score": 85,
+            "formatting_feedback": "Looks good"
+        }
 
 
 try:
@@ -183,12 +195,21 @@ sessions = {}
 
 
 @app.route("/")
+@app.route("/login")
 def serve_index():
     return send_from_directory("../frontend", "login.html")
 
 @app.route("/dashboard")
 def serve_dashboard():
     return send_from_directory("../frontend", "dashboard.html")
+
+@app.route("/upload")
+def serve_upload():
+    return send_from_directory("../frontend", "index.html")
+
+@app.route("/analyzer")
+def serve_analyzer():
+    return send_from_directory("../frontend", "analyzer.html")
 
 
 @app.route("/register")
@@ -287,7 +308,7 @@ def upload_resume():
         return jsonify({"error": "No file uploaded"}), 400
 
     file = request.files["resume"]
-    if not file.filename.endswith(".pdf"):
+    if not file.filename or not file.filename.endswith(".pdf"):
         return jsonify({"error": "Only PDF supported"}), 400
 
     path = os.path.join(UPLOAD_FOLDER, f"{sid}_resume.pdf")
@@ -298,6 +319,30 @@ def upload_resume():
     return jsonify(
         {"session_id": sid, "skills_detected": skills, "skill_count": len(skills)}
     )
+
+
+@app.route("/api/resume/analyze", methods=["POST"])
+def api_analyze_resume():
+    if "resume" not in request.files:
+        return jsonify({"error": "No file uploaded"}), 400
+    
+    file = request.files["resume"]
+    if not file.filename or not file.filename.endswith(".pdf"):
+        return jsonify({"error": "Only PDF supported"}), 400
+        
+    temp_id = str(uuid.uuid4())
+    path = os.path.join(UPLOAD_FOLDER, f"temp_{temp_id}_resume.pdf")
+    file.save(path)
+    
+    try:
+        analysis = analyze_resume_data(path)
+        if os.path.exists(path):
+            os.remove(path)
+        return jsonify(analysis)
+    except Exception as e:
+        if os.path.exists(path):
+            os.remove(path)
+        return jsonify({"error": str(e)}), 500
 
 
 @app.route("/api/questions/generate", methods=["POST"])

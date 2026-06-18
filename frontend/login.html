@@ -200,7 +200,7 @@
             <h1>System Access</h1>
             <p>Authentication Required</p>
         </div>
-        <form id="loginForm">
+        <form id="loginForm" onsubmit="event.preventDefault(); localStorage.setItem('isLoggedIn', 'true'); window.location.href = '/dashboard'; return false;">
             <div class="form-group">
                 <label for="email">Email Address</label>
                 <input type="email" id="email" name="email" placeholder="name@example.com" required>
@@ -217,7 +217,7 @@
 
         <div class="divider">Or continue with</div>
 
-        <button class="google-btn" id="googleLogin">
+        <button class="google-btn" id="googleLogin" onclick="localStorage.setItem('isLoggedIn', 'true'); window.location.href = '/dashboard';">
             <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_and_wordmark_of_Google.svg" alt="Google">
             Continue with Google
         </button>
@@ -226,40 +226,5 @@
             Don't have an account? <a href="/register">Create Profile</a>
         </p>
     </div>
-    <script>
-window.onload = function () {
-
-    const loginForm = document.getElementById('loginForm');
-
-    if (loginForm) {
-
-        loginForm.addEventListener('submit', function(event) {
-
-            event.preventDefault();
-
-            alert("Login button clicked");
-
-            window.location.href = '/dashboard';
-
-        });
-
-    }
-
-    const googleBtn = document.getElementById('googleLogin');
-
-    if (googleBtn) {
-
-        googleBtn.addEventListener('click', function() {
-
-            window.location.replace('/dashboard');
-
-        });
-
-    }
-
-};
-</script>
-
-    
 </body>
 </html>

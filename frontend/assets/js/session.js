@@ -35,9 +35,30 @@ function showToast(message, type = 'info') {
 }
 
 const Session = {
-  id: null,
-  skills: [],
-  total: 0,
+  get id() {
+    return localStorage.getItem('session_id');
+  },
+  set id(val) {
+    localStorage.setItem('session_id', val || '');
+  },
+
+  get skills() {
+    try {
+      return JSON.parse(localStorage.getItem('session_skills') || '[]');
+    } catch(e) {
+      return [];
+    }
+  },
+  set skills(val) {
+    localStorage.setItem('session_skills', JSON.stringify(val || []));
+  },
+
+  get total() {
+    return parseInt(localStorage.getItem('session_total') || '0', 10);
+  },
+  set total(val) {
+    localStorage.setItem('session_total', String(val || 0));
+  },
 
   setLoggedIn: function(isLoggedIn) {
     localStorage.setItem('isLoggedIn', isLoggedIn ? 'true' : 'false');
@@ -47,7 +68,11 @@ const Session = {
     return localStorage.getItem('isLoggedIn') === 'true';
   },
 
-  // Other session related methods can be added here
+  clear: function() {
+    localStorage.removeItem('session_id');
+    localStorage.removeItem('session_skills');
+    localStorage.removeItem('session_total');
+  }
 };
 
 // Check login status on pages that require it
