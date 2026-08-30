@@ -15,7 +15,7 @@ def evaluate_answer(question: str, answer: str, difficulty: str) -> dict:
         return {"score":0,"feedback":"No answer provided.",
                 "strengths":[],"improvements":["Please provide a detailed answer."]}
 
-    prompt = f"""You are an expert technical interviewer. Evaluate this candidate answer.
+    prompt = f"""You are an expert interviewer. Evaluate this candidate answer for a technical or behavioral question.
 
 Question ({difficulty} difficulty): {question}
 Answer: {answer}

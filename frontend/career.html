@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InterviewIQ — Career Path</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        :root {
+            --neon-cyan: #00d4ff;
+            --neon-purple: #8b5cf6;
+            --neon-pink: #ff00ff;
+            --neon-green: #10f59a;
+            --neon-orange: #ffb020;
+            --card-bg: rgba(13, 19, 25, 0.85);
+            --border-glow: rgba(0, 212, 255, 0.2);
+        }
+
+        .career-layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 24px 60px;
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 32px;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 900px) {
+            .career-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .page-header {
+            grid-column: 1 / -1;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .page-header h1 {
+            font-family: var(--fh);
+            font-size: clamp(32px, 5vw, 44px);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-family: var(--fm);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Glassmorphism sidebar cards */
+        .sidebar-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 24px;
+            margin-bottom: 24px;
+            position: relative;
+            backdrop-filter: blur(12px);
+        }
+
+        .corner {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border: 1px solid var(--accent);
+            opacity: 0.4;
+        }
+        .corner-tl { top: 0; left: 0; border-right: none; border-bottom: none; }
+        .corner-br { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+        /* Track list options */
+        .track-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .track-item {
+            background: rgba(17, 25, 34, 0.6);
+            border: 1px solid var(--border);
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            position: relative;
+        }
+
+        .track-item:hover {
+            border-color: var(--accent);
+            background: rgba(0, 212, 255, 0.05);
+            transform: translateX(4px);
+        }
+
+        .track-item.active {
+            border-color: var(--accent2);
+            background: rgba(139, 92, 246, 0.1);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.15);
+        }
+
+        .track-item h3 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .track-item p {
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Skill Inventory grid */
+        .skills-checklist {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .skill-checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--text-muted);
+            cursor: pointer;
+            user-select: none;
+            transition: color 0.2s;
+        }
+
+        .skill-checkbox-label input {
+            display: none;
+        }
+
+        .custom-checkbox {
+            width: 14px;
+            height: 14px;
+            border: 1px solid var(--border2);
+            display: inline-block;
+            position: relative;
+            background: var(--surface2);
+        }
+
+        .skill-checkbox-label input:checked + .custom-checkbox {
+            border-color: var(--success);
+            background: rgba(16, 245, 154, 0.15);
+        }
+
+        .skill-checkbox-label input:checked + .custom-checkbox::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 5px;
+            width: 4px;
+            height: 7px;
+            border: solid var(--success);
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .skill-checkbox-label:hover {
+            color: var(--text);
+        }
+
+        .skill-checkbox-label input:checked {
+            color: var(--text);
+        }
+        
+        .skill-checkbox-label.has-skill {
+            color: var(--text);
+        }
+
+        /* Roadmap Panel */
+        .roadmap-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 32px;
+            backdrop-filter: blur(12px);
+            position: relative;
+            min-height: 500px;
+        }
+
+        .roadmap-header {
+            margin-bottom: 32px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+        }
+
+        .roadmap-header h2 {
+            font-family: var(--fh);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .roadmap-header p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Roadmap Tree Timeline */
+        .roadmap-timeline {
+            position: relative;
+            padding-left: 36px;
+        }
+
+        .roadmap-timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent2) 0%, var(--accent) 50%, var(--success) 100%);
+            box-shadow: 0 0 8px rgba(0, 212, 255, 0.3);
+        }
+
+        .milestone-node {
+            position: relative;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.4s ease backwards;
+        }
+
+        .milestone-marker {
+            position: absolute;
+            left: -31px;
+            top: 2px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 2px solid var(--border2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            transition: all 0.3s;
+        }
+
+        .milestone-node.completed .milestone-marker {
+            border-color: var(--success);
+            box-shadow: 0 0 10px rgba(16, 245, 154, 0.4);
+            background: var(--success);
+        }
+
+        .milestone-node.in-progress .milestone-marker {
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+        }
+
+        .milestone-num {
+            font-family: var(--fm);
+            font-size: 10px;
+            font-weight: bold;
+            color: var(--text-muted);
+        }
+
+        .milestone-node.completed .milestone-num {
+            color: #000;
+        }
+
+        .milestone-content {
+            background: rgba(17, 25, 34, 0.4);
+            border: 1px solid var(--border);
+            padding: 24px;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .milestone-content:hover {
+            border-color: rgba(0, 212, 255, 0.4);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .milestone-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .milestone-title {
+            font-family: var(--fh);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .milestone-status {
+            font-family: var(--fm);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Roadmap Skills list */
+        .roadmap-skills-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .roadmap-skill-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(7, 11, 16, 0.6);
+            border: 1px solid var(--border);
+            padding: 12px 16px;
+            transition: all 0.25s;
+        }
+
+        .roadmap-skill-card:hover {
+            border-color: var(--border2);
+            background: rgba(7, 11, 16, 0.9);
+        }
+
+        .skill-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .skill-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .status-badge {
+            font-family: var(--fm);
+            font-size: 9px;
+            padding: 3px 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border: 1px solid;
+        }
+
+        .status-badge.acquired {
+            color: var(--success);
+            border-color: rgba(16, 245, 154, 0.3);
+            background: rgba(16, 245, 154, 0.05);
+        }
+
+        .status-badge.missing {
+            color: var(--neon-orange);
+            border-color: rgba(255, 176, 32, 0.3);
+            background: rgba(255, 176, 32, 0.05);
+        }
+
+        /* Gap Summary Widget */
+        .gap-summary {
+            background: rgba(17, 25, 34, 0.6);
+            border: 1px solid var(--border);
+            padding: 20px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            text-align: center;
+        }
+
+        .gap-stat {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .gap-stat .num {
+            font-family: var(--fh);
+            font-size: 32px;
+            font-weight: 800;
+        }
+
+        .gap-stat .label {
+            font-family: var(--fm);
+            font-size: 10px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+        }
+
+        /* Progress ring */
+        .progress-ring-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+
+        .progress-ring-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: var(--fm);
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        /* Back Button link */
+        .back-nav {
+            margin-bottom: 24px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-family: var(--fm);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        .back-nav:hover {
+            color: var(--accent);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="grid-bg">
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-logo" onclick="window.location.href='/dashboard'" style="cursor:pointer;">
+            <div class="logo-dot"></div>InterviewIQ
+        </div>
+        <div class="navbar-right">
+            <div class="chip accent" onclick="window.location.href='/dashboard'" style="cursor:pointer;">Dashboard</div>
+            <div class="chip" style="margin-left: 10px;">User_Admin</div>
+        </div>
+    </nav>
+
+    <!-- MAIN INTERACTIVE LAYOUT -->
+    <main class="career-layout">
+        
+        <div class="page-header">
+            <div>
+                <a class="back-nav" onclick="window.location.href='/dashboard'">← Back to Mission Control</a>
+                <h1>Career <span style="color:var(--accent2)">Roadmap</span></h1>
+            </div>
+            <p>Strategy &amp; Competency Mapping</p>
+        </div>
+
+        <!-- LEFT SIDEBAR: SELECT TRACK & SKILL INVENTORY -->
+        <aside>
+            <!-- SELECT CAREER TRACK -->
+            <div class="sidebar-section">
+                <div class="corner corner-tl"></div>
+                <div class="corner corner-br"></div>
+                <div class="section-title">Select Career Track</div>
+                <div class="track-list" id="tracks-container">
+                    <!-- Loaded dynamically via JavaScript -->
+                </div>
+            </div>
+
+            <!-- SKILL INVENTORY -->
+            <div class="sidebar-section">
+                <div class="corner corner-tl"></div>
+                <div class="corner corner-br"></div>
+                <div class="section-title">Your Skill Inventory</div>
+                <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.5;">
+                    Toggle skills below to update your roadmap status. Upload a resume in the <a href="/analyzer" style="color: var(--accent); text-decoration: underline;">Analyzer</a> to import automatically.
+                </p>
+                <div class="skills-checklist" id="inventory-checklist">
+                    <!-- Loaded dynamically via JavaScript -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- RIGHT SIDE: ROADMAP TREE & GAP ANALYSIS -->
+        <section>
+            <!-- GAP SUMMARY WIDGET -->
+            <div class="gap-summary">
+                <div class="gap-stat">
+                    <span class="num" id="total-skills-count">0</span>
+                    <span class="label">Target Skills</span>
+                </div>
+                <div class="gap-stat" style="border-left: 1px solid var(--border); border-right: 1px solid var(--border); padding: 0 40px;">
+                    <span class="num" id="acquired-skills-count" style="color: var(--success);">0</span>
+                    <span class="label">Acquired</span>
+                </div>
+                
+                <!-- Progress Ring -->
+                <div class="progress-ring-container">
+                    <svg width="80" height="80">
+                        <circle cx="40" cy="40" r="34" stroke="var(--border)" stroke-width="4" fill="transparent" />
+                        <circle id="progress-circle" cx="40" cy="40" r="34" stroke="var(--accent)" stroke-width="4" fill="transparent" 
+                                stroke-dasharray="213.6" stroke-dashoffset="213.6" style="transition: stroke-dashoffset 0.5s ease; transform: rotate(-90deg); transform-origin: 50% 50%;" />
+                    </svg>
+                    <span class="progress-ring-text" id="progress-percentage">0%</span>
+                </div>
+            </div>
+
+            <!-- ROADMAP TREE PANEL -->
+            <div class="roadmap-panel">
+                <div class="corner corner-tl"></div>
+                <div class="corner corner-br"></div>
+                
+                <div class="roadmap-header">
+                    <h2 id="active-track-title">Software Engineer</h2>
+                    <p id="active-track-desc">Visualize your developmental roadmap and target missing skills.</p>
+                </div>
+
+                <div class="roadmap-timeline" id="timeline-container">
+                    <!-- Loaded dynamically via JavaScript -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Background glow -->
+    <div style="position:fixed;width:800px;height:800px;pointer-events:none;
+                background:radial-gradient(circle,rgba(139,92,246,.03) 0%,transparent 70%);
+                top:50%;left:50%;transform:translate(-50%,-50%);z-index:0"></div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="/assets/js/session.js"></script>
+    <script>
+        // Predefined taxonomy list consistent with backend resume_parser.py
+        const ALL_TAXONOMY_SKILLS = [
+            "Python", "JavaScript", "Java", "C++", "C", "Machine Learning", 
+            "Deep Learning", "Data Structures", "Databases", "Cloud", "Data Science", 
+            "NLP", "Computer Vision", "Web Development", "Cybersecurity", "Android", "iOS", "Git"
+        ];
+
+        // Core career tracks and their milestone structure
+        const CAREER_TRACKS = {
+            "fullstack": {
+                name: "Full Stack Developer",
+                desc: "Develop full-fledged modern web applications spanning client interfaces, servers, APIs, and databases.",
+                milestones: [
+                    {
+                        name: "Phase 1: Frontend & Interaction",
+                        skills: ["JavaScript", "Web Development"]
+                    },
+                    {
+                        name: "Phase 2: Data Architecture & Logic",
+                        skills: ["Python", "Databases"]
+                    },
+                    {
+                        name: "Phase 3: Control & Cloud Integration",
+                        skills: ["Git", "Cloud"]
+                    }
+                ]
+            },
+            "datamle": {
+                name: "Data Scientist / ML Engineer",
+                desc: "Engineer AI architectures, deep networks, statistical pipelines, and train models on complex datasets.",
+                milestones: [
+                    {
+                        name: "Phase 1: Foundations & Analysis",
+                        skills: ["Python", "Data Science"]
+                    },
+                    {
+                        name: "Phase 2: Core Intelligent Systems",
+                        skills: ["Machine Learning", "Databases"]
+                    },
+                    {
+                        name: "Phase 3: Specialized Neural Networks",
+                        skills: ["Deep Learning", "NLP", "Computer Vision", "Git"]
+                    }
+                ]
+            },
+            "backend": {
+                name: "Backend Software Engineer",
+                desc: "Engineer resilient system architectures, custom algorithms, fast query paths, and cloud deployments.",
+                milestones: [
+                    {
+                        name: "Phase 1: System Languages",
+                        skills: ["Python", "Java", "C++"]
+                    },
+                    {
+                        name: "Phase 2: Data Architectures",
+                        skills: ["Data Structures", "Databases"]
+                    },
+                    {
+                        name: "Phase 3: Delivery & Cloud Infrastructures",
+                        skills: ["Git", "Cloud"]
+                    }
+                ]
+            },
+            "mobile": {
+                name: "Mobile App Developer",
+                desc: "Build highly responsive native applications on modern Android and iOS platforms.",
+                milestones: [
+                    {
+                        name: "Phase 1: Development Basics",
+                        skills: ["JavaScript", "Git"]
+                    },
+                    {
+                        name: "Phase 2: Platform Specializations",
+                        skills: ["Android", "iOS"]
+                    },
+                    {
+                        name: "Phase 3: Back-End Integrations",
+                        skills: ["Web Development", "Databases"]
+                    }
+                ]
+            },
+            "swe": {
+                name: "Software Engineer",
+                desc: "Adaptable engineering generalist writing clean code, solid algorithms, and maintaining critical systems.",
+                milestones: [
+                    {
+                        name: "Phase 1: Languages & Logic",
+                        skills: ["Python", "Java", "C++"]
+                    },
+                    {
+                        name: "Phase 2: Algorithms & Bases",
+                        skills: ["Data Structures", "Databases"]
+                    },
+                    {
+                        name: "Phase 3: Engineering Lifecycle",
+                        skills: ["Web Development", "Git", "Cloud"]
+                    }
+                ]
+            }
+        };
+
+        // State variables
+        let userSkills = new Set();
+        let currentTrackKey = "fullstack";
+
+        // Initialize Page
+        window.addEventListener("DOMContentLoaded", () => {
+            // Load skills from session storage
+            const savedSkills = Session.skills;
+            if (savedSkills && savedSkills.length) {
+                savedSkills.forEach(s => userSkills.add(s));
+            } else {
+                // Default fallback if no resume uploaded yet
+                userSkills.add("Python");
+                userSkills.add("JavaScript");
+                userSkills.add("Git");
+            }
+
+            renderTrackList();
+            renderSkillInventory();
+            updateRoadmap();
+        });
+
+        // Render Sidebar Track Selector list
+        function renderTrackList() {
+            const container = document.getElementById("tracks-container");
+            container.innerHTML = "";
+
+            Object.entries(CAREER_TRACKS).forEach(([key, track]) => {
+                const item = document.createElement("div");
+                item.className = `track-item ${key === currentTrackKey ? 'active' : ''}`;
+                item.onclick = () => selectTrack(key);
+
+                item.innerHTML = `
+                    <h3>${track.name}</h3>
+                    <p>${track.desc}</p>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // Render Skill checklist
+        function renderSkillInventory() {
+            const container = document.getElementById("inventory-checklist");
+            container.innerHTML = "";
+
+            ALL_TAXONOMY_SKILLS.forEach(skill => {
+                const label = document.createElement("label");
+                label.className = `skill-checkbox-label ${userSkills.has(skill) ? 'has-skill' : ''}`;
+                label.id = `label-inv-${skill.replace(/\s+/g, '-')}`;
+
+                const checked = userSkills.has(skill) ? "checked" : "";
+
+                label.innerHTML = `
+                    <input type="checkbox" value="${skill}" ${checked} onchange="toggleSkill(this)">
+                    <span class="custom-checkbox"></span>
+                    ${skill}
+                `;
+                container.appendChild(label);
+            });
+        }
+
+        // Select active career track
+        function selectTrack(key) {
+            currentTrackKey = key;
+            
+            // Update active track UI items
+            const items = document.querySelectorAll(".track-item");
+            items.forEach((item, idx) => {
+                const trackKeys = Object.keys(CAREER_TRACKS);
+                if (trackKeys[idx] === key) {
+                    item.classList.add("active");
+                } else {
+                    item.classList.remove("active");
+                }
+            });
+
+            updateRoadmap();
+        }
+
+        // Toggle user skill in inventory
+        function toggleSkill(checkbox) {
+            const skill = checkbox.value;
+            const label = document.getElementById(`label-inv-${skill.replace(/\s+/g, '-')}`);
+            
+            if (checkbox.checked) {
+                userSkills.add(skill);
+                label.classList.add("has-skill");
+            } else {
+                userSkills.delete(skill);
+                label.classList.remove("has-skill");
+            }
+
+            // Sync with Session storage
+            Session.skills = Array.from(userSkills);
+            updateRoadmap();
+        }
+
+        // Re-calculate gap metrics and render the timeline
+        function updateRoadmap() {
+            const track = CAREER_TRACKS[currentTrackKey];
+            
+            // Set header content
+            document.getElementById("active-track-title").textContent = track.name;
+            document.getElementById("active-track-desc").textContent = track.desc;
+
+            // Collect target skills
+            const targetSkills = [];
+            track.milestones.forEach(m => targetSkills.push(...m.skills));
+            const uniqueTargetSkills = [...new Set(targetSkills)];
+
+            // Count acquired vs missing
+            let acquiredCount = 0;
+            uniqueTargetSkills.forEach(s => {
+                if (userSkills.has(s)) acquiredCount++;
+            });
+
+            const totalCount = uniqueTargetSkills.length;
+            const percentage = totalCount > 0 ? Math.round((acquiredCount / totalCount) * 100) : 0;
+
+            // Update stats layout
+            document.getElementById("total-skills-count").textContent = totalCount;
+            document.getElementById("acquired-skills-count").textContent = acquiredCount;
+            document.getElementById("progress-percentage").textContent = percentage + "%";
+
+            // Update progress circle ring SVG
+            const circle = document.getElementById("progress-circle");
+            const radius = circle.r.baseVal.value;
+            const circumference = 2 * Math.PI * radius;
+            const offset = circumference - (percentage / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
+
+            // Render Milestones
+            const timeline = document.getElementById("timeline-container");
+            timeline.innerHTML = "";
+
+            track.milestones.forEach((milestone, idx) => {
+                // Check if all milestone skills are completed
+                const completedSkills = milestone.skills.filter(s => userSkills.has(s));
+                const isMilestoneCompleted = completedSkills.length === milestone.skills.length;
+                const isMilestoneInProgress = completedSkills.length > 0 && !isMilestoneCompleted;
+
+                let nodeClass = "milestone-node";
+                let statusLabel = "Locked";
+                let statusColor = "var(--text-muted)";
+
+                if (isMilestoneCompleted) {
+                    nodeClass += " completed";
+                    statusLabel = "Completed";
+                    statusColor = "var(--success)";
+                } else if (isMilestoneInProgress) {
+                    nodeClass += " in-progress";
+                    statusLabel = "In Progress";
+                    statusColor = "var(--accent)";
+                } else if (idx === 0 || (idx > 0 && track.milestones[idx-1].skills.every(s => userSkills.has(s)))) {
+                    statusLabel = "Next Step";
+                    statusColor = "var(--accent2)";
+                }
+
+                const node = document.createElement("div");
+                node.className = nodeClass;
+                node.style.animationDelay = (idx * 0.1) + "s";
+
+                // Build skills inner elements
+                let skillsHtml = "";
+                milestone.skills.forEach(skill => {
+                    const hasSkill = userSkills.has(skill);
+                    const btnHtml = hasSkill 
+                        ? `<span class="status-badge acquired">✓ Acquired</span>`
+                        : `<button class="btn btn-outline" style="padding: 6px 12px; font-size: 11px;" onclick="startCustomPractice('${skill}')">🚀 Practice</button>`;
+
+                    skillsHtml += `
+                        <div class="roadmap-skill-card">
+                            <div class="skill-info">
+                                <span class="skill-name">${skill}</span>
+                                ${hasSkill ? '' : '<span class="status-badge missing">Missing</span>'}
+                            </div>
+                            <div>
+                                ${btnHtml}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                node.innerHTML = `
+                    <div class="milestone-marker">
+                        <span class="milestone-num">${idx + 1}</span>
+                    </div>
+                    <div class="milestone-content">
+                        <div class="milestone-title-row">
+                            <div class="milestone-title">${milestone.name}</div>
+                            <div class="milestone-status" style="color: ${statusColor}; font-weight: bold;">${statusLabel}</div>
+                        </div>
+                        <div class="roadmap-skills-list">
+                            ${skillsHtml}
+                        </div>
+                    </div>
+                `;
+                timeline.appendChild(node);
+            });
+        }
+
+        // Custom practice initialization - directly launch skill mock interview!
+        async function startCustomPractice(skill) {
+            showToast(`Initializing mock session for: ${skill}...`, "ok");
+            
+            try {
+                // 1. Initialize new session on Flask backend
+                const sess = await apiPost("/api/session/start");
+                Session.id = sess.session_id;
+
+                // 2. Set skills array and localstorage custom settings
+                Session.skills = [skill];
+
+                // 3. Generate questions targeted at this specific skill
+                const qd = await apiPost("/api/questions/generate", { 
+                    session_id: Session.id,
+                    skills: [skill] 
+                });
+                
+                Session.total = qd.total_questions;
+                showToast("Questions loaded. Preparing video stream...", "ok");
+
+                // 4. Redirect to interview panel
+                setTimeout(() => {
+                    window.location.href = "/interview";
+                }, 1000);
+
+            } catch (e) {
+                showToast("Error starting session: " + e.message, "err");
+                console.error(e);
+            }
+        }
+    </script>
+</body>
+</html>

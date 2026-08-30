@@ -1,0 +1,752 @@
+[
+    {
+        "question": "How does critical section problem integrate with the overall runtime environment of OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with system calls vs library calls in OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using semaphores and mutexes in OS?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of CPU scheduling algorithms (Round Robin, SRTF) in OS?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How does system calls vs library calls function at a high level inside OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with semaphores and mutexes in OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "How does deadlocks prevention and detection affect execution performance and system memory in OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "How does demand paging and thrashing function at a high level inside OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving thread scheduling and green threads in OS and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize paging and segmentation in OS.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How would you explain system calls vs library calls to a junior OS developer?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "In simple terms, what is paging and segmentation in OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "What is the relationship between directory structure representation and code readability in OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "In simple terms, what is file systems architecture in OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "Discuss how RAID disk levels behaves under extreme load spike scenarios in a production OS service.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "What are the key features of forking and zombie processes in OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of inter-process communication (IPC) in OS.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "What are the micro-optimization strategies for forking and zombie processes when executing low-latency services in OS?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How does forking and zombie processes integrate with the overall runtime environment of OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "How does CPU scheduling algorithms (Round Robin, SRTF) integrate with the overall runtime environment of OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "What problem does directory structure representation solve in OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "What is the relationship between context switching overhead and code readability in OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "Explain how the behavior of RAID disk levels changes when working with concurrent operations in OS.?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using process synchronization in OS?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "Why is process vs thread considered a core component of OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "What are the primary benefits of using directory structure representation in OS development?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "What is a standard definition of disk scheduling algorithms in the context of OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "What are the primary benefits of using forking and zombie processes in OS development?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to deadlocks prevention and detection in OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "How does CPU scheduling algorithms (Round Robin, SRTF) affect execution performance and system memory in OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "Discuss the recovery strategies when context switching overhead fails in a distributed OS cluster.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by cache coherence and memory management in high-throughput OS systems?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How does process synchronization integrate with the overall runtime environment of OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "Describe the internal architectural details of how process synchronization is handled in OS at runtime.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How does system calls vs library calls integrate with the overall runtime environment of OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "Why is CPU scheduling algorithms (Round Robin, SRTF) considered a core component of OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "How would you explain deadlocks prevention and detection to a junior OS developer?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize CPU scheduling algorithms (Round Robin, SRTF) in OS.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "Discuss how critical section problem behaves under extreme load spike scenarios in a production OS service.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "What is the basic purpose of deadlocks prevention and detection in OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "What problem does disk scheduling algorithms solve in OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "Discuss the recovery strategies when file systems architecture fails in a distributed OS cluster.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How would you explain semaphores and mutexes to a junior OS developer?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "How does semaphores and mutexes affect execution performance and system memory in OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with forking and zombie processes in OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "What is a standard definition of thread scheduling and green threads in the context of OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with deadlocks prevention and detection in OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "Discuss the recovery strategies when process synchronization fails in a distributed OS cluster.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to thread scheduling and green threads in OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "How would you explain process synchronization to a junior OS developer?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using CPU scheduling algorithms (Round Robin, SRTF) in OS?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How does RAID disk levels function at a high level inside OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "When would a developer first encounter deadlocks prevention and detection in OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "Name a common use case for deadlocks prevention and detection in a typical OS project.?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "How does paging and segmentation integrate with the overall runtime environment of OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize inter-process communication (IPC) in OS.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of file systems architecture in OS?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by file systems architecture in high-throughput OS systems?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "What are the primary benefits of using paging and segmentation in OS development?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "Explain the fundamental difference between deadlocks prevention and detection and other core mechanisms in OS.?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting directory structure representation in OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "Explain how the behavior of context switching overhead changes when working with concurrent operations in OS.?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of virtual memory and page replacement in OS.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of critical section problem in OS?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How does inter-process communication (IPC) integrate with the overall runtime environment of OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "What are the micro-optimization strategies for file systems architecture when executing low-latency services in OS?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using forking and zombie processes in OS?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "Explain how you would write a code example or configure disk scheduling algorithms in OS.?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic cache coherence and memory management in OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "How does critical section problem contribute to modular design in OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "Describe how you would unit test cache coherence and memory management in a OS module.?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "How would you explain process vs thread to a junior OS developer?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing inter-process communication (IPC) over custom solutions in enterprise-grade OS applications.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How does context switching overhead integrate with the overall runtime environment of OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting demand paging and thrashing in OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by critical section problem in high-throughput OS systems?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing semaphores and mutexes over custom solutions in enterprise-grade OS applications.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "Explain how inter-process communication (IPC) behaves under moderate load in a OS system.?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using process vs thread in OS?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using virtual memory and page replacement in OS?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "Name a common use case for cache coherence and memory management in a typical OS project.?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using critical section problem in OS?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "What is a standard definition of monolithic vs microkernel OS in the context of OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "Discuss the recovery strategies when system calls vs library calls fails in a distributed OS cluster.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of RAID disk levels in OS.?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "What problem does process vs thread solve in OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize cache coherence and memory management in OS.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How would you explain paging and segmentation to a junior OS developer?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using disk scheduling algorithms in OS?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "In simple terms, what is critical section problem in OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "Discuss how inter-process communication (IPC) behaves under extreme load spike scenarios in a production OS service.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "What is the basic purpose of monolithic vs microkernel OS in OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "What are the primary benefits of using critical section problem in OS development?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "How does semaphores and mutexes function at a high level inside OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "What are the best practices for implementing paging and segmentation in a collaborative OS codebase?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by RAID disk levels in high-throughput OS systems?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "Explain how process vs thread behaves under moderate load in a OS system.?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of file systems architecture in OS.?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "Explain how virtual memory and page replacement behaves under moderate load in a OS system.?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize directory structure representation in OS.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How does cache coherence and memory management affect execution performance and system memory in OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of process vs thread in OS?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "Why is process synchronization considered a core component of OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize monolithic vs microkernel OS in a OS application.?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "Discuss the recovery strategies when CPU scheduling algorithms (Round Robin, SRTF) fails in a distributed OS cluster.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How does inter-process communication (IPC) contribute to modular design in OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to context switching overhead in OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "How does cache coherence and memory management function at a high level inside OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of RAID disk levels in OS?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using directory structure representation in OS?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "Explain how inter-process communication (IPC) interacts with memory barrier constraints or compiler optimization flags in OS.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize deadlocks prevention and detection in a OS application.?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of disk scheduling algorithms in OS?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with virtual memory and page replacement in OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of RAID disk levels in OS?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to file systems architecture in OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of monolithic vs microkernel OS in OS?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving cache coherence and memory management in OS and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "What are the key features of directory structure representation in OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of disk scheduling algorithms in OS.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "What are the primary benefits of using deadlocks prevention and detection in OS development?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by inter-process communication (IPC) in high-throughput OS systems?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "Describe the internal architectural details of how deadlocks prevention and detection is handled in OS at runtime.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize inter-process communication (IPC) in a OS application.?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "Explain how cache coherence and memory management behaves under moderate load in a OS system.?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize file systems architecture in a OS application.?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "How would you explain context switching overhead to a junior OS developer?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "What are the primary benefits of using CPU scheduling algorithms (Round Robin, SRTF) in OS development?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "Describe how you would unit test monolithic vs microkernel OS in a OS module.?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "What is the relationship between CPU scheduling algorithms (Round Robin, SRTF) and code readability in OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "When would a developer first encounter process vs thread in OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "How does disk scheduling algorithms integrate with the overall runtime environment of OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "Discuss the recovery strategies when thread scheduling and green threads fails in a distributed OS cluster.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of file systems architecture in OS?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How would you explain virtual memory and page replacement to a junior OS developer?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "Name a common use case for demand paging and thrashing in a typical OS project.?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "Describe the internal architectural details of how forking and zombie processes is handled in OS at runtime.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of deadlocks prevention and detection in OS?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting forking and zombie processes in OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "Explain how the behavior of semaphores and mutexes changes when working with concurrent operations in OS.?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by CPU scheduling algorithms (Round Robin, SRTF) in high-throughput OS systems?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing thread scheduling and green threads over custom solutions in enterprise-grade OS applications.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "Compare the advantages of using thread scheduling and green threads versus other alternatives in OS.?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "How does semaphores and mutexes integrate with the overall runtime environment of OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "Discuss the recovery strategies when paging and segmentation fails in a distributed OS cluster.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of demand paging and thrashing in OS.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "Discuss how cache coherence and memory management behaves under extreme load spike scenarios in a production OS service.?",
+        "difficulty": "hard",
+        "skill": "OS"
+    },
+    {
+        "question": "When would a developer first encounter directory structure representation in OS?",
+        "difficulty": "easy",
+        "skill": "OS"
+    },
+    {
+        "question": "How does directory structure representation contribute to modular design in OS?",
+        "difficulty": "medium",
+        "skill": "OS"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of critical section problem in OS.?",
+        "difficulty": "easy",
+        "skill": "OS"
+    }
+]

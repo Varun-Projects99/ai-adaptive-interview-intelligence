@@ -1,0 +1,752 @@
+[
+    {
+        "question": "What are the primary benefits of using transaction management (COMMIT, ROLLBACK) in SQL development?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "What are the key features of aggregate functions (SUM, AVG, COUNT) in SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "How would you explain EXPLAIN ANALYZE command to a junior SQL developer?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain how aggregate functions (SUM, AVG, COUNT) behaves under moderate load in a SQL system.?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of subqueries and correlated subqueries in SQL?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "Discuss how EXPLAIN ANALYZE command behaves under extreme load spike scenarios in a production SQL service.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "What are the micro-optimization strategies for query performance optimization when executing low-latency services in SQL?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "How does handling NULL values integrate with the overall runtime environment of SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic SELECT statements and filtering in SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing handling NULL values over custom solutions in enterprise-grade SQL applications.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "How does transaction management (COMMIT, ROLLBACK) affect execution performance and system memory in SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain how aggregate functions (SUM, AVG, COUNT) interacts with memory barrier constraints or compiler optimization flags in SQL.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "What are the best practices for implementing LIKE wildcard matching in a collaborative SQL codebase?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "How would you explain query performance optimization to a junior SQL developer?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving window functions (ROW_NUMBER, RANK) in SQL and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "Why is handling NULL values considered a core component of SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "What are the micro-optimization strategies for Common Table Expressions (CTEs) when executing low-latency services in SQL?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic data control language (DCL) permissions in SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain how the behavior of data control language (DCL) permissions changes when working with concurrent operations in SQL.?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Discuss the recovery strategies when subqueries and correlated subqueries fails in a distributed SQL cluster.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "What is the relationship between indexes creation and usage and code readability in SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using Common Table Expressions (CTEs) in SQL?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by primary vs foreign keys in high-throughput SQL systems?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "How does primary vs foreign keys integrate with the overall runtime environment of SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic query performance optimization in SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize GROUP BY and HAVING clauses in SQL.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "Compare the advantages of using primary vs foreign keys versus other alternatives in SQL.?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "When would a developer first encounter data control language (DCL) permissions in SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of SELECT statements and filtering in SQL.?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "What is the basic purpose of window functions (ROW_NUMBER, RANK) in SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain how handling NULL values interacts with memory barrier constraints or compiler optimization flags in SQL.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "What are the primary benefits of using primary vs foreign keys in SQL development?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "What are the micro-optimization strategies for transaction management (COMMIT, ROLLBACK) when executing low-latency services in SQL?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to coalesce and nullif functions in SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of GROUP BY and HAVING clauses in SQL?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize window functions (ROW_NUMBER, RANK) in SQL.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize GROUP BY and HAVING clauses in a SQL application.?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of EXPLAIN ANALYZE command in SQL?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with primary vs foreign keys in SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to query performance optimization in SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "What is the relationship between aggregate functions (SUM, AVG, COUNT) and code readability in SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing subqueries and correlated subqueries over custom solutions in enterprise-grade SQL applications.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting query performance optimization in SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Why is transaction management (COMMIT, ROLLBACK) considered a core component of SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Describe the internal architectural details of how window functions (ROW_NUMBER, RANK) is handled in SQL at runtime.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "Compare the advantages of using string manipulation functions versus other alternatives in SQL.?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Describe how you would unit test transaction management (COMMIT, ROLLBACK) in a SQL module.?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing data control language (DCL) permissions over custom solutions in enterprise-grade SQL applications.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving GROUP BY and HAVING clauses in SQL and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "How does indexes creation and usage function at a high level inside SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "How does Common Table Expressions (CTEs) contribute to modular design in SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing aggregate functions (SUM, AVG, COUNT) over custom solutions in enterprise-grade SQL applications.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "What is the basic purpose of GROUP BY and HAVING clauses in SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Compare the advantages of using LIKE wildcard matching versus other alternatives in SQL.?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "How would you explain SELECT statements and filtering to a junior SQL developer?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of SELECT statements and filtering in SQL?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain how handling NULL values behaves under moderate load in a SQL system.?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "How does Common Table Expressions (CTEs) function at a high level inside SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting subqueries and correlated subqueries in SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Describe the internal architectural details of how Common Table Expressions (CTEs) is handled in SQL at runtime.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "Describe the internal architectural details of how subqueries and correlated subqueries is handled in SQL at runtime.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of Common Table Expressions (CTEs) in SQL?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain how you would write a code example or configure coalesce and nullif functions in SQL.?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "What is a standard definition of indexes creation and usage in the context of SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain how Common Table Expressions (CTEs) interacts with memory barrier constraints or compiler optimization flags in SQL.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "When would a developer first encounter subqueries and correlated subqueries in SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "How does coalesce and nullif functions integrate with the overall runtime environment of SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "What is a standard definition of subqueries and correlated subqueries in the context of SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of data control language (DCL) permissions in SQL?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting indexes creation and usage in SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize aggregate functions (SUM, AVG, COUNT) in a SQL application.?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Name a common use case for aggregate functions (SUM, AVG, COUNT) in a typical SQL project.?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving handling NULL values in SQL and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of handling NULL values in SQL.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting aggregate functions (SUM, AVG, COUNT) in SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "What is the relationship between subqueries and correlated subqueries and code readability in SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize subqueries and correlated subqueries in SQL.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic primary vs foreign keys in SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "How would you explain subqueries and correlated subqueries to a junior SQL developer?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "What problem does coalesce and nullif functions solve in SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using string manipulation functions in SQL?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting SELECT statements and filtering in SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize Common Table Expressions (CTEs) in SQL.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of coalesce and nullif functions in SQL.?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain the fundamental difference between string manipulation functions and other core mechanisms in SQL.?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "What is a standard definition of handling NULL values in the context of SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "How does transaction management (COMMIT, ROLLBACK) integrate with the overall runtime environment of SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "How would you explain coalesce and nullif functions to a junior SQL developer?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Compare the advantages of using aggregate functions (SUM, AVG, COUNT) versus other alternatives in SQL.?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain the fundamental difference between GROUP BY and HAVING clauses and other core mechanisms in SQL.?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "How would you explain primary vs foreign keys to a junior SQL developer?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of string manipulation functions in SQL.?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize query performance optimization in a SQL application.?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to Common Table Expressions (CTEs) in SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain how GROUP BY and HAVING clauses behaves under moderate load in a SQL system.?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize Common Table Expressions (CTEs) in a SQL application.?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "How does subqueries and correlated subqueries integrate with the overall runtime environment of SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "What is the basic purpose of aggregate functions (SUM, AVG, COUNT) in SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to handling NULL values in SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "When would a developer first encounter SELECT statements and filtering in SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "How does data control language (DCL) permissions contribute to modular design in SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of query performance optimization in SQL.?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic LIKE wildcard matching in SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Why is data control language (DCL) permissions considered a core component of SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of Common Table Expressions (CTEs) in SQL?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "Discuss the recovery strategies when Common Table Expressions (CTEs) fails in a distributed SQL cluster.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "What are the key features of indexes creation and usage in SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize SELECT statements and filtering in a SQL application.?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "How does string manipulation functions integrate with the overall runtime environment of SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Describe the internal architectural details of how query performance optimization is handled in SQL at runtime.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting window functions (ROW_NUMBER, RANK) in SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "In simple terms, what is query performance optimization in SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Why is GROUP BY and HAVING clauses considered a core component of SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using primary vs foreign keys in SQL?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using transaction management (COMMIT, ROLLBACK) in SQL?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "What problem does transaction management (COMMIT, ROLLBACK) solve in SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize coalesce and nullif functions in a SQL application.?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain how you would write a code example or configure query performance optimization in SQL.?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by coalesce and nullif functions in high-throughput SQL systems?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "What are the primary benefits of using data control language (DCL) permissions in SQL development?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of indexes creation and usage in SQL.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting EXPLAIN ANALYZE command in SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of handling NULL values in SQL.?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of EXPLAIN ANALYZE command in SQL.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "Name a common use case for SELECT statements and filtering in a typical SQL project.?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by aggregate functions (SUM, AVG, COUNT) in high-throughput SQL systems?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing primary vs foreign keys over custom solutions in enterprise-grade SQL applications.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "What is a standard definition of coalesce and nullif functions in the context of SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain how the behavior of SELECT statements and filtering changes when working with concurrent operations in SQL.?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving LIKE wildcard matching in SQL and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "How does subqueries and correlated subqueries function at a high level inside SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "What problem does GROUP BY and HAVING clauses solve in SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using SELECT statements and filtering in SQL?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of subqueries and correlated subqueries in SQL?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic Common Table Expressions (CTEs) in SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Compare the advantages of using window functions (ROW_NUMBER, RANK) versus other alternatives in SQL.?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain the fundamental difference between window functions (ROW_NUMBER, RANK) and other core mechanisms in SQL.?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with transaction management (COMMIT, ROLLBACK) in SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Name a common use case for data control language (DCL) permissions in a typical SQL project.?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain how primary vs foreign keys interacts with memory barrier constraints or compiler optimization flags in SQL.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "How does EXPLAIN ANALYZE command function at a high level inside SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain the fundamental difference between indexes creation and usage and other core mechanisms in SQL.?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "In simple terms, what is indexes creation and usage in SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "How does subqueries and correlated subqueries affect execution performance and system memory in SQL?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "How does coalesce and nullif functions function at a high level inside SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of query performance optimization in SQL.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize transaction management (COMMIT, ROLLBACK) in SQL.?",
+        "difficulty": "hard",
+        "skill": "SQL"
+    },
+    {
+        "question": "Compare the advantages of using EXPLAIN ANALYZE command versus other alternatives in SQL.?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "Describe how you would unit test SELECT statements and filtering in a SQL module.?",
+        "difficulty": "medium",
+        "skill": "SQL"
+    },
+    {
+        "question": "What is the basic purpose of transaction management (COMMIT, ROLLBACK) in SQL?",
+        "difficulty": "easy",
+        "skill": "SQL"
+    }
+]

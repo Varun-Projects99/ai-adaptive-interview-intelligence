@@ -1,0 +1,1002 @@
+[
+    {
+        "question": "Can you describe how to declare or define a basic document stores vs key-value stores in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing database sharding and partitioning over custom solutions in enterprise-grade DBMS applications.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does document stores vs key-value stores contribute to modular design in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of indexing (B-Tree vs Hash) in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How would you explain query execution plans to a junior DBMS developer?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using ACID properties in transactions in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does replication models (master-slave, peer-to-peer) affect execution performance and system memory in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "In simple terms, what is distributed transactions and 2PC in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Compare the advantages of using database normalization (1NF, 2NF, 3NF, BCNF) versus other alternatives in DBMS.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How would you explain relational joins (INNER, LEFT, RIGHT, OUTER) to a junior DBMS developer?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the micro-optimization strategies for relational joins (INNER, LEFT, RIGHT, OUTER) when executing low-latency services in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does views and materialized views function at a high level inside DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What problem does database normalization (1NF, 2NF, 3NF, BCNF) solve in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize distributed transactions and 2PC in a DBMS application.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "When would a developer first encounter distributed transactions and 2PC in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the primary benefits of using query execution plans in DBMS development?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain how you would write a code example or configure replication models (master-slave, peer-to-peer) in DBMS.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of CAP Theorem in distributed stores in DBMS.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of write-ahead logging (WAL) in DBMS.?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Discuss the recovery strategies when database sharding and partitioning fails in a distributed DBMS cluster.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by database sharding and partitioning in high-throughput DBMS systems?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving database normalization (1NF, 2NF, 3NF, BCNF) in DBMS and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain how the behavior of replication models (master-slave, peer-to-peer) changes when working with concurrent operations in DBMS.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Compare the advantages of using database indexing best practices versus other alternatives in DBMS.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing connection pooling over custom solutions in enterprise-grade DBMS applications.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using indexing (B-Tree vs Hash) in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to database sharding and partitioning in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize transaction isolation levels in a DBMS application.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does deadlocks in databases integrate with the overall runtime environment of DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Describe the internal architectural details of how relational joins (INNER, LEFT, RIGHT, OUTER) is handled in DBMS at runtime.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How would you explain views and materialized views to a junior DBMS developer?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain how the behavior of database normalization (1NF, 2NF, 3NF, BCNF) changes when working with concurrent operations in DBMS.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What is a standard definition of query execution plans in the context of DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of views and materialized views in DBMS.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with replication models (master-slave, peer-to-peer) in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with concurrency control (locking, timestamping) in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How would you explain NoSQL vs SQL databases to a junior DBMS developer?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of connection pooling in DBMS.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does transaction isolation levels affect execution performance and system memory in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What problem does deadlocks in databases solve in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does replication models (master-slave, peer-to-peer) contribute to modular design in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting deadlocks in databases in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does document stores vs key-value stores affect execution performance and system memory in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does write-ahead logging (WAL) function at a high level inside DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain how transaction isolation levels interacts with memory barrier constraints or compiler optimization flags in DBMS.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving CAP Theorem in distributed stores in DBMS and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of NoSQL vs SQL databases in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does transaction isolation levels contribute to modular design in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does database indexing best practices contribute to modular design in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the primary benefits of using CAP Theorem in distributed stores in DBMS development?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with transaction isolation levels in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain how CAP Theorem in distributed stores interacts with memory barrier constraints or compiler optimization flags in DBMS.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by NoSQL vs SQL databases in high-throughput DBMS systems?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Describe how you would unit test database indexing best practices in a DBMS module.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of database normalization (1NF, 2NF, 3NF, BCNF) in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does database sharding and partitioning affect execution performance and system memory in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by ACID properties in transactions in high-throughput DBMS systems?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain how connection pooling behaves under moderate load in a DBMS system.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain how database sharding and partitioning interacts with memory barrier constraints or compiler optimization flags in DBMS.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Why is ACID properties in transactions considered a core component of DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of deadlocks in databases in DBMS.?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of relational joins (INNER, LEFT, RIGHT, OUTER) in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How would you explain indexing (B-Tree vs Hash) to a junior DBMS developer?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What is the relationship between ACID properties in transactions and code readability in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Discuss how NoSQL vs SQL databases behaves under extreme load spike scenarios in a production DBMS service.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "When would a developer first encounter database normalization (1NF, 2NF, 3NF, BCNF) in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "When would a developer first encounter write-ahead logging (WAL) in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize query execution plans in a DBMS application.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain how the behavior of document stores vs key-value stores changes when working with concurrent operations in DBMS.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain how you would write a code example or configure CAP Theorem in distributed stores in DBMS.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the micro-optimization strategies for database normalization (1NF, 2NF, 3NF, BCNF) when executing low-latency services in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of NoSQL vs SQL databases in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Name a common use case for connection pooling in a typical DBMS project.?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "In simple terms, what is CAP Theorem in distributed stores in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does replication models (master-slave, peer-to-peer) integrate with the overall runtime environment of DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the best practices for implementing transaction isolation levels in a collaborative DBMS codebase?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of document stores vs key-value stores in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How would you explain concurrency control (locking, timestamping) to a junior DBMS developer?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of database indexing best practices in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does indexing (B-Tree vs Hash) contribute to modular design in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the primary benefits of using distributed transactions and 2PC in DBMS development?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the micro-optimization strategies for replication models (master-slave, peer-to-peer) when executing low-latency services in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Describe how you would unit test distributed transactions and 2PC in a DBMS module.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What problem does database indexing best practices solve in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of database sharding and partitioning in DBMS.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Why is triggers and stored procedures considered a core component of DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does NoSQL vs SQL databases function at a high level inside DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How would you explain database normalization (1NF, 2NF, 3NF, BCNF) to a junior DBMS developer?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain how NoSQL vs SQL databases behaves under moderate load in a DBMS system.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What is the basic purpose of indexing (B-Tree vs Hash) in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of document stores vs key-value stores in DBMS.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting ACID properties in transactions in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with views and materialized views in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using replication models (master-slave, peer-to-peer) in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What is a standard definition of deadlocks in databases in the context of DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What is the relationship between concurrency control (locking, timestamping) and code readability in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the best practices for implementing NoSQL vs SQL databases in a collaborative DBMS codebase?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Describe how you would unit test triggers and stored procedures in a DBMS module.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Describe the internal architectural details of how indexing (B-Tree vs Hash) is handled in DBMS at runtime.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Describe the internal architectural details of how deadlocks in databases is handled in DBMS at runtime.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Describe how you would unit test CAP Theorem in distributed stores in a DBMS module.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How would you explain triggers and stored procedures to a junior DBMS developer?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Compare the advantages of using write-ahead logging (WAL) versus other alternatives in DBMS.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain how you would write a code example or configure views and materialized views in DBMS.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic relational joins (INNER, LEFT, RIGHT, OUTER) in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of ACID properties in transactions in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What is the relationship between connection pooling and code readability in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of deadlocks in databases in DBMS.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Name a common use case for indexing (B-Tree vs Hash) in a typical DBMS project.?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain how distributed transactions and 2PC behaves under moderate load in a DBMS system.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What problem does ACID properties in transactions solve in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Discuss how distributed transactions and 2PC behaves under extreme load spike scenarios in a production DBMS service.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of CAP Theorem in distributed stores in DBMS.?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the primary benefits of using ACID properties in transactions in DBMS development?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the micro-optimization strategies for document stores vs key-value stores when executing low-latency services in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the best practices for implementing database sharding and partitioning in a collaborative DBMS codebase?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Why is database normalization (1NF, 2NF, 3NF, BCNF) considered a core component of DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by relational joins (INNER, LEFT, RIGHT, OUTER) in high-throughput DBMS systems?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Describe the internal architectural details of how distributed transactions and 2PC is handled in DBMS at runtime.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Discuss how indexing (B-Tree vs Hash) behaves under extreme load spike scenarios in a production DBMS service.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with CAP Theorem in distributed stores in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the micro-optimization strategies for NoSQL vs SQL databases when executing low-latency services in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the primary benefits of using document stores vs key-value stores in DBMS development?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using CAP Theorem in distributed stores in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the micro-optimization strategies for connection pooling when executing low-latency services in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the key features of database indexing best practices in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain how the behavior of distributed transactions and 2PC changes when working with concurrent operations in DBMS.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by transaction isolation levels in high-throughput DBMS systems?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does CAP Theorem in distributed stores affect execution performance and system memory in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What is the basic purpose of transaction isolation levels in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of query execution plans in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does triggers and stored procedures integrate with the overall runtime environment of DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does connection pooling function at a high level inside DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of views and materialized views in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does CAP Theorem in distributed stores integrate with the overall runtime environment of DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing ACID properties in transactions over custom solutions in enterprise-grade DBMS applications.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Name a common use case for deadlocks in databases in a typical DBMS project.?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What problem does query execution plans solve in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does NoSQL vs SQL databases integrate with the overall runtime environment of DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the micro-optimization strategies for database indexing best practices when executing low-latency services in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize triggers and stored procedures in a DBMS application.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the key features of replication models (master-slave, peer-to-peer) in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using query execution plans in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain the fundamental difference between database indexing best practices and other core mechanisms in DBMS.?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What is the relationship between CAP Theorem in distributed stores and code readability in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Describe the internal architectural details of how database sharding and partitioning is handled in DBMS at runtime.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the key features of document stores vs key-value stores in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does query execution plans contribute to modular design in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of replication models (master-slave, peer-to-peer) in DBMS.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How would you explain distributed transactions and 2PC to a junior DBMS developer?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Name a common use case for database normalization (1NF, 2NF, 3NF, BCNF) in a typical DBMS project.?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What problem does triggers and stored procedures solve in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Discuss how ACID properties in transactions behaves under extreme load spike scenarios in a production DBMS service.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does connection pooling integrate with the overall runtime environment of DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain how the behavior of NoSQL vs SQL databases changes when working with concurrent operations in DBMS.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by database normalization (1NF, 2NF, 3NF, BCNF) in high-throughput DBMS systems?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Describe the internal architectural details of how connection pooling is handled in DBMS at runtime.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "In simple terms, what is database sharding and partitioning in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What is the relationship between query execution plans and code readability in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What is the basic purpose of NoSQL vs SQL databases in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Describe how you would unit test replication models (master-slave, peer-to-peer) in a DBMS module.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of concurrency control (locking, timestamping) in DBMS.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic ACID properties in transactions in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Describe how you would unit test concurrency control (locking, timestamping) in a DBMS module.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the key features of indexing (B-Tree vs Hash) in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain how write-ahead logging (WAL) interacts with memory barrier constraints or compiler optimization flags in DBMS.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the best practices for implementing indexing (B-Tree vs Hash) in a collaborative DBMS codebase?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize database indexing best practices in a DBMS application.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does deadlocks in databases contribute to modular design in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of ACID properties in transactions in DBMS.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of replication models (master-slave, peer-to-peer) in DBMS.?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic connection pooling in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain the fundamental difference between NoSQL vs SQL databases and other core mechanisms in DBMS.?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing transaction isolation levels over custom solutions in enterprise-grade DBMS applications.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "When would a developer first encounter database indexing best practices in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of deadlocks in databases in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain how you would write a code example or configure triggers and stored procedures in DBMS.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of replication models (master-slave, peer-to-peer) in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Discuss how transaction isolation levels behaves under extreme load spike scenarios in a production DBMS service.?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with document stores vs key-value stores in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with NoSQL vs SQL databases in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of database sharding and partitioning in DBMS.?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the best practices for implementing concurrency control (locking, timestamping) in a collaborative DBMS codebase?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the micro-optimization strategies for views and materialized views when executing low-latency services in DBMS?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by replication models (master-slave, peer-to-peer) in high-throughput DBMS systems?",
+        "difficulty": "hard",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain how the behavior of database indexing best practices changes when working with concurrent operations in DBMS.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with write-ahead logging (WAL) in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the primary benefits of using database sharding and partitioning in DBMS development?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the primary benefits of using database indexing best practices in DBMS development?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of indexing (B-Tree vs Hash) in DBMS.?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain how the behavior of relational joins (INNER, LEFT, RIGHT, OUTER) changes when working with concurrent operations in DBMS.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What is the basic purpose of triggers and stored procedures in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to indexing (B-Tree vs Hash) in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the primary benefits of using replication models (master-slave, peer-to-peer) in DBMS development?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic query execution plans in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting relational joins (INNER, LEFT, RIGHT, OUTER) in DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "How does concurrency control (locking, timestamping) integrate with the overall runtime environment of DBMS?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "What are the key features of query execution plans in DBMS?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Explain how you would write a code example or configure concurrency control (locking, timestamping) in DBMS.?",
+        "difficulty": "medium",
+        "skill": "DBMS"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of triggers and stored procedures in DBMS.?",
+        "difficulty": "easy",
+        "skill": "DBMS"
+    }
+]

@@ -1,0 +1,752 @@
+[
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of AWS Auto Scaling groups in AWS?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "What are the micro-optimization strategies for S3 bucket storage and access control when executing low-latency services in AWS?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Discuss the recovery strategies when RDS relational database management fails in a distributed AWS cluster.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "What are the micro-optimization strategies for CloudFront CDN caching when executing low-latency services in AWS?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of API Gateway configuration in AWS?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of EC2 instance configuration in AWS.?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using DynamoDB NoSQL configuration in AWS?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing API Gateway configuration over custom solutions in enterprise-grade AWS applications.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain how RDS relational database management behaves under moderate load in a AWS system.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of ECS container deployment in AWS.?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "How does ECS container deployment integrate with the overall runtime environment of AWS?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain how CloudWatch alerts and monitoring behaves under moderate load in a AWS system.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Discuss the recovery strategies when DynamoDB NoSQL configuration fails in a distributed AWS cluster.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of IAM user permissions and roles in AWS.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Compare the advantages of using IAM user permissions and roles versus other alternatives in AWS.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain how you would write a code example or configure EC2 instance configuration in AWS.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Why is AWS Auto Scaling groups considered a core component of AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "Discuss the recovery strategies when AWS security best practices fails in a distributed AWS cluster.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of Route53 DNS routing policies in AWS?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic ELB load balancer setups in AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing DynamoDB NoSQL configuration over custom solutions in enterprise-grade AWS applications.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "What are the best practices for implementing VPC networking architecture in a collaborative AWS codebase?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain the fundamental difference between AWS Auto Scaling groups and other core mechanisms in AWS.?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain how you would write a code example or configure CloudWatch alerts and monitoring in AWS.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "What is a standard definition of IAM user permissions and roles in the context of AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "Discuss the recovery strategies when CloudWatch alerts and monitoring fails in a distributed AWS cluster.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Describe how you would unit test CloudWatch alerts and monitoring in a AWS module.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Why is ECS container deployment considered a core component of AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "Discuss the recovery strategies when AWS Lambda serverless functions fails in a distributed AWS cluster.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain how IAM user permissions and roles interacts with memory barrier constraints or compiler optimization flags in AWS.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Why is AWS Lambda serverless functions considered a core component of AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "Name a common use case for ECS container deployment in a typical AWS project.?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain how EC2 instance configuration behaves under moderate load in a AWS system.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "What are the primary benefits of using DynamoDB NoSQL configuration in AWS development?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "When would a developer first encounter IAM user permissions and roles in AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "How does EC2 instance configuration integrate with the overall runtime environment of AWS?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing AWS Auto Scaling groups over custom solutions in enterprise-grade AWS applications.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain how DynamoDB NoSQL configuration behaves under moderate load in a AWS system.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "What are the best practices for implementing RDS relational database management in a collaborative AWS codebase?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of AWS Auto Scaling groups in AWS.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "What is the relationship between AWS Lambda serverless functions and code readability in AWS?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize RDS relational database management in AWS.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "How would you explain EC2 instance configuration to a junior AWS developer?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain how the behavior of S3 bucket storage and access control changes when working with concurrent operations in AWS.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting DynamoDB NoSQL configuration in AWS?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain the fundamental difference between S3 bucket storage and access control and other core mechanisms in AWS.?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to CloudWatch alerts and monitoring in AWS?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Name a common use case for VPC networking architecture in a typical AWS project.?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "What are the micro-optimization strategies for RDS relational database management when executing low-latency services in AWS?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Discuss how CloudWatch alerts and monitoring behaves under extreme load spike scenarios in a production AWS service.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "How does CloudFront CDN caching affect execution performance and system memory in AWS?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "What is a standard definition of Route53 DNS routing policies in the context of AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "What is the basic purpose of S3 bucket storage and access control in AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize AWS Lambda serverless functions in a AWS application.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using Route53 DNS routing policies in AWS?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Name a common use case for ELB load balancer setups in a typical AWS project.?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of Route53 DNS routing policies in AWS?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize CloudWatch alerts and monitoring in AWS.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving ELB load balancer setups in AWS and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "How does API Gateway configuration function at a high level inside AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain how the behavior of AWS Lambda serverless functions changes when working with concurrent operations in AWS.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Describe the internal architectural details of how API Gateway configuration is handled in AWS at runtime.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting IAM user permissions and roles in AWS?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Compare the advantages of using AWS Lambda serverless functions versus other alternatives in AWS.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing CloudWatch alerts and monitoring over custom solutions in enterprise-grade AWS applications.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize VPC networking architecture in AWS.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "How does ELB load balancer setups function at a high level inside AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by Route53 DNS routing policies in high-throughput AWS systems?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain the fundamental difference between ELB load balancer setups and other core mechanisms in AWS.?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "In simple terms, what is Route53 DNS routing policies in AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with API Gateway configuration in AWS?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing VPC networking architecture over custom solutions in enterprise-grade AWS applications.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "When would a developer first encounter AWS security best practices in AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of ECS container deployment in AWS?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Name a common use case for EC2 instance configuration in a typical AWS project.?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "What is the relationship between AWS security best practices and code readability in AWS?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "How does S3 bucket storage and access control function at a high level inside AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "What are the micro-optimization strategies for AWS Lambda serverless functions when executing low-latency services in AWS?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize S3 bucket storage and access control in a AWS application.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "How does API Gateway configuration integrate with the overall runtime environment of AWS?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Compare the advantages of using API Gateway configuration versus other alternatives in AWS.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to EC2 instance configuration in AWS?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "What is the basic purpose of AWS Lambda serverless functions in AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic ECS container deployment in AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "Discuss the recovery strategies when ELB load balancer setups fails in a distributed AWS cluster.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing CloudFront CDN caching over custom solutions in enterprise-grade AWS applications.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "How would you explain DynamoDB NoSQL configuration to a junior AWS developer?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "How would you explain ELB load balancer setups to a junior AWS developer?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain how the behavior of API Gateway configuration changes when working with concurrent operations in AWS.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "What is a standard definition of ECS container deployment in the context of AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "In simple terms, what is S3 bucket storage and access control in AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving AWS Auto Scaling groups in AWS and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using AWS Auto Scaling groups in AWS?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain how Route53 DNS routing policies behaves under moderate load in a AWS system.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "How does Route53 DNS routing policies function at a high level inside AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of DynamoDB NoSQL configuration in AWS.?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with CloudWatch alerts and monitoring in AWS?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "How does AWS security best practices affect execution performance and system memory in AWS?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Describe the internal architectural details of how IAM user permissions and roles is handled in AWS at runtime.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "When would a developer first encounter VPC networking architecture in AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "In simple terms, what is VPC networking architecture in AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "How does VPC networking architecture function at a high level inside AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic CloudFront CDN caching in AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of ELB load balancer setups in AWS?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Describe the internal architectural details of how S3 bucket storage and access control is handled in AWS at runtime.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain how you would write a code example or configure AWS security best practices in AWS.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "What is the basic purpose of CloudWatch alerts and monitoring in AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "Discuss how ELB load balancer setups behaves under extreme load spike scenarios in a production AWS service.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "How would you explain CloudFront CDN caching to a junior AWS developer?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting VPC networking architecture in AWS?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain how you would write a code example or configure AWS Lambda serverless functions in AWS.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of VPC networking architecture in AWS?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic VPC networking architecture in AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "What are the key features of AWS security best practices in AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "How would you explain S3 bucket storage and access control to a junior AWS developer?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain how the behavior of CloudFront CDN caching changes when working with concurrent operations in AWS.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic DynamoDB NoSQL configuration in AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "Name a common use case for AWS security best practices in a typical AWS project.?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting Route53 DNS routing policies in AWS?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting ECS container deployment in AWS?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Why is S3 bucket storage and access control considered a core component of AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize AWS security best practices in a AWS application.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by AWS Lambda serverless functions in high-throughput AWS systems?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of Route53 DNS routing policies in AWS.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting S3 bucket storage and access control in AWS?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "What problem does API Gateway configuration solve in AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "When would a developer first encounter ELB load balancer setups in AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "How does AWS security best practices function at a high level inside AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain how AWS Lambda serverless functions behaves under moderate load in a AWS system.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "What is a standard definition of VPC networking architecture in the context of AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with Route53 DNS routing policies in AWS?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of Route53 DNS routing policies in AWS.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by S3 bucket storage and access control in high-throughput AWS systems?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Discuss how AWS Lambda serverless functions behaves under extreme load spike scenarios in a production AWS service.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "What are the micro-optimization strategies for CloudWatch alerts and monitoring when executing low-latency services in AWS?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting CloudFront CDN caching in AWS?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "What are the best practices for implementing CloudWatch alerts and monitoring in a collaborative AWS codebase?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "How does DynamoDB NoSQL configuration affect execution performance and system memory in AWS?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Describe how you would unit test DynamoDB NoSQL configuration in a AWS module.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize RDS relational database management in a AWS application.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "In simple terms, what is CloudWatch alerts and monitoring in AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "Explain how you would write a code example or configure ELB load balancer setups in AWS.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of RDS relational database management in AWS.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using IAM user permissions and roles in AWS?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving IAM user permissions and roles in AWS and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "What are the micro-optimization strategies for VPC networking architecture when executing low-latency services in AWS?",
+        "difficulty": "hard",
+        "skill": "AWS"
+    },
+    {
+        "question": "Describe how you would unit test ECS container deployment in a AWS module.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "Why is CloudWatch alerts and monitoring considered a core component of AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    },
+    {
+        "question": "Describe how you would unit test CloudFront CDN caching in a AWS module.?",
+        "difficulty": "medium",
+        "skill": "AWS"
+    },
+    {
+        "question": "How does DynamoDB NoSQL configuration function at a high level inside AWS?",
+        "difficulty": "easy",
+        "skill": "AWS"
+    }
+]

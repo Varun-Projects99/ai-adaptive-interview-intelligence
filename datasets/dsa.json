@@ -1,0 +1,1502 @@
+[
+    {
+        "question": "Explain the fundamental difference between hash table collision resolution and other core mechanisms in DSA.?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using heaps and priority queues in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the key features of sliding window technique in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving time and space complexity (Big O) in DSA and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving graph representation (matrix vs list) in DSA and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how trie data structure behaves under moderate load in a DSA system.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does stack and queue implementation function at a high level inside DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving matrix multiplication in DSA and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Compare the advantages of using trie data structure versus other alternatives in DSA.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How would you explain Dijkstra's shortest path algorithm to a junior DSA developer?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does stack and queue implementation affect execution performance and system memory in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the primary benefits of using segment trees and fenwick trees in DSA development?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how singly and doubly linked lists interacts with memory barrier constraints or compiler optimization flags in DSA.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does hash table collision resolution integrate with the overall runtime environment of DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the micro-optimization strategies for segment trees and fenwick trees when executing low-latency services in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain the fundamental difference between sliding window technique and other core mechanisms in DSA.?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the primary benefits of using LRU Cache design in DSA development?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "In simple terms, what is depth-first search (DFS) vs breadth-first search (BFS) in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "What problem does trie data structure solve in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "What problem does minimum spanning tree (Kruskal, Prim) solve in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how you would write a code example or configure backtracking (N-Queens, Sudoku) in DSA.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the key features of depth-first search (DFS) vs breadth-first search (BFS) in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "What is a standard definition of binary search trees (BST) in the context of DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how two-pointer approach interacts with memory barrier constraints or compiler optimization flags in DSA.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how minimum spanning tree (Kruskal, Prim) behaves under moderate load in a DSA system.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how you would write a code example or configure matrix multiplication in DSA.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic segment trees and fenwick trees in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by binary search implementation in high-throughput DSA systems?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does topological sorting in DAGs contribute to modular design in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does binary search trees (BST) function at a high level inside DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "What is a standard definition of segment trees and fenwick trees in the context of DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of segment trees and fenwick trees in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing binary search trees (BST) over custom solutions in enterprise-grade DSA applications.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does Greedy algorithms contribute to modular design in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does recursion and call stack contribute to modular design in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Name a common use case for longest common subsequence (LCS) in a typical DSA project.?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Name a common use case for dynamic programming in a typical DSA project.?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with recursion and call stack in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What is the relationship between topological sorting in DAGs and code readability in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of trie data structure in DSA.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize quicksort and mergesort algorithms in a DSA application.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of Greedy algorithms in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Discuss the recovery strategies when hash table collision resolution fails in a distributed DSA cluster.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how matrix multiplication behaves under moderate load in a DSA system.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing longest common subsequence (LCS) over custom solutions in enterprise-grade DSA applications.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how the behavior of singly and doubly linked lists changes when working with concurrent operations in DSA.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does backtracking (N-Queens, Sudoku) function at a high level inside DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does segment trees and fenwick trees integrate with the overall runtime environment of DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe how you would unit test Dijkstra's shortest path algorithm in a DSA module.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the micro-optimization strategies for singly and doubly linked lists when executing low-latency services in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of binary search trees (BST) in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain the fundamental difference between time and space complexity (Big O) and other core mechanisms in DSA.?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of Greedy algorithms in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving segment trees and fenwick trees in DSA and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing heaps and priority queues over custom solutions in enterprise-grade DSA applications.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of stack and queue implementation in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Why is matrix multiplication considered a core component of DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "In simple terms, what is minimum spanning tree (Kruskal, Prim) in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Compare the advantages of using heaps and priority queues versus other alternatives in DSA.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe the internal architectural details of how Dijkstra's shortest path algorithm is handled in DSA at runtime.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with binary search implementation in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by graph representation (matrix vs list) in high-throughput DSA systems?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "In simple terms, what is segment trees and fenwick trees in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "What is the basic purpose of Dijkstra's shortest path algorithm in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize graph representation (matrix vs list) in a DSA application.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What is a standard definition of trie data structure in the context of DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "When would a developer first encounter segment trees and fenwick trees in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how the behavior of Dijkstra's shortest path algorithm changes when working with concurrent operations in DSA.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how topological sorting in DAGs behaves under moderate load in a DSA system.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe how you would unit test matrix multiplication in a DSA module.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing dynamic programming over custom solutions in enterprise-grade DSA applications.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the primary benefits of using sliding window technique in DSA development?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how the behavior of longest common subsequence (LCS) changes when working with concurrent operations in DSA.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using backtracking (N-Queens, Sudoku) in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Discuss the recovery strategies when longest common subsequence (LCS) fails in a distributed DSA cluster.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Why is segment trees and fenwick trees considered a core component of DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic binary search trees (BST) in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting graph representation (matrix vs list) in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain the fundamental difference between singly and doubly linked lists and other core mechanisms in DSA.?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Why is dynamic programming considered a core component of DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does Dijkstra's shortest path algorithm affect execution performance and system memory in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What is the basic purpose of sliding window technique in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Discuss the recovery strategies when Greedy algorithms fails in a distributed DSA cluster.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "What problem does matrix multiplication solve in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does dynamic programming integrate with the overall runtime environment of DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to longest common subsequence (LCS) in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to sliding window technique in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What is a standard definition of quicksort and mergesort algorithms in the context of DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize time and space complexity (Big O) in DSA.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe the internal architectural details of how time and space complexity (Big O) is handled in DSA at runtime.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "What is the relationship between time and space complexity (Big O) and code readability in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of recursion and call stack in DSA.?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic binary search implementation in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting time and space complexity (Big O) in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of recursion and call stack in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how heaps and priority queues behaves under moderate load in a DSA system.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how the behavior of backtracking (N-Queens, Sudoku) changes when working with concurrent operations in DSA.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Why is minimum spanning tree (Kruskal, Prim) considered a core component of DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with topological sorting in DAGs in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of two-pointer approach in DSA.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does trie data structure contribute to modular design in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What is a standard definition of binary search implementation in the context of DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of backtracking (N-Queens, Sudoku) in DSA.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does two-pointer approach contribute to modular design in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize Dijkstra's shortest path algorithm in DSA.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by heaps and priority queues in high-throughput DSA systems?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "What is a standard definition of dynamic programming in the context of DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe how you would unit test stack and queue implementation in a DSA module.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What is the relationship between dynamic programming and code readability in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe the internal architectural details of how Greedy algorithms is handled in DSA at runtime.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of trie data structure in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does time and space complexity (Big O) function at a high level inside DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of singly and doubly linked lists in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Why is backtracking (N-Queens, Sudoku) considered a core component of DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Discuss the recovery strategies when topological sorting in DAGs fails in a distributed DSA cluster.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize Greedy algorithms in DSA.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of time and space complexity (Big O) in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "What is the relationship between longest common subsequence (LCS) and code readability in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with Dijkstra's shortest path algorithm in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the micro-optimization strategies for graph representation (matrix vs list) when executing low-latency services in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic minimum spanning tree (Kruskal, Prim) in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving trie data structure in DSA and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "What is the basic purpose of LRU Cache design in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to stack and queue implementation in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the primary benefits of using Greedy algorithms in DSA development?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "What is the basic purpose of dynamic programming in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to two-pointer approach in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of topological sorting in DAGs in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does singly and doubly linked lists function at a high level inside DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe how you would unit test sliding window technique in a DSA module.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of dynamic programming in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of Dijkstra's shortest path algorithm in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how you would write a code example or configure graph representation (matrix vs list) in DSA.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the micro-optimization strategies for heaps and priority queues when executing low-latency services in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving minimum spanning tree (Kruskal, Prim) in DSA and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "What is a standard definition of topological sorting in DAGs in the context of DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by quicksort and mergesort algorithms in high-throughput DSA systems?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of trie data structure in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to Dijkstra's shortest path algorithm in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Compare the advantages of using time and space complexity (Big O) versus other alternatives in DSA.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize topological sorting in DAGs in DSA.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of backtracking (N-Queens, Sudoku) in DSA.?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how recursion and call stack interacts with memory barrier constraints or compiler optimization flags in DSA.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Why is Dijkstra's shortest path algorithm considered a core component of DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does dynamic programming affect execution performance and system memory in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how you would write a code example or configure recursion and call stack in DSA.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to dynamic programming in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of backtracking (N-Queens, Sudoku) in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "What is the relationship between minimum spanning tree (Kruskal, Prim) and code readability in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by Dijkstra's shortest path algorithm in high-throughput DSA systems?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of matrix multiplication in DSA.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting topological sorting in DAGs in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting recursion and call stack in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of longest common subsequence (LCS) in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the best practices for implementing time and space complexity (Big O) in a collaborative DSA codebase?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does quicksort and mergesort algorithms contribute to modular design in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Discuss how depth-first search (DFS) vs breadth-first search (BFS) behaves under extreme load spike scenarios in a production DSA service.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe the internal architectural details of how binary search implementation is handled in DSA at runtime.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize two-pointer approach in DSA.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does binary search implementation function at a high level inside DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how stack and queue implementation behaves under moderate load in a DSA system.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does binary search trees (BST) integrate with the overall runtime environment of DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Discuss how time and space complexity (Big O) behaves under extreme load spike scenarios in a production DSA service.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how Dijkstra's shortest path algorithm behaves under moderate load in a DSA system.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Name a common use case for two-pointer approach in a typical DSA project.?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the micro-optimization strategies for quicksort and mergesort algorithms when executing low-latency services in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe how you would unit test Greedy algorithms in a DSA module.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the primary benefits of using graph representation (matrix vs list) in DSA development?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "When would a developer first encounter minimum spanning tree (Kruskal, Prim) in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "What problem does Greedy algorithms solve in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of recursion and call stack in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the best practices for implementing Greedy algorithms in a collaborative DSA codebase?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of topological sorting in DAGs in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with binary search trees (BST) in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of binary search implementation in DSA.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting singly and doubly linked lists in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How would you explain hash table collision resolution to a junior DSA developer?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how segment trees and fenwick trees behaves under moderate load in a DSA system.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe how you would unit test two-pointer approach in a DSA module.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to depth-first search (DFS) vs breadth-first search (BFS) in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how the behavior of minimum spanning tree (Kruskal, Prim) changes when working with concurrent operations in DSA.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does binary search trees (BST) affect execution performance and system memory in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing stack and queue implementation over custom solutions in enterprise-grade DSA applications.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how you would write a code example or configure two-pointer approach in DSA.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to LRU Cache design in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to minimum spanning tree (Kruskal, Prim) in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How would you explain longest common subsequence (LCS) to a junior DSA developer?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does trie data structure integrate with the overall runtime environment of DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How would you explain LRU Cache design to a junior DSA developer?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Why is recursion and call stack considered a core component of DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does hash table collision resolution function at a high level inside DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing sliding window technique over custom solutions in enterprise-grade DSA applications.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "In simple terms, what is two-pointer approach in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Discuss the recovery strategies when LRU Cache design fails in a distributed DSA cluster.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how the behavior of trie data structure changes when working with concurrent operations in DSA.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of two-pointer approach in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the key features of longest common subsequence (LCS) in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving dynamic programming in DSA and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Why is trie data structure considered a core component of DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Discuss how backtracking (N-Queens, Sudoku) behaves under extreme load spike scenarios in a production DSA service.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe how you would unit test backtracking (N-Queens, Sudoku) in a DSA module.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how the behavior of time and space complexity (Big O) changes when working with concurrent operations in DSA.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Discuss how hash table collision resolution behaves under extreme load spike scenarios in a production DSA service.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Discuss the recovery strategies when dynamic programming fails in a distributed DSA cluster.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does graph representation (matrix vs list) affect execution performance and system memory in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How would you explain depth-first search (DFS) vs breadth-first search (BFS) to a junior DSA developer?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting segment trees and fenwick trees in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how graph representation (matrix vs list) interacts with memory barrier constraints or compiler optimization flags in DSA.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize dynamic programming in DSA.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Name a common use case for trie data structure in a typical DSA project.?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "In simple terms, what is matrix multiplication in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how trie data structure interacts with memory barrier constraints or compiler optimization flags in DSA.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of stack and queue implementation in DSA.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "How would you explain matrix multiplication to a junior DSA developer?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of LRU Cache design in DSA.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "What problem does quicksort and mergesort algorithms solve in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does two-pointer approach affect execution performance and system memory in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing matrix multiplication over custom solutions in enterprise-grade DSA applications.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "What is the relationship between hash table collision resolution and code readability in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What is the relationship between recursion and call stack and code readability in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how you would write a code example or configure binary search implementation in DSA.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What problem does segment trees and fenwick trees solve in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe the internal architectural details of how recursion and call stack is handled in DSA at runtime.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with hash table collision resolution in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How would you explain stack and queue implementation to a junior DSA developer?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how you would write a code example or configure longest common subsequence (LCS) in DSA.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Why is LRU Cache design considered a core component of DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how you would write a code example or configure Dijkstra's shortest path algorithm in DSA.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize trie data structure in a DSA application.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "In simple terms, what is time and space complexity (Big O) in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting matrix multiplication in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does matrix multiplication function at a high level inside DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain the fundamental difference between dynamic programming and other core mechanisms in DSA.?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the primary benefits of using longest common subsequence (LCS) in DSA development?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "What problem does time and space complexity (Big O) solve in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe how you would unit test graph representation (matrix vs list) in a DSA module.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Name a common use case for Dijkstra's shortest path algorithm in a typical DSA project.?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "In simple terms, what is longest common subsequence (LCS) in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Discuss the recovery strategies when heaps and priority queues fails in a distributed DSA cluster.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Name a common use case for singly and doubly linked lists in a typical DSA project.?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does matrix multiplication affect execution performance and system memory in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize LRU Cache design in a DSA application.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize time and space complexity (Big O) in a DSA application.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does segment trees and fenwick trees contribute to modular design in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Discuss the recovery strategies when Dijkstra's shortest path algorithm fails in a distributed DSA cluster.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the key features of segment trees and fenwick trees in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of sliding window technique in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "When would a developer first encounter Greedy algorithms in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize heaps and priority queues in DSA.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how binary search trees (BST) behaves under moderate load in a DSA system.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the primary benefits of using binary search trees (BST) in DSA development?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does binary search implementation integrate with the overall runtime environment of DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by sliding window technique in high-throughput DSA systems?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of dynamic programming in DSA.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize binary search trees (BST) in a DSA application.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of binary search trees (BST) in DSA.?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of stack and queue implementation in DSA.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with stack and queue implementation in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Compare the advantages of using depth-first search (DFS) vs breadth-first search (BFS) versus other alternatives in DSA.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the primary benefits of using recursion and call stack in DSA development?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting Greedy algorithms in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with trie data structure in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Discuss the recovery strategies when matrix multiplication fails in a distributed DSA cluster.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how Greedy algorithms interacts with memory barrier constraints or compiler optimization flags in DSA.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with minimum spanning tree (Kruskal, Prim) in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How would you explain two-pointer approach to a junior DSA developer?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving recursion and call stack in DSA and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "What is the relationship between heaps and priority queues and code readability in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "In simple terms, what is stack and queue implementation in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with graph representation (matrix vs list) in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What is the relationship between binary search trees (BST) and code readability in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the micro-optimization strategies for trie data structure when executing low-latency services in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of two-pointer approach in DSA.?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does stack and queue implementation integrate with the overall runtime environment of DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using depth-first search (DFS) vs breadth-first search (BFS) in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of longest common subsequence (LCS) in DSA.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does Greedy algorithms integrate with the overall runtime environment of DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Name a common use case for binary search implementation in a typical DSA project.?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "When would a developer first encounter singly and doubly linked lists in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using quicksort and mergesort algorithms in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does heaps and priority queues integrate with the overall runtime environment of DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain the fundamental difference between Greedy algorithms and other core mechanisms in DSA.?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "What is the basic purpose of hash table collision resolution in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to hash table collision resolution in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does trie data structure function at a high level inside DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting quicksort and mergesort algorithms in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe the internal architectural details of how singly and doubly linked lists is handled in DSA at runtime.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of longest common subsequence (LCS) in DSA.?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using trie data structure in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does Dijkstra's shortest path algorithm contribute to modular design in DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the micro-optimization strategies for sliding window technique when executing low-latency services in DSA?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the key features of Greedy algorithms in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how you would write a code example or configure dynamic programming in DSA.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "When would a developer first encounter topological sorting in DAGs in DSA?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "How does recursion and call stack integrate with the overall runtime environment of DSA?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Discuss how two-pointer approach behaves under extreme load spike scenarios in a production DSA service.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain how you would write a code example or configure LRU Cache design in DSA.?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "What are the best practices for implementing LRU Cache design in a collaborative DSA codebase?",
+        "difficulty": "medium",
+        "skill": "DSA"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of trie data structure in DSA.?",
+        "difficulty": "easy",
+        "skill": "DSA"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing topological sorting in DAGs over custom solutions in enterprise-grade DSA applications.?",
+        "difficulty": "hard",
+        "skill": "DSA"
+    }
+]

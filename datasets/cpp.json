@@ -1,0 +1,752 @@
+[
+    {
+        "question": "What is the basic purpose of Standard Template Library (STL) in C++?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the best practices for implementing const correctness in a collaborative C++ codebase?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain how rvalue references behaves under moderate load in a C++ system.?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize move semantics and std::move in C++.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize copy-and-swap idiom in C++.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of exception safety guarantees in C++?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain how Standard Template Library (STL) behaves under moderate load in a C++ system.?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the primary benefits of using copy-and-swap idiom in C++ development?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the key features of lambda expressions in C++11/14 in C++?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain how exception safety guarantees behaves under moderate load in a C++ system.?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain how you would write a code example or configure explicit keyword in constructors in C++.?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain how lock-free programming and atomic variables interacts with memory barrier constraints or compiler optimization flags in C++.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with RAII paradigm in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "In simple terms, what is constexpr specifier in C++?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of references vs pointers in C++.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize multiple inheritance and object slicing in C++.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "How does RAII paradigm affect execution performance and system memory in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "In simple terms, what is RAII paradigm in C++?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the micro-optimization strategies for lambda expressions in C++11/14 when executing low-latency services in C++?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with explicit keyword in constructors in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "How would you explain Standard Template Library (STL) to a junior C++ developer?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "Describe how you would unit test exception safety guarantees in a C++ module.?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain how you would write a code example or configure std::forward and perfect forwarding in C++.?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of exception safety guarantees in C++.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Discuss the recovery strategies when SFINAE mechanism fails in a distributed C++ cluster.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of Template Metaprogramming in C++.?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing exception safety guarantees over custom solutions in enterprise-grade C++ applications.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "How does namespace management affect execution performance and system memory in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting rvalue references in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "In simple terms, what is Template Metaprogramming in C++?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "What is the relationship between std::forward and perfect forwarding and code readability in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the primary benefits of using std::forward and perfect forwarding in C++ development?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "How does Template Metaprogramming affect execution performance and system memory in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain how the behavior of exception safety guarantees changes when working with concurrent operations in C++.?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with operator overloading in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of Standard Template Library (STL) in C++?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the key features of copy-and-swap idiom in C++?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of operator overloading in C++.?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "What is the relationship between lock-free programming and atomic variables and code readability in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "How does exception safety guarantees function at a high level inside C++?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of rvalue references in C++.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic virtual destructors and vtables in C++?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize SFINAE mechanism in a C++ application.?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to Template Metaprogramming in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to move semantics and std::move in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "How does Template Metaprogramming integrate with the overall runtime environment of C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of namespace management in C++.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic exception safety guarantees in C++?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the key features of RAII paradigm in C++?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "Compare the advantages of using SFINAE mechanism versus other alternatives in C++.?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "What is the basic purpose of multiple inheritance and object slicing in C++?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "Describe the internal architectural details of how virtual destructors and vtables is handled in C++ at runtime.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain how explicit keyword in constructors behaves under moderate load in a C++ system.?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain how namespace management interacts with memory barrier constraints or compiler optimization flags in C++.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain how the behavior of constexpr specifier changes when working with concurrent operations in C++.?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "What is the relationship between const correctness and code readability in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "Name a common use case for std::forward and perfect forwarding in a typical C++ project.?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the micro-optimization strategies for friend classes and functions when executing low-latency services in C++?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to RAII paradigm in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of references vs pointers in C++?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of copy-and-swap idiom in C++.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of lock-free programming and atomic variables in C++.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving constexpr specifier in C++ and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to virtual destructors and vtables in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the micro-optimization strategies for SFINAE mechanism when executing low-latency services in C++?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using references vs pointers in C++?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic rvalue references in C++?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by exception safety guarantees in high-throughput C++ systems?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain how C++ type casting (static, dynamic, reinterpret, const) behaves under moderate load in a C++ system.?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with namespace management in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "How would you explain multiple inheritance and object slicing to a junior C++ developer?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain how virtual destructors and vtables interacts with memory barrier constraints or compiler optimization flags in C++.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Why is constexpr specifier considered a core component of C++?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "What problem does operator overloading solve in C++?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "Why is virtual destructors and vtables considered a core component of C++?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving multiple inheritance and object slicing in C++ and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the best practices for implementing lambda expressions in C++11/14 in a collaborative C++ codebase?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing multiple inheritance and object slicing over custom solutions in enterprise-grade C++ applications.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of multiple inheritance and object slicing in C++?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of std::forward and perfect forwarding in C++.?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "Describe how you would unit test RAII paradigm in a C++ module.?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with rvalue references in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "Name a common use case for Standard Template Library (STL) in a typical C++ project.?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "Discuss how Standard Template Library (STL) behaves under extreme load spike scenarios in a production C++ service.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the micro-optimization strategies for RAII paradigm when executing low-latency services in C++?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with SFINAE mechanism in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to namespace management in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "Describe how you would unit test virtual destructors and vtables in a C++ module.?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to SFINAE mechanism in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "How does SFINAE mechanism integrate with the overall runtime environment of C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "How does virtual destructors and vtables contribute to modular design in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by friend classes and functions in high-throughput C++ systems?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain the fundamental difference between multiple inheritance and object slicing and other core mechanisms in C++.?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain how std::forward and perfect forwarding interacts with memory barrier constraints or compiler optimization flags in C++.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of smart pointers (unique_ptr, shared_ptr, weak_ptr) in C++.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the micro-optimization strategies for multiple inheritance and object slicing when executing low-latency services in C++?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Describe the internal architectural details of how SFINAE mechanism is handled in C++ at runtime.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "What is a standard definition of operator overloading in the context of C++?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "Compare the advantages of using smart pointers (unique_ptr, shared_ptr, weak_ptr) versus other alternatives in C++.?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "Discuss how lock-free programming and atomic variables behaves under extreme load spike scenarios in a production C++ service.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of references vs pointers in C++.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of const correctness in C++.?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "Why is C++ type casting (static, dynamic, reinterpret, const) considered a core component of C++?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "How does references vs pointers affect execution performance and system memory in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize virtual destructors and vtables in a C++ application.?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of lock-free programming and atomic variables in C++?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of C++ type casting (static, dynamic, reinterpret, const) in C++?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of lock-free programming and atomic variables in C++.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Discuss the recovery strategies when smart pointers (unique_ptr, shared_ptr, weak_ptr) fails in a distributed C++ cluster.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "How does multiple inheritance and object slicing integrate with the overall runtime environment of C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "Describe the internal architectural details of how lock-free programming and atomic variables is handled in C++ at runtime.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize rvalue references in C++.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "What problem does copy-and-swap idiom solve in C++?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing smart pointers (unique_ptr, shared_ptr, weak_ptr) over custom solutions in enterprise-grade C++ applications.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "How would you explain std::forward and perfect forwarding to a junior C++ developer?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing friend classes and functions over custom solutions in enterprise-grade C++ applications.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of rvalue references in C++.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Discuss the recovery strategies when C++ type casting (static, dynamic, reinterpret, const) fails in a distributed C++ cluster.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing virtual destructors and vtables over custom solutions in enterprise-grade C++ applications.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by Template Metaprogramming in high-throughput C++ systems?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Describe how you would unit test explicit keyword in constructors in a C++ module.?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the best practices for implementing std::forward and perfect forwarding in a collaborative C++ codebase?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with lambda expressions in C++11/14 in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "Name a common use case for C++ type casting (static, dynamic, reinterpret, const) in a typical C++ project.?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the key features of rvalue references in C++?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain the fundamental difference between copy-and-swap idiom and other core mechanisms in C++.?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with virtual destructors and vtables in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "Why is const correctness considered a core component of C++?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "How does references vs pointers contribute to modular design in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize SFINAE mechanism in C++.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing SFINAE mechanism over custom solutions in enterprise-grade C++ applications.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Discuss the recovery strategies when multiple inheritance and object slicing fails in a distributed C++ cluster.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the primary benefits of using lock-free programming and atomic variables in C++ development?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "How does operator overloading function at a high level inside C++?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "Discuss the recovery strategies when Standard Template Library (STL) fails in a distributed C++ cluster.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of namespace management in C++.?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain how smart pointers (unique_ptr, shared_ptr, weak_ptr) interacts with memory barrier constraints or compiler optimization flags in C++.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "How does multiple inheritance and object slicing function at a high level inside C++?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "Describe how you would unit test operator overloading in a C++ module.?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of constexpr specifier in C++?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "How does exception safety guarantees affect execution performance and system memory in C++?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of virtual destructors and vtables in C++.?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by constexpr specifier in high-throughput C++ systems?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain how const correctness behaves under moderate load in a C++ system.?",
+        "difficulty": "medium",
+        "skill": "C++"
+    },
+    {
+        "question": "How would you explain RAII paradigm to a junior C++ developer?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the micro-optimization strategies for Template Metaprogramming when executing low-latency services in C++?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize exception safety guarantees in C++.?",
+        "difficulty": "hard",
+        "skill": "C++"
+    },
+    {
+        "question": "What is a standard definition of exception safety guarantees in the context of C++?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "What are the primary benefits of using exception safety guarantees in C++ development?",
+        "difficulty": "easy",
+        "skill": "C++"
+    },
+    {
+        "question": "How would you explain const correctness to a junior C++ developer?",
+        "difficulty": "easy",
+        "skill": "C++"
+    }
+]

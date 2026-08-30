@@ -1,0 +1,752 @@
+[
+    {
+        "question": "Explain the fundamental difference between stack vs heap memory allocation and other core mechanisms in C.?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using compilation pipeline stages in C?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "What are the key features of buffer overflow vulnerabilities in C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving function pointers and callbacks in C and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving unions vs structures in C and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Explain how typedef keyword usage behaves under moderate load in a C system.?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "How does storage classes (extern, register, auto, static) function at a high level inside C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving static keyword in local vs global scope in C and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Compare the advantages of using typedef keyword usage versus other alternatives in C.?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "How would you explain memory layout of a C program to a junior C developer?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "How does storage classes (extern, register, auto, static) affect execution performance and system memory in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "What are the primary benefits of using file I/O operations in C development?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "Explain how pointers and address arithmetic interacts with memory barrier constraints or compiler optimization flags in C.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "How does stack vs heap memory allocation integrate with the overall runtime environment of C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "What are the micro-optimization strategies for file I/O operations when executing low-latency services in C?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Explain the fundamental difference between buffer overflow vulnerabilities and other core mechanisms in C.?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "What are the primary benefits of using inline functions in C development?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "In simple terms, what is header guards in preprocessor in C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "What problem does typedef keyword usage solve in C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "What problem does const pointer vs pointer to const solve in C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "Explain how you would write a code example or configure preprocessor macros (#define) in C.?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "What are the key features of header guards in preprocessor in C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "What is a standard definition of malloc vs calloc memory allocation in the context of C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "Explain how dangling pointers and memory leaks interacts with memory barrier constraints or compiler optimization flags in C.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Explain how const pointer vs pointer to const behaves under moderate load in a C system.?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "Explain how you would write a code example or configure static keyword in local vs global scope in C.?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic file I/O operations in C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by bitwise operators and masking in high-throughput C systems?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "How does dynamic linking vs static linking contribute to modular design in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "How does malloc vs calloc memory allocation function at a high level inside C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "What is a standard definition of file I/O operations in the context of C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of file I/O operations in C?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing malloc vs calloc memory allocation over custom solutions in enterprise-grade C applications.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "How does command-line arguments parsing contribute to modular design in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "How does dynamic memory management contribute to modular design in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "Name a common use case for error handling using errno in a typical C project.?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "Name a common use case for volatile keyword in a typical C project.?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with dynamic memory management in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "What is the relationship between dynamic linking vs static linking and code readability in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of typedef keyword usage in C.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize structure padding and alignment in a C application.?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of command-line arguments parsing in C?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Discuss the recovery strategies when stack vs heap memory allocation fails in a distributed C cluster.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Explain how static keyword in local vs global scope behaves under moderate load in a C system.?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing error handling using errno over custom solutions in enterprise-grade C applications.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Explain how the behavior of pointers and address arithmetic changes when working with concurrent operations in C.?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "How does preprocessor macros (#define) function at a high level inside C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "How does file I/O operations integrate with the overall runtime environment of C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "Describe how you would unit test memory layout of a C program in a C module.?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "What are the micro-optimization strategies for pointers and address arithmetic when executing low-latency services in C?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of malloc vs calloc memory allocation in C?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Explain the fundamental difference between function pointers and callbacks and other core mechanisms in C.?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of command-line arguments parsing in C?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving file I/O operations in C and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing compilation pipeline stages over custom solutions in enterprise-grade C applications.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of storage classes (extern, register, auto, static) in C?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Why is static keyword in local vs global scope considered a core component of C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "In simple terms, what is const pointer vs pointer to const in C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "Compare the advantages of using compilation pipeline stages versus other alternatives in C.?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "Describe the internal architectural details of how memory layout of a C program is handled in C at runtime.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with bitwise operators and masking in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by unions vs structures in high-throughput C systems?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "In simple terms, what is file I/O operations in C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "What is the basic purpose of memory layout of a C program in C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize unions vs structures in a C application.?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "What is a standard definition of typedef keyword usage in the context of C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "When would a developer first encounter file I/O operations in C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "Explain how the behavior of memory layout of a C program changes when working with concurrent operations in C.?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "Explain how dynamic linking vs static linking behaves under moderate load in a C system.?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "Describe how you would unit test static keyword in local vs global scope in a C module.?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing volatile keyword over custom solutions in enterprise-grade C applications.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "What are the primary benefits of using buffer overflow vulnerabilities in C development?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "Explain how the behavior of error handling using errno changes when working with concurrent operations in C.?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using preprocessor macros (#define) in C?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Discuss the recovery strategies when error handling using errno fails in a distributed C cluster.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Why is file I/O operations considered a core component of C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic malloc vs calloc memory allocation in C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting unions vs structures in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "Explain the fundamental difference between pointers and address arithmetic and other core mechanisms in C.?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "Why is volatile keyword considered a core component of C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "How does memory layout of a C program affect execution performance and system memory in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "What is the basic purpose of buffer overflow vulnerabilities in C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "Discuss the recovery strategies when command-line arguments parsing fails in a distributed C cluster.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "What problem does static keyword in local vs global scope solve in C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "How does volatile keyword integrate with the overall runtime environment of C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to error handling using errno in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to buffer overflow vulnerabilities in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "What is a standard definition of structure padding and alignment in the context of C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize function pointers and callbacks in C.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Describe the internal architectural details of how function pointers and callbacks is handled in C at runtime.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "What is the relationship between function pointers and callbacks and code readability in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of dynamic memory management in C.?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic bitwise operators and masking in C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting function pointers and callbacks in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of dynamic memory management in C?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Explain how compilation pipeline stages behaves under moderate load in a C system.?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "Explain how the behavior of preprocessor macros (#define) changes when working with concurrent operations in C.?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "Why is const pointer vs pointer to const considered a core component of C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with dynamic linking vs static linking in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of dangling pointers and memory leaks in C.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "How does typedef keyword usage contribute to modular design in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "What is a standard definition of bitwise operators and masking in the context of C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of preprocessor macros (#define) in C.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "How does dangling pointers and memory leaks contribute to modular design in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize memory layout of a C program in C.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by compilation pipeline stages in high-throughput C systems?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "What is a standard definition of volatile keyword in the context of C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "Describe how you would unit test storage classes (extern, register, auto, static) in a C module.?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "What is the relationship between volatile keyword and code readability in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "Describe the internal architectural details of how command-line arguments parsing is handled in C at runtime.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of typedef keyword usage in C?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "How does function pointers and callbacks function at a high level inside C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of pointers and address arithmetic in C?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Why is preprocessor macros (#define) considered a core component of C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "Discuss the recovery strategies when dynamic linking vs static linking fails in a distributed C cluster.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize command-line arguments parsing in C.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of function pointers and callbacks in C?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "What is the relationship between error handling using errno and code readability in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with memory layout of a C program in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "What are the micro-optimization strategies for unions vs structures when executing low-latency services in C?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic const pointer vs pointer to const in C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving typedef keyword usage in C and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "What is the basic purpose of inline functions in C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to storage classes (extern, register, auto, static) in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "What are the primary benefits of using command-line arguments parsing in C development?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "What is the basic purpose of volatile keyword in C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to dangling pointers and memory leaks in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of dynamic linking vs static linking in C?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "How does pointers and address arithmetic function at a high level inside C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "Describe how you would unit test buffer overflow vulnerabilities in a C module.?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of volatile keyword in C?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of memory layout of a C program in C?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Explain how you would write a code example or configure unions vs structures in C.?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "What are the micro-optimization strategies for compilation pipeline stages when executing low-latency services in C?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving const pointer vs pointer to const in C and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "What is a standard definition of dynamic linking vs static linking in the context of C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by structure padding and alignment in high-throughput C systems?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of typedef keyword usage in C?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to memory layout of a C program in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "Compare the advantages of using function pointers and callbacks versus other alternatives in C.?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize dynamic linking vs static linking in C.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of preprocessor macros (#define) in C.?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "Explain how dynamic memory management interacts with memory barrier constraints or compiler optimization flags in C.?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "Why is memory layout of a C program considered a core component of C?",
+        "difficulty": "easy",
+        "skill": "C"
+    },
+    {
+        "question": "How does volatile keyword affect execution performance and system memory in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "Explain how you would write a code example or configure dynamic memory management in C.?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to volatile keyword in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of preprocessor macros (#define) in C?",
+        "difficulty": "hard",
+        "skill": "C"
+    },
+    {
+        "question": "What is the relationship between const pointer vs pointer to const and code readability in C?",
+        "difficulty": "medium",
+        "skill": "C"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by memory layout of a C program in high-throughput C systems?",
+        "difficulty": "hard",
+        "skill": "C"
+    }
+]

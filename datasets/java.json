@@ -1,0 +1,1252 @@
+[
+    {
+        "question": "In simple terms, what is try-with-resources statement in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "In simple terms, what is String constant pool in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "How would you explain Spring Boot Dependency Injection to a junior Java developer?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using class loaders in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain how Comparable vs Comparator interacts with memory barrier constraints or compiler optimization flags in Java.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting abstract classes vs interfaces in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving class loading delegation model in Java and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What is the basic purpose of checked vs unchecked exceptions in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using Garbage Collection (G1GC, ZGC) in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of synchronization and locks in Java.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of reflection API in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the best practices for implementing class loaders in a collaborative Java codebase?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "How does Hibernate ORM contribute to modular design in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Compare the advantages of using generics and type erasure versus other alternatives in Java.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Why is abstract classes vs interfaces considered a core component of Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with Maven and Gradle build lifecycle in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "How does garbage collection tuning contribute to modular design in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Describe the internal architectural details of how Comparable vs Comparator is handled in Java at runtime.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Discuss the recovery strategies when Comparable vs Comparator fails in a distributed Java cluster.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Describe how you would unit test lambda expressions and Streams API in a Java module.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of JDBC database connection pooling in Java.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Describe how you would unit test class loaders in a Java module.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Describe how you would unit test multithreading and concurrency in a Java module.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Describe the internal architectural details of how Spring Boot Dependency Injection is handled in Java at runtime.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize Hibernate ORM in Java.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain how the behavior of IOC Container changes when working with concurrent operations in Java.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain how you would write a code example or configure Maven and Gradle build lifecycle in Java.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "How does JDBC database connection pooling affect execution performance and system memory in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of Garbage Collection (G1GC, ZGC) in Java.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "In simple terms, what is HashMap internals in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic JDBC database connection pooling in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Describe the internal architectural details of how HashMap internals is handled in Java at runtime.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Why is fail-fast vs fail-safe iterators considered a core component of Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of volatile keyword in Java.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of fail-fast vs fail-safe iterators in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic Comparable vs Comparator in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic checked vs unchecked exceptions in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Discuss the recovery strategies when class loading delegation model fails in a distributed Java cluster.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What is a standard definition of Hibernate ORM in the context of Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Discuss the recovery strategies when JDBC database connection pooling fails in a distributed Java cluster.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with class loading delegation model in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain how JDBC database connection pooling behaves under moderate load in a Java system.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain how Hibernate ORM interacts with memory barrier constraints or compiler optimization flags in Java.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Describe how you would unit test IOC Container in a Java module.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Describe how you would unit test Java design patterns in a Java module.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain how you would write a code example or configure checked vs unchecked exceptions in Java.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to JVM architecture in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "In simple terms, what is multithreading and concurrency in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to generics and type erasure in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "What is the relationship between Java Memory Model (JMM) and code readability in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by lambda expressions and Streams API in high-throughput Java systems?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What is a standard definition of JDBC database connection pooling in the context of Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting volatile keyword in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "How does lambda expressions and Streams API affect execution performance and system memory in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of JVM architecture in Java.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Why is class loading delegation model considered a core component of Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain the fundamental difference between Garbage Collection (G1GC, ZGC) and other core mechanisms in Java.?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the micro-optimization strategies for checked vs unchecked exceptions when executing low-latency services in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the key features of String constant pool in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "How does try-with-resources statement contribute to modular design in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of Spring Boot Dependency Injection in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Describe how you would unit test class loading delegation model in a Java module.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize abstract classes vs interfaces in Java.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using Maven and Gradle build lifecycle in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the micro-optimization strategies for IOC Container when executing low-latency services in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving Java design patterns in Java and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What is the basic purpose of JDBC database connection pooling in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Discuss how Java Memory Model (JMM) behaves under extreme load spike scenarios in a production Java service.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain how Maven dependency scopes behaves under moderate load in a Java system.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Discuss how HashMap internals behaves under extreme load spike scenarios in a production Java service.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Describe the internal architectural details of how functional interfaces is handled in Java at runtime.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain how the behavior of Java Memory Model (JMM) changes when working with concurrent operations in Java.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize multithreading and concurrency in Java.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "How does serialization contribute to modular design in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of synchronization and locks in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain how the behavior of String constant pool changes when working with concurrent operations in Java.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Discuss the recovery strategies when garbage collection tuning fails in a distributed Java cluster.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Why is synchronization and locks considered a core component of Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of Maven and Gradle build lifecycle in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "In simple terms, what is Garbage Collection (G1GC, ZGC) in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "What is a standard definition of generics and type erasure in the context of Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving String constant pool in Java and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using fail-fast vs fail-safe iterators in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What is the relationship between checked vs unchecked exceptions and code readability in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "When would a developer first encounter multithreading and concurrency in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "What problem does String constant pool solve in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Name a common use case for synchronization and locks in a typical Java project.?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "How does try-with-resources statement affect execution performance and system memory in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving Maven dependency scopes in Java and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain how you would write a code example or configure Hibernate ORM in Java.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the primary benefits of using synchronization and locks in Java development?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "How does Garbage Collection (G1GC, ZGC) integrate with the overall runtime environment of Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "What problem does Java Memory Model (JMM) solve in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "How does JVM architecture function at a high level inside Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the key features of class loaders in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize Maven and Gradle build lifecycle in Java.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What problem does Java design patterns solve in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the key features of volatile keyword in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "When would a developer first encounter synchronization and locks in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Compare the advantages of using multithreading and concurrency versus other alternatives in Java.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the micro-optimization strategies for volatile keyword when executing low-latency services in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "How does Hibernate ORM affect execution performance and system memory in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to Java Memory Model (JMM) in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the primary benefits of using JVM tuning parameters in Java development?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the key features of Comparable vs Comparator in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "How does Spring Boot Dependency Injection integrate with the overall runtime environment of Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "What problem does Hibernate ORM solve in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of Maven and Gradle build lifecycle in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the key features of functional interfaces in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "What problem does class loading delegation model solve in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic Java Memory Model (JMM) in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to lambda expressions and Streams API in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting try-with-resources statement in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Describe the internal architectural details of how JDBC database connection pooling is handled in Java at runtime.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of garbage collection tuning in Java.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "How does Hibernate ORM integrate with the overall runtime environment of Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain how checked vs unchecked exceptions behaves under moderate load in a Java system.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "How does Garbage Collection (G1GC, ZGC) function at a high level inside Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Name a common use case for JDBC database connection pooling in a typical Java project.?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "What is a standard definition of Maven and Gradle build lifecycle in the context of Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "How does JDBC database connection pooling function at a high level inside Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving multithreading and concurrency in Java and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the key features of abstract classes vs interfaces in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Describe how you would unit test Maven and Gradle build lifecycle in a Java module.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "What is the basic purpose of abstract classes vs interfaces in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize IOC Container in Java.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with Comparable vs Comparator in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain how you would write a code example or configure class loading delegation model in Java.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "How does Spring Boot Dependency Injection contribute to modular design in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Name a common use case for Java design patterns in a typical Java project.?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "How does HashMap internals function at a high level inside Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving fail-fast vs fail-safe iterators in Java and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "How would you explain thread pools and ExecutorService to a junior Java developer?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "How would you explain Java design patterns to a junior Java developer?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "What problem does Maven dependency scopes solve in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the best practices for implementing HashMap internals in a collaborative Java codebase?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "What problem does serialization solve in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the key features of Spring Boot Dependency Injection in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the key features of JVM architecture in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the best practices for implementing Maven dependency scopes in a collaborative Java codebase?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Discuss how lambda expressions and Streams API behaves under extreme load spike scenarios in a production Java service.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "How does multithreading and concurrency contribute to modular design in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "In simple terms, what is volatile keyword in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize thread pools and ExecutorService in a Java application.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "How does garbage collection tuning integrate with the overall runtime environment of Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving Hibernate ORM in Java and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing Maven and Gradle build lifecycle over custom solutions in enterprise-grade Java applications.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What is the relationship between Hibernate ORM and code readability in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Compare the advantages of using Hibernate ORM versus other alternatives in Java.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain how the behavior of fail-fast vs fail-safe iterators changes when working with concurrent operations in Java.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of Maven and Gradle build lifecycle in Java.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "How would you explain class loading delegation model to a junior Java developer?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the primary benefits of using class loading delegation model in Java development?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by Garbage Collection (G1GC, ZGC) in high-throughput Java systems?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of thread pools and ExecutorService in Java.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by JVM tuning parameters in high-throughput Java systems?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "How would you explain lambda expressions and Streams API to a junior Java developer?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of Garbage Collection (G1GC, ZGC) in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the best practices for implementing Java Memory Model (JMM) in a collaborative Java codebase?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize class loaders in a Java application.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize volatile keyword in a Java application.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Discuss how synchronization and locks behaves under extreme load spike scenarios in a production Java service.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain how the behavior of abstract classes vs interfaces changes when working with concurrent operations in Java.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the primary benefits of using IOC Container in Java development?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "How does functional interfaces affect execution performance and system memory in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with Java Memory Model (JMM) in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the primary benefits of using Garbage Collection (G1GC, ZGC) in Java development?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "What is a standard definition of HashMap internals in the context of Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "How does JVM architecture affect execution performance and system memory in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "When would a developer first encounter lambda expressions and Streams API in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "How does functional interfaces integrate with the overall runtime environment of Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of serialization in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What is a standard definition of Comparable vs Comparator in the context of Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain how synchronization and locks interacts with memory barrier constraints or compiler optimization flags in Java.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Compare the advantages of using lambda expressions and Streams API versus other alternatives in Java.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Discuss the recovery strategies when lambda expressions and Streams API fails in a distributed Java cluster.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of volatile keyword in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Discuss how class loading delegation model behaves under extreme load spike scenarios in a production Java service.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the primary benefits of using Maven dependency scopes in Java development?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of reflection API in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "How does fail-fast vs fail-safe iterators contribute to modular design in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain how String constant pool behaves under moderate load in a Java system.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "How does checked vs unchecked exceptions function at a high level inside Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Discuss the recovery strategies when try-with-resources statement fails in a distributed Java cluster.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Describe the internal architectural details of how Hibernate ORM is handled in Java at runtime.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Compare the advantages of using Comparable vs Comparator versus other alternatives in Java.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Compare the advantages of using try-with-resources statement versus other alternatives in Java.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize JDBC database connection pooling in a Java application.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain the fundamental difference between abstract classes vs interfaces and other core mechanisms in Java.?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain how you would write a code example or configure thread pools and ExecutorService in Java.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Describe how you would unit test Java Memory Model (JMM) in a Java module.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain how you would write a code example or configure JDBC database connection pooling in Java.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by HashMap internals in high-throughput Java systems?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "How does synchronization and locks affect execution performance and system memory in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Compare the advantages of using garbage collection tuning versus other alternatives in Java.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting garbage collection tuning in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Discuss how IOC Container behaves under extreme load spike scenarios in a production Java service.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing serialization over custom solutions in enterprise-grade Java applications.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain how Maven and Gradle build lifecycle interacts with memory barrier constraints or compiler optimization flags in Java.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Discuss how class loaders behaves under extreme load spike scenarios in a production Java service.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "In simple terms, what is Java design patterns in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to reflection API in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of checked vs unchecked exceptions in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of HashMap internals in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What is the basic purpose of serialization in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the primary benefits of using try-with-resources statement in Java development?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "When would a developer first encounter garbage collection tuning in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the best practices for implementing functional interfaces in a collaborative Java codebase?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of abstract classes vs interfaces in Java.?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to Maven dependency scopes in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Why is checked vs unchecked exceptions considered a core component of Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the micro-optimization strategies for Garbage Collection (G1GC, ZGC) when executing low-latency services in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain how you would write a code example or configure Spring Boot Dependency Injection in Java.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "What is a standard definition of fail-fast vs fail-safe iterators in the context of Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Why is functional interfaces considered a core component of Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain how checked vs unchecked exceptions interacts with memory barrier constraints or compiler optimization flags in Java.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of multithreading and concurrency in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize try-with-resources statement in a Java application.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of Comparable vs Comparator in Java.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What is a standard definition of multithreading and concurrency in the context of Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "What is a standard definition of JVM tuning parameters in the context of Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the best practices for implementing thread pools and ExecutorService in a collaborative Java codebase?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of garbage collection tuning in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain how multithreading and concurrency interacts with memory barrier constraints or compiler optimization flags in Java.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of String constant pool in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of class loaders in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What is the relationship between Java design patterns and code readability in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Describe how you would unit test synchronization and locks in a Java module.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of thread pools and ExecutorService in Java.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize HashMap internals in Java.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Discuss the recovery strategies when synchronization and locks fails in a distributed Java cluster.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What is the relationship between try-with-resources statement and code readability in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using serialization in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "How does class loading delegation model affect execution performance and system memory in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using generics and type erasure in Java?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "How does IOC Container affect execution performance and system memory in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "How would you explain Garbage Collection (G1GC, ZGC) to a junior Java developer?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of HashMap internals in Java.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing Garbage Collection (G1GC, ZGC) over custom solutions in enterprise-grade Java applications.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize JVM architecture in a Java application.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain the fundamental difference between functional interfaces and other core mechanisms in Java.?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Explain how abstract classes vs interfaces behaves under moderate load in a Java system.?",
+        "difficulty": "medium",
+        "skill": "Java"
+    },
+    {
+        "question": "Discuss the recovery strategies when Hibernate ORM fails in a distributed Java cluster.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the primary benefits of using thread pools and ExecutorService in Java development?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Describe the internal architectural details of how JVM architecture is handled in Java at runtime.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the primary benefits of using Spring Boot Dependency Injection in Java development?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "What is the basic purpose of reflection API in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "What problem does class loaders solve in Java?",
+        "difficulty": "easy",
+        "skill": "Java"
+    },
+    {
+        "question": "Discuss the recovery strategies when JVM tuning parameters fails in a distributed Java cluster.?",
+        "difficulty": "hard",
+        "skill": "Java"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting JVM tuning parameters in Java?",
+        "difficulty": "medium",
+        "skill": "Java"
+    }
+]

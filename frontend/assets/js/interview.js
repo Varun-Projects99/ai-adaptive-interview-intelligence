@@ -83,6 +83,12 @@ function startTimer() {
     const s  = String(timerSec%60).padStart(2,"0");
     const el = document.getElementById("timer");
     if (el) el.textContent = m + ":" + s;
+
+    // 1.3 hours maximum duration limit (4680 seconds)
+    if (timerSec >= 4680) {
+      showToast("Maximum time limit reached (1.3 hours). Submitting your interview...", "warn");
+      endInterview();
+    }
   }, 1000);
 }
 
@@ -92,7 +98,26 @@ async function loadNextQuestion() {
     const data = await apiPost("/api/questions/next", { session_id: Session.id });
 
     if (data.done) {
-      await endInterview();
+      // 40 minutes minimum duration limit (2400 seconds)
+      if (timerSec < 2400) {
+        showToast("Minimum interview duration is 40 minutes. Please take your time to elaborate.", "warn");
+        const submitBtn = document.getElementById("submit-btn");
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Please wait (40m min)";
+        }
+        const checkInterval = setInterval(async () => {
+          if (timerSec >= 2400) {
+            clearInterval(checkInterval);
+            await endInterview();
+          } else {
+            const remainingMin = Math.ceil((2400 - timerSec) / 60);
+            showToast(`Please wait ${remainingMin} more minutes to complete the minimum 40-minute duration.`, "info");
+          }
+        }, 15000);
+      } else {
+        await endInterview();
+      }
       return;
     }
 

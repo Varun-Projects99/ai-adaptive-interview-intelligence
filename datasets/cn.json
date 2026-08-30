@@ -1,0 +1,752 @@
+[
+    {
+        "question": "Can you describe how to declare or define a basic ICMP and ping utility in CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing TLS/SSL handshake over custom solutions in enterprise-grade CN applications.?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "How does ICMP and ping utility contribute to modular design in CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of HTTP vs HTTPS protocols in CN?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "How would you explain NAT (Network Address Translation) to a junior CN developer?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using OSI model layers and functions in CN?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "How does DHCP dynamic assignment affect execution performance and system memory in CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "In simple terms, what is TCP 3-way handshake in CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "Compare the advantages of using TCP vs UDP protocols versus other alternatives in CN.?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "How would you explain DNS resolution process to a junior CN developer?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the micro-optimization strategies for DNS resolution process when executing low-latency services in CN?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "How does routing and switching protocols function at a high level inside CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "What problem does TCP vs UDP protocols solve in CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize TCP 3-way handshake in a CN application.?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "When would a developer first encounter TCP 3-way handshake in CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the primary benefits of using NAT (Network Address Translation) in CN development?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "Explain how you would write a code example or configure DHCP dynamic assignment in CN.?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of VPN and tunneling protocols in CN.?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of network topology designs in CN.?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "Discuss the recovery strategies when TLS/SSL handshake fails in a distributed CN cluster.?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by TLS/SSL handshake in high-throughput CN systems?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving TCP vs UDP protocols in CN and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "Explain how the behavior of DHCP dynamic assignment changes when working with concurrent operations in CN.?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "Compare the advantages of using load balancing algorithms versus other alternatives in CN.?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing firewalls and packet filtering over custom solutions in enterprise-grade CN applications.?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using HTTP vs HTTPS protocols in CN?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to TLS/SSL handshake in CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize IP addressing (IPv4 vs IPv6) in a CN application.?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "How does flow control vs congestion control integrate with the overall runtime environment of CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "Describe the internal architectural details of how DNS resolution process is handled in CN at runtime.?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "How would you explain routing and switching protocols to a junior CN developer?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "Explain how the behavior of TCP vs UDP protocols changes when working with concurrent operations in CN.?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "What is a standard definition of NAT (Network Address Translation) in the context of CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of routing and switching protocols in CN.?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with DHCP dynamic assignment in CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with subnetting and CIDR notation in CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "How would you explain socket programming to a junior CN developer?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of firewalls and packet filtering in CN.?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "How does IP addressing (IPv4 vs IPv6) affect execution performance and system memory in CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "What problem does flow control vs congestion control solve in CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "How does DHCP dynamic assignment contribute to modular design in CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting flow control vs congestion control in CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "How does ICMP and ping utility affect execution performance and system memory in CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "How does network topology designs function at a high level inside CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "Explain how IP addressing (IPv4 vs IPv6) interacts with memory barrier constraints or compiler optimization flags in CN.?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving VPN and tunneling protocols in CN and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of socket programming in CN?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "How does IP addressing (IPv4 vs IPv6) contribute to modular design in CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "How does load balancing algorithms contribute to modular design in CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the primary benefits of using VPN and tunneling protocols in CN development?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with IP addressing (IPv4 vs IPv6) in CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "Explain how VPN and tunneling protocols interacts with memory barrier constraints or compiler optimization flags in CN.?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by socket programming in high-throughput CN systems?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "Describe how you would unit test load balancing algorithms in a CN module.?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of TCP vs UDP protocols in CN?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "How does TLS/SSL handshake affect execution performance and system memory in CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by OSI model layers and functions in high-throughput CN systems?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "Explain how firewalls and packet filtering behaves under moderate load in a CN system.?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "Explain how TLS/SSL handshake interacts with memory barrier constraints or compiler optimization flags in CN.?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "Why is OSI model layers and functions considered a core component of CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of flow control vs congestion control in CN.?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of DNS resolution process in CN?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "How would you explain HTTP vs HTTPS protocols to a junior CN developer?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "What is the relationship between OSI model layers and functions and code readability in CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "Discuss how socket programming behaves under extreme load spike scenarios in a production CN service.?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "When would a developer first encounter TCP vs UDP protocols in CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "When would a developer first encounter network topology designs in CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize NAT (Network Address Translation) in a CN application.?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "Explain how the behavior of ICMP and ping utility changes when working with concurrent operations in CN.?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "Explain how you would write a code example or configure VPN and tunneling protocols in CN.?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the micro-optimization strategies for TCP vs UDP protocols when executing low-latency services in CN?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of socket programming in CN?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "Name a common use case for firewalls and packet filtering in a typical CN project.?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "In simple terms, what is VPN and tunneling protocols in CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "How does DHCP dynamic assignment integrate with the overall runtime environment of CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the best practices for implementing IP addressing (IPv4 vs IPv6) in a collaborative CN codebase?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of ICMP and ping utility in CN?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "How would you explain subnetting and CIDR notation to a junior CN developer?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of load balancing algorithms in CN?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "How does HTTP vs HTTPS protocols contribute to modular design in CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the primary benefits of using TCP 3-way handshake in CN development?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the micro-optimization strategies for DHCP dynamic assignment when executing low-latency services in CN?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "Describe how you would unit test TCP 3-way handshake in a CN module.?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "What problem does load balancing algorithms solve in CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of TLS/SSL handshake in CN.?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "Why is ARP and MAC address resolution considered a core component of CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "How does socket programming function at a high level inside CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "How would you explain TCP vs UDP protocols to a junior CN developer?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "Explain how socket programming behaves under moderate load in a CN system.?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "What is the basic purpose of HTTP vs HTTPS protocols in CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of ICMP and ping utility in CN.?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting OSI model layers and functions in CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with routing and switching protocols in CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using DHCP dynamic assignment in CN?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "What is a standard definition of flow control vs congestion control in the context of CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "What is the relationship between subnetting and CIDR notation and code readability in CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the best practices for implementing socket programming in a collaborative CN codebase?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "Describe how you would unit test ARP and MAC address resolution in a CN module.?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "Describe the internal architectural details of how HTTP vs HTTPS protocols is handled in CN at runtime.?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "Describe the internal architectural details of how flow control vs congestion control is handled in CN at runtime.?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "Describe how you would unit test VPN and tunneling protocols in a CN module.?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "How would you explain ARP and MAC address resolution to a junior CN developer?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "Compare the advantages of using network topology designs versus other alternatives in CN.?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "Explain how you would write a code example or configure routing and switching protocols in CN.?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic DNS resolution process in CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of OSI model layers and functions in CN?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "What is the relationship between firewalls and packet filtering and code readability in CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of flow control vs congestion control in CN.?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "Name a common use case for HTTP vs HTTPS protocols in a typical CN project.?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "Explain how TCP 3-way handshake behaves under moderate load in a CN system.?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "What problem does OSI model layers and functions solve in CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "Discuss how TCP 3-way handshake behaves under extreme load spike scenarios in a production CN service.?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of VPN and tunneling protocols in CN.?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the primary benefits of using OSI model layers and functions in CN development?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the micro-optimization strategies for ICMP and ping utility when executing low-latency services in CN?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the best practices for implementing TLS/SSL handshake in a collaborative CN codebase?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "Why is TCP vs UDP protocols considered a core component of CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by DNS resolution process in high-throughput CN systems?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "Describe the internal architectural details of how TCP 3-way handshake is handled in CN at runtime.?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "Discuss how HTTP vs HTTPS protocols behaves under extreme load spike scenarios in a production CN service.?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with VPN and tunneling protocols in CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the micro-optimization strategies for socket programming when executing low-latency services in CN?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the primary benefits of using ICMP and ping utility in CN development?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using VPN and tunneling protocols in CN?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the micro-optimization strategies for firewalls and packet filtering when executing low-latency services in CN?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the key features of load balancing algorithms in CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "Explain how the behavior of TCP 3-way handshake changes when working with concurrent operations in CN.?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by IP addressing (IPv4 vs IPv6) in high-throughput CN systems?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "How does VPN and tunneling protocols affect execution performance and system memory in CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "What is the basic purpose of IP addressing (IPv4 vs IPv6) in CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of NAT (Network Address Translation) in CN?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "How does ARP and MAC address resolution integrate with the overall runtime environment of CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "How does firewalls and packet filtering function at a high level inside CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of routing and switching protocols in CN?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "How does VPN and tunneling protocols integrate with the overall runtime environment of CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing OSI model layers and functions over custom solutions in enterprise-grade CN applications.?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "Name a common use case for flow control vs congestion control in a typical CN project.?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "What problem does NAT (Network Address Translation) solve in CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "How does socket programming integrate with the overall runtime environment of CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the micro-optimization strategies for load balancing algorithms when executing low-latency services in CN?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize ARP and MAC address resolution in a CN application.?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the key features of DHCP dynamic assignment in CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using NAT (Network Address Translation) in CN?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "Explain the fundamental difference between load balancing algorithms and other core mechanisms in CN.?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "What is the relationship between VPN and tunneling protocols and code readability in CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "Describe the internal architectural details of how TLS/SSL handshake is handled in CN at runtime.?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "What are the key features of ICMP and ping utility in CN?",
+        "difficulty": "easy",
+        "skill": "CN"
+    },
+    {
+        "question": "How does NAT (Network Address Translation) contribute to modular design in CN?",
+        "difficulty": "medium",
+        "skill": "CN"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of DHCP dynamic assignment in CN.?",
+        "difficulty": "hard",
+        "skill": "CN"
+    },
+    {
+        "question": "How would you explain TCP 3-way handshake to a junior CN developer?",
+        "difficulty": "easy",
+        "skill": "CN"
+    }
+]

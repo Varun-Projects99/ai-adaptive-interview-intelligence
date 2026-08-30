@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InterviewIQ — Coding Workspace</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        :root {
+            --editor-bg: #090e14;
+            --sidebar-width: 320px;
+            --accent-pink: #ff00ff;
+        }
+
+        .coding-layout {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 90px 24px 20px;
+            display: grid;
+            grid-template-columns: 450px 1fr;
+            gap: 24px;
+            height: calc(100vh - 120px);
+            min-height: 550px;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 1024px) {
+            .coding-layout {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+        }
+
+        .page-header {
+            grid-column: 1 / -1;
+            margin-bottom: -10px;
+        }
+
+        .back-nav {
+            margin-bottom: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-family: var(--fm);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        .back-nav:hover {
+            color: var(--accent);
+        }
+
+        /* Panes styling */
+        .pane-left, .pane-right {
+            background: rgba(13, 19, 25, 0.85);
+            border: 1px solid var(--border);
+            position: relative;
+            backdrop-filter: blur(12px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        @media (max-width: 1024px) {
+            .pane-left, .pane-right {
+                height: 600px;
+            }
+        }
+
+        .pane-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(17, 25, 34, 0.5);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pane-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .corner {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border: 1px solid var(--accent);
+            opacity: 0.4;
+            pointer-events: none;
+        }
+        .corner-tl { top: 0; left: 0; border-right: none; border-bottom: none; }
+        .corner-br { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+        /* Problem description layout */
+        .challenge-selector-wrapper {
+            margin-bottom: 20px;
+        }
+
+        select.custom-select {
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            color: var(--text);
+            font-family: var(--fb);
+            font-size: 14px;
+            padding: 10px 14px;
+            outline: none;
+            width: 100%;
+            cursor: pointer;
+            transition: border-color var(--transition);
+        }
+        select.custom-select:focus {
+            border-color: var(--accent);
+        }
+
+        .challenge-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .challenge-title-row h2 {
+            font-family: var(--fh);
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .challenge-desc {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text);
+            margin-bottom: 24px;
+        }
+
+        .challenge-desc code {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent);
+            padding: 2px 6px;
+            font-family: var(--fm);
+            font-size: 13px;
+        }
+
+        .section-subtitle {
+            font-family: var(--fm);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .constraints-list {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+
+        .constraints-list li {
+            font-family: var(--fm);
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            position: relative;
+            padding-left: 14px;
+        }
+
+        .constraints-list li::before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .example-box {
+            background: rgba(7, 11, 16, 0.5);
+            border: 1px solid var(--border);
+            padding: 16px;
+            margin-bottom: 16px;
+            font-family: var(--fm);
+            font-size: 12px;
+        }
+
+        .example-box div {
+            margin-bottom: 4px;
+        }
+
+        /* IDE Workspace layout */
+        .ide-editor-container {
+            position: relative;
+            flex-grow: 1;
+            display: flex;
+            background: var(--editor-bg);
+            border-bottom: 1px solid var(--border);
+            min-height: 0;
+            height: 0;
+        }
+
+        .line-numbers {
+            width: 40px;
+            padding: 16px 8px;
+            text-align: right;
+            font-family: var(--fm);
+            font-size: 13px;
+            color: #2b3947;
+            user-select: none;
+            border-right: 1px solid rgba(28, 39, 48, 0.5);
+            line-height: 1.6;
+        }
+
+        textarea.code-editor {
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            color: #9cdcfe;
+            font-family: var(--fm);
+            font-size: 13.5px;
+            line-height: 1.6;
+            padding: 16px;
+            resize: none;
+            outline: none;
+            white-space: pre;
+            overflow-x: auto;
+            tab-size: 4;
+        }
+
+        /* Terminal Console */
+        .console-panel {
+            height: 220px;
+            background: #05080c;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .console-tabs {
+            display: flex;
+            background: rgba(13, 19, 25, 0.9);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .console-tab {
+            font-family: var(--fm);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 8px 16px;
+            cursor: pointer;
+            color: var(--text-muted);
+            border-right: 1px solid var(--border);
+            background: none;
+            border-top: none;
+            border-bottom: none;
+        }
+
+        .console-tab.active {
+            color: var(--accent);
+            background: rgba(7, 11, 16, 0.5);
+        }
+
+        .console-log-area {
+            flex-grow: 1;
+            padding: 16px;
+            overflow-y: auto;
+            font-family: var(--fm);
+            font-size: 12px;
+            line-height: 1.5;
+            color: #8fa1b3;
+        }
+
+        .console-log-area.terminal-text {
+            color: #10f59a;
+        }
+
+        /* Review Overlay / Grid */
+        .review-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .review-card {
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            padding: 12px;
+            text-align: center;
+        }
+
+        .review-card .label {
+            font-family: var(--fm);
+            font-size: 9px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .review-card .val {
+            font-family: var(--fh);
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 4px;
+            color: var(--accent);
+        }
+
+        .review-suggestions {
+            margin-top: 12px;
+            padding-left: 16px;
+        }
+
+        .review-suggestions li {
+            margin-bottom: 6px;
+            color: var(--text);
+        }
+    </style>
+</head>
+<body class="grid-bg">
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-logo" onclick="window.location.href='/dashboard'" style="cursor:pointer;">
+            <div class="logo-dot"></div>InterviewIQ
+        </div>
+        <div class="navbar-right">
+            <div class="chip accent" onclick="window.location.href='/dashboard'" style="cursor:pointer;">Dashboard</div>
+            <div class="chip" style="margin-left: 10px;">User_Admin</div>
+        </div>
+    </nav>
+
+    <!-- MAIN CODING LAYOUT -->
+    <main class="coding-layout">
+        
+        <div class="page-header">
+            <a class="back-nav" onclick="window.location.href='/dashboard'">← Back to Mission Control</a>
+        </div>
+
+        <!-- LEFT PANE: CHALLENGE INSTRUCTIONS -->
+        <section class="pane-left">
+            <div class="corner corner-tl"></div>
+            <div class="corner corner-br"></div>
+            
+            <div class="pane-header">
+                <span class="chip accent">Challenge Spec</span>
+                <span id="diff-badge" class="diff-badge easy">Easy</span>
+            </div>
+
+            <div class="pane-body">
+                <!-- Challenge Dropdown -->
+                <div class="challenge-selector-wrapper">
+                    <label class="section-subtitle" for="challenge-selector">Select Coding Problem</label>
+                    <select class="custom-select" id="challenge-selector" onchange="loadChallenge(this.value)">
+                        <!-- Dynamically filled -->
+                    </select>
+                </div>
+
+                <!-- Problem Spec details -->
+                <div class="challenge-title-row">
+                    <h2 id="prob-title">Two Sum</h2>
+                </div>
+
+                <div class="challenge-desc" id="prob-desc">
+                    <!-- Loaded dynamically -->
+                </div>
+
+                <div class="section-subtitle">Constraints</div>
+                <ul class="constraints-list" id="prob-constraints">
+                    <!-- Loaded dynamically -->
+                </ul>
+
+                <div class="section-subtitle">Examples</div>
+                <div id="prob-examples">
+                    <!-- Loaded dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- RIGHT PANE: INTEGRATED IDE & CONSOLE -->
+        <section class="pane-right">
+            <div class="corner corner-tl"></div>
+            <div class="corner corner-br"></div>
+
+            <div class="pane-header">
+                <div style="display:flex; align-items:center; gap:16px;">
+                    <!-- Language Selection -->
+                    <select class="custom-select" id="lang-selector" style="width:130px; padding: 6px 10px;" onchange="changeLanguage(this.value)">
+                        <option value="python">Python 3</option>
+                        <option value="javascript">NodeJS / JS</option>
+                    </select>
+                </div>
+                
+                <div style="display:flex; gap:12px;">
+                    <button class="btn btn-outline" style="padding: 8px 16px; font-size:12px;" id="review-btn" onclick="requestAiReview()">
+                        <span class="btn-text">🤖 Get AI Review</span>
+                        <div class="spinner" style="border-top-color:var(--accent)"></div>
+                    </button>
+                    <button class="btn btn-primary" style="padding: 8px 20px; font-size:12px;" id="run-btn" onclick="executeUserCode()">
+                        <span class="btn-text">🚀 Run Code</span>
+                        <div class="spinner" style="border-top-color:#000"></div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- IDE editor text area with line numbers -->
+            <div class="ide-editor-container">
+                <div class="line-numbers" id="editor-gutters">
+                    1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15
+                </div>
+                <textarea class="code-editor" id="code-textarea" spellcheck="false" oninput="onCodeInput()" onkeydown="handleTabIndent(event)"></textarea>
+            </div>
+
+            <!-- Console and AI review tabs -->
+            <div class="console-panel">
+                <div class="console-tabs">
+                    <button class="console-tab active" id="tab-console" onclick="switchConsoleTab('console')">Console Log</button>
+                    <button class="console-tab" id="tab-review" onclick="switchConsoleTab('review')">AI Insights</button>
+                </div>
+
+                <!-- Console area -->
+                <div class="console-log-area" id="console-output">
+                    Code compilation results will be shown here...
+                </div>
+
+                <!-- Review Area (Hidden by default) -->
+                <div class="console-log-area" id="review-output" style="display:none;">
+                    Submit code for complexity analysis...
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Background glow -->
+    <div style="position:fixed;width:800px;height:800px;pointer-events:none;
+                background:radial-gradient(circle,rgba(255,0,255,.02) 0%,transparent 70%);
+                top:50%;left:50%;transform:translate(-50%,-50%);z-index:0"></div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="/assets/js/session.js"></script>
+    <script>
+        let challenges = {};
+        let currentProblemId = "";
+        let currentLanguage = "python";
+        let isCodeCorrect = false;
+
+        // Initialize IDE page
+        window.addEventListener("DOMContentLoaded", async () => {
+            await fetchChallenges();
+            
+            // Handle line numbers setup
+            updateLineNumbers();
+        });
+
+        // Fetch problems list from backend
+        async function fetchChallenges() {
+            try {
+                const response = await fetch("/api/coding/challenges");
+                challenges = await response.json();
+                
+                const selector = document.getElementById("challenge-selector");
+                selector.innerHTML = "";
+
+                Object.keys(challenges).forEach(pid => {
+                    const option = document.createElement("option");
+                    option.value = pid;
+                    option.textContent = challenges[pid].title;
+                    selector.appendChild(option);
+                });
+
+                if (Object.keys(challenges).length > 0) {
+                    loadChallenge(Object.keys(challenges)[0]);
+                }
+
+            } catch (e) {
+                showToast("Failed to load problems: " + e.message, "err");
+                console.error(e);
+            }
+        }
+
+        // Render selected problem
+        function loadChallenge(pid) {
+            currentProblemId = pid;
+            const challenge = challenges[pid];
+            isCodeCorrect = false;
+
+            // Render details
+            document.getElementById("prob-title").textContent = challenge.title;
+            document.getElementById("prob-desc").innerHTML = challenge.description;
+            
+            // Set difficulty tag class
+            const diffBadge = document.getElementById("diff-badge");
+            diffBadge.textContent = challenge.difficulty;
+            diffBadge.className = "diff-badge " + challenge.difficulty.toLowerCase();
+
+            // Set constraints
+            const constraintsList = document.getElementById("prob-constraints");
+            constraintsList.innerHTML = "";
+            challenge.constraints.forEach(c => {
+                const li = document.createElement("li");
+                li.textContent = c;
+                constraintsList.appendChild(li);
+            });
+
+            // Set Examples
+            const examplesDiv = document.getElementById("prob-examples");
+            examplesDiv.innerHTML = "";
+            challenge.examples.forEach((ex, idx) => {
+                const box = document.createElement("div");
+                box.className = "example-box";
+                box.innerHTML = `
+                    <div><strong>Example ${idx + 1}:</strong></div>
+                    <div style="color:var(--text); margin-left: 8px;"><strong>Input:</strong> ${ex.input}</div>
+                    <div style="color:var(--success); margin-left: 8px;"><strong>Output:</strong> ${ex.output}</div>
+                    ${ex.explanation ? `<div style="color:var(--text-muted); margin-left: 8px; font-style:italic;"><strong>Explanation:</strong> ${ex.explanation}</div>` : ""}
+                `;
+                examplesDiv.appendChild(box);
+            });
+
+            // Load starter code template
+            const codeEditor = document.getElementById("code-textarea");
+            codeEditor.value = challenge.templates[currentLanguage] || "";
+            updateLineNumbers();
+
+            // Reset console tab views
+            switchConsoleTab("console");
+            document.getElementById("console-output").textContent = "Problem loaded. Write code and click Run Code...";
+            document.getElementById("review-output").textContent = "Request AI Review for feedback...";
+        }
+
+        // Switch Programming Language
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            isCodeCorrect = false;
+            const challenge = challenges[currentProblemId];
+            if (challenge) {
+                const codeEditor = document.getElementById("code-textarea");
+                codeEditor.value = challenge.templates[currentLanguage] || "";
+                updateLineNumbers();
+            }
+        }
+
+        // Handle code changes
+        function onCodeInput() {
+            isCodeCorrect = false;
+            updateLineNumbers();
+        }
+
+        // Handle editor line numbers gutter scaling
+        function updateLineNumbers() {
+            const textarea = document.getElementById("code-textarea");
+            const gutters = document.getElementById("editor-gutters");
+            
+            const linesCount = textarea.value.split("\n").length;
+            let linesHtml = "";
+            for (let i = 1; i <= Math.max(linesCount, 15); i++) {
+                linesHtml += i + "<br>";
+            }
+            gutters.innerHTML = linesHtml;
+        }
+
+        // Support Tab key indent inside code editor textarea instead of shifting focus
+        function handleTabIndent(e) {
+            if (e.key === "Tab") {
+                e.preventDefault();
+                const textarea = e.target;
+                const start = textarea.selectionStart;
+                const end = textarea.selectionEnd;
+
+                // Set textarea value to: text before caret + 4 spaces + text after caret
+                textarea.value = textarea.value.substring(0, start) + "    " + textarea.value.substring(end);
+
+                // Put caret in right position
+                textarea.selectionStart = textarea.selectionEnd = start + 4;
+                updateLineNumbers();
+            }
+        }
+
+        // Switch Console / AI Insights view tabs
+        function switchConsoleTab(tab) {
+            const tabConsole = document.getElementById("tab-console");
+            const tabReview = document.getElementById("tab-review");
+            const areaConsole = document.getElementById("console-output");
+            const areaReview = document.getElementById("review-output");
+
+            if (tab === "console") {
+                tabConsole.classList.add("active");
+                tabReview.classList.remove("active");
+                areaConsole.style.display = "block";
+                areaReview.style.display = "none";
+            } else {
+                tabConsole.classList.remove("active");
+                tabReview.classList.add("active");
+                areaConsole.style.display = "none";
+                areaReview.style.display = "block";
+            }
+        }
+
+        // POST compilation and execution payload
+        async function executeUserCode() {
+            const code = document.getElementById("code-textarea").value;
+            const runBtn = document.getElementById("run-btn");
+            const consoleOutput = document.getElementById("console-output");
+
+            // Client-side detection for mismatched Java code
+            if (currentLanguage === "python" && (code.includes("class Solution {") || code.includes("public int") || code.includes("public void") || code.includes("System.out.print"))) {
+                showToast("Language Mismatch Detected", "warn");
+                switchConsoleTab("console");
+                consoleOutput.style.color = "var(--warn)";
+                consoleOutput.innerHTML = `<span style="color:var(--warn)">⚠️ Language Mismatch Detected:</span>\n\nYou have written <strong>Java</strong> code, but the language selector is set to <strong>Python 3</strong>.\n\nPlease either write Python code (e.g. <code>def solve(n):</code>) or switch language to JavaScript if supported. Python compiler cannot parse Java syntax.`;
+                isCodeCorrect = false;
+                return;
+            }
+
+            runBtn.classList.add("loading");
+            runBtn.disabled = true;
+            consoleOutput.style.color = "#8fa1b3";
+            consoleOutput.textContent = "Compiling and running code against test cases...";
+            
+            switchConsoleTab("console");
+
+            try {
+                const response = await fetch("/api/coding/run", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        code: code,
+                        language: currentLanguage,
+                        problem_id: currentProblemId
+                    })
+                });
+
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.error || "Compilation failed");
+                }
+
+                const result = await response.json();
+                
+                // Render console log outputs
+                let consoleText = "";
+                
+                if (result.success) {
+                    isCodeCorrect = true;
+                    consoleOutput.style.color = "var(--success)";
+                    consoleText += "✓ Compile Success: All test cases passed!\n\n";
+                    showToast("🎉 Correct! All test cases passed.", "ok");
+                    
+                    // Auto-trigger review since code is correct!
+                    setTimeout(() => {
+                        requestAiReview();
+                    }, 800);
+                } else {
+                    isCodeCorrect = false;
+                    consoleOutput.style.color = "var(--danger)";
+                    consoleText += `✗ Run Failed: ${result.error || "Wrong Answer"}\n\n`;
+                    showToast("❌ Incorrect Code! Please resolve failing test cases.", "err");
+                }
+
+                if (result.console) {
+                    consoleText += "=== Standard Output ===\n" + result.console + "\n";
+                }
+
+                if (result.test_results && result.test_results.length > 0) {
+                    consoleText += "=== Test Case Results ===\n";
+                    result.test_results.forEach(tr => {
+                        const icon = tr.passed ? "✓" : "✗";
+                        consoleText += `${icon} Case ${tr.index + 1}: ${tr.passed ? 'PASSED' : 'FAILED'}\n`;
+                        if (!tr.passed) {
+                            if (tr.error) {
+                                consoleText += `   Error: ${tr.error}\n`;
+                            } else {
+                                consoleText += `   Expected: ${JSON.stringify(tr.expected)}\n`;
+                                consoleText += `   Actual  : ${JSON.stringify(tr.actual)}\n`;
+                            }
+                        }
+                    });
+                }
+
+                consoleOutput.textContent = consoleText;
+
+            } catch (e) {
+                consoleOutput.style.color = "var(--danger)";
+                consoleOutput.textContent = "Runner Error:\n" + e.message;
+                showToast("Code execution error", "err");
+            } finally {
+                runBtn.classList.remove("loading");
+                runBtn.disabled = false;
+            }
+        }
+
+        // Fetch AI Review feedback
+        async function requestAiReview() {
+            if (!isCodeCorrect) {
+                showToast("❌ Incorrect Code! Please pass all test cases first.", "err");
+                switchConsoleTab("console");
+                return;
+            }
+
+            const code = document.getElementById("code-textarea").value;
+            const reviewBtn = document.getElementById("review-btn");
+            const reviewOutput = document.getElementById("review-output");
+
+            reviewBtn.classList.add("loading");
+            reviewBtn.disabled = true;
+            reviewOutput.textContent = "AI Interviewer is inspecting your implementation, analyzing complexity & design patterns...";
+            
+            switchConsoleTab("review");
+
+            try {
+                const response = await fetch("/api/coding/review", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        code: code,
+                        language: currentLanguage,
+                        problem_id: currentProblemId
+                    })
+                });
+
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.error || "Review failed");
+                }
+
+                const result = await response.json();
+                
+                // Render AI analysis structure
+                let suggHtml = "";
+                if (result.suggestions && result.suggestions.length) {
+                    result.suggestions.forEach(s => {
+                        suggHtml += `<li>${s}</li>`;
+                    });
+                } else {
+                    suggHtml = "<li>No critical design improvements needed. Good work!</li>";
+                }
+
+                reviewOutput.innerHTML = `
+                    <div class="review-grid">
+                        <div class="review-card">
+                            <span class="label">Time Complexity</span>
+                            <span class="val" style="color:var(--accent)">${result.time_complexity}</span>
+                        </div>
+                        <div class="review-card">
+                            <span class="label">Space Complexity</span>
+                            <span class="val" style="color:var(--accent2)">${result.space_complexity}</span>
+                        </div>
+                        <div class="review-card">
+                            <span class="label">Readability</span>
+                            <span class="val" style="color:var(--success)">${result.readability_score}%</span>
+                        </div>
+                    </div>
+                    <div style="margin-top:16px; font-size:13px; line-height:1.6; color:var(--text)">
+                        <strong>Interviewer Feedback:</strong><br>
+                        ${result.feedback}
+                    </div>
+                    <div style="margin-top:16px;">
+                        <span class="section-subtitle">Recommended Optimizations</span>
+                        <ul class="review-suggestions">
+                            ${suggHtml}
+                        </ul>
+                    </div>
+                `;
+
+            } catch (e) {
+                reviewOutput.textContent = "AI Analysis Error:\n" + e.message;
+                showToast("Failed to gather AI insights", "err");
+            } finally {
+                reviewBtn.classList.remove("loading");
+                reviewBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

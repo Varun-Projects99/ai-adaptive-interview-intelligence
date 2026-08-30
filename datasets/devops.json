@@ -1,0 +1,752 @@
+[
+    {
+        "question": "Discuss how system monitoring and logging behaves under extreme load spike scenarios in a production DevOps service.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using Kubernetes pod lifecycle in DevOps?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How would you explain Terraform provider configurations to a junior DevOps developer?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "When would a developer first encounter Terraform provider configurations in DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Name a common use case for Secrets management best practices in a typical DevOps project.?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with continuous integration and deployment (CI/CD) in DevOps?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Explain how the behavior of Kubernetes pod lifecycle changes when working with concurrent operations in DevOps.?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "When would a developer first encounter Infrastructure as Code (IaC) in DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Discuss the recovery strategies when Secrets management best practices fails in a distributed DevOps cluster.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using Prometheus and Grafana dashboarding in DevOps?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using Jenkins pipelines in DevOps?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Explain how Ansible automation scripts interacts with memory barrier constraints or compiler optimization flags in DevOps.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What are the primary benefits of using Git version control workflows in DevOps development?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Describe the internal architectural details of how Infrastructure as Code (IaC) is handled in DevOps at runtime.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How does site reliability engineering (SRE) principles contribute to modular design in DevOps?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of system monitoring and logging in DevOps?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using system monitoring and logging in DevOps?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to Ansible automation scripts in DevOps?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Discuss the recovery strategies when Docker containers orchestration fails in a distributed DevOps cluster.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of Terraform provider configurations in DevOps.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Compare the advantages of using Jenkins pipelines versus other alternatives in DevOps.?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize deployment strategies (canary, blue-green) in DevOps.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What are the best practices for implementing Prometheus and Grafana dashboarding in a collaborative DevOps codebase?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How does system monitoring and logging integrate with the overall runtime environment of DevOps?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Explain how Ansible automation scripts behaves under moderate load in a DevOps system.?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How does site reliability engineering (SRE) principles function at a high level inside DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Why is site reliability engineering (SRE) principles considered a core component of DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting Git version control workflows in DevOps?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How does Secrets management best practices integrate with the overall runtime environment of DevOps?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting Ansible automation scripts in DevOps?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving Kubernetes pod lifecycle in DevOps and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How does Secrets management best practices affect execution performance and system memory in DevOps?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of Prometheus and Grafana dashboarding in DevOps?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of continuous integration and deployment (CI/CD) in DevOps.?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How would you explain system monitoring and logging to a junior DevOps developer?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Discuss the recovery strategies when Git version control workflows fails in a distributed DevOps cluster.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic Ansible automation scripts in DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic Secrets management best practices in DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "In simple terms, what is Docker containers orchestration in DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What is a standard definition of Prometheus and Grafana dashboarding in the context of DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Explain how the behavior of Prometheus and Grafana dashboarding changes when working with concurrent operations in DevOps.?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of Terraform provider configurations in DevOps?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of Docker containers orchestration in DevOps.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of Prometheus and Grafana dashboarding in DevOps.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How does system monitoring and logging function at a high level inside DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What are the micro-optimization strategies for Kubernetes pod lifecycle when executing low-latency services in DevOps?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of continuous integration and deployment (CI/CD) in DevOps.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Discuss how Jenkins pipelines behaves under extreme load spike scenarios in a production DevOps service.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Describe the internal architectural details of how system monitoring and logging is handled in DevOps at runtime.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to Docker containers orchestration in DevOps?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving Helm charts package management in DevOps and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Describe how you would unit test Prometheus and Grafana dashboarding in a DevOps module.?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What is the basic purpose of Terraform provider configurations in DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How does continuous integration and deployment (CI/CD) integrate with the overall runtime environment of DevOps?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing deployment strategies (canary, blue-green) over custom solutions in enterprise-grade DevOps applications.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Explain how Jenkins pipelines behaves under moderate load in a DevOps system.?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Compare the advantages of using Git version control workflows versus other alternatives in DevOps.?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of Terraform provider configurations in DevOps?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Explain how Git version control workflows behaves under moderate load in a DevOps system.?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to Prometheus and Grafana dashboarding in DevOps?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of deployment strategies (canary, blue-green) in DevOps.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Name a common use case for deployment strategies (canary, blue-green) in a typical DevOps project.?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of Terraform provider configurations in DevOps.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Name a common use case for Infrastructure as Code (IaC) in a typical DevOps project.?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Why is Helm charts package management considered a core component of DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing continuous integration and deployment (CI/CD) over custom solutions in enterprise-grade DevOps applications.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Explain the fundamental difference between Helm charts package management and other core mechanisms in DevOps.?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How does deployment strategies (canary, blue-green) function at a high level inside DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How does Helm charts package management integrate with the overall runtime environment of DevOps?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What are the key features of site reliability engineering (SRE) principles in DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How would you explain site reliability engineering (SRE) principles to a junior DevOps developer?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "In simple terms, what is Terraform provider configurations in DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Discuss how Git version control workflows behaves under extreme load spike scenarios in a production DevOps service.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting Jenkins pipelines in DevOps?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "In simple terms, what is Secrets management best practices in DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting site reliability engineering (SRE) principles in DevOps?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Explain the fundamental difference between Docker containers orchestration and other core mechanisms in DevOps.?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of system monitoring and logging in DevOps.?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of Jenkins pipelines in DevOps?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "In simple terms, what is Prometheus and Grafana dashboarding in DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Describe how you would unit test site reliability engineering (SRE) principles in a DevOps module.?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Discuss how Infrastructure as Code (IaC) behaves under extreme load spike scenarios in a production DevOps service.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What are the best practices for implementing Jenkins pipelines in a collaborative DevOps codebase?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by Jenkins pipelines in high-throughput DevOps systems?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Why is Git version control workflows considered a core component of DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What is the basic purpose of Secrets management best practices in DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Explain how continuous integration and deployment (CI/CD) interacts with memory barrier constraints or compiler optimization flags in DevOps.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What are the micro-optimization strategies for Git version control workflows when executing low-latency services in DevOps?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize Docker containers orchestration in DevOps.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How does Terraform provider configurations integrate with the overall runtime environment of DevOps?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of Ansible automation scripts in DevOps?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How does Terraform provider configurations affect execution performance and system memory in DevOps?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Explain how system monitoring and logging behaves under moderate load in a DevOps system.?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Discuss how Secrets management best practices behaves under extreme load spike scenarios in a production DevOps service.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of Ansible automation scripts in DevOps.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Explain how Helm charts package management interacts with memory barrier constraints or compiler optimization flags in DevOps.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of deployment strategies (canary, blue-green) in DevOps.?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How does Helm charts package management function at a high level inside DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How does Prometheus and Grafana dashboarding function at a high level inside DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize deployment strategies (canary, blue-green) in a DevOps application.?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Explain how you would write a code example or configure Docker containers orchestration in DevOps.?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What is a standard definition of Secrets management best practices in the context of DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How does continuous integration and deployment (CI/CD) function at a high level inside DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How would you explain Ansible automation scripts to a junior DevOps developer?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How does Infrastructure as Code (IaC) function at a high level inside DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How would you explain Docker containers orchestration to a junior DevOps developer?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Describe how you would unit test Docker containers orchestration in a DevOps module.?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What is the basic purpose of Docker containers orchestration in DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of continuous integration and deployment (CI/CD) in DevOps?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Describe the internal architectural details of how Jenkins pipelines is handled in DevOps at runtime.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What is the basic purpose of site reliability engineering (SRE) principles in DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What problem does Ansible automation scripts solve in DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic system monitoring and logging in DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Describe the internal architectural details of how Docker containers orchestration is handled in DevOps at runtime.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of continuous integration and deployment (CI/CD) in DevOps.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Describe the internal architectural details of how Kubernetes pod lifecycle is handled in DevOps at runtime.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of Helm charts package management in DevOps.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize Git version control workflows in DevOps.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Explain how Helm charts package management behaves under moderate load in a DevOps system.?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How would you explain continuous integration and deployment (CI/CD) to a junior DevOps developer?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How does Secrets management best practices function at a high level inside DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize Infrastructure as Code (IaC) in a DevOps application.?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What is the basic purpose of Jenkins pipelines in DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What is a standard definition of deployment strategies (canary, blue-green) in the context of DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of deployment strategies (canary, blue-green) in DevOps.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize Ansible automation scripts in a DevOps application.?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Describe how you would unit test Helm charts package management in a DevOps module.?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving Docker containers orchestration in DevOps and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of Git version control workflows in DevOps.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize Jenkins pipelines in a DevOps application.?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of Helm charts package management in DevOps.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with Terraform provider configurations in DevOps?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What problem does Jenkins pipelines solve in DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Discuss the recovery strategies when Infrastructure as Code (IaC) fails in a distributed DevOps cluster.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Explain how you would write a code example or configure Infrastructure as Code (IaC) in DevOps.?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What are the best practices for implementing Docker containers orchestration in a collaborative DevOps codebase?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Explain how the behavior of system monitoring and logging changes when working with concurrent operations in DevOps.?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Discuss the recovery strategies when system monitoring and logging fails in a distributed DevOps cluster.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using site reliability engineering (SRE) principles in DevOps?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of Git version control workflows in DevOps.?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How does Ansible automation scripts affect execution performance and system memory in DevOps?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Name a common use case for Terraform provider configurations in a typical DevOps project.?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How does deployment strategies (canary, blue-green) contribute to modular design in DevOps?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Describe how you would unit test system monitoring and logging in a DevOps module.?",
+        "difficulty": "medium",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of site reliability engineering (SRE) principles in DevOps?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    },
+    {
+        "question": "In simple terms, what is Ansible automation scripts in DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What are the primary benefits of using Jenkins pipelines in DevOps development?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "What problem does site reliability engineering (SRE) principles solve in DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "How does Git version control workflows function at a high level inside DevOps?",
+        "difficulty": "easy",
+        "skill": "DevOps"
+    },
+    {
+        "question": "Discuss the recovery strategies when Ansible automation scripts fails in a distributed DevOps cluster.?",
+        "difficulty": "hard",
+        "skill": "DevOps"
+    }
+]

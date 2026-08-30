@@ -174,6 +174,12 @@ except Exception as e:
     def generate_followup_simple(answer):
         return "Can you tell me more about that?"
 
+try:
+    from modules.code_executor import CHALLENGES, run_python_code, run_javascript_code
+    print("[OK] code_executor loaded")
+except Exception as e:
+    print(f"[WARN] code_executor: {e}")
+
 
 # ── Flask setup ──────────────────────────────────────────────────────────────
 
@@ -210,6 +216,23 @@ def serve_upload():
 @app.route("/analyzer")
 def serve_analyzer():
     return send_from_directory("../frontend", "analyzer.html")
+
+@app.route("/career")
+def serve_career():
+    return send_from_directory("../frontend", "career.html")
+
+@app.route("/coding")
+def serve_coding():
+    return send_from_directory("../frontend", "coding.html")
+
+@app.route("/history")
+def serve_history():
+    return send_from_directory("../frontend", "history.html")
+
+@app.route("/coach")
+def serve_coach():
+    return send_from_directory("../frontend", "coach.html")
+
 
 
 @app.route("/register")
@@ -352,8 +375,14 @@ def generate_interview_questions():
     sess = get_sess(sid)
     if not sess:
         return jsonify({"error": "Invalid session"}), 400
+    
+    # Support custom skills list (e.g. from Career Roadmap skill testing)
+    custom_skills = data.get("skills")
+    if custom_skills:
+        sess["skills"] = custom_skills
+
     if not sess["skills"]:
-        return jsonify({"error": "Upload resume first"}), 400
+        return jsonify({"error": "Upload resume or select skills first"}), 400
 
     questions = generate_questions(sess["skills"])
     sess["questions"] = questions
@@ -525,6 +554,24 @@ def ai_followup():
     return jsonify({"followup_question": followup})
 
 
+HISTORY_FILE = os.path.join(BASE_DIR, "session_history.json")
+
+def load_history():
+    if os.path.exists(HISTORY_FILE):
+        try:
+            with open(HISTORY_FILE, "r") as f:
+                return json.load(f)
+        except:
+            return {}
+    return {}
+
+def save_history(history):
+    try:
+        with open(HISTORY_FILE, "w") as f:
+            json.dump(history, f, indent=4)
+    except Exception as e:
+        print(f"[Error] Save history failed: {e}")
+
 @app.route("/api/report/generate", methods=["POST"])
 def get_report():
     data = request.json or {}
@@ -534,7 +581,251 @@ def get_report():
         return jsonify({"error": "Invalid session"}), 400
     report = generate_final_report(sess)
     sess["status"] = "completed"
+    
+    # Save to persistent database
+    try:
+        import datetime
+        history = load_history()
+        report["date"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+        history[sid] = report
+        save_history(history)
+    except Exception as e:
+        print(f"[WARN] Failed to write history record: {e}")
+        
     return jsonify(report)
+
+# ── CODING PLATFORM ENDPOINTS ──────────────────────────────────────────────────
+
+@app.route("/api/sessions/history", methods=["GET"])
+def get_sessions_history():
+    history = load_history()
+    summary_list = []
+    for sid, report in history.items():
+        scores = report.get("scores", {})
+        summ = report.get("summary", {})
+        summary_list.append({
+            "session_id": sid,
+            "date": report.get("date", "Unknown"),
+            "technical": scores.get("technical", 0),
+            "confidence": scores.get("confidence", 0),
+            "readiness_index": scores.get("readiness_index", 0),
+            "readiness_label": scores.get("readiness_label", "Unknown"),
+            "skills": summ.get("skills_covered", []),
+            "total_questions": summ.get("total_questions", 0),
+            "terminated": report.get("terminated", False)
+        })
+    summary_list.sort(key=lambda x: x["date"], reverse=True)
+    return jsonify(summary_list)
+
+@app.route("/api/report/view/<sid>", methods=["GET", "POST"])
+def view_historical_report(sid):
+    history = load_history()
+    report = history.get(sid)
+    if not report:
+        sess = get_sess(sid)
+        if sess:
+            return jsonify(generate_final_report(sess))
+        return jsonify({"error": "Report not found"}), 404
+    return jsonify(report)
+
+@app.route("/api/coach/chat", methods=["POST"])
+def api_coach_chat():
+    data = request.json or {}
+    messages = data.get("messages", [])
+    
+    # Get last message content
+    last_msg = ""
+    if messages:
+        last_msg = messages[-1].get("content", "").lower()
+        
+    api_key = os.environ.get("GROQ_API_KEY")
+    # Verify if key is present and not a dummy placeholder
+    if api_key and api_key.startswith("gsk_"):
+        try:
+            from groq import Groq
+            client = Groq(api_key=api_key)
+            system_msg = {
+                "role": "system",
+                "content": "You are a professional Interview Coach and Career Advisor. Help candidates improve their interview performance, explain key engineering concepts, structure behavioral answers (STAR method), and practice salary negotiations. Keep your responses encouraging, direct, and under 250 words."
+            }
+            
+            groq_messages = [system_msg]
+            for msg in messages:
+                groq_messages.append({
+                    "role": msg.get("role", "user"),
+                    "content": msg.get("content", "")
+                })
+                
+            completion = client.chat.completions.create(
+                model="llama3-8b-8192",
+                messages=groq_messages,
+                temperature=0.7,
+                max_tokens=600
+            )
+            reply = completion.choices[0].message.content
+            return jsonify({"reply": reply})
+        except Exception as e:
+            print(f"[ERROR] Groq coach API call failed, using local fallback engine: {e}")
+            
+    # --- ROBUST KEYWORD-BASED FALLBACK ENGINE ---
+    # Matches common candidate questions to provide tailored mock coaching
+    import random
+    
+    if "star" in last_msg or "method" in last_msg or "behavioral" in last_msg:
+        reply = ("Coach: The STAR method is the gold standard for behavioral questions:\n\n"
+                 "1. **Situation**: Set the scene. (e.g. 'Our service API response times increased by 40% under high load.')\n"
+                 "2. **Task**: Define the challenge or goal. (e.g. 'I was tasked with diagnosing the bottleneck and restoring speed.')\n"
+                 "3. **Action**: Detail *what you did* (not your team). (e.g. 'I profiled the queries, added database indices, and set up Redis caching.')\n"
+                 "4. **Result**: State the quantifiable outcome. (e.g. 'Response times dropped by 60%, and database load decreased by 30%.')\n\n"
+                 "Try to spend 70% of your answer talking about your Actions and the Results!")
+                 
+    elif "leadership" in last_msg or "lead" in last_msg or "manager" in last_msg or "conflict" in last_msg:
+        reply = ("Coach: Here is a classic Leadership question you can prepare:\n\n"
+                 "*Question*: 'Tell me about a time you had to lead a project under tight constraints or resolve a teammate conflict.'\n\n"
+                 "*Coaching Tip*: Focus on:\n"
+                 "- How you delegated responsibilities based on individual strengths.\n"
+                 "- How you maintained transparent communication with stakeholders.\n"
+                 "- Resolving conflicts by focusing on goals and objective metrics, not personal opinions.")
+                 
+    elif "resume" in last_msg or "gap" in last_msg or "experience" in last_msg:
+        reply = ("Coach: Explaining a resume gap or lack of professional experience is all about framing:\n\n"
+                 "- **Be Transparent & Concise**: Don't over-explain. State the reason (e.g., health, family care, self-study) in 1-2 sentences.\n"
+                 "- **Focus on Active Learning**: Highlight personal projects, open-source work, or certifications you completed during the gap.\n"
+                 "- **Pivot to the Present**: Connect what you learned to why you are excited and technically prepared for this specific role today.")
+                 
+    elif "backend" in last_msg or "checklist" in last_msg or "junior" in last_msg or "prep" in last_msg:
+        reply = ("Coach: Backend Software Engineering Prep Checklist:\n\n"
+                 "1. **Algorithms & DS**: Master HashMaps, Trees, binary search, and Time/Space complexity ($O(N)$ vs $O(N \\log N)$).\n"
+                 "2. **Databases**: Understand index optimization, connection pooling, ACID properties, and relational vs NoSQL trade-offs.\n"
+                 "3. **System Design**: Study load balancers, CDN caching, horizontal scaling, and rate-limiting patterns.\n"
+                 "4. **API Security**: Learn REST best practices, HTTPS/TLS, JWT authentication, and CORS headers.")
+                 
+    elif "salary" in last_msg or "negotiat" in last_msg or "compensation" in last_msg or "offer" in last_msg:
+        reply = ("Coach: Salary Negotiation Best Practices:\n\n"
+                 "- **Don't State the Number First**: If they ask for your expectations, ask: 'What budget range has been allocated for this role?'\n"
+                 "- **Base Requests on Data**: Use market benchmarks from sites like Levels.fyi or Glassdoor.\n"
+                 "- **Focus on Total Value**: If base salary is fixed, negotiate sign-on bonuses, relocation, stock grants, or additional PTO.\n"
+                 "- **Be Collaborative**: Frame it as a mutual goal to align on a package that reflects the impact you will bring.")
+                 
+    elif "weakness" in last_msg:
+        reply = ("Coach: When answering 'What is your greatest weakness?':\n\n"
+                 "- **Choose a real, minor skill**: Select something that is not critical to the core job (e.g., public speaking, or delegating tasks).\n"
+                 "- **Describe your remediation plan**: Explain what you are *actively* doing to improve (e.g. taking a class, seeking feedback).\n"
+                 "- **Avoid cliché answers**: Never say 'I work too hard' or 'I am a perfectionist'—recruiters see right through these.")
+                 
+    elif "strength" in last_msg:
+        reply = ("Coach: When answering 'What is your greatest strength?':\n\n"
+                 "- **Pick a role-aligned attribute**: Align your strength with the core requirements in the job description (e.g., self-driven learning, or system debugging).\n"
+                 "- **Tell a mini STAR story**: Provide a quick, concrete instance of how this strength directly helped solve a past project blocker.")
+                 
+    else:
+        tips = [
+            "Coach: Remember to always explain your thoughts out loud during technical code interviews. Interviewers prioritize your reasoning process over syntax compilation.",
+            "Coach: When answering behavioral questions, try to keep your answers between 1.5 to 2 minutes. Focus your storytelling on your Actions and final Results.",
+            "Coach: Before any interview, spend 10 minutes researching the company's product challenges. Aligning your past work to their goals stands out immensely.",
+            "Coach: Always prepare 2-3 thoughtful questions to ask the interviewer at the end of the session. It shows strong engagement and curiosity."
+        ]
+        reply = random.choice(tips)
+        
+    return jsonify({"reply": reply})
+
+import json
+
+@app.route("/api/coding/challenges", methods=["GET"])
+def api_get_challenges():
+    res = {}
+    for pid, c in CHALLENGES.items():
+        res[pid] = {
+            "title": c["title"],
+            "difficulty": c["difficulty"],
+            "description": c["description"],
+            "constraints": c["constraints"],
+            "examples": c["examples"],
+            "templates": c["templates"]
+        }
+    return jsonify(res)
+
+@app.route("/api/coding/run", methods=["POST"])
+def api_run_code():
+    data = request.json or {}
+    code = data.get("code", "")
+    lang = data.get("language", "python")
+    problem_id = data.get("problem_id", "")
+    
+    if lang == "python":
+        res = run_python_code(code, problem_id)
+    elif lang == "javascript":
+        res = run_javascript_code(code, problem_id)
+    else:
+        return jsonify({"error": "Unsupported language"}), 400
+        
+    return jsonify(res)
+
+@app.route("/api/coding/review", methods=["POST"])
+def api_review_code():
+    data = request.json or {}
+    code = data.get("code", "")
+    lang = data.get("language", "python")
+    problem_id = data.get("problem_id", "")
+    
+    challenge = CHALLENGES.get(problem_id, {})
+    title = challenge.get("title", problem_id)
+    
+    api_key = os.environ.get("GROQ_API_KEY")
+    if api_key:
+        try:
+            from groq import Groq
+            client = Groq(api_key=api_key)
+            prompt = f"""
+            Analyze the following coding solution for the challenge '{title}' in language '{lang}'.
+            Provide a feedback review assessing the code.
+            
+            Code:
+            {code}
+            
+            Provide exactly the following JSON structure:
+            {{
+                "time_complexity": "O(N)", // Time complexity estimate
+                "space_complexity": "O(1)", // Space complexity estimate
+                "readability_score": 85, // Readability out of 100
+                "feedback": "Your code is correct and clean. You can optimize by...", // Overall assessment and style tips
+                "suggestions": ["Use a set to search elements in O(1) time.", "Avoid redundant loops."] // concrete improvement suggestions
+            }}
+            Return ONLY the valid JSON block.
+            """
+            
+            completion = client.chat.completions.create(
+                model="llama3-8b-8192",
+                messages=[
+                    {{"role": "system", "content": "You are a senior software engineer and technical interviewer. You must output ONLY a valid JSON object."}},
+                    {{"role": "user", "content": prompt}}
+                ],
+                temperature=0.3,
+                max_tokens=800
+            )
+            response_text = completion.choices[0].message.content.strip()
+            
+            if "{" in response_text and "}" in response_text:
+                start_index = response_text.find("{")
+                end_index = response_text.rfind("}") + 1
+                response_text = response_text[start_index:end_index]
+                
+            analysis = json.loads(response_text)
+            return jsonify(analysis)
+        except Exception as e:
+            print(f"[ERROR] Groq code review failed: {e}")
+            
+    # Fallback response generator if Groq key is missing or fails:
+    return jsonify({{
+        "time_complexity": "O(N^2) or O(N)",
+        "space_complexity": "O(N) or O(1)",
+        "readability_score": 80,
+        "feedback": "Code executes correctly. Please check that you avoid nested loops if possible to maintain optimal time complexity.",
+        "suggestions": [
+            "Verify loop boundaries.",
+            "Consider utilizing auxiliary hashes/dicts to optimize query times from O(N) to O(1)."
+        ]
+    }})
 
 
 # ── RUN ──────────────────────────────────────────────────────────────────────

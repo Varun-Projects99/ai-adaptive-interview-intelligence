@@ -1,0 +1,502 @@
+[
+    {
+        "question": "How would you explain CSS media queries to a junior HTML/CSS developer?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Compare the advantages of using CSS Flexbox layouts versus other alternatives in HTML/CSS.?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing CSS Grid systems over custom solutions in enterprise-grade HTML/CSS applications.?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Explain how HTML5 semantic elements behaves under moderate load in a HTML/CSS system.?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of responsive web design in HTML/CSS.?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Describe how you would unit test DOM structure in a HTML/CSS module.?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Explain how you would write a code example or configure CSS custom properties (variables) in HTML/CSS.?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic CSS media queries in HTML/CSS?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Why is relative units (em, rem, vh, vw) considered a core component of HTML/CSS?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "What is the relationship between CSS custom properties (variables) and code readability in HTML/CSS?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Explain how the behavior of CSS floats and clearing changes when working with concurrent operations in HTML/CSS.?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of CSS animations and transitions in HTML/CSS.?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Discuss the recovery strategies when CSS Box Model fails in a distributed HTML/CSS cluster.?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with viewport configuration in HTML/CSS?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of CSS floats and clearing in HTML/CSS.?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by viewport configuration in high-throughput HTML/CSS systems?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by CSS floats and clearing in high-throughput HTML/CSS systems?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "In simple terms, what is CSS animations and transitions in HTML/CSS?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic block vs inline elements in HTML/CSS?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How would you explain CSS Grid systems to a junior HTML/CSS developer?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize CSS floats and clearing in a HTML/CSS application.?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using responsive web design in HTML/CSS?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "What is the relationship between block vs inline elements and code readability in HTML/CSS?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How would you explain CSS Selectors and specificity to a junior HTML/CSS developer?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize CSS Box Model in a HTML/CSS application.?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "What are the micro-optimization strategies for z-index and stacking contexts when executing low-latency services in HTML/CSS?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing block vs inline elements over custom solutions in enterprise-grade HTML/CSS applications.?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Describe the internal architectural details of how relative units (em, rem, vh, vw) is handled in HTML/CSS at runtime.?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Discuss the recovery strategies when viewport configuration fails in a distributed HTML/CSS cluster.?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Explain how block vs inline elements interacts with memory barrier constraints or compiler optimization flags in HTML/CSS.?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "When would a developer first encounter accessibility (ARIA, alt text) in HTML/CSS?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "When would a developer first encounter CSS Box Model in HTML/CSS?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Describe the internal architectural details of how CSS Box Model is handled in HTML/CSS at runtime.?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How does DOM structure integrate with the overall runtime environment of HTML/CSS?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How would you explain CSS Box Model to a junior HTML/CSS developer?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How does z-index and stacking contexts integrate with the overall runtime environment of HTML/CSS?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "What problem does CSS Box Model solve in HTML/CSS?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting CSS floats and clearing in HTML/CSS?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Explain how viewport configuration interacts with memory barrier constraints or compiler optimization flags in HTML/CSS.?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Explain the fundamental difference between CSS Flexbox layouts and other core mechanisms in HTML/CSS.?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of CSS Flexbox layouts in HTML/CSS?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How does CSS floats and clearing contribute to modular design in HTML/CSS?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of DOM structure in HTML/CSS.?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Describe how you would unit test z-index and stacking contexts in a HTML/CSS module.?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Explain how the behavior of responsive web design changes when working with concurrent operations in HTML/CSS.?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How does accessibility (ARIA, alt text) contribute to modular design in HTML/CSS?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting CSS Box Model in HTML/CSS?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How does CSS Selectors and specificity affect execution performance and system memory in HTML/CSS?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize accessibility (ARIA, alt text) in a HTML/CSS application.?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with CSS animations and transitions in HTML/CSS?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "What is a standard definition of viewport configuration in the context of HTML/CSS?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Explain how the behavior of DOM structure changes when working with concurrent operations in HTML/CSS.?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Name a common use case for CSS Box Model in a typical HTML/CSS project.?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Discuss how CSS Selectors and specificity behaves under extreme load spike scenarios in a production HTML/CSS service.?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Explain how CSS Grid systems interacts with memory barrier constraints or compiler optimization flags in HTML/CSS.?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "What is the relationship between CSS Box Model and code readability in HTML/CSS?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of HTML forms and input validation in HTML/CSS.?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using block vs inline elements in HTML/CSS?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Why is CSS Flexbox layouts considered a core component of HTML/CSS?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "What are the primary benefits of using viewport configuration in HTML/CSS development?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How does CSS Box Model contribute to modular design in HTML/CSS?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "What are the best practices for implementing CSS animations and transitions in a collaborative HTML/CSS codebase?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving CSS Box Model in HTML/CSS and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic CSS Selectors and specificity in HTML/CSS?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Explain the fundamental difference between accessibility (ARIA, alt text) and other core mechanisms in HTML/CSS.?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Explain how the behavior of viewport configuration changes when working with concurrent operations in HTML/CSS.?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of CSS Grid systems in HTML/CSS?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Name a common use case for CSS Grid systems in a typical HTML/CSS project.?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving CSS media queries in HTML/CSS and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How does CSS floats and clearing function at a high level inside HTML/CSS?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing accessibility (ARIA, alt text) over custom solutions in enterprise-grade HTML/CSS applications.?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "What are the primary benefits of using CSS Flexbox layouts in HTML/CSS development?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "What are the micro-optimization strategies for CSS floats and clearing when executing low-latency services in HTML/CSS?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Why is CSS Box Model considered a core component of HTML/CSS?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How would you explain responsive web design to a junior HTML/CSS developer?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Compare the advantages of using accessibility (ARIA, alt text) versus other alternatives in HTML/CSS.?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "What problem does accessibility (ARIA, alt text) solve in HTML/CSS?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with DOM structure in HTML/CSS?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How does CSS media queries function at a high level inside HTML/CSS?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Discuss how CSS Flexbox layouts behaves under extreme load spike scenarios in a production HTML/CSS service.?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Describe the internal architectural details of how CSS Flexbox layouts is handled in HTML/CSS at runtime.?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting HTML5 semantic elements in HTML/CSS?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to relative units (em, rem, vh, vw) in HTML/CSS?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "What are the key features of CSS floats and clearing in HTML/CSS?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "What are the best practices for implementing CSS custom properties (variables) in a collaborative HTML/CSS codebase?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How does HTML5 semantic elements contribute to modular design in HTML/CSS?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "When would a developer first encounter CSS floats and clearing in HTML/CSS?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "What are the primary benefits of using CSS animations and transitions in HTML/CSS development?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of CSS animations and transitions in HTML/CSS?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by HTML forms and input validation in high-throughput HTML/CSS systems?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How does CSS custom properties (variables) integrate with the overall runtime environment of HTML/CSS?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with CSS Selectors and specificity in HTML/CSS?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Explain how CSS Selectors and specificity interacts with memory barrier constraints or compiler optimization flags in HTML/CSS.?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "What problem does viewport configuration solve in HTML/CSS?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "What is the basic purpose of CSS Grid systems in HTML/CSS?",
+        "difficulty": "easy",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using accessibility (ARIA, alt text) in HTML/CSS?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Discuss how HTML5 semantic elements behaves under extreme load spike scenarios in a production HTML/CSS service.?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using SEO tags in HTML headers in HTML/CSS?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "Explain how the behavior of block vs inline elements changes when working with concurrent operations in HTML/CSS.?",
+        "difficulty": "medium",
+        "skill": "HTML/CSS"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of viewport configuration in HTML/CSS?",
+        "difficulty": "hard",
+        "skill": "HTML/CSS"
+    }
+]

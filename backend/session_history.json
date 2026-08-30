@@ -1,0 +1,470 @@
+{
+    "960b51dc-fe54-4795-abaf-84162d73faee": {
+        "session_id": "960b51dc-fe54-4795-abaf-84162d73faee",
+        "terminated": false,
+        "scores": {
+            "technical": 0,
+            "confidence": 50,
+            "emotion_stability": "Good",
+            "readiness_index": 28,
+            "readiness_label": "Early Stage"
+        },
+        "summary": {
+            "total_questions": 0,
+            "skills_covered": [
+                "Data Structures",
+                "Java",
+                "JavaScript",
+                "Web Development",
+                "Python",
+                "Computer Vision",
+                "Machine Learning",
+                "Databases",
+                "Git",
+                "NLP"
+            ],
+            "difficulty_progression": [],
+            "violations": {
+                "tab_switch": 0,
+                "camera_exit": 2,
+                "window_move": 1,
+                "total": 3
+            }
+        },
+        "emotion_breakdown": {
+            "neutral": 81.0,
+            "nervous": 9.5,
+            "confident": 9.5
+        },
+        "answers": [],
+        "recommendations": [
+            "Strengthen core technical concepts \u2014 review fundamentals and practice coding daily."
+        ],
+        "date": "2026-06-25 13:18"
+    },
+    "65f3e4fe-5e47-4c05-8c66-043a7f89ee75": {
+        "session_id": "65f3e4fe-5e47-4c05-8c66-043a7f89ee75",
+        "terminated": false,
+        "scores": {
+            "technical": 0,
+            "confidence": 67,
+            "emotion_stability": "Good",
+            "readiness_index": 32,
+            "readiness_label": "Early Stage"
+        },
+        "summary": {
+            "total_questions": 0,
+            "skills_covered": [
+                "Data Structures",
+                "Java",
+                "JavaScript",
+                "Web Development",
+                "Python",
+                "Computer Vision",
+                "Machine Learning",
+                "Databases",
+                "Git",
+                "NLP"
+            ],
+            "difficulty_progression": [],
+            "violations": {
+                "tab_switch": 0,
+                "camera_exit": 3,
+                "window_move": 0,
+                "total": 3
+            }
+        },
+        "emotion_breakdown": {
+            "neutral": 84.6,
+            "nervous": 15.4
+        },
+        "answers": [],
+        "recommendations": [
+            "Strengthen core technical concepts \u2014 review fundamentals and practice coding daily."
+        ],
+        "date": "2026-06-25 13:29"
+    },
+    "c29726df-7e61-4c8f-981b-62eaf3f4ffd4": {
+        "session_id": "c29726df-7e61-4c8f-981b-62eaf3f4ffd4",
+        "terminated": false,
+        "scores": {
+            "technical": 50,
+            "confidence": 0,
+            "emotion_stability": "Good",
+            "readiness_index": 39,
+            "readiness_label": "Early Stage"
+        },
+        "summary": {
+            "total_questions": 1,
+            "skills_covered": [
+                "HTML/CSS",
+                "HR",
+                "DBMS",
+                "AI/ML",
+                "Aptitude",
+                "Java",
+                "Python",
+                "SQL",
+                "JavaScript",
+                "DSA"
+            ],
+            "difficulty_progression": [
+                "easy"
+            ],
+            "violations": {
+                "tab_switch": 0,
+                "camera_exit": 1,
+                "window_move": 2,
+                "total": 3
+            }
+        },
+        "emotion_breakdown": {
+            "neutral": 100.0
+        },
+        "answers": [
+            {
+                "question": "When would a developer first encounter args and kwargs in Python?",
+                "answer": "[SKIPPED]",
+                "score": 50,
+                "difficulty": "easy",
+                "feedback": "Evaluation temporarily unavailable."
+            }
+        ],
+        "recommendations": [
+            "Strengthen core technical concepts \u2014 review fundamentals and practice coding daily.",
+            "Work on speaking confidence \u2014 record yourself and practice mock answers aloud."
+        ],
+        "date": "2026-06-25 15:28"
+    },
+    "ada342f0-5beb-4940-864a-801f7d31af50": {
+        "session_id": "ada342f0-5beb-4940-864a-801f7d31af50",
+        "terminated": true,
+        "scores": {
+            "technical": 50,
+            "confidence": 50,
+            "emotion_stability": "Good",
+            "readiness_index": 54,
+            "readiness_label": "Needs Practice"
+        },
+        "summary": {
+            "total_questions": 3,
+            "skills_covered": [
+                "HTML/CSS",
+                "HR",
+                "DBMS",
+                "AI/ML",
+                "Aptitude",
+                "Java",
+                "Python",
+                "SQL",
+                "JavaScript",
+                "DSA"
+            ],
+            "difficulty_progression": [
+                "easy",
+                "medium",
+                "medium"
+            ],
+            "violations": {
+                "tab_switch": 0,
+                "camera_exit": 1,
+                "window_move": 2,
+                "total": 3
+            }
+        },
+        "emotion_breakdown": {
+            "neutral": 100.0
+        },
+        "answers": [
+            {
+                "question": "What are the primary benefits of using CSS animations and transitions in HTML/CSS development?",
+                "answer": "[SKIPPED]",
+                "score": 50,
+                "difficulty": "easy",
+                "feedback": "Evaluation temporarily unavailable."
+            },
+            {
+                "question": "What are the primary debugging techniques for troubleshooting explaining a time you failed and recovered in HR?",
+                "answer": "[SKIPPED]",
+                "score": 50,
+                "difficulty": "medium",
+                "feedback": "Evaluation temporarily unavailable."
+            },
+            {
+                "question": "Explain how checked vs unchecked exceptions behaves under moderate load in a Java system.?",
+                "answer": "[SKIPPED]",
+                "score": 50,
+                "difficulty": "medium",
+                "feedback": "Evaluation temporarily unavailable."
+            }
+        ],
+        "recommendations": [
+            "Strengthen core technical concepts \u2014 review fundamentals and practice coding daily."
+        ],
+        "date": "2026-06-25 15:29"
+    },
+    "5b3db72b-0d0a-442c-8661-07578342f100": {
+        "session_id": "5b3db72b-0d0a-442c-8661-07578342f100",
+        "terminated": true,
+        "scores": {
+            "technical": 50,
+            "confidence": 50,
+            "emotion_stability": "Good",
+            "readiness_index": 54,
+            "readiness_label": "Needs Practice"
+        },
+        "summary": {
+            "total_questions": 4,
+            "skills_covered": [
+                "HR",
+                "Python",
+                "Aptitude"
+            ],
+            "difficulty_progression": [
+                "easy",
+                "medium",
+                "medium",
+                "medium"
+            ],
+            "violations": {
+                "tab_switch": 0,
+                "camera_exit": 1,
+                "window_move": 2,
+                "total": 3
+            }
+        },
+        "emotion_breakdown": {
+            "neutral": 100.0
+        },
+        "answers": [
+            {
+                "question": "When would a developer first encounter garbage collection in Python?",
+                "answer": "[SKIPPED]",
+                "score": 50,
+                "difficulty": "easy",
+                "feedback": "Evaluation temporarily unavailable."
+            },
+            {
+                "question": "How do you handle error conditions or exceptions related to permutations and combinations calculations in Aptitude?",
+                "answer": "[SKIPPED]",
+                "score": 50,
+                "difficulty": "medium",
+                "feedback": "Evaluation temporarily unavailable."
+            },
+            {
+                "question": "How does serialization with pickle contribute to modular design in Python?",
+                "answer": "[SKIPPED]",
+                "score": 50,
+                "difficulty": "medium",
+                "feedback": "Evaluation temporarily unavailable."
+            },
+            {
+                "question": "What are the primary debugging techniques for troubleshooting career goals for next 5 years in HR?",
+                "answer": "[SKIPPED]",
+                "score": 50,
+                "difficulty": "medium",
+                "feedback": "Evaluation temporarily unavailable."
+            }
+        ],
+        "recommendations": [
+            "Strengthen core technical concepts \u2014 review fundamentals and practice coding daily."
+        ],
+        "date": "2026-06-25 15:30"
+    },
+    "ecffe6e3-7b6e-4980-a25c-68d52b4089e1": {
+        "session_id": "ecffe6e3-7b6e-4980-a25c-68d52b4089e1",
+        "terminated": false,
+        "scores": {
+            "technical": 50,
+            "confidence": 50,
+            "emotion_stability": "Good",
+            "readiness_index": 54,
+            "readiness_label": "Needs Practice"
+        },
+        "summary": {
+            "total_questions": 10,
+            "skills_covered": [
+                "HR"
+            ],
+            "difficulty_progression": [
+                "easy",
+                "medium",
+                "medium",
+                "medium",
+                "medium",
+                "medium",
+                "medium",
+                "medium",
+                "medium",
+                "medium"
+            ],
+            "violations": {
+                "tab_switch": 0,
+                "camera_exit": 3,
+                "window_move": 0,
+                "total": 3
+            }
+        },
+        "emotion_breakdown": {
+            "neutral": 100.0
+        },
+        "answers": [
+            {
+                "question": "Why is career goals for next 5 years considered a core component of HR?",
+                "answer": "[SKIPPED]",
+                "score": 50,
+                "difficulty": "easy",
+                "feedback": "Evaluation temporarily unavailable."
+            },
+            {
+                "question": "Describe a real-world scenario where you had to debug or optimize explaining a time you failed and recovered in a HR application.?",
+                "answer": "[SKIPPED]",
+                "score": 50,
+                "difficulty": "medium",
+                "feedback": "Evaluation temporarily unavailable."
+            },
+            {
+                "question": "How do you handle error conditions or exceptions related to working effectively in a remote/hybrid team in HR?",
+                "answer": "[SKIPPED]",
+                "score": 50,
+                "difficulty": "medium",
+                "feedback": "Evaluation temporarily unavailable."
+            },
+            {
+                "question": "How does resolving conflict with a coworker contribute to modular design in HR?",
+                "answer": "[SKIPPED]",
+                "score": 50,
+                "difficulty": "medium",
+                "feedback": "Evaluation temporarily unavailable."
+            },
+            {
+                "question": "How do you handle security vulnerabilities or data isolation issues when using career goals for next 5 years in HR?",
+                "answer": "[SKIPPED]",
+                "score": 50,
+                "difficulty": "medium",
+                "feedback": "Evaluation temporarily unavailable."
+            },
+            {
+                "question": "Explain the design trade-offs of utilizing describing greatest professional achievement over custom solutions in enterprise-grade HR applications.?",
+                "answer": "[SKIPPED]",
+                "score": 50,
+                "difficulty": "medium",
+                "feedback": "Evaluation temporarily unavailable."
+            },
+            {
+                "question": "How does resolving conflict with a coworker function at a high level inside HR?",
+                "answer": "[SKIPPED]",
+                "score": 50,
+                "difficulty": "medium",
+                "feedback": "Evaluation temporarily unavailable."
+            },
+            {
+                "question": "How does how you handle stressful project phases function at a high level inside HR?",
+                "answer": "[SKIPPED]",
+                "score": 50,
+                "difficulty": "medium",
+                "feedback": "Evaluation temporarily unavailable."
+            },
+            {
+                "question": "What are the micro-optimization strategies for resolving conflict with a coworker when executing low-latency services in HR?",
+                "answer": "[SKIPPED]",
+                "score": 50,
+                "difficulty": "medium",
+                "feedback": "Evaluation temporarily unavailable."
+            },
+            {
+                "question": "What are the micro-optimization strategies for resolving conflict with a coworker when executing low-latency services in HR?",
+                "answer": "[SKIPPED]",
+                "score": 50,
+                "difficulty": "medium",
+                "feedback": "Evaluation temporarily unavailable."
+            }
+        ],
+        "recommendations": [
+            "Strengthen core technical concepts \u2014 review fundamentals and practice coding daily."
+        ],
+        "date": "2026-06-25 15:31"
+    },
+    "618204b2-a1cc-43f0-a101-a88169f4400b": {
+        "session_id": "618204b2-a1cc-43f0-a101-a88169f4400b",
+        "terminated": true,
+        "scores": {
+            "technical": 0,
+            "confidence": 0,
+            "emotion_stability": "Good",
+            "readiness_index": 14,
+            "readiness_label": "Early Stage"
+        },
+        "summary": {
+            "total_questions": 0,
+            "skills_covered": [
+                "AI/ML",
+                "JavaScript",
+                "HTML/CSS",
+                "HR",
+                "Java",
+                "SQL",
+                "Aptitude",
+                "Python",
+                "DSA",
+                "DBMS"
+            ],
+            "difficulty_progression": [],
+            "violations": {
+                "tab_switch": 0,
+                "camera_exit": 3,
+                "window_move": 0,
+                "total": 3
+            }
+        },
+        "emotion_breakdown": {
+            "neutral": 100.0
+        },
+        "answers": [],
+        "recommendations": [
+            "Strengthen core technical concepts \u2014 review fundamentals and practice coding daily.",
+            "Work on speaking confidence \u2014 record yourself and practice mock answers aloud."
+        ],
+        "date": "2026-06-27 10:46"
+    },
+    "f552ba27-ff66-4589-8747-2351e270652a": {
+        "session_id": "f552ba27-ff66-4589-8747-2351e270652a",
+        "terminated": false,
+        "scores": {
+            "technical": 0,
+            "confidence": 0,
+            "emotion_stability": "Moderate",
+            "readiness_index": 10,
+            "readiness_label": "Early Stage"
+        },
+        "summary": {
+            "total_questions": 0,
+            "skills_covered": [
+                "AI/ML",
+                "Aptitude",
+                "SQL",
+                "DBMS",
+                "HR",
+                "DSA",
+                "HTML/CSS",
+                "Java",
+                "JavaScript",
+                "Python"
+            ],
+            "difficulty_progression": [],
+            "violations": {
+                "tab_switch": 0,
+                "camera_exit": 0,
+                "window_move": 3,
+                "total": 3
+            }
+        },
+        "emotion_breakdown": {},
+        "answers": [],
+        "recommendations": [
+            "Strengthen core technical concepts \u2014 review fundamentals and practice coding daily.",
+            "Work on speaking confidence \u2014 record yourself and practice mock answers aloud."
+        ],
+        "date": "2026-07-01 14:11"
+    }
+}

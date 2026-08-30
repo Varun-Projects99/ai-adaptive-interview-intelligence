@@ -1,0 +1,752 @@
+[
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of React Router navigation in React?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "What are the micro-optimization strategies for Virtual DOM reconciliation when executing low-latency services in React?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Discuss the recovery strategies when component state vs props fails in a distributed React cluster.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "What are the micro-optimization strategies for Keys prop in list rendering when executing low-latency services in React?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of error boundaries in React in React?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of React Hook lifecycle (useEffect) in React.?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using React custom hooks in React?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing error boundaries in React over custom solutions in enterprise-grade React applications.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Explain how component state vs props behaves under moderate load in a React system.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of controlled vs uncontrolled components in React.?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "How does controlled vs uncontrolled components integrate with the overall runtime environment of React?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Explain how higher-order components (HOC) behaves under moderate load in a React system.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Discuss the recovery strategies when React custom hooks fails in a distributed React cluster.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of Redux architecture (store, action, reducer) in React.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Compare the advantages of using Redux architecture (store, action, reducer) versus other alternatives in React.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Explain how you would write a code example or configure React Hook lifecycle (useEffect) in React.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Why is React Router navigation considered a core component of React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "Discuss the recovery strategies when prop drilling avoidance fails in a distributed React cluster.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of React performance optimization (memo, useMemo) in React?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic lazy loading and code splitting in React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing React custom hooks over custom solutions in enterprise-grade React applications.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "What are the best practices for implementing functional vs class components in a collaborative React codebase?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Explain the fundamental difference between React Router navigation and other core mechanisms in React.?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "Explain how you would write a code example or configure higher-order components (HOC) in React.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "What is a standard definition of Redux architecture (store, action, reducer) in the context of React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "Discuss the recovery strategies when higher-order components (HOC) fails in a distributed React cluster.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Describe how you would unit test higher-order components (HOC) in a React module.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Why is controlled vs uncontrolled components considered a core component of React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "Discuss the recovery strategies when Context API for state sharing fails in a distributed React cluster.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Explain how Redux architecture (store, action, reducer) interacts with memory barrier constraints or compiler optimization flags in React.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Why is Context API for state sharing considered a core component of React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "Name a common use case for controlled vs uncontrolled components in a typical React project.?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "Explain how React Hook lifecycle (useEffect) behaves under moderate load in a React system.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "What are the primary benefits of using React custom hooks in React development?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "When would a developer first encounter Redux architecture (store, action, reducer) in React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "How does React Hook lifecycle (useEffect) integrate with the overall runtime environment of React?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing React Router navigation over custom solutions in enterprise-grade React applications.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Explain how React custom hooks behaves under moderate load in a React system.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "What are the best practices for implementing component state vs props in a collaborative React codebase?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of React Router navigation in React.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "What is the relationship between Context API for state sharing and code readability in React?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize component state vs props in React.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "How would you explain React Hook lifecycle (useEffect) to a junior React developer?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "Explain how the behavior of Virtual DOM reconciliation changes when working with concurrent operations in React.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting React custom hooks in React?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Explain the fundamental difference between Virtual DOM reconciliation and other core mechanisms in React.?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to higher-order components (HOC) in React?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Name a common use case for functional vs class components in a typical React project.?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "What are the micro-optimization strategies for component state vs props when executing low-latency services in React?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Discuss how higher-order components (HOC) behaves under extreme load spike scenarios in a production React service.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "How does Keys prop in list rendering affect execution performance and system memory in React?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "What is a standard definition of React performance optimization (memo, useMemo) in the context of React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "What is the basic purpose of Virtual DOM reconciliation in React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize Context API for state sharing in a React application.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using React performance optimization (memo, useMemo) in React?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Name a common use case for lazy loading and code splitting in a typical React project.?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of React performance optimization (memo, useMemo) in React?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize higher-order components (HOC) in React.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving lazy loading and code splitting in React and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "How does error boundaries in React function at a high level inside React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "Explain how the behavior of Context API for state sharing changes when working with concurrent operations in React.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Describe the internal architectural details of how error boundaries in React is handled in React at runtime.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting Redux architecture (store, action, reducer) in React?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Compare the advantages of using Context API for state sharing versus other alternatives in React.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing higher-order components (HOC) over custom solutions in enterprise-grade React applications.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize functional vs class components in React.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "How does lazy loading and code splitting function at a high level inside React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by React performance optimization (memo, useMemo) in high-throughput React systems?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Explain the fundamental difference between lazy loading and code splitting and other core mechanisms in React.?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "In simple terms, what is React performance optimization (memo, useMemo) in React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with error boundaries in React in React?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing functional vs class components over custom solutions in enterprise-grade React applications.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "When would a developer first encounter prop drilling avoidance in React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of controlled vs uncontrolled components in React?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Name a common use case for React Hook lifecycle (useEffect) in a typical React project.?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "What is the relationship between prop drilling avoidance and code readability in React?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "How does Virtual DOM reconciliation function at a high level inside React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "What are the micro-optimization strategies for Context API for state sharing when executing low-latency services in React?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize Virtual DOM reconciliation in a React application.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "How does error boundaries in React integrate with the overall runtime environment of React?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Compare the advantages of using error boundaries in React versus other alternatives in React.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to React Hook lifecycle (useEffect) in React?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "What is the basic purpose of Context API for state sharing in React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic controlled vs uncontrolled components in React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "Discuss the recovery strategies when lazy loading and code splitting fails in a distributed React cluster.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing Keys prop in list rendering over custom solutions in enterprise-grade React applications.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "How would you explain React custom hooks to a junior React developer?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "How would you explain lazy loading and code splitting to a junior React developer?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "Explain how the behavior of error boundaries in React changes when working with concurrent operations in React.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "What is a standard definition of controlled vs uncontrolled components in the context of React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "In simple terms, what is Virtual DOM reconciliation in React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving React Router navigation in React and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using React Router navigation in React?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Explain how React performance optimization (memo, useMemo) behaves under moderate load in a React system.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "How does React performance optimization (memo, useMemo) function at a high level inside React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of React custom hooks in React.?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with higher-order components (HOC) in React?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "How does prop drilling avoidance affect execution performance and system memory in React?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Describe the internal architectural details of how Redux architecture (store, action, reducer) is handled in React at runtime.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "When would a developer first encounter functional vs class components in React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "In simple terms, what is functional vs class components in React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "How does functional vs class components function at a high level inside React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic Keys prop in list rendering in React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of lazy loading and code splitting in React?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Describe the internal architectural details of how Virtual DOM reconciliation is handled in React at runtime.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Explain how you would write a code example or configure prop drilling avoidance in React.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "What is the basic purpose of higher-order components (HOC) in React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "Discuss how lazy loading and code splitting behaves under extreme load spike scenarios in a production React service.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "How would you explain Keys prop in list rendering to a junior React developer?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting functional vs class components in React?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Explain how you would write a code example or configure Context API for state sharing in React.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of functional vs class components in React?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic functional vs class components in React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "What are the key features of prop drilling avoidance in React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "How would you explain Virtual DOM reconciliation to a junior React developer?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "Explain how the behavior of Keys prop in list rendering changes when working with concurrent operations in React.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic React custom hooks in React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "Name a common use case for prop drilling avoidance in a typical React project.?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting React performance optimization (memo, useMemo) in React?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting controlled vs uncontrolled components in React?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Why is Virtual DOM reconciliation considered a core component of React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize prop drilling avoidance in a React application.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by Context API for state sharing in high-throughput React systems?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of React performance optimization (memo, useMemo) in React.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting Virtual DOM reconciliation in React?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "What problem does error boundaries in React solve in React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "When would a developer first encounter lazy loading and code splitting in React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "How does prop drilling avoidance function at a high level inside React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "Explain how Context API for state sharing behaves under moderate load in a React system.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "What is a standard definition of functional vs class components in the context of React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with React performance optimization (memo, useMemo) in React?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of React performance optimization (memo, useMemo) in React.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by Virtual DOM reconciliation in high-throughput React systems?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Discuss how Context API for state sharing behaves under extreme load spike scenarios in a production React service.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "What are the micro-optimization strategies for higher-order components (HOC) when executing low-latency services in React?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting Keys prop in list rendering in React?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "What are the best practices for implementing higher-order components (HOC) in a collaborative React codebase?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "How does React custom hooks affect execution performance and system memory in React?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Describe how you would unit test React custom hooks in a React module.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize component state vs props in a React application.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "In simple terms, what is higher-order components (HOC) in React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "Explain how you would write a code example or configure lazy loading and code splitting in React.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of component state vs props in React.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using Redux architecture (store, action, reducer) in React?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving Redux architecture (store, action, reducer) in React and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "What are the micro-optimization strategies for functional vs class components when executing low-latency services in React?",
+        "difficulty": "hard",
+        "skill": "React"
+    },
+    {
+        "question": "Describe how you would unit test controlled vs uncontrolled components in a React module.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "Why is higher-order components (HOC) considered a core component of React?",
+        "difficulty": "easy",
+        "skill": "React"
+    },
+    {
+        "question": "Describe how you would unit test Keys prop in list rendering in a React module.?",
+        "difficulty": "medium",
+        "skill": "React"
+    },
+    {
+        "question": "How does React custom hooks function at a high level inside React?",
+        "difficulty": "easy",
+        "skill": "React"
+    }
+]

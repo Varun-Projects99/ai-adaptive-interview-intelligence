@@ -7,24 +7,24 @@ import re
 import pdfplumber
 
 SKILL_TAXONOMY = {
-    "Python":           ["python","django","flask","fastapi","pandas","numpy","scipy","pytorch","tensorflow","pyspark"],
-    "JavaScript":       ["javascript","nodejs","node.js","react","reactjs","vue","angular","typescript","express","next.js"],
-    "Java":             ["java","spring","spring boot","hibernate","maven","gradle","j2ee"],
-    "C++":              ["c++","cpp","stl","boost","opengl"],
-    "C":                ["c programming","embedded c","c language","c99"],
-    "Machine Learning": ["machine learning","scikit-learn","sklearn","random forest","xgboost","gradient boosting","svm","naive bayes"],
-    "Deep Learning":    ["deep learning","neural network","cnn","rnn","lstm","transformer","bert","keras"],
-    "Data Structures":  ["data structures","algorithms","dsa","linked list","binary tree","dynamic programming","big o"],
-    "Databases":        ["sql","mysql","postgresql","mongodb","redis","sqlite","oracle","nosql"],
-    "Cloud":            ["aws","azure","gcp","google cloud","docker","kubernetes","terraform","devops","ci/cd"],
-    "Data Science":     ["data science","data analysis","tableau","power bi","matplotlib","seaborn","jupyter","statistics"],
-    "NLP":              ["nlp","natural language processing","spacy","nltk","huggingface","transformers"],
-    "Computer Vision":  ["computer vision","opencv","image processing","object detection","yolo"],
-    "Web Development":  ["html","css","bootstrap","tailwind","rest api","graphql","microservices"],
-    "Cybersecurity":    ["cybersecurity","penetration testing","ethical hacking","cryptography","kali linux"],
-    "Android":          ["android","kotlin","android studio","jetpack compose"],
-    "iOS":              ["ios","swift","swiftui","xcode"],
-    "Git":              ["git","github","gitlab","version control","bitbucket"],
+    "Python":           ["python", "django", "flask", "fastapi", "pandas", "numpy", "scipy"],
+    "Java":             ["java", "spring", "spring boot", "hibernate", "maven", "gradle", "j2ee"],
+    "C":                ["c programming", "embedded c", "c language", "c99"],
+    "C++":              ["c++", "cpp", "stl", "boost", "opengl"],
+    "DSA":              ["data structures", "algorithms", "dsa", "linked list", "binary tree", "dynamic programming", "graphs", "sorting", "searching", "big o"],
+    "DBMS":             ["dbms", "database management", "nosql", "mongodb", "postgresql", "mysql", "oracle"],
+    "OS":               ["operating system", "os", "linux", "unix", "windows administration", "shell scripting"],
+    "CN":               ["computer networks", "networking", "tcp/ip", "dns", "http", "routing", "switching", "ip addressing"],
+    "SQL":              ["sql", "sqlite", "mysql", "postgresql", "pl/sql", "t-sql"],
+    "HTML/CSS":         ["html", "css", "html5", "css3", "bootstrap", "tailwind", "sass", "less"],
+    "JavaScript":       ["javascript", "js", "typescript", "ts", "es6", "vanilla js"],
+    "React":            ["react", "reactjs", "next.js", "nextjs", "redux", "react native"],
+    "DevOps":           ["devops", "ci/cd", "jenkins", "docker", "kubernetes", "ansible", "terraform", "github actions"],
+    "AWS":              ["aws", "amazon web services", "ec2", "s3", "rds", "lambda", "iam", "vpc"],
+    "AI/ML":            ["ai", "ml", "artificial intelligence", "machine learning", "deep learning", "neural networks", "pytorch", "tensorflow", "scikit-learn"],
+    "HR":               ["hr", "behavioral", "communication", "soft skills", "leadership", "teamwork", "management"],
+    "Aptitude":         ["aptitude", "quantitative", "logical reasoning", "verbal", "analytical", "problem solving"],
+    "Cybersecurity":    ["cybersecurity", "penetration testing", "ethical hacking", "cryptography", "kali linux"]
 }
 
 

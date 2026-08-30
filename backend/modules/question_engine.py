@@ -18,21 +18,39 @@ def generate_questions(skills):
         
         skills_str = ", ".join(skills) if isinstance(skills, list) else str(skills)
         
-        prompt = f"""
-        Generate 9 technical interview questions for a candidate with these skills: {skills_str}.
-        Provide exactly:
-        - 3 easy questions
-        - 3 medium questions
-        - 3 hard questions
-        
-        Return ONLY a JSON list of objects. Each object MUST have "question", "difficulty", and "skill" keys.
-        The "skill" key should match one of the provided skills.
-        Example Format:
-        [
-          {{"question": "What is a closure in JavaScript?", "difficulty": "easy", "skill": "JavaScript"}},
-          {{"question": "Explain the difference between SQL and NoSQL.", "difficulty": "medium", "skill": "Databases"}}
-        ]
-        """
+        if "HR" in skills or "Behavioral" in skills:
+            prompt = f"""
+            Generate exactly 24 behavioral, situational, or HR interview questions (e.g., STAR method, leadership, problem solving, teamwork, conflicts, strengths/weaknesses).
+            Provide exactly:
+            - 8 easy questions (e.g., standard introduction/strengths)
+            - 8 medium questions (e.g., situational conflict resolution or teamwork)
+            - 8 hard questions (e.g., complex ethical dilemmas, prioritization under stress, or failure recovery)
+            
+            Return ONLY a JSON list of objects. Each object MUST have "question", "difficulty", and "skill" keys.
+            The "skill" key should be "Behavioral".
+            Example Format:
+            [
+              {{"question": "Describe a time you faced a conflict with a coworker and how you resolved it.", "difficulty": "medium", "skill": "Behavioral"}},
+              {{"question": "What are your long-term career aspirations?", "difficulty": "easy", "skill": "Behavioral"}}
+            ]
+            """
+        else:
+            prompt = f"""
+            Generate exactly 24 technical interview questions for a candidate with these skills: {skills_str}.
+            Make sure to generate questions covering ALL the listed skills.
+            Provide exactly:
+            - 8 easy questions
+            - 8 medium questions
+            - 8 hard questions
+            
+            Return ONLY a JSON list of objects. Each object MUST have "question", "difficulty", and "skill" keys.
+            The "skill" key should match one of the provided skills.
+            Example Format:
+            [
+              {{"question": "What is a closure in JavaScript?", "difficulty": "easy", "skill": "JavaScript"}},
+              {{"question": "Explain the difference between SQL and NoSQL.", "difficulty": "medium", "skill": "Databases"}}
+            ]
+            """
 
         completion = client.chat.completions.create(
             model="llama3-8b-8192",
@@ -93,27 +111,149 @@ def get_next_question(session):
         return None
 
 def get_fallback_questions(skills):
-    """Basic fallback questions based on skills."""
-    fallback = []
+    """Loads a balanced set of 24 questions covering ALL detected skills."""
+    import os
+    import json
+    import random
     
-    generic = [
-        {"question": "Explain a challenging technical project you worked on.", "difficulty": "medium", "skill": "General"},
-        {"question": "How do you handle debugging complex issues?", "difficulty": "easy", "skill": "General"},
-        {"question": "Explain the importance of version control in team projects.", "difficulty": "easy", "skill": "Git"},
-        {"question": "What is the difference between synchronous and asynchronous programming?", "difficulty": "medium", "skill": "General"},
-        {"question": "How do you ensure your code is scalable and maintainable?", "difficulty": "hard", "skill": "Software Engineering"},
-        {"question": "Explain the concept of Big O notation and why it matters.", "difficulty": "hard", "skill": "Algorithms"}
-    ]
+    modules_dir = os.path.dirname(os.path.abspath(__file__))
+    backend_dir = os.path.dirname(modules_dir)
+    workspace_dir = os.path.dirname(backend_dir)
     
-    if not skills:
-        return generic
+    datasets_dir = os.path.join(workspace_dir, "datasets")
+    if not os.path.exists(datasets_dir):
+        datasets_dir = os.path.join(backend_dir, "datasets")
+    
+    DATASET_MAP = {
+        "Python": "python.json",
+        "Java": "java.json",
+        "C": "c.json",
+        "C++": "cpp.json",
+        "DSA": "dsa.json",
+        "DBMS": "dbms.json",
+        "OS": "os.json",
+        "CN": "cn.json",
+        "SQL": "sql.json",
+        "HTML/CSS": "html_css.json",
+        "JavaScript": "javascript.json",
+        "React": "react.json",
+        "DevOps": "devops.json",
+        "AWS": "aws.json",
+        "AI/ML": "ai_ml.json",
+        "HR": "hr.json",
+        "Aptitude": "aptitude.json",
+        "Cybersecurity": "cybersecurity.json"
+    }
+    
+    # Deduplicate/filter valid skills
+    matched_skills = [s for s in skills if s in DATASET_MAP]
+    
+    # If no valid skills found, load Aptitude, HR, and DSA questions
+    if not matched_skills:
+        matched_skills = ["Aptitude", "HR", "DSA"]
+        
+    questions_by_diff = {"easy": [], "medium": [], "hard": []}
+    
+    for skill in matched_skills:
+        filename = DATASET_MAP.get(skill)
+        if not filename:
+            continue
+        file_path = os.path.join(datasets_dir, filename)
+        if os.path.exists(file_path):
+            try:
+                with open(file_path, "r") as f:
+                    q_list = json.load(f)
+                    for q in q_list:
+                        diff = q.get("difficulty", "").lower()
+                        if diff in questions_by_diff:
+                            questions_by_diff[diff].append(q)
+            except Exception as e:
+                print(f"[WARN] Error loading dataset {filename}: {e}")
+                
+    # If we need padding, load from HR and Aptitude
+    padding_skills = ["HR", "Aptitude"]
+    for p_skill in padding_skills:
+        filename = DATASET_MAP.get(p_skill)
+        file_path = os.path.join(datasets_dir, filename)
+        if os.path.exists(file_path):
+            try:
+                with open(file_path, "r") as f:
+                    q_list = json.load(f)
+                    for q in q_list:
+                        diff = q.get("difficulty", "").lower()
+                        if diff in questions_by_diff:
+                            questions_by_diff[diff].append(q)
+            except Exception as e:
+                pass
 
-    for s in skills[:3]:
-        fallback.append({"question": f"What are the core features of {s}?", "difficulty": "easy", "skill": s})
-        fallback.append({"question": f"Explain a complex problem you solved using {s}.", "difficulty": "medium", "skill": s})
-        fallback.append({"question": f"Discuss the performance implications of different data handling methods in {s}.", "difficulty": "hard", "skill": s})
+    final_questions = []
+    
+    for diff in ["easy", "medium", "hard"]:
+        qs = questions_by_diff[diff]
+        # Deduplicate list of dicts based on question text
+        seen = set()
+        unique_qs = []
+        for q in qs:
+            if q["question"] not in seen:
+                seen.add(q["question"])
+                unique_qs.append(q)
+                
+        selected = []
+        if len(unique_qs) >= 8:
+            by_skill = {}
+            for q in unique_qs:
+                s = q["skill"]
+                if s not in by_skill:
+                    by_skill[s] = []
+                by_skill[s].append(q)
+                
+            skill_list = list(by_skill.keys())
+            while len(selected) < 8 and skill_list:
+                for s in list(skill_list):
+                    if by_skill[s]:
+                        selected.append(by_skill[s].pop(random.randint(0, len(by_skill[s]) - 1)))
+                        if len(selected) == 8:
+                            break
+                    else:
+                        skill_list.remove(s)
+            
+            if len(selected) < 8:
+                remaining_candidates = [q for q in unique_qs if q not in selected]
+                if remaining_candidates:
+                    selected.extend(random.sample(remaining_candidates, min(8 - len(selected), len(remaining_candidates))))
+        else:
+            selected = unique_qs
+            
+        final_questions.extend(selected)
         
-    if len(fallback) < 9:
-        fallback.extend(generic[:(9 - len(fallback))])
+    # Ensure exactly 24 questions in total
+    all_flat_unique = []
+    seen = set()
+    for diff in ["easy", "medium", "hard"]:
+        for q in questions_by_diff[diff]:
+            if q["question"] not in seen:
+                seen.add(q["question"])
+                all_flat_unique.append(q)
+                
+    remaining = [q for q in all_flat_unique if q not in final_questions]
+    while len(final_questions) < 24 and remaining:
+        chosen = random.choice(remaining)
+        final_questions.append(chosen)
+        remaining.remove(chosen)
         
-    return fallback
+    # If we still failed to get 24 questions, fall back to a minimal hardcoded set
+    if not final_questions:
+        return [
+            {"question": "Explain a challenging technical project you worked on.", "difficulty": "medium", "skill": "General"},
+            {"question": "How do you handle debugging complex issues?", "difficulty": "easy", "skill": "General"},
+            {"question": "What is the difference between synchronous and asynchronous programming?", "difficulty": "medium", "skill": "General"},
+            {"question": "Explain the concept of Big O notation and why it matters.", "difficulty": "hard", "skill": "DSA"},
+            {"question": "Tell me about a time you failed. What did you learn from the experience?", "difficulty": "medium", "skill": "HR"},
+            {"question": "How do you handle prioritization when you have multiple urgent tasks?", "difficulty": "hard", "skill": "HR"},
+            {"question": "Describe a time you faced a conflict with a coworker and how you resolved it.", "difficulty": "medium", "skill": "HR"},
+            {"question": "What are your long-term career aspirations?", "difficulty": "easy", "skill": "HR"},
+            {"question": "Why are you interested in this role and our company?", "difficulty": "easy", "skill": "HR"}
+        ]
+        
+    random.shuffle(final_questions)
+    return final_questions

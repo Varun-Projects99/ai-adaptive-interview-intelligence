@@ -5,13 +5,18 @@
    ───────────────────────────────────────────── */
 
 const Voice = {
-  _recorder:   null,
-  _chunks:     [],
   _waveTimer:  null,
   _recognition: null,
   isRecording: false,
   scores:      [],
   _fullTranscript: "",
+  _audioContext: null,
+  _scriptProcessor: null,
+  _audioSource: null,
+  _leftchannel: [],
+  _recordingLength: 0,
+  _sampleRate: 0,
+  _micStream: null,
 
   /* Initialize Speech Recognition */
   _initRecognition() {
@@ -93,17 +98,34 @@ const Voice = {
         }
       }
 
-      // Trigger microphone permission request automatically
-      const stream    = await navigator.mediaDevices.getUserMedia({ audio: true });
-      this._chunks    = [];
-      this._recorder  = new MediaRecorder(stream);
+      // Initialize AudioContext
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      this._audioContext = new AudioContext();
+      this._sampleRate = this._audioContext.sampleRate;
 
-      this._recorder.ondataavailable = e => this._chunks.push(e.data);
-      this._recorder.onstop = async () => {
-        const blob = new Blob(this._chunks, { type: "audio/webm" });
-        stream.getTracks().forEach(t => t.stop());
-        await this._analyze(blob);
+      // Get user audio stream
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      this._audioSource = this._audioContext.createMediaStreamSource(stream);
+
+      // Create a ScriptProcessorNode with bufferSize of 4096, 1 input channel, 1 output channel (mono)
+      this._scriptProcessor = this._audioContext.createScriptProcessor(4096, 1, 1);
+
+      this._leftchannel = [];
+      this._recordingLength = 0;
+
+      this._scriptProcessor.onaudioprocess = (e) => {
+        if (!this.isRecording) return;
+        const left = e.inputBuffer.getChannelData(0);
+        this._leftchannel.push(new Float32Array(left));
+        this._recordingLength += left.length;
       };
+
+      // Connect nodes
+      this._audioSource.connect(this._scriptProcessor);
+      this._scriptProcessor.connect(this._audioContext.destination);
+
+      // Save reference to stream to stop tracks later
+      this._micStream = stream;
 
       // Live STT initialization
       if (!this._recognition) {
@@ -122,7 +144,6 @@ const Voice = {
         if (typeof showToast === "function") showToast("Speech recognition not supported in this browser. Falling back to audio recording only.", "warn");
       }
 
-      this._recorder.start();
       this._setMicUI(true);
       this._animateWave(true);
       this._setStatus("🔴 Recording... click mic to stop");
@@ -135,10 +156,22 @@ const Voice = {
   _stop() {
     this.isRecording = false;
 
-    if (this._recorder && this._recorder.state !== "inactive") {
-      this._recorder.stop();
+    // Disconnect and clean up Web Audio nodes
+    if (this._scriptProcessor) {
+      this._scriptProcessor.disconnect();
     }
-    
+    if (this._audioSource) {
+      this._audioSource.disconnect();
+    }
+    if (this._audioContext) {
+      this._audioContext.close();
+    }
+
+    // Stop microphone stream tracks
+    if (this._micStream) {
+      this._micStream.getTracks().forEach(t => t.stop());
+    }
+
     if (this._recognition) {
       try {
         this._recognition.stop();
@@ -150,6 +183,64 @@ const Voice = {
     this._setMicUI(false);
     this._animateWave(false);
     this._setStatus("Analysing your voice...");
+
+    // Export audio to PCM WAV blob and send to backend
+    const blob = this._exportWAV();
+    this._analyze(blob);
+  },
+
+  _exportWAV() {
+    const flatChannel = new Float32Array(this._recordingLength);
+    let offset = 0;
+    for (let i = 0; i < this._leftchannel.length; i++) {
+      flatChannel.set(this._leftchannel[i], offset);
+      offset += this._leftchannel[i].length;
+    }
+
+    const bufferArr = new ArrayBuffer(44 + flatChannel.length * 2);
+    const view = new DataView(bufferArr);
+
+    // RIFF identifier
+    this._writeString(view, 0, 'RIFF');
+    // file length
+    view.setUint32(4, 36 + flatChannel.length * 2, true);
+    // RIFF type
+    this._writeString(view, 8, 'WAVE');
+    // format chunk identifier
+    this._writeString(view, 12, 'fmt ');
+    // format chunk length
+    view.setUint32(16, 16, true);
+    // sample format (raw PCM)
+    view.setUint16(20, 1, true);
+    // channel count (1 channel, mono)
+    view.setUint16(22, 1, true);
+    // sample rate
+    view.setUint32(24, this._sampleRate, true);
+    // byte rate (sample rate * block align)
+    view.setUint32(28, this._sampleRate * 2, true);
+    // block align (1 channel * 2 bytes/sample)
+    view.setUint16(32, 2, true);
+    // bits per sample (16 bits)
+    view.setUint16(34, 16, true);
+    // data chunk identifier
+    this._writeString(view, 36, 'data');
+    // data chunk length
+    view.setUint32(40, flatChannel.length * 2, true);
+
+    // Write PCM audio samples
+    let sampleOffset = 44;
+    for (let i = 0; i < flatChannel.length; i++, sampleOffset += 2) {
+      let s = Math.max(-1, Math.min(1, flatChannel[i]));
+      view.setInt16(sampleOffset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+    }
+
+    return new Blob([view], { type: 'audio/wav' });
+  },
+
+  _writeString(view, offset, string) {
+    for (let i = 0; i < string.length; i++) {
+      view.setUint8(offset + i, string.charCodeAt(i));
+    }
   },
 
   _updateTranscriptUI(text) {

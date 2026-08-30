@@ -1,0 +1,1002 @@
+[
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of decision trees building in AI/ML?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the micro-optimization strategies for bias-variance tradeoff in fitting when executing low-latency services in AI/ML?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Discuss the recovery strategies when regularization (L1 Lasso, L2 Ridge) fails in a distributed AI/ML cluster.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the micro-optimization strategies for activation functions (ReLU, Sigmoid) when executing low-latency services in AI/ML?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of k-means clustering algorithm in AI/ML?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of supervised vs unsupervised training in AI/ML.?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using transformer architecture attention in AI/ML?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing k-means clustering algorithm over custom solutions in enterprise-grade AI/ML applications.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain how regularization (L1 Lasso, L2 Ridge) behaves under moderate load in a AI/ML system.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of overfitting mitigation techniques in AI/ML.?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How does overfitting mitigation techniques integrate with the overall runtime environment of AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain how linear and logistic regression behaves under moderate load in a AI/ML system.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Discuss the recovery strategies when transformer architecture attention fails in a distributed AI/ML cluster.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of random forest classifier in AI/ML.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Compare the advantages of using random forest classifier versus other alternatives in AI/ML.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain how you would write a code example or configure supervised vs unsupervised training in AI/ML.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Why is decision trees building considered a core component of AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Discuss the recovery strategies when hyperparameter tuning methods fails in a distributed AI/ML cluster.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of gradient descent optimization in AI/ML?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic evaluation metrics (Precision, Recall, F1) in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing transformer architecture attention over custom solutions in enterprise-grade AI/ML applications.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the best practices for implementing convolutional neural network (CNN) pooling in a collaborative AI/ML codebase?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain the fundamental difference between decision trees building and other core mechanisms in AI/ML.?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain how you would write a code example or configure linear and logistic regression in AI/ML.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What is a standard definition of random forest classifier in the context of AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Discuss the recovery strategies when linear and logistic regression fails in a distributed AI/ML cluster.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Describe how you would unit test linear and logistic regression in a AI/ML module.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Why is overfitting mitigation techniques considered a core component of AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Discuss the recovery strategies when support vector machines (SVM) fails in a distributed AI/ML cluster.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain how random forest classifier interacts with memory barrier constraints or compiler optimization flags in AI/ML.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Why is support vector machines (SVM) considered a core component of AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Name a common use case for overfitting mitigation techniques in a typical AI/ML project.?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain how supervised vs unsupervised training behaves under moderate load in a AI/ML system.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the primary benefits of using transformer architecture attention in AI/ML development?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "When would a developer first encounter random forest classifier in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How does supervised vs unsupervised training integrate with the overall runtime environment of AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing decision trees building over custom solutions in enterprise-grade AI/ML applications.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain how transformer architecture attention behaves under moderate load in a AI/ML system.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the best practices for implementing regularization (L1 Lasso, L2 Ridge) in a collaborative AI/ML codebase?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of decision trees building in AI/ML.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What is the relationship between support vector machines (SVM) and code readability in AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize regularization (L1 Lasso, L2 Ridge) in AI/ML.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How would you explain supervised vs unsupervised training to a junior AI/ML developer?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain how the behavior of bias-variance tradeoff in fitting changes when working with concurrent operations in AI/ML.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting transformer architecture attention in AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain the fundamental difference between bias-variance tradeoff in fitting and other core mechanisms in AI/ML.?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to linear and logistic regression in AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Name a common use case for convolutional neural network (CNN) pooling in a typical AI/ML project.?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the micro-optimization strategies for regularization (L1 Lasso, L2 Ridge) when executing low-latency services in AI/ML?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Discuss how linear and logistic regression behaves under extreme load spike scenarios in a production AI/ML service.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How does activation functions (ReLU, Sigmoid) affect execution performance and system memory in AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What is a standard definition of gradient descent optimization in the context of AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What is the basic purpose of bias-variance tradeoff in fitting in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize support vector machines (SVM) in a AI/ML application.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using gradient descent optimization in AI/ML?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Name a common use case for evaluation metrics (Precision, Recall, F1) in a typical AI/ML project.?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of gradient descent optimization in AI/ML?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize linear and logistic regression in AI/ML.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving evaluation metrics (Precision, Recall, F1) in AI/ML and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How does k-means clustering algorithm function at a high level inside AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain how the behavior of support vector machines (SVM) changes when working with concurrent operations in AI/ML.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Describe the internal architectural details of how k-means clustering algorithm is handled in AI/ML at runtime.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting random forest classifier in AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Compare the advantages of using support vector machines (SVM) versus other alternatives in AI/ML.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing linear and logistic regression over custom solutions in enterprise-grade AI/ML applications.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize convolutional neural network (CNN) pooling in AI/ML.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How does evaluation metrics (Precision, Recall, F1) function at a high level inside AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by gradient descent optimization in high-throughput AI/ML systems?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain the fundamental difference between evaluation metrics (Precision, Recall, F1) and other core mechanisms in AI/ML.?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "In simple terms, what is gradient descent optimization in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with k-means clustering algorithm in AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing convolutional neural network (CNN) pooling over custom solutions in enterprise-grade AI/ML applications.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "When would a developer first encounter hyperparameter tuning methods in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of overfitting mitigation techniques in AI/ML?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Name a common use case for supervised vs unsupervised training in a typical AI/ML project.?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What is the relationship between hyperparameter tuning methods and code readability in AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How does bias-variance tradeoff in fitting function at a high level inside AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the micro-optimization strategies for support vector machines (SVM) when executing low-latency services in AI/ML?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize bias-variance tradeoff in fitting in a AI/ML application.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How does k-means clustering algorithm integrate with the overall runtime environment of AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Compare the advantages of using k-means clustering algorithm versus other alternatives in AI/ML.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to supervised vs unsupervised training in AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What is the basic purpose of support vector machines (SVM) in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic overfitting mitigation techniques in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Discuss the recovery strategies when evaluation metrics (Precision, Recall, F1) fails in a distributed AI/ML cluster.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing activation functions (ReLU, Sigmoid) over custom solutions in enterprise-grade AI/ML applications.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How would you explain transformer architecture attention to a junior AI/ML developer?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How would you explain evaluation metrics (Precision, Recall, F1) to a junior AI/ML developer?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain how the behavior of k-means clustering algorithm changes when working with concurrent operations in AI/ML.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What is a standard definition of overfitting mitigation techniques in the context of AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "In simple terms, what is bias-variance tradeoff in fitting in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving decision trees building in AI/ML and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using decision trees building in AI/ML?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain how gradient descent optimization behaves under moderate load in a AI/ML system.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How does gradient descent optimization function at a high level inside AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of transformer architecture attention in AI/ML.?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with linear and logistic regression in AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How does hyperparameter tuning methods affect execution performance and system memory in AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Describe the internal architectural details of how random forest classifier is handled in AI/ML at runtime.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "When would a developer first encounter convolutional neural network (CNN) pooling in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "In simple terms, what is convolutional neural network (CNN) pooling in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How does convolutional neural network (CNN) pooling function at a high level inside AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic activation functions (ReLU, Sigmoid) in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of evaluation metrics (Precision, Recall, F1) in AI/ML?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Describe the internal architectural details of how bias-variance tradeoff in fitting is handled in AI/ML at runtime.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain how you would write a code example or configure hyperparameter tuning methods in AI/ML.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What is the basic purpose of linear and logistic regression in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Discuss how evaluation metrics (Precision, Recall, F1) behaves under extreme load spike scenarios in a production AI/ML service.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How would you explain activation functions (ReLU, Sigmoid) to a junior AI/ML developer?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting convolutional neural network (CNN) pooling in AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain how you would write a code example or configure support vector machines (SVM) in AI/ML.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of convolutional neural network (CNN) pooling in AI/ML?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic convolutional neural network (CNN) pooling in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the key features of hyperparameter tuning methods in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How would you explain bias-variance tradeoff in fitting to a junior AI/ML developer?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain how the behavior of activation functions (ReLU, Sigmoid) changes when working with concurrent operations in AI/ML.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic transformer architecture attention in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Name a common use case for hyperparameter tuning methods in a typical AI/ML project.?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting gradient descent optimization in AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting overfitting mitigation techniques in AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Why is bias-variance tradeoff in fitting considered a core component of AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize hyperparameter tuning methods in a AI/ML application.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by support vector machines (SVM) in high-throughput AI/ML systems?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of gradient descent optimization in AI/ML.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting bias-variance tradeoff in fitting in AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What problem does k-means clustering algorithm solve in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "When would a developer first encounter evaluation metrics (Precision, Recall, F1) in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How does hyperparameter tuning methods function at a high level inside AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain how support vector machines (SVM) behaves under moderate load in a AI/ML system.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What is a standard definition of convolutional neural network (CNN) pooling in the context of AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with gradient descent optimization in AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of gradient descent optimization in AI/ML.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by bias-variance tradeoff in fitting in high-throughput AI/ML systems?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Discuss how support vector machines (SVM) behaves under extreme load spike scenarios in a production AI/ML service.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the micro-optimization strategies for linear and logistic regression when executing low-latency services in AI/ML?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting activation functions (ReLU, Sigmoid) in AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the best practices for implementing linear and logistic regression in a collaborative AI/ML codebase?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How does transformer architecture attention affect execution performance and system memory in AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Describe how you would unit test transformer architecture attention in a AI/ML module.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize regularization (L1 Lasso, L2 Ridge) in a AI/ML application.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "In simple terms, what is linear and logistic regression in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain how you would write a code example or configure evaluation metrics (Precision, Recall, F1) in AI/ML.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of regularization (L1 Lasso, L2 Ridge) in AI/ML.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using random forest classifier in AI/ML?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving random forest classifier in AI/ML and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the micro-optimization strategies for convolutional neural network (CNN) pooling when executing low-latency services in AI/ML?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Describe how you would unit test overfitting mitigation techniques in a AI/ML module.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Why is linear and logistic regression considered a core component of AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Describe how you would unit test activation functions (ReLU, Sigmoid) in a AI/ML module.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How does transformer architecture attention function at a high level inside AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How does k-means clustering algorithm affect execution performance and system memory in AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What is the basic purpose of evaluation metrics (Precision, Recall, F1) in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting regularization (L1 Lasso, L2 Ridge) in AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to hyperparameter tuning methods in AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How would you explain linear and logistic regression to a junior AI/ML developer?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic hyperparameter tuning methods in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Why is random forest classifier considered a core component of AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain how activation functions (ReLU, Sigmoid) behaves under moderate load in a AI/ML system.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing gradient descent optimization over custom solutions in enterprise-grade AI/ML applications.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain how evaluation metrics (Precision, Recall, F1) interacts with memory barrier constraints or compiler optimization flags in AI/ML.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the key features of overfitting mitigation techniques in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain how overfitting mitigation techniques behaves under moderate load in a AI/ML system.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How does overfitting mitigation techniques function at a high level inside AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of convolutional neural network (CNN) pooling in AI/ML.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain how linear and logistic regression interacts with memory barrier constraints or compiler optimization flags in AI/ML.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the primary benefits of using bias-variance tradeoff in fitting in AI/ML development?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Compare the advantages of using decision trees building versus other alternatives in AI/ML.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Discuss how supervised vs unsupervised training behaves under extreme load spike scenarios in a production AI/ML service.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of bias-variance tradeoff in fitting in AI/ML.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain how regularization (L1 Lasso, L2 Ridge) interacts with memory barrier constraints or compiler optimization flags in AI/ML.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What is the basic purpose of k-means clustering algorithm in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Why is evaluation metrics (Precision, Recall, F1) considered a core component of AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of random forest classifier in AI/ML?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic random forest classifier in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Describe how you would unit test supervised vs unsupervised training in a AI/ML module.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving hyperparameter tuning methods in AI/ML and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How does hyperparameter tuning methods integrate with the overall runtime environment of AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Describe the internal architectural details of how supervised vs unsupervised training is handled in AI/ML at runtime.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What is the basic purpose of random forest classifier in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of bias-variance tradeoff in fitting in AI/ML?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the micro-optimization strategies for transformer architecture attention when executing low-latency services in AI/ML?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of activation functions (ReLU, Sigmoid) in AI/ML?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize k-means clustering algorithm in a AI/ML application.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the key features of k-means clustering algorithm in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Discuss how regularization (L1 Lasso, L2 Ridge) behaves under extreme load spike scenarios in a production AI/ML service.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting support vector machines (SVM) in AI/ML?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Explain how you would write a code example or configure activation functions (ReLU, Sigmoid) in AI/ML.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the primary benefits of using k-means clustering algorithm in AI/ML development?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the key features of evaluation metrics (Precision, Recall, F1) in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Compare the advantages of using regularization (L1 Lasso, L2 Ridge) versus other alternatives in AI/ML.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What is a standard definition of evaluation metrics (Precision, Recall, F1) in the context of AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Describe how you would unit test evaluation metrics (Precision, Recall, F1) in a AI/ML module.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of evaluation metrics (Precision, Recall, F1) in AI/ML.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "In simple terms, what is activation functions (ReLU, Sigmoid) in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the primary benefits of using support vector machines (SVM) in AI/ML development?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Describe how you would unit test bias-variance tradeoff in fitting in a AI/ML module.?",
+        "difficulty": "medium",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How does random forest classifier function at a high level inside AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "What are the key features of regularization (L1 Lasso, L2 Ridge) in AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of supervised vs unsupervised training in AI/ML.?",
+        "difficulty": "hard",
+        "skill": "AI/ML"
+    },
+    {
+        "question": "How does decision trees building function at a high level inside AI/ML?",
+        "difficulty": "easy",
+        "skill": "AI/ML"
+    }
+]

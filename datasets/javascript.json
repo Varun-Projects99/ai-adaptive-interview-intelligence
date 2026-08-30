@@ -1,0 +1,1002 @@
+[
+    {
+        "question": "What are the primary benefits of using event bubbling and capturing in JavaScript development?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the key features of JavaScript Event Loop and microtasks in JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How would you explain strict mode ('use strict') to a junior JavaScript developer?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain how JavaScript Event Loop and microtasks behaves under moderate load in a JavaScript system.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of var vs let vs const in JavaScript?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Discuss how strict mode ('use strict') behaves under extreme load spike scenarios in a production JavaScript service.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the micro-optimization strategies for callbacks and callback hell when executing low-latency services in JavaScript?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does Temporal Dead Zone (TDZ) integrate with the overall runtime environment of JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic closures and lexical scope in JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing Temporal Dead Zone (TDZ) over custom solutions in enterprise-grade JavaScript applications.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does event bubbling and capturing affect execution performance and system memory in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain how JavaScript Event Loop and microtasks interacts with memory barrier constraints or compiler optimization flags in JavaScript.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the best practices for implementing destructuring and spread operator in a collaborative JavaScript codebase?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How would you explain callbacks and callback hell to a junior JavaScript developer?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving prototypal inheritance in JavaScript and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Why is Temporal Dead Zone (TDZ) considered a core component of JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the micro-optimization strategies for DOM manipulation when executing low-latency services in JavaScript?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic arrow functions vs regular functions in JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain how the behavior of arrow functions vs regular functions changes when working with concurrent operations in JavaScript.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Discuss the recovery strategies when var vs let vs const fails in a distributed JavaScript cluster.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What is the relationship between Promise.all implementation and code readability in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using DOM manipulation in JavaScript?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by ES Modules vs CommonJS in high-throughput JavaScript systems?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does ES Modules vs CommonJS integrate with the overall runtime environment of JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic callbacks and callback hell in JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize Promises and async/await syntax in JavaScript.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Compare the advantages of using ES Modules vs CommonJS versus other alternatives in JavaScript.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "When would a developer first encounter arrow functions vs regular functions in JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of closures and lexical scope in JavaScript.?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What is the basic purpose of prototypal inheritance in JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain how Temporal Dead Zone (TDZ) interacts with memory barrier constraints or compiler optimization flags in JavaScript.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the primary benefits of using ES Modules vs CommonJS in JavaScript development?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the micro-optimization strategies for event bubbling and capturing when executing low-latency services in JavaScript?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to JSON parsing and stringification in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of Promises and async/await syntax in JavaScript?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize prototypal inheritance in JavaScript.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize Promises and async/await syntax in a JavaScript application.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of strict mode ('use strict') in JavaScript?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with ES Modules vs CommonJS in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to callbacks and callback hell in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What is the relationship between JavaScript Event Loop and microtasks and code readability in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing var vs let vs const over custom solutions in enterprise-grade JavaScript applications.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting callbacks and callback hell in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Why is event bubbling and capturing considered a core component of JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Describe the internal architectural details of how prototypal inheritance is handled in JavaScript at runtime.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Compare the advantages of using debouncing and throttling functions versus other alternatives in JavaScript.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Describe how you would unit test event bubbling and capturing in a JavaScript module.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing arrow functions vs regular functions over custom solutions in enterprise-grade JavaScript applications.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving Promises and async/await syntax in JavaScript and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does Promise.all implementation function at a high level inside JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does DOM manipulation contribute to modular design in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing JavaScript Event Loop and microtasks over custom solutions in enterprise-grade JavaScript applications.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What is the basic purpose of Promises and async/await syntax in JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Compare the advantages of using destructuring and spread operator versus other alternatives in JavaScript.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How would you explain closures and lexical scope to a junior JavaScript developer?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of closures and lexical scope in JavaScript?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain how Temporal Dead Zone (TDZ) behaves under moderate load in a JavaScript system.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does DOM manipulation function at a high level inside JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting var vs let vs const in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Describe the internal architectural details of how DOM manipulation is handled in JavaScript at runtime.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Describe the internal architectural details of how var vs let vs const is handled in JavaScript at runtime.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of DOM manipulation in JavaScript?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain how you would write a code example or configure JSON parsing and stringification in JavaScript.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What is a standard definition of Promise.all implementation in the context of JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain how DOM manipulation interacts with memory barrier constraints or compiler optimization flags in JavaScript.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "When would a developer first encounter var vs let vs const in JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does JSON parsing and stringification integrate with the overall runtime environment of JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What is a standard definition of var vs let vs const in the context of JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of arrow functions vs regular functions in JavaScript?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting Promise.all implementation in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize JavaScript Event Loop and microtasks in a JavaScript application.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Name a common use case for JavaScript Event Loop and microtasks in a typical JavaScript project.?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving Temporal Dead Zone (TDZ) in JavaScript and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of Temporal Dead Zone (TDZ) in JavaScript.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting JavaScript Event Loop and microtasks in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What is the relationship between var vs let vs const and code readability in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize var vs let vs const in JavaScript.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic ES Modules vs CommonJS in JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How would you explain var vs let vs const to a junior JavaScript developer?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What problem does JSON parsing and stringification solve in JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using debouncing and throttling functions in JavaScript?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting closures and lexical scope in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize DOM manipulation in JavaScript.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of JSON parsing and stringification in JavaScript.?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain the fundamental difference between debouncing and throttling functions and other core mechanisms in JavaScript.?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What is a standard definition of Temporal Dead Zone (TDZ) in the context of JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does event bubbling and capturing integrate with the overall runtime environment of JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How would you explain JSON parsing and stringification to a junior JavaScript developer?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Compare the advantages of using JavaScript Event Loop and microtasks versus other alternatives in JavaScript.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain the fundamental difference between Promises and async/await syntax and other core mechanisms in JavaScript.?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How would you explain ES Modules vs CommonJS to a junior JavaScript developer?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of debouncing and throttling functions in JavaScript.?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize callbacks and callback hell in a JavaScript application.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to DOM manipulation in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain how Promises and async/await syntax behaves under moderate load in a JavaScript system.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize DOM manipulation in a JavaScript application.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does var vs let vs const integrate with the overall runtime environment of JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What is the basic purpose of JavaScript Event Loop and microtasks in JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to Temporal Dead Zone (TDZ) in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "When would a developer first encounter closures and lexical scope in JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does arrow functions vs regular functions contribute to modular design in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of callbacks and callback hell in JavaScript.?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic destructuring and spread operator in JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Why is arrow functions vs regular functions considered a core component of JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of DOM manipulation in JavaScript?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Discuss the recovery strategies when DOM manipulation fails in a distributed JavaScript cluster.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the key features of Promise.all implementation in JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize closures and lexical scope in a JavaScript application.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does debouncing and throttling functions integrate with the overall runtime environment of JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Describe the internal architectural details of how callbacks and callback hell is handled in JavaScript at runtime.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting prototypal inheritance in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "In simple terms, what is callbacks and callback hell in JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Why is Promises and async/await syntax considered a core component of JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using ES Modules vs CommonJS in JavaScript?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using event bubbling and capturing in JavaScript?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What problem does event bubbling and capturing solve in JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize JSON parsing and stringification in a JavaScript application.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain how you would write a code example or configure callbacks and callback hell in JavaScript.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by JSON parsing and stringification in high-throughput JavaScript systems?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the primary benefits of using arrow functions vs regular functions in JavaScript development?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of Promise.all implementation in JavaScript.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting strict mode ('use strict') in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of Temporal Dead Zone (TDZ) in JavaScript.?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of strict mode ('use strict') in JavaScript.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Name a common use case for closures and lexical scope in a typical JavaScript project.?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by JavaScript Event Loop and microtasks in high-throughput JavaScript systems?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing ES Modules vs CommonJS over custom solutions in enterprise-grade JavaScript applications.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What is a standard definition of JSON parsing and stringification in the context of JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain how the behavior of closures and lexical scope changes when working with concurrent operations in JavaScript.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving destructuring and spread operator in JavaScript and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does var vs let vs const function at a high level inside JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What problem does Promises and async/await syntax solve in JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using closures and lexical scope in JavaScript?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of var vs let vs const in JavaScript?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic DOM manipulation in JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Compare the advantages of using prototypal inheritance versus other alternatives in JavaScript.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain the fundamental difference between prototypal inheritance and other core mechanisms in JavaScript.?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with event bubbling and capturing in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Name a common use case for arrow functions vs regular functions in a typical JavaScript project.?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain how ES Modules vs CommonJS interacts with memory barrier constraints or compiler optimization flags in JavaScript.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does strict mode ('use strict') function at a high level inside JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain the fundamental difference between Promise.all implementation and other core mechanisms in JavaScript.?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "In simple terms, what is Promise.all implementation in JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does var vs let vs const affect execution performance and system memory in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does JSON parsing and stringification function at a high level inside JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of callbacks and callback hell in JavaScript.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize event bubbling and capturing in JavaScript.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Compare the advantages of using strict mode ('use strict') versus other alternatives in JavaScript.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Describe how you would unit test closures and lexical scope in a JavaScript module.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What is the basic purpose of event bubbling and capturing in JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize Promise.all implementation in a JavaScript application.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "In simple terms, what is DOM manipulation in JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving DOM manipulation in JavaScript and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of JSON parsing and stringification in JavaScript.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize strict mode ('use strict') in JavaScript.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of Promises and async/await syntax in JavaScript.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the best practices for implementing var vs let vs const in a collaborative JavaScript codebase?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Discuss the recovery strategies when JavaScript Event Loop and microtasks fails in a distributed JavaScript cluster.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain how the behavior of var vs let vs const changes when working with concurrent operations in JavaScript.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain how the behavior of strict mode ('use strict') changes when working with concurrent operations in JavaScript.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using strict mode ('use strict') in JavaScript?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with JavaScript Event Loop and microtasks in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does DOM manipulation affect execution performance and system memory in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain how closures and lexical scope interacts with memory barrier constraints or compiler optimization flags in JavaScript.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the primary benefits of using Temporal Dead Zone (TDZ) in JavaScript development?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize destructuring and spread operator in a JavaScript application.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain how JSON parsing and stringification interacts with memory barrier constraints or compiler optimization flags in JavaScript.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How would you explain arrow functions vs regular functions to a junior JavaScript developer?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Discuss how debouncing and throttling functions behaves under extreme load spike scenarios in a production JavaScript service.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing closures and lexical scope over custom solutions in enterprise-grade JavaScript applications.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Discuss how callbacks and callback hell behaves under extreme load spike scenarios in a production JavaScript service.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic debouncing and throttling functions in JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of ES Modules vs CommonJS in JavaScript.?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting arrow functions vs regular functions in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does arrow functions vs regular functions integrate with the overall runtime environment of JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does Promises and async/await syntax integrate with the overall runtime environment of JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the micro-optimization strategies for closures and lexical scope when executing low-latency services in JavaScript?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the micro-optimization strategies for prototypal inheritance when executing low-latency services in JavaScript?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does Promise.all implementation integrate with the overall runtime environment of JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of DOM manipulation in JavaScript.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain how the behavior of prototypal inheritance changes when working with concurrent operations in JavaScript.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of ES Modules vs CommonJS in JavaScript?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using callbacks and callback hell in JavaScript?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving var vs let vs const in JavaScript and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "In simple terms, what is event bubbling and capturing in JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does destructuring and spread operator integrate with the overall runtime environment of JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does strict mode ('use strict') integrate with the overall runtime environment of JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Compare the advantages of using Promises and async/await syntax versus other alternatives in JavaScript.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain the fundamental difference between strict mode ('use strict') and other core mechanisms in JavaScript.?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the key features of arrow functions vs regular functions in JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does callbacks and callback hell integrate with the overall runtime environment of JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does prototypal inheritance affect execution performance and system memory in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How does callbacks and callback hell function at a high level inside JavaScript?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of debouncing and throttling functions in JavaScript.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of event bubbling and capturing in JavaScript.?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Explain how the behavior of ES Modules vs CommonJS changes when working with concurrent operations in JavaScript.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Discuss how JavaScript Event Loop and microtasks behaves under extreme load spike scenarios in a production JavaScript service.?",
+        "difficulty": "hard",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "Describe how you would unit test callbacks and callback hell in a JavaScript module.?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "How would you explain event bubbling and capturing to a junior JavaScript developer?",
+        "difficulty": "easy",
+        "skill": "JavaScript"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting Promises and async/await syntax in JavaScript?",
+        "difficulty": "medium",
+        "skill": "JavaScript"
+    }
+]

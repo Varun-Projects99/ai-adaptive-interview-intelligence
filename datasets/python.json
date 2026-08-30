@@ -1,0 +1,1252 @@
+[
+    {
+        "question": "Discuss how C extensions behaves under extreme load spike scenarios in a production Python service.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using serialization with pickle in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "In simple terms, what is garbage collection in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting generators in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the micro-optimization strategies for dynamic typing when executing low-latency services in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "What is a standard definition of asyncio and event loops in the context of Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of multiprocessing vs multithreading in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing PEP 8 style guide over custom solutions in enterprise-grade Python applications.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how generators behaves under moderate load in a Python system.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "How does multiprocessing vs multithreading function at a high level inside Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Why is exception handling considered a core component of Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "How does C extensions function at a high level inside Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "How would you explain GIL (Global Interpreter Lock) to a junior Python developer?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the primary benefits of using virtual environments (venv) in Python development?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how decorators interacts with memory barrier constraints or compiler optimization flags in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of deep vs shallow copy in Python.?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain the fundamental difference between decorators and other core mechanisms in Python.?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "What is a standard definition of type hinting in the context of Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with generators in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with dunder methods in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "What is the relationship between multiprocessing vs multithreading and code readability in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "How would you explain C extensions to a junior Python developer?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of unit testing with unittest/pytest in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how you would write a code example or configure exception handling in Python.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "What is a standard definition of logging module in the context of Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving multiprocessing vs multithreading in Python and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize exception handling in a Python application.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using super() and multiple inheritance MRO in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "What is the relationship between pandas DataFrames and code readability in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of pandas DataFrames in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize C extensions in a Python application.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Discuss how iterator protocol behaves under extreme load spike scenarios in a production Python service.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of GIL (Global Interpreter Lock) in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how deep vs shallow copy interacts with memory barrier constraints or compiler optimization flags in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Describe how you would unit test GIL (Global Interpreter Lock) in a Python module.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain the fundamental difference between deep vs shallow copy and other core mechanisms in Python.?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "What is a standard definition of PEP 8 style guide in the context of Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of metaclasses in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "What problem does metaclasses solve in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Discuss the recovery strategies when virtual environments (venv) fails in a distributed Python cluster.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Discuss the recovery strategies when context managers (with statement) fails in a distributed Python cluster.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "In simple terms, what is list comprehensions in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how the behavior of pandas DataFrames changes when working with concurrent operations in Python.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of super() and multiple inheritance MRO in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the micro-optimization strategies for pip package manager when executing low-latency services in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "What is the relationship between iterator protocol and code readability in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the best practices for implementing GIL (Global Interpreter Lock) in a collaborative Python codebase?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Compare the advantages of using list comprehensions versus other alternatives in Python.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of abstract base classes in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize decorators in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Discuss the recovery strategies when logging module fails in a distributed Python cluster.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "What is the relationship between context managers (with statement) and code readability in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing lambda functions over custom solutions in enterprise-grade Python applications.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Compare the advantages of using multiprocessing vs multithreading versus other alternatives in Python.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Discuss how GIL (Global Interpreter Lock) behaves under extreme load spike scenarios in a production Python service.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the best practices for implementing virtual environments (venv) in a collaborative Python codebase?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "When would a developer first encounter list comprehensions in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how the behavior of deep vs shallow copy changes when working with concurrent operations in Python.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "What is a standard definition of list comprehensions in the context of Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using logging module in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting list comprehensions in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Why is deep vs shallow copy considered a core component of Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of dictionary implementation and hash collisions in Python.?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of abstract base classes in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Name a common use case for exception handling in a typical Python project.?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of asyncio and event loops in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Name a common use case for namespaces and scope resolution in a typical Python project.?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with deep vs shallow copy in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "In simple terms, what is decorators in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "What is a standard definition of generators in the context of Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Compare the advantages of using args and kwargs versus other alternatives in Python.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "In simple terms, what is pip package manager in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Discuss the recovery strategies when iterator protocol fails in a distributed Python cluster.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Compare the advantages of using dunder methods versus other alternatives in Python.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic metaclasses in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the key features of lambda functions in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "How would you explain decorators to a junior Python developer?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Discuss how PEP 8 style guide behaves under extreme load spike scenarios in a production Python service.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "How does C extensions integrate with the overall runtime environment of Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "When would a developer first encounter args and kwargs in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Discuss how metaclasses behaves under extreme load spike scenarios in a production Python service.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with metaclasses in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how abstract base classes behaves under moderate load in a Python system.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how you would write a code example or configure garbage collection in Python.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of exception handling in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "What is the basic purpose of deep vs shallow copy in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the best practices for implementing serialization with pickle in a collaborative Python codebase?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how you would write a code example or configure logging module in Python.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "How does super() and multiple inheritance MRO contribute to modular design in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "How does serialization with pickle affect execution performance and system memory in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize virtual environments (venv) in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Describe how you would unit test C extensions in a Python module.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with memory management and reference counting in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of list comprehensions in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of memory management and reference counting in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the micro-optimization strategies for memory management and reference counting when executing low-latency services in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "How does abstract base classes function at a high level inside Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how the behavior of exception handling changes when working with concurrent operations in Python.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the micro-optimization strategies for decorators when executing low-latency services in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing GIL (Global Interpreter Lock) over custom solutions in enterprise-grade Python applications.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the best practices for implementing memory management and reference counting in a collaborative Python codebase?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "How does serialization with pickle contribute to modular design in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of unit testing with unittest/pytest in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of dunder methods in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to deep vs shallow copy in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of args and kwargs in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of virtual environments (venv) in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize PEP 8 style guide in a Python application.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "When would a developer first encounter virtual environments (venv) in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "What is a standard definition of dunder methods in the context of Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "What problem does abstract base classes solve in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Discuss how memory management and reference counting behaves under extreme load spike scenarios in a production Python service.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "What is the relationship between modules and packages and code readability in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how modules and packages interacts with memory barrier constraints or compiler optimization flags in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of logging module in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain the fundamental difference between metaclasses and other core mechanisms in Python.?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how exception handling behaves under moderate load in a Python system.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the best practices for implementing context managers (with statement) in a collaborative Python codebase?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of modules and packages in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using iterator protocol in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using dynamic typing in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize logging module in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how the behavior of C extensions changes when working with concurrent operations in Python.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with dictionary implementation and hash collisions in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with modules and packages in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to dictionary implementation and hash collisions in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "How does mutable vs immutable objects function at a high level inside Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how args and kwargs interacts with memory barrier constraints or compiler optimization flags in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the primary benefits of using PEP 8 style guide in Python development?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the common pitfalls or side-effects associated with namespaces and scope resolution in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "What is a standard definition of exception handling in the context of Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how the behavior of GIL (Global Interpreter Lock) changes when working with concurrent operations in Python.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to memory management and reference counting in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "When would a developer first encounter garbage collection in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing asyncio and event loops over custom solutions in enterprise-grade Python applications.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of namespaces and scope resolution in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Describe the internal architectural details of how multiprocessing vs multithreading is handled in Python at runtime.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using dunder methods in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of metaclasses in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize unit testing with unittest/pytest in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "In simple terms, what is serialization with pickle in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the micro-optimization strategies for list comprehensions when executing low-latency services in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "How does mutable vs immutable objects integrate with the overall runtime environment of Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing garbage collection over custom solutions in enterprise-grade Python applications.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how you would write a code example or configure context managers (with statement) in Python.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to metaclasses in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the micro-optimization strategies for unit testing with unittest/pytest when executing low-latency services in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic GIL (Global Interpreter Lock) in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving abstract base classes in Python and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "How does args and kwargs affect execution performance and system memory in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Describe the internal architectural details of how abstract base classes is handled in Python at runtime.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how you would write a code example or configure type hinting in Python.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Discuss how unit testing with unittest/pytest behaves under extreme load spike scenarios in a production Python service.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Describe how you would unit test mutable vs immutable objects in a Python module.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Describe how you would unit test metaclasses in a Python module.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "How does decorators affect execution performance and system memory in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Why is dictionary implementation and hash collisions considered a core component of Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "What problem does dynamic typing solve in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "How does virtual environments (venv) affect execution performance and system memory in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the key features of garbage collection in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic list comprehensions in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how you would write a code example or configure decorators in Python.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving iterator protocol in Python and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how context managers (with statement) behaves under moderate load in a Python system.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how mutable vs immutable objects interacts with memory barrier constraints or compiler optimization flags in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Describe how you would unit test modules and packages in a Python module.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how you would write a code example or configure abstract base classes in Python.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Describe how you would unit test decorators in a Python module.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting pandas DataFrames in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "How do you resolve severe performance bottlenecks or memory leaks caused by iterator protocol in high-throughput Python systems?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "In simple terms, what is asyncio and event loops in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Name a common use case for memory management and reference counting in a typical Python project.?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "When would a developer first encounter C extensions in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of lambda functions in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Compare the advantages of using modules and packages versus other alternatives in Python.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic unit testing with unittest/pytest in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting abstract base classes in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of C extensions in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain the fundamental difference between args and kwargs and other core mechanisms in Python.?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of generators in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize modules and packages in a Python application.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Why is multiprocessing vs multithreading considered a core component of Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Describe the internal architectural details of how args and kwargs is handled in Python at runtime.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of pandas DataFrames in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "How would you explain abstract base classes to a junior Python developer?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the primary benefits of using memory management and reference counting in Python development?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing modules and packages over custom solutions in enterprise-grade Python applications.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how PEP 8 style guide behaves under moderate load in a Python system.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize metaclasses in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "How does asyncio and event loops contribute to modular design in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of C extensions in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing generators over custom solutions in enterprise-grade Python applications.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting context managers (with statement) in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "What is the basic purpose of modules and packages in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "How does PEP 8 style guide integrate with the overall runtime environment of Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Discuss how context managers (with statement) behaves under extreme load spike scenarios in a production Python service.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "What is a standard definition of pandas DataFrames in the context of Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Describe a real-world scenario where you had to debug or optimize generators in a Python application.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "What is the basic purpose of namespaces and scope resolution in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "How do you handle security vulnerabilities or data isolation issues when using asyncio and event loops in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "How does lambda functions function at a high level inside Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the primary debugging techniques for troubleshooting mutable vs immutable objects in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Describe how you would unit test virtual environments (venv) in a Python module.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "What is a standard definition of iterator protocol in the context of Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "What problem does C extensions solve in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "What problem does lambda functions solve in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "How does unit testing with unittest/pytest function at a high level inside Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to iterator protocol in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "In simple terms, what is dictionary implementation and hash collisions in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of context managers (with statement) in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Discuss how exception handling behaves under extreme load spike scenarios in a production Python service.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "What is the relationship between exception handling and code readability in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how the behavior of serialization with pickle changes when working with concurrent operations in Python.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how garbage collection behaves under moderate load in a Python system.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the primary benefits of using dictionary implementation and hash collisions in Python development?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Discuss the recovery strategies when memory management and reference counting fails in a distributed Python cluster.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Can you describe how to declare or define a basic exception handling in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Discuss how asyncio and event loops behaves under extreme load spike scenarios in a production Python service.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving lambda functions in Python and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "How would you explain dunder methods to a junior Python developer?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to args and kwargs in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "What is the basic purpose of args and kwargs in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how the behavior of context managers (with statement) changes when working with concurrent operations in Python.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Why is iterator protocol considered a core component of Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Detail how concurrent garbage collection, thread synchronization, or network latency affects the execution of dictionary implementation and hash collisions in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Describe the basic syntax or configuration of multiprocessing vs multithreading in Python.?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Discuss a highly complex scenario involving args and kwargs in Python and how you would design a robust system to handle it.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain the architectural implications of refactoring a legacy system to utilize args and kwargs in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing deep vs shallow copy over custom solutions in enterprise-grade Python applications.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "How does generators function at a high level inside Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Describe the internal architectural details of how asyncio and event loops is handled in Python at runtime.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "What is the basic purpose of dunder methods in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Describe the internal architectural details of how deep vs shallow copy is handled in Python at runtime.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Discuss how generators behaves under extreme load spike scenarios in a production Python service.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing type hinting over custom solutions in enterprise-grade Python applications.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "What is a standard definition of context managers (with statement) in the context of Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how mutable vs immutable objects behaves under moderate load in a Python system.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of context managers (with statement) in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain the design trade-offs of utilizing multiprocessing vs multithreading over custom solutions in enterprise-grade Python applications.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the key features of context managers (with statement) in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "What is the relationship between memory management and reference counting and code readability in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "How does the underlying virtual machine or interpreter optimize the execution of dunder methods in Python?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "What problem does args and kwargs solve in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "How would you explain exception handling to a junior Python developer?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the key features of iterator protocol in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "What are the key features of GIL (Global Interpreter Lock) in Python?",
+        "difficulty": "easy",
+        "skill": "Python"
+    },
+    {
+        "question": "Detail how you would profile and measure the exact CPU overhead of list comprehensions in Python.?",
+        "difficulty": "hard",
+        "skill": "Python"
+    },
+    {
+        "question": "Describe how you would unit test deep vs shallow copy in a Python module.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "How do you handle error conditions or exceptions related to abstract base classes in Python?",
+        "difficulty": "medium",
+        "skill": "Python"
+    },
+    {
+        "question": "Explain how the behavior of memory management and reference counting changes when working with concurrent operations in Python.?",
+        "difficulty": "medium",
+        "skill": "Python"
+    }
+]

@@ -232,7 +232,7 @@
         </div>
 
         <!-- CAREER PATH -->
-        <div class="db-card card-career">
+        <div class="db-card card-career" onclick="window.location.href='/career'" style="cursor:pointer;">
             <div class="corner corner-tl"></div>
             <div class="corner corner-br"></div>
             <div class="icon">🚀</div>
@@ -245,7 +245,7 @@
         </div>
 
         <!-- CODING PRACTICE -->
-        <div class="db-card card-coding">
+        <div class="db-card card-coding" onclick="window.location.href='/coding'" style="cursor:pointer;">
             <div class="corner corner-tl"></div>
             <div class="corner corner-br"></div>
             <div class="icon">💻</div>
@@ -258,7 +258,7 @@
         </div>
 
         <!-- HR INTERVIEW -->
-        <div class="db-card card-hr">
+        <div class="db-card card-hr" onclick="startHrInterview()" style="cursor:pointer;">
             <div class="corner corner-tl"></div>
             <div class="corner corner-br"></div>
             <div class="icon">🤝</div>
@@ -271,7 +271,7 @@
         </div>
 
         <!-- REPORTS -->
-        <div class="db-card card-reports">
+        <div class="db-card card-reports" onclick="window.location.href='/history'" style="cursor:pointer;">
             <div class="corner corner-tl"></div>
             <div class="corner corner-br"></div>
             <div class="icon">📊</div>
@@ -283,6 +283,19 @@
             </div>
         </div>
 
+        <!-- AI COACH -->
+        <div class="db-card card-ai" onclick="window.location.href='/coach'" style="cursor:pointer; box-shadow: 0 0 15px rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.3);">
+            <div class="corner corner-tl" style="border-color: var(--accent2)"></div>
+            <div class="corner corner-br" style="border-color: var(--accent2)"></div>
+            <div class="icon">💬</div>
+            <h2>AI Interview Coach</h2>
+            <p>Converse with an AI coach to improve your answers, negotiate salary, or clarify system design concepts.</p>
+            <div class="card-footer">
+                <span class="tag" style="color:var(--accent2); border-color:rgba(139, 92, 246, 0.2); background:rgba(139, 92, 246, 0.1);">Coach</span>
+                <span class="btn-link" style="color:var(--accent2)">Consult _</span>
+            </div>
+        </div>
+
     </main>
 
     <!-- Background glow -->
@@ -290,6 +303,38 @@
                 background:radial-gradient(circle,rgba(0,212,255,.04) 0%,transparent 70%);
                 top:50%;left:50%;transform:translate(-50%,-50%);z-index:0"></div>
 
+    <div class="toast" id="toast"></div>
+
     <script src="/assets/js/session.js"></script>
+    <script>
+        async function startHrInterview() {
+            showToast("Initializing HR interview module...", "ok");
+            try {
+                // 1. Start session
+                const sess = await apiPost("/api/session/start");
+                localStorage.setItem("session_id", sess.session_id);
+
+                // 2. Generate questions for HR
+                const qd = await apiPost("/api/questions/generate", { 
+                    session_id: sess.session_id,
+                    skills: ["HR"] 
+                });
+                
+                localStorage.setItem("session_skills", JSON.stringify(["Behavioral"]));
+                localStorage.setItem("session_total", String(qd.total_questions));
+
+                showToast("HR Questions loaded. Launching interview room...", "ok");
+
+                // 3. Redirect to interview
+                setTimeout(() => {
+                    window.location.href = "/interview";
+                }, 1000);
+
+            } catch(e) {
+                showToast("Failed to initialize session: " + e.message, "err");
+                console.error(e);
+            }
+        }
+    </script>
 </body>
 </html>

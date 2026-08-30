@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InterviewIQ — Performance History</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        :root {
+            --card-bg: rgba(13, 19, 25, 0.85);
+            --neon-green: #10f59a;
+            --neon-cyan: #00d4ff;
+            --neon-purple: #8b5cf6;
+        }
+
+        .history-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 100px 24px 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .page-header h1 {
+            font-family: var(--fh);
+            font-size: clamp(32px, 5vw, 44px);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-family: var(--fm);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Back Button link */
+        .back-nav {
+            margin-bottom: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-family: var(--fm);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        .back-nav:hover {
+            color: var(--accent);
+        }
+
+        /* Glassmorphism main card */
+        .history-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 32px;
+            position: relative;
+            backdrop-filter: blur(12px);
+        }
+
+        .corner {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border: 1px solid var(--accent);
+            opacity: 0.4;
+        }
+        .corner-tl { top: 0; left: 0; border-right: none; border-bottom: none; }
+        .corner-br { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+        /* Metrics bar widget */
+        .metrics-bar {
+            background: rgba(17, 25, 34, 0.6);
+            border: 1px solid var(--border);
+            padding: 24px;
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            text-align: center;
+        }
+
+        .metric-stat {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .metric-stat .num {
+            font-family: var(--fh);
+            font-size: 36px;
+            font-weight: 800;
+        }
+
+        .metric-stat .label {
+            font-family: var(--fm);
+            font-size: 10px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+        }
+
+        /* History Table list */
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .history-item {
+            background: rgba(17, 25, 34, 0.4);
+            border: 1px solid var(--border);
+            padding: 20px 24px;
+            display: grid;
+            grid-template-columns: 1fr 100px 100px 100px 140px;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.25s ease;
+        }
+
+        .history-item:hover {
+            border-color: var(--accent);
+            background: rgba(0, 212, 255, 0.03);
+        }
+
+        @media (max-width: 768px) {
+            .history-item {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                padding: 20px;
+                text-align: center;
+            }
+        }
+
+        .history-info {
+            text-align: left;
+        }
+
+        @media (max-width: 768px) {
+            .history-info {
+                text-align: center;
+            }
+        }
+
+        .history-track {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .history-date {
+            font-family: var(--fm);
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .score-val-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .score-val-wrapper .label {
+            font-family: var(--fm);
+            font-size: 9px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 2px;
+        }
+
+        .score-val-wrapper .val {
+            font-family: var(--fh);
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .no-data-box {
+            text-align: center;
+            padding: 48px 0;
+            color: var(--text-muted);
+        }
+
+        .no-data-box p {
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+<body class="grid-bg">
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-logo" onclick="window.location.href='/dashboard'" style="cursor:pointer;">
+            <div class="logo-dot"></div>InterviewIQ
+        </div>
+        <div class="navbar-right">
+            <div class="chip accent" onclick="window.location.href='/dashboard'" style="cursor:pointer;">Dashboard</div>
+            <div class="chip" style="margin-left: 10px;">User_Admin</div>
+        </div>
+    </nav>
+
+    <!-- MAIN BODY -->
+    <main class="history-container">
+        
+        <div class="page-header">
+            <div>
+                <a class="back-nav" onclick="window.location.href='/dashboard'">← Back to Mission Control</a>
+                <h1>Session <span style="color:var(--accent)">History</span></h1>
+            </div>
+            <p>Historical Analysis Tracker</p>
+        </div>
+
+        <!-- METRICS ROW -->
+        <div class="metrics-bar">
+            <div class="metric-stat">
+                <span class="num" id="stat-sessions">0</span>
+                <span class="label">Total Sessions</span>
+            </div>
+            <div class="metric-stat" style="border-left: 1px solid var(--border); border-right: 1px solid var(--border); padding: 0 40px;">
+                <span class="num" id="stat-avg-index" style="color: var(--accent);">0%</span>
+                <span class="label">Avg Readiness Index</span>
+            </div>
+            <div class="metric-stat">
+                <span class="num" id="stat-avg-technical" style="color: var(--success);">0%</span>
+                <span class="label">Avg Technical Score</span>
+            </div>
+        </div>
+
+        <!-- MAIN CARD LIST -->
+        <div class="history-card">
+            <div class="corner corner-tl"></div>
+            <div class="corner corner-br"></div>
+
+            <div class="section-title" style="margin-bottom: 24px;">Completed Assessments</div>
+
+            <div class="history-list" id="history-list-area">
+                <div class="loading-state">
+                    <div class="load-spin"></div>
+                    <div class="load-msg">Querying database for session records...</div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Background glow -->
+    <div style="position:fixed;width:800px;height:800px;pointer-events:none;
+                background:radial-gradient(circle,rgba(0,212,255,.03) 0%,transparent 70%);
+                top:50%;left:50%;transform:translate(-50%,-50%);z-index:0"></div>
+
+    <script src="/assets/js/session.js"></script>
+    <script>
+        window.addEventListener("DOMContentLoaded", async () => {
+            await loadHistoryData();
+        });
+
+        async function loadHistoryData() {
+            const listArea = document.getElementById("history-list-area");
+            
+            try {
+                const response = await fetch("/api/sessions/history");
+                if (!response.ok) throw new Error("Failed to query history database");
+
+                const sessions = await response.json();
+                
+                if (!sessions || sessions.length === 0) {
+                    renderEmptyState();
+                    return;
+                }
+
+                // Calculate averages
+                let totalIndex = 0;
+                let totalTech = 0;
+                sessions.forEach(s => {
+                    totalIndex += s.readiness_index;
+                    totalTech += s.technical;
+                });
+
+                const avgIndex = Math.round(totalIndex / sessions.length);
+                const avgTech = Math.round(totalTech / sessions.length);
+
+                document.getElementById("stat-sessions").textContent = sessions.length;
+                document.getElementById("stat-avg-index").textContent = avgIndex + "%";
+                document.getElementById("stat-avg-technical").textContent = avgTech + "%";
+
+                // Render list
+                listArea.innerHTML = "";
+                sessions.forEach(s => {
+                    const item = document.createElement("div");
+                    item.className = "history-item";
+                    
+                    // Determine track label
+                    let trackLabel = "General Technical Interview";
+                    if (s.skills && s.skills.length === 1 && s.skills[0] === "HR") {
+                        trackLabel = "HR Behavioral Interview";
+                    } else if (s.skills && s.skills.length > 0) {
+                        trackLabel = "Custom Skill: " + s.skills.join(", ");
+                    }
+
+                    // Score colors
+                    const indexColor = s.readiness_index >= 80 ? "var(--success)" : s.readiness_index >= 60 ? "var(--accent)" : "var(--warn)";
+                    const techColor = s.technical >= 75 ? "var(--success)" : s.technical >= 50 ? "var(--accent)" : "var(--warn)";
+                    
+                    item.innerHTML = `
+                        <div class="history-info">
+                            <div class="history-track">${trackLabel}</div>
+                            <div class="history-date">${s.date} ${s.terminated ? '<span style="color:var(--danger); font-size:10px; margin-left:10px;">[TERMINATED]</span>' : ''}</div>
+                        </div>
+                        <div class="score-val-wrapper">
+                            <span class="label">Technical</span>
+                            <span class="val" style="color:${techColor}">${s.technical}%</span>
+                        </div>
+                        <div class="score-val-wrapper">
+                            <span class="label">Confidence</span>
+                            <span class="val">${s.confidence}%</span>
+                        </div>
+                        <div class="score-val-wrapper">
+                            <span class="label">Readiness</span>
+                            <span class="val" style="color:${indexColor}">${s.readiness_index}%</span>
+                        </div>
+                        <div>
+                            <button class="btn btn-outline" style="padding: 8px 16px; font-size: 11px; width: 100%;" 
+                                    onclick="viewReport('${s.session_id}')">
+                                📊 View Report
+                            </button>
+                        </div>
+                    `;
+                    listArea.appendChild(item);
+                });
+
+            } catch (e) {
+                listArea.innerHTML = `
+                    <div style="text-align:center; padding: 24px; color:var(--danger)">
+                        Error querying performance database: ${e.message}
+                    </div>
+                `;
+            }
+        }
+
+        function renderEmptyState() {
+            document.getElementById("history-list-area").innerHTML = `
+                <div class="no-data-box">
+                    <p>No completed mock interview assessments were found in the local records database.</p>
+                    <button class="btn btn-primary" onclick="window.location.href='/upload'">
+                        🚀 Start Your First Mock Interview
+                    </button>
+                </div>
+            `;
+        }
+
+        function viewReport(sid) {
+            window.location.href = `/report?session_id=${sid}`;
+        }
+    </script>
+</body>
+</html>
