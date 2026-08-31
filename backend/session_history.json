@@ -12957,5 +12957,361 @@
         "date": "2026-08-31 21:35",
         "interview_id": "6a95a63ec24f2741fd80804f",
         "invitation_token": "71145afd-a079-4d37-8005-7e17e5bf5960"
+    },
+    "2c6895e5-0dc6-4528-9419-6822bd2e2888": {
+        "session_id": "2c6895e5-0dc6-4528-9419-6822bd2e2888",
+        "terminated": false,
+        "scores": {
+            "technical": 80,
+            "confidence": 0,
+            "emotion_stability": "Moderate",
+            "readiness_index": 50,
+            "readiness_label": "Needs Practice"
+        },
+        "summary": {
+            "total_questions": 4,
+            "skills_covered": [
+                "MongoDB",
+                "AWS",
+                "Python"
+            ],
+            "difficulty_progression": [
+                "easy",
+                "easy",
+                "easy",
+                "hard"
+            ],
+            "violations": {
+                "tab_switch": 0,
+                "camera_exit": 0,
+                "window_move": 0,
+                "total": 0
+            },
+            "final_summary": "Overall solid performance, demonstrated strong technical competencies."
+        },
+        "emotion_breakdown": {},
+        "answers": [
+            {
+                "question": "What is a standard definition of context managers (with statement) in the context of Python?",
+                "answer": "Mock test response content details.",
+                "score": 80,
+                "overall": 80,
+                "overall_score": 80,
+                "skill": "Python",
+                "difficulty": "easy",
+                "feedback": "Mock feedback details.",
+                "evaluation": {
+                    "technical_correctness": 80,
+                    "relevance": 80,
+                    "depth": 80,
+                    "completeness": 80
+                },
+                "confidence": {
+                    "technical_correctness": 90,
+                    "relevance": 95,
+                    "depth": 85,
+                    "completeness": 80
+                },
+                "evidence": [
+                    "Correct statement",
+                    "Relevant statement",
+                    "Detailed statement",
+                    "Complete statement"
+                ],
+                "reasons": {
+                    "technical_correctness": "Good",
+                    "relevance": "Good",
+                    "depth": "Good",
+                    "completeness": "Good"
+                },
+                "strengths": [
+                    "Mock strength 1",
+                    "Mock strength 2"
+                ],
+                "improvements": [
+                    "Mock improvement 1"
+                ],
+                "timestamp": "2026-08-31T16:50:05.884546"
+            },
+            {
+                "question": "How does handling tight project deadlines function at a high level inside HR?",
+                "answer": "Mock test response content details.",
+                "score": 80,
+                "overall": 80,
+                "overall_score": 80,
+                "skill": "MongoDB",
+                "difficulty": "easy",
+                "feedback": "Mock feedback details.",
+                "evaluation": {
+                    "technical_correctness": 80,
+                    "relevance": 80,
+                    "depth": 80,
+                    "completeness": 80
+                },
+                "confidence": {
+                    "technical_correctness": 90,
+                    "relevance": 95,
+                    "depth": 85,
+                    "completeness": 80
+                },
+                "evidence": [
+                    "Correct statement",
+                    "Relevant statement",
+                    "Detailed statement",
+                    "Complete statement"
+                ],
+                "reasons": {
+                    "technical_correctness": "Good",
+                    "relevance": "Good",
+                    "depth": "Good",
+                    "completeness": "Good"
+                },
+                "strengths": [
+                    "Mock strength 1",
+                    "Mock strength 2"
+                ],
+                "improvements": [
+                    "Mock improvement 1"
+                ],
+                "timestamp": "2026-08-31T16:50:07.356582"
+            },
+            {
+                "question": "Why is AWS Auto Scaling groups considered a core component of AWS?",
+                "answer": "Mock test response content details.",
+                "score": 80,
+                "overall": 80,
+                "overall_score": 80,
+                "skill": "AWS",
+                "difficulty": "easy",
+                "feedback": "Mock feedback details.",
+                "evaluation": {
+                    "technical_correctness": 80,
+                    "relevance": 80,
+                    "depth": 80,
+                    "completeness": 80
+                },
+                "confidence": {
+                    "technical_correctness": 90,
+                    "relevance": 95,
+                    "depth": 85,
+                    "completeness": 80
+                },
+                "evidence": [
+                    "Correct statement",
+                    "Relevant statement",
+                    "Detailed statement",
+                    "Complete statement"
+                ],
+                "reasons": {
+                    "technical_correctness": "Good",
+                    "relevance": "Good",
+                    "depth": "Good",
+                    "completeness": "Good"
+                },
+                "strengths": [
+                    "Mock strength 1",
+                    "Mock strength 2"
+                ],
+                "improvements": [
+                    "Mock improvement 1"
+                ],
+                "timestamp": "2026-08-31T16:50:08.361467"
+            },
+            {
+                "question": "How would you implement a custom wrapper or polyfill to extend the default capabilities of metaclasses in Python?",
+                "answer": "Mock test response content details.",
+                "score": 80,
+                "overall": 80,
+                "overall_score": 80,
+                "skill": "Python",
+                "difficulty": "hard",
+                "feedback": "Mock feedback details.",
+                "evaluation": {
+                    "technical_correctness": 80,
+                    "relevance": 80,
+                    "depth": 80,
+                    "completeness": 80
+                },
+                "confidence": {
+                    "technical_correctness": 90,
+                    "relevance": 95,
+                    "depth": 85,
+                    "completeness": 80
+                },
+                "evidence": [
+                    "Correct statement",
+                    "Relevant statement",
+                    "Detailed statement",
+                    "Complete statement"
+                ],
+                "reasons": {
+                    "technical_correctness": "Good",
+                    "relevance": "Good",
+                    "depth": "Good",
+                    "completeness": "Good"
+                },
+                "strengths": [
+                    "Mock strength 1",
+                    "Mock strength 2"
+                ],
+                "improvements": [
+                    "Mock improvement 1"
+                ],
+                "timestamp": "2026-08-31T16:50:09.435110"
+            }
+        ],
+        "recommendations": [
+            "Work on speaking confidence \u2014 record yourself and practice mock answers aloud."
+        ],
+        "skill_scores": {
+            "Python": 80,
+            "MongoDB": 80,
+            "AWS": 80
+        },
+        "strong_areas": [
+            "Python"
+        ],
+        "weak_areas": [
+            "Provide more deep architectural details."
+        ],
+        "covered_topics": [
+            "Python",
+            "MongoDB",
+            "AWS"
+        ],
+        "candidate_profile": {
+            "user_id": "6a95b0ba54458d76bfb7345e",
+            "skills": {
+                "Python": {
+                    "score": 80,
+                    "depth": "Advanced",
+                    "confidence": 65,
+                    "consistency": "High",
+                    "evidence_count": 2,
+                    "easy_scores": [
+                        80
+                    ],
+                    "medium_scores": [],
+                    "hard_scores": [
+                        80
+                    ],
+                    "scores": [
+                        80,
+                        80
+                    ],
+                    "uncertainty_count": 0,
+                    "contradictions_count": 0,
+                    "technical_correctness_scores": [
+                        80,
+                        80
+                    ],
+                    "technical_correctness": 80,
+                    "relevance_scores": [
+                        80,
+                        80
+                    ],
+                    "relevance": 80,
+                    "depth_scores": [
+                        80,
+                        80
+                    ],
+                    "depth_score": 80,
+                    "completeness_scores": [
+                        80,
+                        80
+                    ],
+                    "completeness": 80
+                },
+                "MongoDB": {
+                    "score": 80,
+                    "depth": "Basic",
+                    "confidence": 52,
+                    "consistency": "High",
+                    "evidence_count": 1,
+                    "easy_scores": [
+                        80
+                    ],
+                    "medium_scores": [],
+                    "hard_scores": [],
+                    "scores": [
+                        80
+                    ],
+                    "uncertainty_count": 0,
+                    "contradictions_count": 0,
+                    "technical_correctness_scores": [
+                        80
+                    ],
+                    "technical_correctness": 80,
+                    "relevance_scores": [
+                        80
+                    ],
+                    "relevance": 80,
+                    "depth_scores": [
+                        80
+                    ],
+                    "depth_score": 80,
+                    "completeness_scores": [
+                        80
+                    ],
+                    "completeness": 80
+                },
+                "AWS": {
+                    "score": 80,
+                    "depth": "Basic",
+                    "confidence": 52,
+                    "consistency": "High",
+                    "evidence_count": 1,
+                    "easy_scores": [
+                        80
+                    ],
+                    "medium_scores": [],
+                    "hard_scores": [],
+                    "scores": [
+                        80
+                    ],
+                    "uncertainty_count": 0,
+                    "contradictions_count": 0,
+                    "technical_correctness_scores": [
+                        80
+                    ],
+                    "technical_correctness": 80,
+                    "relevance_scores": [
+                        80
+                    ],
+                    "relevance": 80,
+                    "depth_scores": [
+                        80
+                    ],
+                    "depth_score": 80,
+                    "completeness_scores": [
+                        80
+                    ],
+                    "completeness": 80
+                }
+            },
+            "strong_areas": [
+                "Python"
+            ],
+            "weak_areas": [],
+            "contradictions": [],
+            "self_corrections": [],
+            "knowledge_map": {
+                "Python": {
+                    "General": "High"
+                },
+                "MongoDB": {
+                    "General": "High"
+                },
+                "AWS": {
+                    "General": "High"
+                }
+            },
+            "updated_at": "2026-08-31T16:50:09.484357"
+        },
+        "user_id": "6a95b0ba54458d76bfb7345e",
+        "is_practice": false,
+        "date": "2026-08-31 22:20",
+        "interview_id": "6a95b0bb54458d76bfb73465",
+        "invitation_token": "51f35d42-a260-44a9-ab83-f816e4e1ecae"
     }
 }
