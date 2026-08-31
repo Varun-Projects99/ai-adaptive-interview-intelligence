@@ -131,8 +131,8 @@
 
       <!-- CTA button -->
       <button class="btn btn-primary btn-full" id="start-btn" disabled
-              onclick="uploadResume()">
-        <span class="btn-text">Upload &amp; Start Interview</span>
+              onclick="startInterview()">
+        <span class="btn-text">Start Adaptive AI Interview</span>
         <div class="spinner" style="border-top-color:#000"></div>
       </button>
     </div>
@@ -172,6 +172,7 @@
 <script src="/assets/js/session.js"></script>
 <script>
 let selectedFile = null;
+let resumeParsed = false;
 
 function handleDrop(e) {
   e.preventDefault();
@@ -190,13 +191,54 @@ function handleFile(file) {
   selectedFile = file;
   document.getElementById("drop-label").textContent = file.name;
   document.getElementById("drop-sub").textContent   =
-    (file.size / 1024).toFixed(0) + " KB · Ready to upload";
-  setStatus("File ready — click button to upload", "", 10);
-  document.getElementById("start-btn").disabled = false;
+    (file.size / 1024).toFixed(0) + " KB · Analyzing Skills...";
+  
+  // Auto-analyze resume skills on selection
+  analyzeResumeFile();
 }
 
-async function uploadResume() {
+async function analyzeResumeFile() {
   if (!selectedFile) return;
+  const btn = document.getElementById("start-btn");
+  btn.disabled = true;
+
+  try {
+    // 1. Start session if needed
+    if (!Session.id) {
+      setStatus("Starting session...", "", 20);
+      const sess = await apiPost("/api/session/start", {});
+      Session.id = sess.session_id;
+    }
+
+    // 2. Upload resume & extract skills
+    setStatus("Extracting skills from resume with AI...", "", 50);
+    const form = new FormData();
+    form.append("session_id", Session.id);
+    form.append("resume", selectedFile);
+    const up = await apiPost("/api/resume/upload", form, true);
+    Session.skills = up.skills_detected || [];
+    showSkills(Session.skills);
+    
+    const count = Session.skills.length;
+    setStatus(`✓ ${count} skills detected. Choose Personality & Language below:`, "ok", 100);
+    
+    resumeParsed = true;
+    btn.disabled = false;
+    btn.querySelector(".btn-text").textContent = "Start Adaptive AI Interview";
+
+  } catch(e) {
+    setStatus("Error parsing resume: " + e.message, "err", 0);
+    btn.disabled = false;
+    showToast(e.message, "err");
+  }
+}
+
+async function startInterview() {
+  if (!selectedFile && !Session.id) {
+    showToast("Please upload a PDF resume first.", "err");
+    return;
+  }
+
   const btn = document.getElementById("start-btn");
   btn.classList.add("loading"); btn.disabled = true;
 
@@ -204,25 +246,12 @@ async function uploadResume() {
   const language = document.getElementById("select-language").value;
 
   try {
-    // 1. Start session
-    setStatus("Starting session...", "", 20);
-    const sess = await apiPost("/api/session/start", {});
-    Session.id = sess.session_id;
+    if (!resumeParsed) {
+      await analyzeResumeFile();
+    }
 
-    // 2. Upload resume + extract skills
-    setStatus("Extracting skills from resume...", "", 40);
-    const form = new FormData();
-    form.append("session_id", Session.id);
-    form.append("resume", selectedFile);
-    const up = await apiPost("/api/resume/upload", form, true);
-    Session.skills = up.skills_detected;
-    showSkills(up.skills_detected);
-    
-    const count = up.skills_detected ? up.skills_detected.length : 0;
-    setStatus(`✓ ${count} skills detected`, "ok", 60);
-
-    // 3. Configure interviewer options
-    setStatus("Configuring AI interviewer personality...", "", 75);
+    // 1. Configure interviewer personality & language
+    setStatus("Configuring AI interviewer setup...", "", 75);
     await apiPost("/api/interviewer/configure", {
       session_id: Session.id,
       personality: personality,
@@ -231,7 +260,7 @@ async function uploadResume() {
     localStorage.setItem("personality", personality);
     localStorage.setItem("language", language);
 
-    // 4. Generate questions via Claude
+    // 2. Generate questions via Claude
     setStatus("Generating questions with Claude AI...", "", 90);
     const qd = await apiPost("/api/questions/generate", { session_id: Session.id });
     Session.total = qd.total_questions;
@@ -249,13 +278,17 @@ async function uploadResume() {
 function showSkills(skills) {
   const grid = document.getElementById("skills-grid");
   grid.innerHTML = "";
-  skills.forEach((s, i) => {
-    const c = document.createElement("div");
-    c.className = "skill-chip";
-    c.textContent = s;
-    c.style.animationDelay = (i * 0.05) + "s";
-    grid.appendChild(c);
-  });
+  if (!skills || skills.length === 0) {
+    grid.innerHTML = "<div style='font-size:12px;color:var(--text-muted)'>No specific skills detected. Standard technical questions will be used.</div>";
+  } else {
+    skills.forEach((s, i) => {
+      const c = document.createElement("div");
+      c.className = "skill-chip";
+      c.textContent = s;
+      c.style.animationDelay = (i * 0.05) + "s";
+      grid.appendChild(c);
+    });
+  }
   document.getElementById("skills-area").style.display = "flex";
 }
 
