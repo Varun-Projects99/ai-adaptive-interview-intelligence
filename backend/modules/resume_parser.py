@@ -67,6 +67,28 @@ def extract_text_from_pdf(path: str) -> str:
         except Exception as e2:
             print(f"[ResumeParser] pdfminer fallback error: {e2}")
 
+    # Fallback to EasyOCR for scanned / image-based PDFs
+    if len(text.strip()) < 30:
+        try:
+            print("[ResumeParser] Scanned PDF detected, initializing EasyOCR engine...")
+            import fitz
+            import numpy as np
+            import easyocr
+            
+            reader = easyocr.Reader(['en'], gpu=False, verbose=False)
+            doc = fitz.open(path)
+            for page in doc:
+                pix = page.get_pixmap(dpi=150)
+                img_np = np.frombuffer(pix.samples, dtype=np.uint8).reshape(pix.height, pix.width, pix.n)
+                if pix.n == 4:
+                    img_np = img_np[:, :, :3]
+                results = reader.readtext(img_np, detail=0)
+                if results:
+                    text += "\n".join(results) + "\n"
+            print(f"[ResumeParser] EasyOCR extracted {len(text.strip())} chars from scanned PDF.")
+        except Exception as e_ocr:
+            print(f"[ResumeParser] EasyOCR fallback error: {e_ocr}")
+
     text = unicodedata.normalize("NFKD", text)
     return text.strip()
 
