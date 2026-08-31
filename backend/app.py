@@ -206,8 +206,6 @@ app = Flask(__name__, static_folder=None)
 # 🔐 Secure Secret Key validation
 flask_secret_env = os.environ.get("FLASK_SECRET")
 if not flask_secret_env:
-    if os.environ.get("VERCEL"):
-        raise RuntimeError("FLASK_SECRET environment variable is missing! Serverless deployment cannot maintain session stability without a persistent key.")
     print("[WARN] FLASK_SECRET key is missing from environment! Generating a dynamic session key for this launch.")
     import secrets
     app.secret_key = secrets.token_hex(32)
@@ -1217,6 +1215,9 @@ def route_logout():
 
 @app.route("/health")
 def health():
+    host = request.headers.get("Host") or "127.0.0.1:5000"
+    scheme = "https" if os.environ.get("VERCEL") else "http"
+    base_url = f"{scheme}://{host}"
     return jsonify(
         {
             "status": "Backend Running",
@@ -1229,11 +1230,11 @@ def health():
                 "adaptive_difficulty",
             ],
             "urls": {
-                "frontend": "http://192.168.1.6:5000",
-                "interview": "http://192.168.1.6:5000/interview",
-                "report": "http://192.168.1.6:5000/report",
-                "dashboard": "http://192.168.1.6:5000/dashboard",
-                "api": "http://192.168.1.6:5000/api",
+                "frontend": base_url,
+                "interview": f"{base_url}/interview",
+                "report": f"{base_url}/report",
+                "dashboard": f"{base_url}/dashboard",
+                "api": f"{base_url}/api",
             },
         }
     )
@@ -1448,13 +1449,10 @@ def upload_resume():
         return jsonify({"error": "No file uploaded"}), 400
 
     file = request.files["resume"]
-    if not file.filename or not file.filename.endswith(".pdf"):
-        return jsonify({"error": "Only PDF supported"}), 400
+    if not file.filename or not file.filename.lower().endswith(".pdf"):
+        return jsonify({"error": "Only PDF files are supported."}), 400
 
-    # MIME Type and File Size check (limit to 5MB)
-    if file.content_type != "application/pdf":
-        return jsonify({"error": "Invalid file type. Only PDF is allowed."}), 400
-    
+    # File Size check (limit to 5MB)
     file.seek(0, os.SEEK_END)
     file_size = file.tell()
     file.seek(0)
