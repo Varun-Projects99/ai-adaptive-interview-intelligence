@@ -24,7 +24,7 @@
 
   <!-- Background glow -->
   <div style="position:absolute;width:700px;height:700px;pointer-events:none;
-              background:radial-gradient(circle,rgba(0,212,255,.06) 0%,transparent 70%);
+              background:radial-gradient(circle,rgba(4,110,59,.06) 0%,transparent 70%);
               top:50%;left:50%;transform:translate(-50%,-50%)"></div>
 
   <div style="width:100%;max-width:580px;display:flex;flex-direction:column;
@@ -40,8 +40,8 @@
     <h1 class="font-heading fade-up fade-up-1"
         style="font-size:clamp(42px,7vw,78px);font-weight:800;line-height:.95;
                letter-spacing:-3px;text-align:center">
-      Ace Your <span style="color:var(--accent)">Next</span><br>
-      <span style="-webkit-text-stroke:1.5px rgba(0,212,255,.4);color:transparent">Interview</span>
+      Ace Your <span style="color:var(--accent2)">Next</span><br>
+      <span style="-webkit-text-stroke:1.5px rgba(4,110,59,.4);color:transparent">Interview</span>
     </h1>
 
     <!-- Sub -->
@@ -94,6 +94,32 @@
           Detected Skills
         </div>
         <div id="skills-grid" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+      </div>
+
+      <!-- Personality & Language Selection -->
+      <div id="setup-area" style="display:none; flex-direction:column; gap:14px; border-top:1px solid var(--border); padding-top:16px">
+        <div class="font-mono text-muted" style="font-size:10px; letter-spacing:0.15em; text-transform:uppercase">
+          AI Interviewer Setup
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px">
+          <div style="display:flex; flex-direction:column; gap:6px">
+            <label class="font-mono text-muted" style="font-size:10px; text-transform:uppercase">Personality</label>
+            <select id="select-personality" class="form-select" style="background:var(--surface2); border:1px solid var(--border2); color:var(--text); font-family:var(--fb); font-size:13px; padding:10px 14px; outline:none; width:100%; cursor:pointer">
+              <option value="professional" selected>Professional (Concise)</option>
+              <option value="friendly">Friendly (Encouraging)</option>
+              <option value="technical">Technical (Demanding)</option>
+              <option value="hr">HR (Behavioral)</option>
+            </select>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:6px">
+            <label class="font-mono text-muted" style="font-size:10px; text-transform:uppercase">Language</label>
+            <select id="select-language" class="form-select" style="background:var(--surface2); border:1px solid var(--border2); color:var(--text); font-family:var(--fb); font-size:13px; padding:10px 14px; outline:none; width:100%; cursor:pointer">
+              <option value="en" selected>English</option>
+              <option value="hi">Hindi (हिंदी)</option>
+              <option value="kn">Kannada (ಕನ್ನಡ)</option>
+            </select>
+          </div>
+        </div>
       </div>
 
       <!-- CTA button -->
@@ -170,7 +196,7 @@ async function uploadResume() {
   try {
     // 1. Start session
     setStatus("Starting session...", "", 20);
-    const sess = await apiPost("/api/session/start");
+    const sess = await apiPost("/api/session/start", {});
     Session.id = sess.session_id;
 
     // 2. Upload resume + extract skills
@@ -181,16 +207,49 @@ async function uploadResume() {
     const up = await apiPost("/api/resume/upload", form, true);
     Session.skills = up.skills_detected;
     showSkills(up.skills_detected);
-    setStatus(`✓ ${up.skill_count} skills detected`, "ok", 65);
+    setStatus(`✓ ${up.skill_count} skills detected. Please configure options below:`, "ok", 65);
 
-    // 3. Generate questions via Claude
-    setStatus("Generating questions with Claude AI...", "", 82);
+    // Show setup area & re-enable button for starting interview
+    document.getElementById("setup-area").style.display = "flex";
+    btn.classList.remove("loading");
+    btn.disabled = false;
+    btn.querySelector(".btn-text").textContent = "Start Adaptive AI Interview";
+    btn.onclick = startAdaptiveInterview;
+
+  } catch(e) {
+    setStatus("Error: " + e.message, "err", 0);
+    btn.classList.remove("loading"); btn.disabled = false;
+    showToast(e.message, "err");
+  }
+}
+
+async function startAdaptiveInterview() {
+  const btn = document.getElementById("start-btn");
+  btn.classList.add("loading"); btn.disabled = true;
+  
+  const personality = document.getElementById("select-personality").value;
+  const language = document.getElementById("select-language").value;
+  
+  try {
+    // 1. Configure interviewer options
+    setStatus("Configuring AI interviewer personality...", "", 75);
+    await apiPost("/api/interviewer/configure", {
+      session_id: Session.id,
+      personality: personality,
+      language: language
+    });
+    
+    // Save locally for frontend access
+    localStorage.setItem("personality", personality);
+    localStorage.setItem("language", language);
+
+    // 2. Generate questions
+    setStatus("Generating questions with Claude AI...", "", 90);
     const qd = await apiPost("/api/questions/generate", { session_id: Session.id });
     Session.total = qd.total_questions;
-    setStatus(`✓ ${qd.total_questions} questions ready — launching interview...`, "ok", 100);
-
-    setTimeout(() => { window.location.href = "/interview"; }, 1000);
-
+    
+    setStatus("✓ Ready! Launching AI Interviewer...", "ok", 100);
+    setTimeout(() => { window.location.href = "/interview"; }, 800);
   } catch(e) {
     setStatus("Error: " + e.message, "err", 0);
     btn.classList.remove("loading"); btn.disabled = false;

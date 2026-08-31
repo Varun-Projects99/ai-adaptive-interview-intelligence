@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InterviewIQ — Recruiter Portal</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        :root {
+            --neon-green: #046E3B;
+            --neon-champagne: #F8E7C9;
+            --card-bg: rgba(13, 28, 21, 0.85);
+        }
+
+        .recruiter-container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 96px 24px 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .recruiter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 24px;
+        }
+
+        .recruiter-header h1 {
+            font-family: var(--fh);
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--accent2);
+            letter-spacing: -1px;
+        }
+
+        /* ── TABS ── */
+        .tab-navigation {
+            display: flex;
+            gap: 8px;
+            background: var(--surface);
+            padding: 4px;
+            border: 1px solid var(--border);
+            margin-bottom: 32px;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 10px 20px;
+            font-family: var(--fm);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+
+        .tab-btn:hover {
+            color: var(--accent2);
+            background: rgba(248, 231, 201, 0.05);
+        }
+
+        .tab-btn.active {
+            color: var(--bg);
+            background: var(--accent2);
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── METRICS GRID ── */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .metric-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 24px;
+            text-align: left;
+            position: relative;
+        }
+
+        .metric-card .title {
+            font-family: var(--fm);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .metric-card .value {
+            font-family: var(--fh);
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--accent2);
+        }
+
+        /* ── SECTION CARDS & COLS ── */
+        .dashboard-cols {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-cols { grid-template-columns: 1fr; }
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 28px;
+            margin-bottom: 24px;
+            backdrop-filter: blur(10px);
+        }
+
+        .section-card h2 {
+            font-family: var(--fh);
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent2);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* ── FORMS & CONTROLS ── */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-family: var(--fm);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+
+        .form-control {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 12px;
+            font-family: var(--fb);
+            font-size: 14px;
+            transition: border var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent2);
+        }
+
+        .form-switch {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            user-select: none;
+            padding: 12px 0;
+        }
+
+        .form-switch input {
+            display: none;
+        }
+
+        .switch-slider {
+            width: 44px;
+            height: 24px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            position: relative;
+            transition: all var(--transition);
+        }
+
+        .switch-slider::before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            left: 3px;
+            bottom: 3px;
+            background: var(--text-muted);
+            transition: all var(--transition);
+        }
+
+        .form-switch input:checked + .switch-slider {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .form-switch input:checked + .switch-slider::before {
+            transform: translateX(20px);
+            background: var(--accent2);
+        }
+
+        .btn-submit {
+            background: var(--accent);
+            color: var(--accent2);
+            font-family: var(--fh);
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 14px 28px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+
+        .btn-submit:hover {
+            background: var(--accent2);
+            color: var(--bg);
+            box-shadow: 0 0 15px rgba(248, 231, 201, 0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-muted);
+            font-family: var(--fh);
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 14px 28px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+
+        .btn-secondary:hover {
+            color: var(--accent2);
+            border-color: var(--accent2);
+        }
+
+        /* ── TABLES ── */
+        .table-wrapper {
+            overflow-x: auto;
+            margin-bottom: 24px;
+        }
+
+        .rec-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .rec-table th {
+            font-family: var(--fm);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(7, 19, 14, 0.3);
+        }
+
+        .rec-table td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+            color: var(--text);
+            vertical-align: middle;
+        }
+
+        .rec-table tbody tr:hover {
+            background: rgba(248, 231, 201, 0.02);
+        }
+
+        /* ── BADGES & STATUS ── */
+        .badge {
+            font-family: var(--fm);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 4px 10px;
+            border: 1px solid transparent;
+            display: inline-block;
+        }
+
+        .badge.normal {
+            color: var(--accent2);
+            border-color: var(--border2);
+            background: rgba(4, 110, 59, 0.08);
+        }
+
+        .badge.warning {
+            color: var(--warn);
+            border-color: var(--warn);
+            background: rgba(217, 160, 91, 0.08);
+        }
+
+        .badge.danger {
+            color: var(--danger);
+            border-color: var(--danger);
+            background: rgba(163, 72, 81, 0.08);
+        }
+
+        .score-circle {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--fm);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent2);
+            background: rgba(4, 110, 59, 0.1);
+        }
+
+        .score-circle.low {
+            border-color: var(--danger);
+            color: var(--danger);
+            background: rgba(163, 72, 81, 0.1);
+        }
+
+        /* ── FILTER & CONTROL BAR ── */
+        .control-bar {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .control-bar .search-input {
+            flex-grow: 1;
+            min-width: 260px;
+        }
+
+        /* ── MODALS ── */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(4, 110, 59, 0.05);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .modal-content {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            padding: 32px;
+            animation: modalSlide 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        @keyframes modalSlide {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 24px; right: 24px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-family: var(--fm);
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            color: var(--accent2);
+        }
+
+        /* ── CHIPS ── */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .skill-chip {
+            font-family: var(--fm);
+            font-size: 10px;
+            padding: 2px 8px;
+            border: 1px solid var(--border2);
+            color: var(--text-muted);
+        }
+
+        /* ── DYNAMIC GRID IN COMPARISON ── */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .comparison-col {
+            background: rgba(13, 28, 21, 0.5);
+            border: 1px solid var(--border);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .comparison-col h3 {
+            font-family: var(--fh);
+            font-size: 18px;
+            color: var(--accent2);
+            margin-bottom: 8px;
+        }
+
+        .comparison-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            border-bottom: 1px dashed var(--border);
+            padding-bottom: 8px;
+        }
+
+        .comparison-item span {
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body class="grid-bg">
+
+    <div class="navbar">
+        <div class="navbar-logo">
+            <div class="logo-dot rec"></div>
+            InterviewIQ <span class="chip" style="margin-left: 8px; background: rgba(163, 72, 81, 0.1); border-color: var(--danger);">RECRUITER</span>
+        </div>
+        <div class="navbar-right">
+            <button class="btn-secondary" style="padding: 8px 16px; font-size:11px;" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="recruiter-container">
+        <div class="recruiter-header">
+            <div>
+                <h1>Assessment Operations</h1>
+                <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Recruiter Management Panel</p>
+            </div>
+            <div class="skills-container" id="user-display">
+                <!-- Logged in Recruiter status -->
+            </div>
+        </div>
+
+        <!-- ── TAB BAR ── -->
+        <div class="tab-navigation">
+            <button class="tab-btn active" onclick="switchTab('dashboard')">Dashboard</button>
+            <button class="tab-btn" onclick="switchTab('interviews')">Assessments</button>
+            <button class="tab-btn" onclick="switchTab('invitations')">Invitations</button>
+            <button class="tab-btn" onclick="switchTab('candidates')">Candidates Directory</button>
+            <button class="tab-btn" onclick="switchTab('integrity')">Integrity Review</button>
+            <button class="tab-btn" onclick="switchTab('audit')">Audit logs</button>
+        </div>
+
+        <!-- ── DASHBOARD TAB ── -->
+        <div id="tab-dashboard" class="tab-content active">
+            <div class="metrics-grid" id="metrics-grid-container">
+                <!-- Dynamically populated stats cards -->
+            </div>
+
+            <div class="dashboard-cols">
+                <div>
+                    <div class="section-card">
+                        <h2>Recent Assessments Completed</h2>
+                        <div class="table-wrapper">
+                            <table class="rec-table">
+                                <thead>
+                                    <tr>
+                                        <th>Candidate</th>
+                                        <th>Assessment</th>
+                                        <th>Score</th>
+                                        <th>Completion Date</th>
+                                        <th>Integrity</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recent-interviews-body">
+                                    <!-- Dynamic content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div class="section-card">
+                        <h2>Top Rated Candidates</h2>
+                        <div id="top-candidates-container">
+                            <!-- Dynamic content -->
+                        </div>
+                    </div>
+                    <div class="section-card">
+                        <h2>Newly Registered</h2>
+                        <div id="recent-candidates-container" style="display:flex; flex-direction:column; gap:12px;">
+                            <!-- Dynamic content -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── ASSESSMENTS TAB ── -->
+        <div id="tab-interviews" class="tab-content">
+            <div class="section-card">
+                <h2>Configure Assessment Template</h2>
+                <form id="interview-template-form" onsubmit="saveInterviewTemplate(event)">
+                    <input type="hidden" id="edit-template-id" value="">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Assessment Title</label>
+                            <input type="text" id="tpl-title" class="form-control" placeholder="e.g. Senior Backend Dev Assessment" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Job Role</label>
+                            <input type="text" id="tpl-job-role" class="form-control" placeholder="e.g. Django Specialist" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Difficulty</label>
+                            <select id="tpl-difficulty" class="form-control">
+                                <option value="easy">Easy</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Duration (minutes)</label>
+                            <input type="number" id="tpl-duration" class="form-control" value="30" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Questions Count</label>
+                            <input type="number" id="tpl-questions" class="form-control" value="10" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Assessment Type</label>
+                            <select id="tpl-type" class="form-control">
+                                <option value="technical" selected>Technical</option>
+                                <option value="hr">Behavioral (HR)</option>
+                                <option value="mixed">Mixed</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Assessed Skills (Comma Separated)</label>
+                            <input type="text" id="tpl-skills" class="form-control" placeholder="e.g. Python, REST API, MongoDB" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Personality Style</label>
+                            <select id="tpl-personality" class="form-control">
+                                <option value="professional" selected>Professional</option>
+                                <option value="conversational">Conversational</option>
+                                <option value="technical">Highly Technical</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 24px;">
+                        <label>Role/Assessment Description</label>
+                        <textarea id="tpl-description" class="form-control" rows="3" placeholder="Provide background context..."></textarea>
+                    </div>
+
+                    <div style="display:flex; gap: 32px; flex-wrap:wrap; margin-bottom:28px;">
+                        <label class="form-switch">
+                            <input type="checkbox" id="tpl-adaptive" checked>
+                            <div class="switch-slider"></div>
+                            <span>Adaptive Questioning</span>
+                        </label>
+                        <label class="form-switch">
+                            <input type="checkbox" id="tpl-ai-interviewer" checked>
+                            <div class="switch-slider"></div>
+                            <span>Voice AI Interviewer</span>
+                        </label>
+                        <label class="form-switch">
+                            <input type="checkbox" id="tpl-integrity" checked>
+                            <div class="switch-slider"></div>
+                            <span>Integrity Monitoring</span>
+                        </label>
+                    </div>
+
+                    <div style="display:flex; gap:12px;">
+                        <button type="submit" class="btn-submit" id="btn-save-tpl">Create Template</button>
+                        <button type="button" class="btn-secondary" onclick="resetTemplateForm()">Cancel/Reset</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="section-card">
+                <h2>Assessment Templates Directory</h2>
+                <div class="table-wrapper">
+                    <table class="rec-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Job Role</th>
+                                <th>Skills</th>
+                                <th>Difficulty</th>
+                                <th>Duration</th>
+                                <th>Qns</th>
+                                <th>Type</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="assessments-list-body">
+                            <!-- Dynamic assessments -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── INVITATIONS TAB ── -->
+        <div id="tab-invitations" class="tab-content">
+            <div class="section-card">
+                <h2>Invite Candidate to Assessment</h2>
+                <form id="invite-form" onsubmit="createCandidateInvitation(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Candidate Email</label>
+                            <input type="email" id="invite-email" class="form-control" placeholder="e.g. candidate@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Select Assessment Template</label>
+                            <select id="invite-template" class="form-control" required>
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Link Expiration (Hours)</label>
+                            <input type="number" id="invite-expiration" class="form-control" value="48" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit">Generate Invite Link</button>
+                </form>
+            </div>
+
+            <div class="section-card">
+                <h2>Invitation History & Secure Link Actions</h2>
+                <div class="table-wrapper">
+                    <table class="rec-table">
+                        <thead>
+                            <tr>
+                                <th>Candidate Email</th>
+                                <th>Job Role</th>
+                                <th>Expires On</th>
+                                <th>Status</th>
+                                <th>Invite Link</th>
+                            </tr>
+                        </thead>
+                        <tbody id="invitations-list-body">
+                            <!-- Dynamic invites list -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── CANDIDATES DIRECTORY TAB ── -->
+        <div id="tab-candidates" class="tab-content">
+            <div class="section-card">
+                <h2>Search Candidates Directory</h2>
+                <div class="control-bar">
+                    <input type="text" id="cand-search-input" class="form-control search-input" placeholder="Search by name or email..." oninput="fetchCandidates()">
+                    <input type="text" id="cand-skills-input" class="form-control" placeholder="Skills (e.g. React, Node.js)" style="width:280px;" oninput="fetchCandidates()">
+                    <button class="btn-submit" onclick="compareSelectedCandidates()">Compare Selected</button>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="rec-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40px;">Select</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Assessed Skills</th>
+                                <th>Best Score</th>
+                                <th>Avg Score</th>
+                                <th>Completed Interviews</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="candidates-list-body">
+                            <!-- Dynamic list -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── INTEGRITY LOGS TAB ── -->
+        <div id="tab-integrity" class="tab-content">
+            <div class="section-card">
+                <h2>Candidates Proctored Logs & Integrity Levels</h2>
+                <div class="table-wrapper">
+                    <table class="rec-table">
+                        <thead>
+                            <tr>
+                                <th>Candidate</th>
+                                <th>Assessment Date</th>
+                                <th>Tab Switches</th>
+                                <th>Camera Exits</th>
+                                <th>Window Focus Out</th>
+                                <th>Camera Connected</th>
+                                <th>Microphone Connected</th>
+                                <th>Hiring Status Indicator</th>
+                            </tr>
+                        </thead>
+                        <tbody id="integrity-list-body">
+                            <!-- Dynamic content -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── AUDIT LOGS TAB ── -->
+        <div id="tab-audit" class="tab-content">
+            <div class="section-card">
+                <h2>Administrative Audits Trail Logs</h2>
+                <div class="table-wrapper">
+                    <table class="rec-table">
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>Operation / Action</th>
+                                <th>Resource / Session Token</th>
+                                <th>Date/Time</th>
+                                <th>IP Address</th>
+                            </tr>
+                        </thead>
+                        <tbody id="audit-logs-body">
+                            <!-- Dynamic audit logs -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── MODAL: CANDIDATE PROFILE ── -->
+    <div id="profile-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('profile-modal')">CLOSE ✕</button>
+            <h2 id="prof-name" style="margin-bottom:6px;">Candidate Profile</h2>
+            <p id="prof-email" style="font-family: var(--fm); font-size:12px; color:var(--text-muted); margin-bottom:24px;"></p>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-bottom:24px;">
+                <div class="metric-card">
+                    <div class="title">Best Overall Score</div>
+                    <div class="value" id="prof-best-score">--</div>
+                </div>
+                <div class="metric-card">
+                    <div class="title">Average Candidate Score</div>
+                    <div class="value" id="prof-avg-score">--</div>
+                </div>
+            </div>
+
+            <div class="section-card" style="padding:20px; border-color:var(--border2);">
+                <h3 style="font-size:14px; margin-bottom:12px; color:var(--accent2); font-family:var(--fm); text-transform:uppercase;">Skill Progressions Map</h3>
+                <div id="prof-skills-progress-list">
+                    <!-- Progress items -->
+                </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px;">
+                <div class="section-card" style="padding:20px;">
+                    <h3 style="font-size:14px; margin-bottom:12px; color:var(--accent2); font-family:var(--fm); text-transform:uppercase;">Verified Strengths</h3>
+                    <ul id="prof-strengths" style="font-size:13px; padding-left:16px;"></ul>
+                </div>
+                <div class="section-card" style="padding:20px;">
+                    <h3 style="font-size:14px; margin-bottom:12px; color:var(--accent2); font-family:var(--fm); text-transform:uppercase;">Identified Weak Areas</h3>
+                    <ul id="prof-weaknesses" style="font-size:13px; padding-left:16px;"></ul>
+                </div>
+            </div>
+
+            <div class="section-card" style="padding:20px;">
+                <h3 style="font-size:14px; margin-bottom:12px; color:var(--accent2); font-family:var(--fm); text-transform:uppercase;">Assessment Attempts & Reports</h3>
+                <div class="table-wrapper">
+                    <table class="rec-table">
+                        <thead>
+                            <tr>
+                                <th>Role Assessment</th>
+                                <th>Date</th>
+                                <th>Score</th>
+                                <th>Proctoring</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="prof-attempts-body">
+                            <!-- Attempt list -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── MODAL: COMPARISON VIEW ── -->
+    <div id="comparison-modal" class="modal">
+        <div class="modal-content" style="max-width:1000px;">
+            <button class="modal-close" onclick="closeModal('comparison-modal')">CLOSE ✕</button>
+            <h2>Candidates Comparison Insights</h2>
+            <p style="font-size:12px; color:var(--text-muted); margin-bottom:24px;">Comparing side-by-side technical correctness, depth, problem solving, and integrity proctoring signals.</p>
+
+            <div class="comparison-grid" id="comparison-cols-container">
+                <!-- Columns populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ── ROUTING STATE ──
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            const targetBtn = Array.from(document.querySelectorAll('.tab-btn')).find(btn => btn.innerText.toLowerCase().includes(tabId.split('-')[0]));
+            if (targetBtn) targetBtn.classList.add('active');
+            
+            const targetContent = document.getElementById(`tab-${tabId}`);
+            if (targetContent) targetContent.classList.add('active');
+
+            // Fetch tab specific data
+            if (tabId === 'dashboard') loadDashboardData();
+            else if (tabId === 'interviews') loadInterviewsTab();
+            else if (tabId === 'invitations') loadInvitationsTab();
+            else if (tabId === 'candidates') fetchCandidates();
+            else if (tabId === 'integrity') fetchIntegrityLogs();
+            else if (tabId === 'audit') fetchAuditLogs();
+        }
+
+        function openModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        // ── AUTH CHECK ──
+        async function checkAuth() {
+            try {
+                const res = await fetch("/api/auth/me");
+                const auth = await res.json();
+                if (!auth.authenticated || (auth.user.role !== 'recruiter' && auth.user.role !== 'admin')) {
+                    window.location.href = "/login";
+                    return;
+                }
+                document.getElementById("user-display").innerHTML = `
+                    <span class="skill-chip">${auth.user.email}</span>
+                    <span class="skill-chip" style="border-color:var(--accent); color:var(--accent2);">${auth.user.role.toUpperCase()}</span>
+                `;
+                loadDashboardData();
+            } catch (e) {
+                window.location.href = "/login";
+            }
+        }
+
+        async function logout() {
+            await fetch("/api/auth/logout", { method: "POST" });
+            window.location.href = "/login";
+        }
+
+        // ── LOAD DASHBOARD DATA ──
+        async function loadDashboardData() {
+            try {
+                const res = await fetch("/api/recruiter/dashboard");
+                const data = await res.json();
+                
+                // Pop stats metrics
+                const metricsGrid = document.getElementById("metrics-grid-container");
+                metricsGrid.innerHTML = `
+                    <div class="metric-card">
+                        <div class="title">Total Candidates</div>
+                        <div class="value">${data.metrics.total_candidates}</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="title">Active Assessment Sessions</div>
+                        <div class="value" style="color: var(--warn);">${data.metrics.active_interviews}</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="title">Completed Assessments</div>
+                        <div class="value" style="color: var(--accent2);">${data.metrics.completed_interviews}</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="title">Pending assessment invites</div>
+                        <div class="value">${data.metrics.pending_invitations}</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="title">Average Score</div>
+                        <div class="value">${data.metrics.average_candidate_score}%</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="title">Integrity Violations</div>
+                        <div class="value" style="color: var(--danger);">${data.metrics.integrity_violations}</div>
+                    </div>
+                `;
+
+                // Pop recent completed interviews
+                const body = document.getElementById("recent-interviews-body");
+                if (data.recent_interviews.length === 0) {
+                    body.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">No completed interview reports available.</td></tr>`;
+                } else {
+                    body.innerHTML = data.recent_interviews.map(i => `
+                        <tr>
+                            <td><strong>${i.candidate_email}</strong></td>
+                            <td>${i.job_role}</td>
+                            <td>
+                                <div class="score-circle ${i.overall_score < 50 ? 'low' : ''}">
+                                    ${i.overall_score}%
+                                </div>
+                            </td>
+                            <td>${i.date}</td>
+                            <td>
+                                <span class="badge ${i.integrity_status === 'Normal' ? 'normal' : 'warning'}">${i.integrity_status}</span>
+                            </td>
+                            <td>
+                                <button class="btn-secondary" style="padding:6px 12px; font-size:11px;" onclick="window.location.href='/report?session_id=${i.session_id}'">Open Report</button>
+                            </td>
+                        </tr>
+                    `).join("");
+                }
+
+                // Top candidates list
+                const topCont = document.getElementById("top-candidates-container");
+                if (data.top_candidates.length === 0) {
+                    topCont.innerHTML = `<p style="color:var(--text-muted); font-size:13px; text-align:center;">No candidates evaluated yet.</p>`;
+                } else {
+                    topCont.innerHTML = data.top_candidates.map(u => `
+                        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:12px;">
+                            <div>
+                                <div style="font-size:14px; font-weight:600; color:var(--accent2);">${u.name}</div>
+                                <div style="font-size:12px; color:var(--text-muted);">${u.email}</div>
+                            </div>
+                            <div style="font-family: var(--fm); font-size:16px; font-weight:700; color:var(--accent2);">
+                                ${u.max_score}%
+                            </div>
+                        </div>
+                    `).join("");
+                }
+
+                // Newly registered candidates
+                const regCont = document.getElementById("recent-candidates-container");
+                if (data.recent_candidates.length === 0) {
+                    regCont.innerHTML = `<p style="color:var(--text-muted); font-size:13px; text-align:center;">No candidates registered yet.</p>`;
+                } else {
+                    regCont.innerHTML = data.recent_candidates.map(u => `
+                        <div style="font-size:13px;">
+                            <strong style="color:var(--accent2);">${u.name}</strong> (${u.email})
+                        </div>
+                    `).join("");
+                }
+            } catch (e) {
+                console.error("Dashboard aggregation load failure", e);
+            }
+        }
+
+        // ── LOAD ASSESSMENTS TAB ──
+        async function loadInterviewsTab() {
+            try {
+                const res = await fetch("/api/recruiter/interviews");
+                const list = await res.json();
+                
+                const body = document.getElementById("assessments-list-body");
+                if (list.length === 0) {
+                    body.innerHTML = `<tr><td colspan="8" style="text-align:center; color:var(--text-muted);">No interviews created yet.</td></tr>`;
+                } else {
+                    body.innerHTML = list.map(i => `
+                        <tr>
+                            <td><strong>${i.title}</strong></td>
+                            <td>${i.job_role}</td>
+                            <td>${i.skills.join(", ")}</td>
+                            <td><span style="text-transform:capitalize;">${i.difficulty}</span></td>
+                            <td>${i.duration} mins</td>
+                            <td>${i.num_questions}</td>
+                            <td><span style="text-transform:capitalize;">${i.type}</span></td>
+                            <td>
+                                <button class="btn-secondary" style="padding:6px 12px; font-size:11px;" onclick="loadTemplateIntoForm('${i.id}')">Edit</button>
+                            </td>
+                        </tr>
+                    `).join("");
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function saveInterviewTemplate(e) {
+            e.preventDefault();
+            const id = document.getElementById("edit-template-id").value;
+            const skillsStr = document.getElementById("tpl-skills").value;
+            const payload = {
+                title: document.getElementById("tpl-title").value,
+                job_role: document.getElementById("tpl-job-role").value,
+                difficulty: document.getElementById("tpl-difficulty").value,
+                duration: document.getElementById("tpl-duration").value,
+                num_questions: document.getElementById("tpl-questions").value,
+                type: document.getElementById("tpl-type").value,
+                skills: skillsStr.split(",").map(s => s.trim()).filter(s => s),
+                personality: document.getElementById("tpl-personality").value,
+                description: document.getElementById("tpl-description").value,
+                adaptive: document.getElementById("tpl-adaptive").checked,
+                ai_interviewer: document.getElementById("tpl-ai-interviewer").checked,
+                integrity_monitoring: document.getElementById("tpl-integrity").checked
+            };
+
+            const url = id ? `/api/recruiter/interviews/${id}` : "/api/recruiter/interviews";
+            const method = id ? "PUT" : "POST";
+
+            try {
+                const res = await fetch(url, {
+                    method: method,
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+                if (res.ok) {
+                    alert(id ? "Assessment template updated successfully!" : "Assessment template created successfully!");
+                    resetTemplateForm();
+                    loadInterviewsTab();
+                } else {
+                    const err = await res.json();
+                    alert(err.error || "Save template failed");
+                }
+            } catch (err) {
+                alert("Network error.");
+            }
+        }
+
+        async function loadTemplateIntoForm(id) {
+            const res = await fetch("/api/recruiter/interviews");
+            const list = await res.json();
+            const tpl = list.find(i => i.id === id);
+            if (!tpl) return;
+
+            document.getElementById("edit-template-id").value = tpl.id;
+            document.getElementById("tpl-title").value = tpl.title;
+            document.getElementById("tpl-job-role").value = tpl.job_role;
+            document.getElementById("tpl-difficulty").value = tpl.difficulty;
+            document.getElementById("tpl-duration").value = tpl.duration;
+            document.getElementById("tpl-questions").value = tpl.num_questions;
+            document.getElementById("tpl-type").value = tpl.type;
+            document.getElementById("tpl-skills").value = tpl.skills.join(", ");
+            document.getElementById("tpl-personality").value = tpl.personality;
+            document.getElementById("tpl-description").value = tpl.description || "";
+            document.getElementById("tpl-adaptive").checked = tpl.adaptive;
+            document.getElementById("tpl-ai-interviewer").checked = tpl.ai_interviewer;
+            document.getElementById("tpl-integrity").checked = tpl.integrity_monitoring;
+
+            document.getElementById("btn-save-tpl").innerText = "Save Update Template";
+            document.getElementById("interview-template-form").scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetTemplateForm() {
+            document.getElementById("edit-template-id").value = "";
+            document.getElementById("interview-template-form").reset();
+            document.getElementById("btn-save-tpl").innerText = "Create Template";
+        }
+
+        // ── INVITATIONS TAB ──
+        async function loadInvitationsTab() {
+            try {
+                // Populate template selector dropdown
+                const intRes = await fetch("/api/recruiter/interviews");
+                const list = await intRes.json();
+                const select = document.getElementById("invite-template");
+                select.innerHTML = list.map(i => `<option value="${i.id}">${i.title} (${i.job_role})</option>`).join("");
+
+                // Load invites list
+                const invRes = await fetch("/api/recruiter/invitations");
+                const invites = await invRes.json();
+                
+                const body = document.getElementById("invitations-list-body");
+                if (invites.length === 0) {
+                    body.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">No invites generated yet.</td></tr>`;
+                } else {
+                    body.innerHTML = invites.map(i => {
+                        const link = `${window.location.origin}/invite/${i.token}`;
+                        return `
+                            <tr>
+                                <td><strong>${i.email}</strong></td>
+                                <td>${i.job_role}</td>
+                                <td>${i.expiration_date}</td>
+                                <td>
+                                    <span class="badge ${i.status === 'Completed' ? 'normal' : i.status === 'Started' ? 'warning' : 'danger'}">${i.status}</span>
+                                </td>
+                                <td>
+                                    <input type="text" value="${link}" class="form-control" style="width:280px; display:inline-block; font-size:11px; padding:6px;" readonly>
+                                    <button class="btn-submit" style="padding:6px 12px; font-size:11px;" onclick="copyToClipboard('${link}')">Copy Link</button>
+                                </td>
+                            </tr>
+                        `;
+                    }).join("");
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+            alert("Invite link copied to clipboard!");
+        }
+
+        async function createCandidateInvitation(e) {
+            e.preventDefault();
+            const payload = {
+                email: document.getElementById("invite-email").value,
+                interview_id: document.getElementById("invite-template").value,
+                expiration_hours: document.getElementById("invite-expiration").value
+            };
+
+            try {
+                const res = await fetch("/api/recruiter/invitations", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+                if (res.ok) {
+                    alert("Assessment invitation generated!");
+                    document.getElementById("invite-email").value = "";
+                    loadInvitationsTab();
+                } else {
+                    const err = await res.json();
+                    alert(err.error || "Generate invite link failed");
+                }
+            } catch (err) {
+                alert("Network error.");
+            }
+        }
+
+        // ── CANDIDATES DIRECTORY & SEARCH ──
+        async function fetchCandidates() {
+            try {
+                const search = document.getElementById("cand-search-input").value;
+                const skills = document.getElementById("cand-skills-input").value;
+                const res = await fetch(`/api/recruiter/candidates?search=${encodeURIComponent(search)}&skills=${encodeURIComponent(skills)}`);
+                const list = await res.json();
+                
+                const body = document.getElementById("candidates-list-body");
+                if (list.length === 0) {
+                    body.innerHTML = `<tr><td colspan="8" style="text-align:center; color:var(--text-muted);">No candidates available yet.</td></tr>`;
+                } else {
+                    body.innerHTML = list.map(c => `
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="candidate-compare" value="${c.id}" data-name="${c.name}">
+                            </td>
+                            <td><strong>${c.name}</strong></td>
+                            <td>${c.email}</td>
+                            <td>
+                                <div class="skills-container">
+                                    ${c.skills.map(s => `<span class="skill-chip">${s}</span>`).join("")}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="score-circle ${c.best_score < 50 ? 'low' : ''}">
+                                    ${c.best_score}%
+                                </div>
+                            </td>
+                            <td>
+                                <div class="score-circle ${c.avg_score < 50 ? 'low' : ''}">
+                                    ${c.avg_score}%
+                                </div>
+                            </td>
+                            <td>${c.completed_interviews}</td>
+                            <td>
+                                <button class="btn-submit" style="padding:6px 12px; font-size:11px;" onclick="viewCandidateProfile('${c.id}')">View Profile</button>
+                            </td>
+                        </tr>
+                    `).join("");
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function viewCandidateProfile(id) {
+            try {
+                const res = await fetch(`/api/recruiter/candidates/${id}`);
+                const data = await res.json();
+                
+                document.getElementById("prof-name").innerText = data.candidate.name;
+                document.getElementById("prof-email").innerText = data.candidate.email;
+                document.getElementById("prof-best-score").innerText = data.best_score ? `${data.best_score}%` : '--';
+                document.getElementById("prof-avg-score").innerText = data.avg_score ? `${data.avg_score}%` : '--';
+                
+                // Strengths and weaknesses lists
+                const strengthsUl = document.getElementById("prof-strengths");
+                if (data.strong_areas.length === 0) strengthsUl.innerHTML = `<li>No strengths detected yet.</li>`;
+                else strengthsUl.innerHTML = data.strong_areas.map(s => `<li>${s}</li>`).join("");
+
+                const weakUl = document.getElementById("prof-weaknesses");
+                if (data.weak_areas.length === 0) weakUl.innerHTML = `<li>No weak areas identified yet.</li>`;
+                else weakUl.innerHTML = data.weak_areas.map(w => `<li>${w}</li>`).join("");
+
+                // Skill progression meters
+                const skillProg = document.getElementById("prof-skills-progress-list");
+                const skills = Object.keys(data.skill_progression);
+                if (skills.length === 0) {
+                    skillProg.innerHTML = `<p style="color:var(--text-muted); font-size:13px;">No skill metrics recorded yet.</p>`;
+                } else {
+                    skillProg.innerHTML = skills.map(s => {
+                        const sd = data.skill_progression[s];
+                        return `
+                            <div style="margin-bottom: 12px;">
+                                <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px;">
+                                    <strong>${s}</strong>
+                                    <span>${sd.score}% (${sd.depth})</span>
+                                </div>
+                                <div style="height:6px; background:var(--surface2); width:100%;">
+                                    <div style="height:100%; background:var(--accent); width:${sd.score}%;"></div>
+                                </div>
+                            </div>
+                        `;
+                    }).join("");
+                }
+
+                // Attempts list
+                const attemptsBody = document.getElementById("prof-attempts-body");
+                if (data.history.length === 0) {
+                    attemptsBody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">No attempts list available.</td></tr>`;
+                } else {
+                    attemptsBody.innerHTML = data.history.map(h => `
+                        <tr>
+                            <td><strong>${h.interview_title}</strong></td>
+                            <td>${h.date}</td>
+                            <td>${h.score}%</td>
+                            <td><span class="badge ${h.integrity_status === 'Normal' ? 'normal' : 'warning'}">${h.integrity_status}</span></td>
+                            <td>
+                                <button class="btn-secondary" style="padding:4px 8px; font-size:11px;" onclick="window.location.href='/report?session_id=${h.session_id}'">Report</button>
+                            </td>
+                        </tr>
+                    `).join("");
+                }
+
+                openModal("profile-modal");
+            } catch (e) {
+                alert("Failed to load profile.");
+            }
+        }
+
+        // ── COMPARISON PANEL ──
+        async function compareSelectedCandidates() {
+            const checked = Array.from(document.querySelectorAll('input[name="candidate-compare"]:checked'));
+            if (checked.length < 2) {
+                alert("Please select at least 2 candidates to compare.");
+                return;
+            }
+
+            // Find all session ids for selected candidates
+            const sessionIds = [];
+            for (const chk of checked) {
+                const res = await fetch(`/api/recruiter/candidates/${chk.value}`);
+                const data = await res.json();
+                if (data.history && data.history.length > 0) {
+                    // Use latest completed attempt session ID
+                    const latest = data.history[0];
+                    sessionIds.push(latest.session_id);
+                }
+            }
+
+            if (sessionIds.length < 2) {
+                alert("Selected candidates must have completed at least one assessment to compare them.");
+                return;
+            }
+
+            try {
+                const res = await fetch(`/api/recruiter/comparison?session_ids=${sessionIds.join(",")}`);
+                const comp = await res.json();
+                
+                const container = document.getElementById("comparison-cols-container");
+                container.innerHTML = comp.map(c => `
+                    <div class="comparison-col">
+                        <h3>${c.candidate_name}</h3>
+                        <p style="font-size:11px; color:var(--text-muted); margin-bottom:16px;">${c.candidate_email}</p>
+                        
+                        <div class="metric-card" style="padding:14px; margin-bottom:12px;">
+                            <div class="title" style="font-size:8px;">Overall Score</div>
+                            <div class="value" style="font-size:28px;">${c.overall_score}%</div>
+                        </div>
+
+                        <div class="comparison-item">
+                            <span>Technical Match</span>
+                            <strong>${c.technical}%</strong>
+                        </div>
+                        <div class="comparison-item">
+                            <span>Relevance</span>
+                            <strong>${c.relevance}%</strong>
+                        </div>
+                        <div class="comparison-item">
+                            <span>Answers Depth</span>
+                            <strong>${c.depth}%</strong>
+                        </div>
+                        <div class="comparison-item">
+                            <span>Clarity</span>
+                            <strong>${c.clarity}%</strong>
+                        </div>
+                        <div class="comparison-item">
+                            <span>Completeness</span>
+                            <strong>${c.completeness}%</strong>
+                        </div>
+                        <div class="comparison-item">
+                            <span>Communication</span>
+                            <strong>${c.communication}%</strong>
+                        </div>
+                        <div class="comparison-item">
+                            <span>Proctoring Warnings</span>
+                            <strong style="color:${c.integrity_violations > 0 ? 'var(--danger)' : 'var(--success)'};">
+                                ${c.integrity_violations}
+                            </strong>
+                        </div>
+                    </div>
+                `).join("");
+
+                openModal("comparison-modal");
+            } catch (e) {
+                alert("Failed to generate comparative insights.");
+            }
+        }
+
+        // ── INTEGRITY LOGS TAB ──
+        async function fetchIntegrityLogs() {
+            try {
+                const res = await fetch("/api/recruiter/dashboard");
+                const data = await res.json();
+                
+                const body = document.getElementById("integrity-list-body");
+                if (data.recent_interviews.length === 0) {
+                    body.innerHTML = `<tr><td colspan="8" style="text-align:center; color:var(--text-muted);">No completed interview proctoring logs.</td></tr>`;
+                } else {
+                    // Query detailed profiles to populate logs
+                    const rows = [];
+                    for (const ri of data.recent_interviews) {
+                        const pRes = await fetch(`/api/recruiter/candidates`);
+                        const list = await pRes.json();
+                        const cand = list.find(c => c.email === ri.candidate_email);
+                        if (cand) {
+                            const detailRes = await fetch(`/api/recruiter/candidates/${cand.id}`);
+                            const detail = await detailRes.json();
+                            const log = detail.integrity_history.find(h => h.session_id === ri.session_id);
+                            if (log) {
+                                const total = log.tab_switches + log.camera_exits;
+                                const rating = total >= 5 ? "High Risk" : total > 0 ? "Warning" : "Normal";
+                                const badgeClass = rating === "High Risk" ? "danger" : rating === "Warning" ? "warning" : "normal";
+                                
+                                rows.push(`
+                                    <tr>
+                                        <td><strong>${ri.candidate_email}</strong></td>
+                                        <td>${log.date}</td>
+                                        <td>${log.tab_switches}</td>
+                                        <td>${log.camera_exits}</td>
+                                        <td>${log.window_movement}</td>
+                                        <td>${log.camera_available ? 'Yes' : 'No'}</td>
+                                        <td>${log.microphone_available ? 'Yes' : 'No'}</td>
+                                        <td>
+                                            <span class="badge ${badgeClass}">${rating}</span>
+                                        </td>
+                                    </tr>
+                                `);
+                            }
+                        }
+                    }
+                    body.innerHTML = rows.join("");
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        // ── AUDIT TRAILS TAB ──
+        async function fetchAuditLogs() {
+            try {
+                const res = await fetch("/api/recruiter/audit");
+                const logs = await res.json();
+                
+                const body = document.getElementById("audit-logs-body");
+                if (logs.length === 0) {
+                    body.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">No administrative audits logged.</td></tr>`;
+                } else {
+                    body.innerHTML = logs.map(l => `
+                        <tr>
+                            <td>${l.user_id}</td>
+                            <td><strong style="color:var(--accent2);">${l.action}</strong></td>
+                            <td><span style="font-family: var(--fm); font-size:11px;">${l.session_id}</span></td>
+                            <td>${l.timestamp}</td>
+                            <td>${l.ip_address}</td>
+                        </tr>
+                    `).join("");
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        // Initialize Page
+        checkAuth();
+    </script>
+</body>
+</html>

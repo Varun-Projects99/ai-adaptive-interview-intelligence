@@ -96,9 +96,144 @@ body { overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
               color:var(--danger); letter-spacing:-1px; }
 .term-msg   { font-size:15px; color:var(--text-muted); text-align:center;
               max-width:380px; line-height:1.7; }
+
+/* ── AI INTERVIEWER AVATAR ── */
+.ai-avatar-card {
+  transition: all 0.3s ease;
+}
+.avatar-wrapper {
+  width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.avatar-core {
+  width: 60px; height: 60px; border-radius: 50%; background: rgba(4,110,59,0.15); border: 2px solid var(--accent);
+  position: relative; display: flex; align-items: center; justify-content: center;
+  transition: all 0.5s ease;
+}
+.avatar-face {
+  font-size: 26px; z-index: 10; filter: drop-shadow(0 0 4px var(--accent));
+  transition: all 0.3s;
+}
+.avatar-ring {
+  position: absolute; inset: -2px; border-radius: 50%; border: 2px solid transparent;
+  pointer-events: none; opacity: 0; transition: all 0.3s ease;
+}
+
+/* State - Idle */
+.avatar-core.idle {
+  background: rgba(4,110,59,0.08); border-color: rgba(4,110,59,0.4);
+  animation: avatar-breathe 3s ease-in-out infinite;
+}
+.avatar-core.idle .avatar-face {
+  opacity: 0.7;
+}
+
+/* State - Speaking */
+.avatar-core.speaking {
+  background: rgba(16,245,154,0.15); border-color: var(--success);
+  box-shadow: 0 0 15px rgba(16,245,154,0.25);
+}
+.avatar-core.speaking .ring-1 {
+  border-color: rgba(16,245,154,0.4); opacity: 1;
+  animation: ring-pulse 1.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+.avatar-core.speaking .ring-2 {
+  border-color: rgba(16,245,154,0.25); opacity: 1;
+  animation: ring-pulse 1.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  animation-delay: 0.4s;
+}
+
+/* State - Listening */
+.avatar-core.listening {
+  background: rgba(255,176,32,0.12); border-color: var(--warn);
+}
+.avatar-core.listening .ring-3 {
+  border-color: rgba(255,176,32,0.5); opacity: 1;
+  animation: avatar-listening-glow 1.5s ease-in-out infinite alternate;
+}
+
+/* State - Thinking */
+.avatar-core.thinking {
+  background: rgba(4,110,59,0.15); border-color: var(--accent);
+}
+.avatar-core.thinking::after {
+  content: ''; position: absolute; inset: -6px; border-radius: 50%;
+  border: 2px solid transparent; border-top-color: var(--accent);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes avatar-breathe {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 5px rgba(4,110,59,0.1); }
+  50% { transform: scale(1.05); box-shadow: 0 0 12px rgba(4,110,59,0.25); }
+}
+@keyframes ring-pulse {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+@keyframes avatar-listening-glow {
+  0% { transform: scale(1); box-shadow: 0 0 5px rgba(255,176,32,0.15); }
+  100% { transform: scale(1.1); box-shadow: 0 0 15px rgba(255,176,32,0.4); }
+}
 </style>
 </head>
 <body>
+
+<!-- PRIVACY & DEVICE CONSENT OVERLAY -->
+<div class="overlay show" id="consent-overlay" style="z-index: 999; display: flex;">
+  <div class="fb-card" style="max-width: 480px; width: 90%; background: var(--surface); border: 2px solid var(--accent); padding: 28px; border-radius: 8px; box-shadow: 0 8px 32px rgba(0,0,0,0.5);">
+    <div style="text-align: center; margin-bottom: 20px;">
+      <span style="font-size: 36px;">🔐</span>
+      <h2 style="font-family: var(--fh); font-size: 22px; font-weight: 800; color: var(--text); margin-top: 10px; margin-bottom: 4px;">SECURE ACCESS & CONSENT</h2>
+      <div style="font-family: var(--fm); font-size: 10px; letter-spacing: 0.1em; color: var(--accent); text-transform: uppercase;">Privacy Verification</div>
+    </div>
+    
+    <p style="font-size: 13.5px; line-height: 1.6; color: var(--text-muted); margin-bottom: 20px; text-align: center;">
+      InterviewIQ requires your explicit consent to access local devices and process telemetry/performance metrics. Your data is used solely to generate your final performance report.
+    </p>
+    
+    <div class="flex-col gap-12" style="background: var(--surface2); border: 1px solid var(--border); padding: 16px; border-radius: 6px; margin-bottom: 24px; display: flex; flex-direction: column; gap: 14px;">
+      
+      <!-- Camera Consent -->
+      <label style="display: flex; gap: 12px; cursor: pointer; align-items: flex-start; user-select: none;">
+        <input type="checkbox" id="consent-camera" style="margin-top: 3px; cursor: pointer; accent-color: var(--accent);">
+        <div>
+          <div style="font-size: 14px; font-weight: 700; color: var(--text);">Camera Consent</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">This interview requires camera access for face presence and facial emotion analysis.</div>
+        </div>
+      </label>
+
+      <!-- Microphone Consent -->
+      <label style="display: flex; gap: 12px; cursor: pointer; align-items: flex-start; user-select: none;">
+        <input type="checkbox" id="consent-mic" style="margin-top: 3px; cursor: pointer; accent-color: var(--accent);">
+        <div>
+          <div style="font-size: 14px; font-weight: 700; color: var(--text);">Microphone Consent</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">This interview uses your microphone for voice-based answering and communication analysis.</div>
+        </div>
+      </label>
+
+      <!-- Recording Consent -->
+      <label style="display: flex; gap: 12px; cursor: pointer; align-items: flex-start; user-select: none;">
+        <input type="checkbox" id="consent-recording" style="margin-top: 3px; cursor: pointer; accent-color: var(--accent);">
+        <div>
+          <div style="font-size: 14px; font-weight: 700; color: var(--text);">Recording Consent</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">This interview may be recorded for replay, audit logs, and performance analysis.</div>
+        </div>
+      </label>
+
+    </div>
+    
+    <div id="consent-error" style="color: var(--danger); font-family: var(--fm); font-size: 12px; text-align: center; margin-top: -12px; margin-bottom: 16px; display: none;">
+      Please select all consent checkboxes to begin the interview.
+    </div>
+    
+    <div id="media-error" style="color: var(--danger); font-family: var(--fm); font-size: 12px; text-align: center; margin-top: -12px; margin-bottom: 16px; display: none;">
+      Camera and microphone permissions are required for this interview.
+    </div>
+
+    <button class="btn btn-primary" id="start-interview-btn" style="width: 100%; padding: 14px; font-weight: 700;" onclick="submitConsents()">
+      Start Interview
+    </button>
+  </div>
+</div>
 
 <!-- TOPBAR -->
 <div class="topbar">
@@ -106,7 +241,10 @@ body { overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
     <div class="logo-dot rec"></div>
     InterviewIQ — Live Session
   </div>
-  <span id="timer">00:00</span>
+  <div style="display:flex; align-items:center; gap:16px">
+    <span id="timer">00:00</span>
+    <div id="rec-container"></div>
+  </div>
   <div style="display:flex;gap:8px">
     <div class="vbadge" id="vbadge-tab">
       <div class="vbadge-dot" id="vdot-tab"></div>TAB
@@ -125,6 +263,26 @@ body { overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
 
   <!-- ═══ LEFT ═══ -->
   <div class="left-panel">
+
+    <!-- AI Interviewer Avatar Card -->
+    <div class="ai-avatar-card" style="background:var(--surface); border:1px solid var(--border); padding:20px; display:flex; align-items:center; gap:20px; position:relative; overflow:hidden">
+      <div class="avatar-wrapper">
+        <div class="avatar-core idle" id="ai-avatar">
+          <div class="avatar-ring ring-1"></div>
+          <div class="avatar-ring ring-2"></div>
+          <div class="avatar-ring ring-3"></div>
+          <div class="avatar-face">🤖</div>
+        </div>
+      </div>
+      
+      <div style="display:flex; flex-direction:column; gap:4px; flex:1">
+        <div style="display:flex; justify-content:space-between; align-items:center">
+          <div class="font-mono" style="font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color:var(--accent)" id="ai-status">AI INTERVIEWER - IDLE</div>
+          <div class="font-mono" style="font-size:10px; letter-spacing:0.05em; color:var(--text-muted)" id="ai-personality-badge">Personality: Professional</div>
+        </div>
+        <div style="font-size:14px; line-height:1.5; color:var(--text-muted)" id="ai-speech-text">Preparing session...</div>
+      </div>
+    </div>
 
     <!-- Question card -->
     <div class="q-card">
@@ -266,7 +424,7 @@ body { overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
 
 <!-- FEEDBACK OVERLAY -->
 <div class="overlay" id="feedback-overlay">
-  <div class="fb-card">
+  <div class="fb-card" style="max-height: 90vh; overflow-y: auto;">
     <div>
       <div class="font-mono text-muted"
            style="font-size:10px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px">
@@ -275,6 +433,26 @@ body { overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
       <div class="score-val great" id="fb-score" style="font-size:52px">0</div>
     </div>
     <div class="text-muted" id="fb-feedback" style="font-size:14px;line-height:1.7"></div>
+    
+    <!-- AI Evaluation Dimensions Grid -->
+    <div style="border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 14px 0; display: flex; flex-direction: column; gap: 10px">
+      <div class="font-mono text-muted" style="font-size:10px; letter-spacing:.15em; text-transform:uppercase">
+        Evaluation Dimensions
+      </div>
+      <div id="fb-dimensions-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px">
+        <!-- populated dynamically -->
+      </div>
+      
+      <details style="margin-top: 6px; cursor: pointer">
+        <summary class="font-mono" style="font-size: 11px; color: var(--accent2); outline: none; user-select: none; list-style: none;">
+          ▶ WHY THIS SCORE & CONFIDENCE DETAILS?
+        </summary>
+        <div id="fb-dimensions-details" class="flex-col gap-6" style="margin-top: 10px; padding: 12px; background: var(--surface2); border: 1px solid var(--border); max-height: 200px; overflow-y: auto;">
+          <!-- populated dynamically -->
+        </div>
+      </details>
+    </div>
+
     <div>
       <div class="font-mono text-muted"
            style="font-size:10px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px">

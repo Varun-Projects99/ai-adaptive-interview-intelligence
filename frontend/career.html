@@ -7,13 +7,13 @@
     <link rel="stylesheet" href="/assets/css/style.css">
     <style>
         :root {
-            --neon-cyan: #00d4ff;
-            --neon-purple: #8b5cf6;
-            --neon-pink: #ff00ff;
-            --neon-green: #10f59a;
-            --neon-orange: #ffb020;
-            --card-bg: rgba(13, 19, 25, 0.85);
-            --border-glow: rgba(0, 212, 255, 0.2);
+            --neon-cyan: #046E3B;
+            --neon-purple: #F8E7C9;
+            --neon-pink: #F8E7C9;
+            --neon-green: #046E3B;
+            --neon-orange: #C9A66B;
+            --card-bg: rgba(13, 28, 21, 0.85);
+            --border-glow: rgba(4, 110, 59, 0.2);
         }
 
         .career-layout {
@@ -99,14 +99,14 @@
 
         .track-item:hover {
             border-color: var(--accent);
-            background: rgba(0, 212, 255, 0.05);
+            background: rgba(4, 110, 59, 0.05);
             transform: translateX(4px);
         }
 
         .track-item.active {
             border-color: var(--accent2);
-            background: rgba(139, 92, 246, 0.1);
-            box-shadow: 0 0 15px rgba(139, 92, 246, 0.15);
+            background: rgba(248, 231, 201, 0.1);
+            box-shadow: 0 0 15px rgba(248, 231, 201, 0.15);
         }
 
         .track-item h3 {
@@ -229,7 +229,7 @@
             bottom: 8px;
             width: 2px;
             background: linear-gradient(180deg, var(--accent2) 0%, var(--accent) 50%, var(--success) 100%);
-            box-shadow: 0 0 8px rgba(0, 212, 255, 0.3);
+            box-shadow: 0 0 8px rgba(4, 110, 59, 0.3);
         }
 
         .milestone-node {
@@ -256,13 +256,13 @@
 
         .milestone-node.completed .milestone-marker {
             border-color: var(--success);
-            box-shadow: 0 0 10px rgba(16, 245, 154, 0.4);
+            box-shadow: 0 0 10px rgba(4, 110, 59, 0.4);
             background: var(--success);
         }
 
         .milestone-node.in-progress .milestone-marker {
             border-color: var(--accent);
-            box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+            box-shadow: 0 0 10px rgba(4, 110, 59, 0.4);
         }
 
         .milestone-num {
@@ -273,7 +273,7 @@
         }
 
         .milestone-node.completed .milestone-num {
-            color: #000;
+            color: var(--accent2);
         }
 
         .milestone-content {
@@ -285,7 +285,7 @@
         }
 
         .milestone-content:hover {
-            border-color: rgba(0, 212, 255, 0.4);
+            border-color: rgba(4, 110, 59, 0.4);
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
         }
 
@@ -535,7 +535,7 @@
 
     <!-- Background glow -->
     <div style="position:fixed;width:800px;height:800px;pointer-events:none;
-                background:radial-gradient(circle,rgba(139,92,246,.03) 0%,transparent 70%);
+                background:radial-gradient(circle,rgba(4,110,59,.03) 0%,transparent 70%);
                 top:50%;left:50%;transform:translate(-50%,-50%);z-index:0"></div>
 
     <div class="toast" id="toast"></div>
@@ -850,7 +850,7 @@
             
             try {
                 // 1. Initialize new session on Flask backend
-                const sess = await apiPost("/api/session/start");
+                const sess = await apiPost("/api/session/start", {});
                 Session.id = sess.session_id;
 
                 // 2. Set skills array and localstorage custom settings

@@ -1,4 +1,3 @@
-// Placeholder for API POST requests (if needed)
 async function apiPost(url, data, isFormData = false) {
   const options = {
     method: 'POST',
@@ -14,10 +13,26 @@ async function apiPost(url, data, isFormData = false) {
   }
 
   const response = await fetch(url, options);
-  const result = await response.json();
-  if (!response.ok) {
-    throw new Error(result.error || 'Something went wrong');
+  const contentType = response.headers.get("content-type") || "";
+  let result = null;
+
+  if (contentType.includes("application/json")) {
+    try {
+      result = await response.json();
+    } catch (e) {
+      throw new Error(`Failed to parse JSON response from ${url}: ${e.message}`);
+    }
   }
+
+  if (!response.ok) {
+    const errMsg = (result && result.error) ? result.error : `HTTP ${response.status} Error from ${url}`;
+    throw new Error(errMsg);
+  }
+
+  if (!contentType.includes("application/json")) {
+    throw new Error(`Server returned non-JSON response from ${url}`);
+  }
+
   return result;
 }
 
@@ -60,14 +75,6 @@ const Session = {
     localStorage.setItem('session_total', String(val || 0));
   },
 
-  setLoggedIn: function(isLoggedIn) {
-    localStorage.setItem('isLoggedIn', isLoggedIn ? 'true' : 'false');
-  },
-
-  isLoggedIn: function() {
-    return localStorage.getItem('isLoggedIn') === 'true';
-  },
-
   clear: function() {
     localStorage.removeItem('session_id');
     localStorage.removeItem('session_skills');
@@ -75,12 +82,14 @@ const Session = {
   }
 };
 
-// Check login status on pages that require it
-// (e.g., dashboard, interview page)
-// This is a simplified check for frontend-only redirects
-// A more robust solution would involve backend session validation
-if (window.location.pathname === '/dashboard' || window.location.pathname === '/interview') {
-  if (!Session.isLoggedIn()) {
-    window.location.href = '/'; // Redirect to login page
+// Global logout function
+async function logout() {
+  try {
+    await apiPost('/api/auth/logout', {});
+    Session.clear();
+    window.location.href = '/';
+  } catch (e) {
+    console.error('Logout failed:', e);
+    window.location.href = '/';
   }
 }

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InterviewIQ — Assessment Invitation</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        .invite-container {
+            max-width: 600px;
+            margin: 120px auto 60px;
+            padding: 40px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .invite-title {
+            font-family: var(--fh);
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--accent2);
+            margin-bottom: 8px;
+        }
+
+        .invite-meta {
+            font-family: var(--fm);
+            font-size: 12px;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .invite-desc {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text);
+            margin-bottom: 32px;
+            text-align: left;
+            padding: 20px;
+            background: rgba(7, 19, 14, 0.5);
+            border-left: 2px solid var(--accent);
+        }
+
+        .btn-action {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--accent2);
+            font-family: var(--fh);
+            font-weight: 700;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 16px 36px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            width: 100%;
+        }
+
+        .btn-action:hover {
+            background: var(--accent2);
+            color: var(--bg);
+            box-shadow: 0 0 20px rgba(248, 231, 201, 0.2);
+        }
+
+        .auth-prompt {
+            margin-top: 24px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .auth-prompt a {
+            color: var(--accent2);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="grid-bg">
+
+    <div class="navbar">
+        <div class="navbar-logo">
+            <div class="logo-dot"></div>
+            InterviewIQ
+        </div>
+    </div>
+
+    <div class="invite-container" id="invite-box">
+        <div class="invite-title" id="assessment-title">Loading Assessment...</div>
+        <div class="invite-meta" id="assessment-role">Please wait</div>
+        <div class="invite-desc" id="assessment-desc">
+            Fetching assessment details from the secure InterviewIQ portal...
+        </div>
+
+        <div id="action-panel">
+            <!-- Dynamic action buttons based on login state -->
+        </div>
+    </div>
+
+    <script>
+        const token = window.location.pathname.split("/").pop();
+        
+        async function loadInvite() {
+            try {
+                // 1. Fetch Invite Details
+                const inviteRes = await fetch(`/api/invite/status/${token}`);
+                if (!inviteRes.ok) {
+                    const err = await inviteRes.json();
+                    showError(err.error || "Invalid invitation link.");
+                    return;
+                }
+                const invite = await inviteRes.json();
+                
+                document.getElementById("assessment-title").innerText = invite.interview_title;
+                document.getElementById("assessment-role").innerText = invite.job_role;
+                document.getElementById("assessment-desc").innerHTML = `
+                    <strong>Job Role:</strong> ${invite.job_role}<br><br>
+                    You have been invited to complete a customized assessment. This interview contains automated AI interaction, integrity trace logging, and skill mapping.
+                `;
+                
+                if (invite.status !== "Pending" && invite.status !== "Started") {
+                    showError(`This invitation has already been ${invite.status.toLowerCase()}.`);
+                    return;
+                }
+                
+                // 2. Fetch User Status
+                const authRes = await fetch("/api/auth/me");
+                const auth = await authRes.json();
+                
+                const actionPanel = document.getElementById("action-panel");
+                if (auth.authenticated) {
+                    actionPanel.innerHTML = `
+                        <p style="margin-bottom: 20px; font-size:14px; color: var(--text-muted);">
+                            Ready to start as candidate: <strong>${auth.user.email}</strong>
+                        </p>
+                        <button class="btn-action" onclick="startAssessment()">Accept & Start Assessment</button>
+                    `;
+                } else {
+                    actionPanel.innerHTML = `
+                        <button class="btn-action" onclick="window.location.href='/login?next=' + encodeURIComponent(window.location.pathname)">Login to Start Assessment</button>
+                        <div class="auth-prompt">
+                            Don't have an account? <a href="/register?next=${encodeURIComponent(window.location.pathname)}">Register here</a>
+                        </div>
+                    `;
+                }
+            } catch (e) {
+                showError("Failed to connect to assessment portal.");
+            }
+        }
+        
+        function showError(msg) {
+            document.getElementById("assessment-title").innerText = "Invitation Issue";
+            document.getElementById("assessment-role").innerText = "Not Available";
+            document.getElementById("assessment-desc").innerHTML = `<span style="color:var(--danger);">${msg}</span>`;
+            document.getElementById("action-panel").innerHTML = "";
+        }
+        
+        async function startAssessment() {
+            try {
+                const startRes = await fetch("/api/session/start", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ invitation_token: token })
+                });
+                
+                if (!startRes.ok) {
+                    const err = await startRes.json();
+                    alert(err.error || "Failed to accept assessment");
+                    return;
+                }
+                
+                const data = await startRes.json();
+                localStorage.setItem("session_id", data.session_id);
+                // Redirect to the interview screen
+                window.location.href = "/interview";
+            } catch (e) {
+                alert("Network error. Please try again.");
+            }
+        }
+        
+        loadInvite();
+    </script>
+</body>
+</html>

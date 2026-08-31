@@ -3,7 +3,7 @@ import json
 import random
 from groq import Groq
 
-def generate_questions(skills):
+def generate_questions(skills, lang="en", personality="professional"):
     """
     Initial question generation from AI (Groq llama3-8b-8192)
     based on resume skills. Generates a balanced set of questions.
@@ -11,7 +11,9 @@ def generate_questions(skills):
     api_key = os.environ.get("GROQ_API_KEY")
     if not api_key:
         print("[WARN] GROQ_API_KEY not found. Falling back to basic questions.")
-        return get_fallback_questions(skills)
+        return get_fallback_questions(skills, lang=lang)
+
+    lang_name = "English"
 
     try:
         client = Groq(api_key=api_key)
@@ -21,23 +23,26 @@ def generate_questions(skills):
         if "HR" in skills or "Behavioral" in skills:
             prompt = f"""
             Generate exactly 24 behavioral, situational, or HR interview questions (e.g., STAR method, leadership, problem solving, teamwork, conflicts, strengths/weaknesses).
+            Make sure to write the questions in the {lang_name} language (using native {lang_name} script, e.g. Devanagari for Hindi, Kannada script for Kannada).
+            Adopt a {personality} interviewer tone.
             Provide exactly:
-            - 8 easy questions (e.g., standard introduction/strengths)
-            - 8 medium questions (e.g., situational conflict resolution or teamwork)
-            - 8 hard questions (e.g., complex ethical dilemmas, prioritization under stress, or failure recovery)
+            - 8 easy questions
+            - 8 medium questions
+            - 8 hard questions
             
             Return ONLY a JSON list of objects. Each object MUST have "question", "difficulty", and "skill" keys.
             The "skill" key should be "Behavioral".
             Example Format:
             [
-              {{"question": "Describe a time you faced a conflict with a coworker and how you resolved it.", "difficulty": "medium", "skill": "Behavioral"}},
-              {{"question": "What are your long-term career aspirations?", "difficulty": "easy", "skill": "Behavioral"}}
+              {{"question": "Describe a time you faced a conflict with a coworker and how you resolved it.", "difficulty": "medium", "skill": "Behavioral"}}
             ]
             """
         else:
             prompt = f"""
             Generate exactly 24 technical interview questions for a candidate with these skills: {skills_str}.
             Make sure to generate questions covering ALL the listed skills.
+            Make sure to write the questions in the {lang_name} language (using native {lang_name} script, e.g. Devanagari for Hindi, Kannada script for Kannada).
+            Adopt a {personality} interviewer tone.
             Provide exactly:
             - 8 easy questions
             - 8 medium questions
@@ -78,39 +83,78 @@ def generate_questions(skills):
 
     except Exception as e:
         print(f"[ERROR] Groq API question generation failed: {e}")
-        return get_fallback_questions(skills)
+        return get_fallback_questions(skills, lang=lang)
 
 def get_next_question(session):
     """
-    Returns the next question from the session based on current_difficulty.
-    If no question matches current_difficulty, it falls back to others.
+    Adaptive Decision Engine: Dynamically determines the highest-information skill/topic
+    to target, determines the difficulty based on candidate score, prevents repetition,
+    and returns a tailored question.
     """
     try:
+        from modules.adaptive_engine import (
+            select_next_topic, 
+            generate_adaptive_question, 
+            should_interview_finish, 
+            initialize_adaptive_state,
+            are_questions_similar
+        )
+        
+        user_id = session.get("user_id")
+        initialize_adaptive_state(session, user_id=user_id)
+        
+        # Check if interview has reached sufficient confidence to finish early
+        if should_interview_finish(session):
+            print("[AdaptiveEngine] Decision: Sufficient confidence achieved. Finishing interview.")
+            return None
+            
+        # Select next skill/topic and difficulty level using our formula
+        target_skill, target_difficulty, reason = select_next_topic(session)
+        print(f"[AdaptiveEngine] Next target skill: {target_skill} ({target_difficulty}) | Reason: {reason}")
+        
+        # Generate or load fallback question dynamically
+        q_text = generate_adaptive_question(session, target_skill, target_difficulty, user_id=user_id)
+        
+        # Ensure it is unique and format it
+        q = {
+            "question": q_text,
+            "skill": target_skill,
+            "difficulty": target_difficulty,
+            "reason": reason
+        }
+        
+        # Sync indices and target difficulty
+        session["current_difficulty"] = target_difficulty
+        session["current_index"] = len(session.get("answers", []))
+        
+        # Save to session questions history log
+        if not session.get("questions"):
+            session["questions"] = []
+        
+        # Avoid duplicate entries in the questions list
+        if not any(are_questions_similar(q["question"], x["question"]) for x in session["questions"]):
+            session["questions"].append(q)
+            
+        return q
+        
+    except Exception as e:
+        print(f"[ERROR] Adaptive Engine failed in get_next_question: {e}. Falling back to default question selector.")
+        # Default fallback logic
         all_qs = session.get("questions", [])
         ans_qs = {a["question"] for a in session.get("answers", [])}
         target_diff = session.get("current_difficulty", "easy")
 
-        # 1. Try to find a question with the target difficulty that hasn't been answered
         candidates = [q for q in all_qs if q["difficulty"].lower() == target_diff.lower() and q["question"] not in ans_qs]
-        
         if not candidates:
-            # 2. If none, try any unanswered question
             candidates = [q for q in all_qs if q["question"] not in ans_qs]
-            
         if not candidates:
             return None
             
-        # Return the first candidate and update session index (if used by frontend)
-        # Note: app.py uses session["current_index"] to track position
         q = candidates[0]
         session["current_index"] = len(session.get("answers", []))
         return q
 
-    except Exception as e:
-        print(f"[ERROR] get_next_question: {e}")
-        return None
-
-def get_fallback_questions(skills):
+def get_fallback_questions(skills, lang="en"):
     """Loads a balanced set of 24 questions covering ALL detected skills."""
     import os
     import json
@@ -243,7 +287,7 @@ def get_fallback_questions(skills):
         
     # If we still failed to get 24 questions, fall back to a minimal hardcoded set
     if not final_questions:
-        return [
+        final_questions = [
             {"question": "Explain a challenging technical project you worked on.", "difficulty": "medium", "skill": "General"},
             {"question": "How do you handle debugging complex issues?", "difficulty": "easy", "skill": "General"},
             {"question": "What is the difference between synchronous and asynchronous programming?", "difficulty": "medium", "skill": "General"},
@@ -255,5 +299,68 @@ def get_fallback_questions(skills):
             {"question": "Why are you interested in this role and our company?", "difficulty": "easy", "skill": "HR"}
         ]
         
+    # Translate questions on generation if target language is Hindi or Kannada
+    if lang in ["hi", "kn"]:
+        print(f"[Questions] Translating question set to {lang}...")
+        for q in final_questions:
+            q["question"] = translate_text(q["question"], lang)
+
     random.shuffle(final_questions)
     return final_questions
+
+
+def translate_text(text, target_lang):
+    """Translates an English interview question to Hindi or Kannada using free MyMemory Translation API with fallback."""
+    import urllib.parse
+    import requests
+
+    lang_code = "hi" if target_lang == "hi" else "kn"
+    try:
+        url = f"https://api.mymemory.translated.net/get?q={urllib.parse.quote(text)}&langpair=en|{lang_code}"
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.0.0 Safari/537.36"
+        }
+        res = requests.get(url, headers=headers, timeout=5)
+        if res.ok:
+            data = res.json()
+            translated = data.get("responseData", {}).get("translatedText", "")
+            if translated:
+                print(f"[Translation] Translated successfully via MyMemory API.")
+                return translated
+    except Exception as e:
+        print(f"[Translation] MyMemory Translation API failed: {e}")
+
+    api_key_ant = os.environ.get("ANTHROPIC_API_KEY")
+    api_key_groq = os.environ.get("GROQ_API_KEY")
+    
+    lang_name = "Hindi" if target_lang == "hi" else "Kannada"
+    prompt = f"Translate the following interview question into {lang_name}. Return ONLY the translated question text and nothing else.\nQuestion: {text}"
+    
+    use_groq = True
+    if api_key_ant and "your_anthropic_api_key_here" not in api_key_ant:
+        use_groq = False
+        
+    try:
+        if not use_groq:
+            import anthropic
+            ant_client = anthropic.Anthropic(api_key=api_key_ant)
+            res = ant_client.messages.create(
+                model="claude-3-5-sonnet-20240620",
+                max_tokens=200,
+                messages=[{"role": "user", "content": prompt}]
+            )
+            return res.content[0].text.strip()
+        elif api_key_groq:
+            from groq import Groq
+            groq_client = Groq(api_key=api_key_groq)
+            completion = groq_client.chat.completions.create(
+                model="llama3-8b-8192",
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.3,
+                max_tokens=200
+            )
+            return completion.choices[0].message.content.strip()
+    except Exception as e:
+        print(f"[Translation] Fallback translation to {lang_name} failed: {e}")
+        
+    return ""

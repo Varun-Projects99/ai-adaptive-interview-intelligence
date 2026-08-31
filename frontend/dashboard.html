@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="/assets/css/style.css">
     <style>
         :root {
-            --neon-cyan: #00d4ff;
-            --neon-purple: #8b5cf6;
-            --neon-pink: #ff00ff;
-            --neon-green: #10f59a;
-            --card-bg: rgba(13, 19, 25, 0.8);
+            --neon-cyan: #046E3B;
+            --neon-purple: #F8E7C9;
+            --neon-pink: #F8E7C9;
+            --neon-green: #046E3B;
+            --card-bg: rgba(13, 28, 21, 0.8);
         }
 
         .dashboard-container {
@@ -81,7 +81,7 @@
         .db-card:hover {
             border-color: var(--accent);
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(4, 110, 59, 0.15);
         }
 
         .db-card .icon {
@@ -122,10 +122,10 @@
             font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            color: var(--accent);
-            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent2);
+            background: rgba(4, 110, 59, 0.1);
             padding: 4px 8px;
-            border: 1px solid rgba(0, 212, 255, 0.2);
+            border: 1px solid rgba(4, 110, 59, 0.25);
         }
 
         .db-card .btn-link {
@@ -176,12 +176,12 @@
         .db-card:nth-child(6) { animation-delay: 0.6s; }
 
         /* Glow effects for specific cards */
-        .card-ai:hover { box-shadow: 0 0 20px rgba(0, 212, 255, 0.2); }
-        .card-resume:hover { box-shadow: 0 0 20px rgba(139, 92, 246, 0.2); }
-        .card-career:hover { box-shadow: 0 0 20px rgba(16, 245, 154, 0.2); }
-        .card-coding:hover { box-shadow: 0 0 20px rgba(255, 0, 255, 0.2); }
-        .card-hr:hover { box-shadow: 0 0 20px rgba(255, 176, 32, 0.2); }
-        .card-reports:hover { box-shadow: 0 0 20px rgba(0, 212, 255, 0.2); }
+        .card-ai:hover { box-shadow: 0 0 20px rgba(4, 110, 59, 0.25); }
+        .card-resume:hover { box-shadow: 0 0 20px rgba(248, 231, 201, 0.25); }
+        .card-career:hover { box-shadow: 0 0 20px rgba(4, 110, 59, 0.25); }
+        .card-coding:hover { box-shadow: 0 0 20px rgba(248, 231, 201, 0.25); }
+        .card-hr:hover { box-shadow: 0 0 20px rgba(217, 160, 91, 0.25); }
+        .card-reports:hover { box-shadow: 0 0 20px rgba(4, 110, 59, 0.25); }
 
     </style>
 </head>
@@ -193,16 +193,30 @@
             <div class="logo-dot"></div>InterviewIQ
         </div>
         <div class="navbar-right">
-            <div class="chip accent">System Online</div>
-            <div class="chip" style="margin-left: 10px;">User_Admin</div>
+            <div class="chip accent" id="user-email-chip">System Online</div>
+            <a href="/recruiter" class="chip" id="recruiter-portal-nav" style="display: none; margin-left: 10px; border-color: var(--warn); color: var(--warn); text-decoration: none;">Recruiter Portal</a>
+            <div class="chip" style="margin-left: 10px; cursor: pointer;" onclick="logout()">Logout</div>
         </div>
     </nav>
 
     <!-- DASHBOARD CONTENT -->
     <main class="dashboard-container">
         <div class="dashboard-header">
-            <p>Welcome back, Candidate</p>
+            <p>Welcome back, <span id="candidate-name-span">Candidate</span></p>
             <h1>Mission <span style="color:var(--accent)">Control</span></h1>
+        </div>
+
+        <!-- RECRUITER PORTAL -->
+        <div class="db-card" id="recruiter-portal-card" onclick="window.location.href='/recruiter'" style="display: none; cursor:pointer; border-color: var(--warn);">
+            <div class="corner corner-tl" style="border-color: var(--warn)"></div>
+            <div class="corner corner-br" style="border-color: var(--warn)"></div>
+            <div class="icon">💼</div>
+            <h2 style="color: var(--warn)">Recruiter Portal</h2>
+            <p>Configure candidate assessment templates, track email invitations, view AI proctoring logs, and run side-by-side performance comparisons.</p>
+            <div class="card-footer">
+                <span class="tag" style="border-color: var(--warn); color: var(--warn)">Operations</span>
+                <span class="btn-link" style="color: var(--warn)">Open Console _</span>
+            </div>
         </div>
 
         <!-- AI INTERVIEW -->
@@ -226,7 +240,7 @@
             <h2>Resume Analyzer</h2>
             <p>Extract skills and get AI insights on how well your profile matches industry standards.</p>
             <div class="card-footer">
-                <span class="tag" style="color:var(--accent2); border-color:rgba(139, 92, 246, 0.2); background:rgba(139, 92, 246, 0.1);">Parser</span>
+                <span class="tag" style="color:var(--accent2); border-color:rgba(248, 231, 201, 0.25); background:rgba(248, 231, 201, 0.1);">Parser</span>
                 <span class="btn-link">Upload _</span>
             </div>
         </div>
@@ -252,7 +266,7 @@
             <h2>Coding Practice</h2>
             <p>Solve algorithm challenges in our integrated IDE with real-time complexity feedback.</p>
             <div class="card-footer">
-                <span class="tag" style="color:var(--neon-pink); border-color:rgba(255, 0, 255, 0.2); background:rgba(255, 0, 255, 0.1);">Terminal</span>
+                <span class="tag" style="color:var(--accent2); border-color:rgba(248, 231, 201, 0.25); background:rgba(248, 231, 201, 0.1);">Terminal</span>
                 <span class="btn-link">Compile _</span>
             </div>
         </div>
@@ -265,7 +279,7 @@
             <h2>HR Interview</h2>
             <p>Master behavioral questions and soft skills through specialized HR simulation modules.</p>
             <div class="card-footer">
-                <span class="tag" style="color:var(--warn); border-color:rgba(255, 176, 32, 0.2); background:rgba(255, 176, 32, 0.1);">Soft Skills</span>
+                <span class="tag" style="color:var(--warn); border-color:rgba(217, 160, 91, 0.25); background:rgba(217, 160, 91, 0.1);">Soft Skills</span>
                 <span class="btn-link">Engage _</span>
             </div>
         </div>
@@ -284,34 +298,389 @@
         </div>
 
         <!-- AI COACH -->
-        <div class="db-card card-ai" onclick="window.location.href='/coach'" style="cursor:pointer; box-shadow: 0 0 15px rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.3);">
+        <div class="db-card card-ai" onclick="window.location.href='/coach'" style="cursor:pointer; box-shadow: 0 0 15px rgba(4, 110, 59, 0.05); border-color: rgba(4, 110, 59, 0.3);">
             <div class="corner corner-tl" style="border-color: var(--accent2)"></div>
             <div class="corner corner-br" style="border-color: var(--accent2)"></div>
             <div class="icon">💬</div>
             <h2>AI Interview Coach</h2>
             <p>Converse with an AI coach to improve your answers, negotiate salary, or clarify system design concepts.</p>
             <div class="card-footer">
-                <span class="tag" style="color:var(--accent2); border-color:rgba(139, 92, 246, 0.2); background:rgba(139, 92, 246, 0.1);">Coach</span>
+                <span class="tag" style="color:var(--accent2); border-color:rgba(4, 110, 59, 0.25); background:rgba(4, 110, 59, 0.1);">Coach</span>
                 <span class="btn-link" style="color:var(--accent2)">Consult _</span>
             </div>
         </div>
 
     </main>
 
+    <!-- CONTINUOUS LEARNING SECTION -->
+    <div class="dashboard-header" style="grid-column: 1 / -1; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 40px; max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 24px;">
+        <p>Adaptive Coaching Hub</p>
+        <h1>Continuous <span style="color:var(--accent)">Learning</span></h1>
+    </div>
+
+    <main class="dashboard-container" id="learning-container" style="padding-top: 20px; margin-top: 0;">
+        <!-- Injected Dynamically by JS -->
+    </main>
+
     <!-- Background glow -->
     <div style="position:fixed;width:800px;height:800px;pointer-events:none;
-                background:radial-gradient(circle,rgba(0,212,255,.04) 0%,transparent 70%);
+                background:radial-gradient(circle,rgba(4,110,59,.04) 0%,transparent 70%);
                 top:50%;left:50%;transform:translate(-50%,-50%);z-index:0"></div>
 
     <div class="toast" id="toast"></div>
 
     <script src="/assets/js/session.js"></script>
     <script>
+        window.addEventListener("DOMContentLoaded", async () => {
+            try {
+                const res = await fetch("/api/auth/me");
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.authenticated && data.user && data.user.email) {
+                        const email = data.user.email;
+                        document.getElementById("user-email-chip").textContent = email;
+                        
+                        // Show recruiter console tools if privileged
+                        if (data.user.role === "recruiter" || data.user.role === "admin") {
+                            const recNav = document.getElementById("recruiter-portal-nav");
+                            if (recNav) recNav.style.display = "inline-block";
+                            const recCard = document.getElementById("recruiter-portal-card");
+                            if (recCard) recCard.style.display = "flex";
+                        }
+                        
+                        // Extract or set candidate name
+                        const nameEl = document.getElementById("candidate-name-span");
+                        if (nameEl) {
+                            if (data.user.name) {
+                                nameEl.textContent = data.user.name;
+                            } else if (email.includes("@")) {
+                                const username = email.split("@")[0];
+                                let name = username.split(".")[0].split("_")[0];
+                                name = name.replace(/[0-9]/g, '');
+                                if (name) {
+                                    nameEl.textContent = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error("Failed to load user info:", e);
+            }
+
+            // Sync continuous learning coach metrics
+            loadLearningDashboard();
+        });
+
+        async function loadLearningDashboard() {
+            const container = document.getElementById("learning-container");
+            if (!container) return;
+            
+            container.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; padding: 40px 0;">
+                    <div class="load-spin" style="margin: 0 auto 16px;"></div>
+                    <span class="font-mono" style="color:var(--text-muted);font-size:12px">Syncing learning coach dashboard...</span>
+                </div>
+            `;
+            
+            try {
+                const res = await fetch("/api/learning/dashboard");
+                if (!res.ok) {
+                    throw new Error("HTTP " + res.status);
+                }
+                const data = await res.json();
+                
+                // If there is no interview history yet, show empty state alongside basic profile card
+                if (!data.has_history) {
+                    const profile = data.profile || { name: "Candidate", email: "", resume_status: "Not Uploaded", detected_skills: [] };
+                    const skillsBadges = profile.detected_skills.length 
+                        ? profile.detected_skills.map(s => `<span class="tag" style="margin: 2px; display: inline-block;">${s}</span>`).join(" ")
+                        : `<span style="color:var(--text-muted); font-size:12px;">No skills detected yet. Upload resume.</span>`;
+
+                    container.innerHTML = `
+                        <div style="grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1.5fr; gap: 24px; width: 100%;">
+                            <!-- Profile Card -->
+                            <div class="db-card" style="cursor: default; padding: 24px; display: flex; flex-direction: column; gap: 16px; min-height: 280px; justify-content: flex-start; align-items: stretch;">
+                                <div class="corner corner-tl"></div>
+                                <div class="corner corner-br"></div>
+                                <div style="border-bottom: 1px solid var(--border); padding-bottom: 12px;">
+                                    <h2 style="margin: 0 0 4px 0; color:var(--text);">${profile.name}</h2>
+                                    <p style="color: var(--text-muted); margin: 0; font-size: 12px; font-family: var(--fm);">${profile.email}</p>
+                                </div>
+                                <div>
+                                    <div style="font-family: var(--fm); font-size: 10px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px;">Resume Status</div>
+                                    <span class="tag" style="border-color: ${profile.resume_status === 'Uploaded' ? 'var(--success)' : 'var(--warn)'}; color: ${profile.resume_status === 'Uploaded' ? 'var(--success)' : 'var(--warn)'};">
+                                        ${profile.resume_status}
+                                    </span>
+                                </div>
+                                <div>
+                                    <div style="font-family: var(--fm); font-size: 10px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px;">Detected Skills Inventory</div>
+                                    <div style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 120px; overflow-y: auto; padding-right: 4px;">
+                                        ${skillsBadges}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Empty State Card -->
+                            <div class="db-card" style="cursor: default; text-align: center; padding: 48px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 16px; min-height: 280px;">
+                                <div class="icon" style="font-size:36px; margin-bottom:0">🎓</div>
+                                <h2 style="margin:0">Continuous Learning Hub</h2>
+                                <p style="max-width: 500px; margin: 0 auto; color: var(--text-muted); line-height:1.6; font-size: 13px;">
+                                    No interviews completed yet. Start your first AI interview to unlock personalized practice loops, roadmap prioritizations, and skill gap analysis!
+                                </p>
+                                <div style="margin-top: 12px;">
+                                    <button class="btn btn-primary" onclick="window.location.href='/upload'">Start Your First AI Interview</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                const stats = data.stats || { total_completed: 0, avg_score: 0, best_score: 0, latest_score: 0, skills_improved: 0 };
+                const profile = data.profile || { name: "Candidate", email: "", resume_status: "Not Uploaded", detected_skills: [] };
+                
+                let html = "";
+                
+                // 1. Stats Overview Row
+                html += `
+                    <div style="grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 8px; width: 100%;">
+                        <div class="db-card" style="cursor: default; padding: 16px; text-align: center; min-height: auto;">
+                            <div style="font-family: var(--fm); font-size: 10px; text-transform: uppercase; color: var(--text-muted);">Total Completed</div>
+                            <div style="font-family: var(--fh); font-size: 28px; font-weight: 800; color: var(--accent); margin-top: 8px;">${stats.total_completed}</div>
+                        </div>
+                        <div class="db-card" style="cursor: default; padding: 16px; text-align: center; min-height: auto;">
+                            <div style="font-family: var(--fm); font-size: 10px; text-transform: uppercase; color: var(--text-muted);">Average Score</div>
+                            <div style="font-family: var(--fh); font-size: 28px; font-weight: 800; color: var(--accent2); margin-top: 8px;">${stats.avg_score}%</div>
+                        </div>
+                        <div class="db-card" style="cursor: default; padding: 16px; text-align: center; min-height: auto;">
+                            <div style="font-family: var(--fm); font-size: 10px; text-transform: uppercase; color: var(--text-muted);">Best Score</div>
+                            <div style="font-family: var(--fh); font-size: 28px; font-weight: 800; color: var(--success); margin-top: 8px;">${stats.best_score}%</div>
+                        </div>
+                        <div class="db-card" style="cursor: default; padding: 16px; text-align: center; min-height: auto;">
+                            <div style="font-family: var(--fm); font-size: 10px; text-transform: uppercase; color: var(--text-muted);">Skills Improved</div>
+                            <div style="font-family: var(--fh); font-size: 28px; font-weight: 800; color: var(--accent); margin-top: 8px;">${stats.skills_improved}</div>
+                        </div>
+                        <div class="db-card" style="cursor: default; padding: 16px; text-align: center; min-height: auto;">
+                            <div style="font-family: var(--fm); font-size: 10px; text-transform: uppercase; color: var(--text-muted);">Latest Score</div>
+                            <div style="font-family: var(--fh); font-size: 28px; font-weight: 800; color: var(--accent2); margin-top: 8px;">${stats.latest_score}%</div>
+                        </div>
+                    </div>
+                `;
+                
+                // 2. Profile Summary & AI Recommendation Grid
+                let weakestSkill = "";
+                let weakestScore = 100;
+                data.skills.forEach(s => {
+                    const latestScore = s.history.length ? s.history[s.history.length - 1].score : 0;
+                    if (latestScore < weakestScore) {
+                        weakestScore = latestScore;
+                        weakestSkill = s.name;
+                    }
+                });
+                
+                let recommendationText = "";
+                if (weakestSkill) {
+                    recommendationText = `Based on your performance, your coverage of <strong>${weakestSkill}</strong> (${weakestScore}%) has the most significant room for growth. We recommend focusing on targeted question banks and reviewing coding challenges for this area.`;
+                } else {
+                    recommendationText = "Outstanding coverage! No critical weak areas identified. Continue practicing to maintain your readiness index.";
+                }
+
+                const skillsBadges = profile.detected_skills.length 
+                    ? profile.detected_skills.map(s => `<span class="tag" style="margin: 2px; display: inline-block;">${s}</span>`).join(" ")
+                    : `<span style="color:var(--text-muted); font-size:12px;">No skills detected yet. Upload resume.</span>`;
+
+                html += `
+                    <div style="grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1.5fr; gap: 24px; margin-bottom: 8px; width: 100%;">
+                        <!-- Profile Card -->
+                        <div class="db-card" style="cursor: default; padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+                            <div class="corner corner-tl"></div>
+                            <div class="corner corner-br"></div>
+                            <div style="border-bottom: 1px solid var(--border); padding-bottom: 12px;">
+                                <h2 style="margin: 0 0 4px 0; color:var(--text);">${profile.name}</h2>
+                                <p style="color: var(--text-muted); margin: 0; font-size: 12px; font-family: var(--fm);">${profile.email}</p>
+                            </div>
+                            <div>
+                                <div style="font-family: var(--fm); font-size: 10px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px;">Resume Status</div>
+                                <span class="tag" style="border-color: ${profile.resume_status === 'Uploaded' ? 'var(--success)' : 'var(--warn)'}; color: ${profile.resume_status === 'Uploaded' ? 'var(--success)' : 'var(--warn)'};">
+                                    ${profile.resume_status}
+                                </span>
+                            </div>
+                            <div>
+                                <div style="font-family: var(--fm); font-size: 10px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px;">Detected Skills Inventory</div>
+                                <div style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 100px; overflow-y: auto; padding-right: 4px;">
+                                    ${skillsBadges}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- AI Recommendation & Practice Center -->
+                        <div class="db-card card-ai" style="cursor: default; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; gap: 16px;">
+                            <div class="corner corner-tl"></div>
+                            <div class="corner corner-br"></div>
+                            <div>
+                                <h2 style="margin: 0 0 8px 0; color: var(--accent2); display: flex; align-items: center; gap: 8px;">🧠 AI Recommendation</h2>
+                                <p style="color: var(--text); margin: 0; font-size: 13px; line-height: 1.6;">
+                                    ${recommendationText}
+                                </p>
+                            </div>
+                            <div style="border-top: 1px solid var(--border); padding-top: 16px;">
+                                <h3 style="margin: 0 0 8px 0; font-size: 12px; font-family: var(--fm); text-transform: uppercase; color: var(--text-muted);">Continue Practice Center</h3>
+                                <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 12px; line-height:1.4">
+                                    Initialize an adaptive practice session or re-interview template configured specifically to address weak areas.
+                                </p>
+                                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                                    <button class="btn btn-primary" onclick="startPracticeSession()" style="padding: 8px 16px; font-size:12px;">
+                                        🎯 Practice Weak Areas
+                                    </button>
+                                    <button class="btn btn-outline" onclick="startReInterview()" style="padding: 8px 16px; font-size:12px;">
+                                        🔄 Start Re-Interview
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // 3. Skill Progress Tracking
+                let skillsHtml = "";
+                data.skills.forEach(s => {
+                    const latestScore = s.history.length ? s.history[s.history.length - 1].score : 0;
+                    skillsHtml += `
+                        <div style="margin-bottom: 16px; border-bottom: 1px solid rgba(4,110,59,0.1); padding-bottom: 12px;">
+                            <div style="display: flex; justify-content: space-between; font-family: var(--fm); font-size: 12px; margin-bottom: 6px;">
+                                <span style="font-weight: 700; color: var(--accent2)">${s.name}</span>
+                                <span style="color: ${s.status === 'Weak' ? 'var(--danger)' : s.status === 'Moderate' ? 'var(--warn)' : 'var(--success)'}">${s.status.toUpperCase()} (${latestScore}%)</span>
+                            </div>
+                            <div class="metric-bar" style="height: 6px; margin-bottom: 6px; background: rgba(4,110,59,0.1); border-radius: 3px; overflow: hidden;">
+                                <div class="metric-fill" style="width: ${latestScore}%; height: 100%; background: ${s.status === 'Weak' ? 'var(--danger)' : s.status === 'Moderate' ? 'var(--warn)' : 'var(--success)'}"></div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                // 4. Recent Interviews List
+                let recentInterviewsHtml = "";
+                if (data.recent_interviews && data.recent_interviews.length > 0) {
+                    data.recent_interviews.slice(0, 4).forEach(ri => {
+                        const typeBadge = ri.is_practice 
+                            ? `<span class="tag" style="border-color: var(--accent2); color: var(--accent2); background: rgba(248,231,201,0.05);">Practice</span>`
+                            : `<span class="tag" style="border-color: var(--accent); color: var(--accent); background: rgba(4,110,59,0.05);">Mock Interview</span>`;
+                            
+                        const skillsStr = ri.skills.map(s => `<span style="font-family:var(--fm); font-size:11px; color:var(--text-muted); background:rgba(255,255,255,0.05); padding:2px 6px; border:1px solid rgba(255,255,255,0.1);">${s}</span>`).join(" ");
+
+                        recentInterviewsHtml += `
+                            <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 12px 0;">
+                                <div style="display: flex; flex-direction: column; gap: 4px;">
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <span style="font-weight: 700; font-size: 14px; color: var(--text);">${ri.job_role}</span>
+                                        ${typeBadge}
+                                    </div>
+                                    <div style="display: flex; gap: 4px; align-items: center; margin-top: 2px;">
+                                        ${skillsStr}
+                                    </div>
+                                    <div class="font-mono" style="font-size: 10px; color: var(--text-muted);">${ri.date}</div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 16px;">
+                                    <div style="text-align: right;">
+                                        <div style="font-family: var(--fm); font-size: 10px; text-transform: uppercase; color: var(--text-muted);">Score</div>
+                                        <div style="font-weight: 800; font-size: 18px; color: ${ri.score >= 70 ? 'var(--success)' : ri.score >= 50 ? 'var(--warn)' : 'var(--danger)'}">${ri.score}%</div>
+                                    </div>
+                                    <button class="btn btn-outline" style="padding: 6px 12px; font-size: 11px;" onclick="window.location.href='/report?session_id=${ri.session_id}'">
+                                        View Report
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    recentInterviewsHtml = `<p style="color:var(--text-muted); font-size:13px; padding: 12px 0;">No recent interviews logged.</p>`;
+                }
+                
+                // Combine into dynamic dashboard wrapper
+                html += `
+                    <div style="grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1.5fr; gap: 24px; width: 100%;">
+                        <!-- Skill Progress Section -->
+                        <div class="db-card" style="cursor: default; padding: 24px; display:flex; flex-direction:column; justify-content:flex-start;">
+                            <div class="corner corner-tl"></div>
+                            <div class="corner corner-br"></div>
+                            <h2 style="margin: 0 0 16px 0;">📊 Skill Progress</h2>
+                            <div style="max-height: 400px; overflow-y: auto; padding-right: 4px;">
+                                ${skillsHtml || '<p style="color:var(--text-muted); font-size:12px;">No skills progress data available yet.</p>'}
+                            </div>
+                        </div>
+
+                        <!-- Recent Interviews Section -->
+                        <div class="db-card" style="cursor: default; padding: 24px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div class="corner corner-tl"></div>
+                            <div class="corner corner-br"></div>
+                            <div>
+                                <h2 style="margin: 0 0 16px 0;">⏱️ Recent Interviews</h2>
+                                <div style="display: flex; flex-direction: column;">
+                                    ${recentInterviewsHtml}
+                                </div>
+                            </div>
+                            <div style="margin-top: 16px; text-align: right; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 12px;">
+                                <a href="/history" style="font-family: var(--fm); font-size: 11px; text-transform: uppercase; color: var(--accent2); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; transition: color 0.2s;">
+                                    View All Interviews (History) →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                container.innerHTML = html;
+            } catch (err) {
+                console.error("Dashboard learning load error:", err);
+                container.innerHTML = `
+                    <div class="db-card" style="grid-column: 1 / -1; cursor: default; text-align: center; padding: 32px; border-color: var(--danger);">
+                        <div class="icon">⚠️</div>
+                        <h2 style="color: var(--danger)">Connection Failure</h2>
+                        <p style="color: var(--text-muted); font-family: var(--fm); font-size:12px">Continuous learning coach statistics are offline. Check your database connection.</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function startPracticeSession() {
+            showToast("Initializing personalized practice loop...", "ok");
+            try {
+                const res = await apiPost("/api/practice/start");
+                localStorage.setItem("session_id", res.session_id);
+                localStorage.setItem("session_skills", JSON.stringify(res.skills_detected));
+                localStorage.setItem("session_total", String(res.total_questions));
+                
+                showToast("Practice session configured. Launching...", "ok");
+                setTimeout(() => {
+                    window.location.href = "/interview";
+                }, 1000);
+            } catch (e) {
+                showToast("Failed to start practice: " + e.message, "err");
+            }
+        }
+
+        async function startReInterview() {
+            showToast("Structuring re-interview matching your weak skills...", "ok");
+            try {
+                const res = await apiPost("/api/practice/reinterview");
+                localStorage.setItem("session_id", res.session_id);
+                localStorage.setItem("session_skills", JSON.stringify(res.skills_detected));
+                localStorage.setItem("session_total", String(res.total_questions));
+                
+                showToast("Re-interview configured. Redirecting...", "ok");
+                setTimeout(() => {
+                    window.location.href = "/interview";
+                }, 1000);
+            } catch (e) {
+                showToast("Failed to start re-interview: " + e.message, "err");
+            }
+        }
+
         async function startHrInterview() {
             showToast("Initializing HR interview module...", "ok");
             try {
                 // 1. Start session
-                const sess = await apiPost("/api/session/start");
+                const sess = await apiPost("/api/session/start", {});
                 localStorage.setItem("session_id", sess.session_id);
 
                 // 2. Generate questions for HR

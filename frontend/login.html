@@ -6,17 +6,37 @@
     <title>InterviewIQ — Login</title>
     <link rel="stylesheet" href="/assets/css/style.css">
     <style>
+        :root {
+            --bg: #07130E;
+            --surface: #0D1C15;
+            --surface2: #10251A;
+            --border: #1D3A2B;
+            --border2: #1D3A2B;
+            --accent: #046E3B;
+            --accent2: #F8E7C9;
+            --text: #C9D6CF;
+            --text-muted: #8FA69A;
+            --success: #046E3B;
+        }
+
         body {
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             padding: 24px;
+            background: #07130E;
+        }
+
+        .grid-bg::before {
+            background-image:
+                linear-gradient(rgba(29, 58, 43, 0.20) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(29, 58, 43, 0.20) 1px, transparent 1px);
         }
 
         .login-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
+            background: #0D1C15;
+            border: 1px solid #1D3A2B;
             padding: 48px;
             width: 100%;
             max-width: 440px;
@@ -24,15 +44,16 @@
             backdrop-filter: blur(10px);
             z-index: 1;
             animation: fade-up 0.5s ease both;
+            box-shadow: 0 8px 32px rgba(4, 110, 59, 0.15);
         }
 
-        /* Cyberpunk Corner accents */
+        /* Corner accents */
         .corner {
             position: absolute;
             width: 12px;
             height: 12px;
-            border: 1px solid var(--accent);
-            opacity: 0.5;
+            border: 1px solid #046E3B;
+            opacity: 0.8;
         }
         .corner-tl { top: 0; left: 0; border-right: none; border-bottom: none; }
         .corner-br { bottom: 0; right: 0; border-left: none; border-top: none; }
@@ -52,20 +73,26 @@
             justify-content: center;
             gap: 10px;
             margin-bottom: 8px;
+            color: #F8E7C9;
+        }
+
+        .login-header .logo-dot {
+            background: #046E3B;
+            box-shadow: 0 0 8px #046E3B;
         }
 
         .login-header h1 {
             font-family: var(--fh);
             font-size: 28px;
             font-weight: 700;
-            color: var(--text);
+            color: #F8E7C9;
             letter-spacing: -0.5px;
         }
 
         .login-header p {
             font-family: var(--fm);
             font-size: 12px;
-            color: var(--text-muted);
+            color: #8FA69A;
             text-transform: uppercase;
             letter-spacing: 0.12em;
             margin-top: 4px;
@@ -81,25 +108,41 @@
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            color: var(--text-muted);
+            color: #C9D6CF;
             margin-bottom: 8px;
         }
 
         .form-group input {
             width: 100%;
-            background: var(--surface2);
-            border: 1px solid var(--border2);
-            color: var(--text);
+            background: #10251A;
+            border: 1px solid #1D3A2B;
+            color: #F8E7C9;
             padding: 14px;
             font-family: var(--fb);
             font-size: 14px;
             transition: all 0.3s;
         }
 
+        .form-group input::placeholder {
+            color: #71877A;
+        }
+
         .form-group input:focus {
             outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 10px rgba(0, 212, 255, 0.1);
+            border-color: #046E3B;
+            box-shadow: 0 0 10px rgba(4, 110, 59, 0.25);
+        }
+
+        .login-card .btn-primary {
+            background: #046E3B;
+            border: 1px solid #046E3B;
+            color: #F8E7C9;
+        }
+
+        .login-card .btn-primary:hover {
+            background: #058c4b;
+            border-color: #058c4b;
+            color: #F8E7C9;
         }
 
         .divider {
@@ -109,7 +152,7 @@
             margin: 24px 0;
             font-family: var(--fm);
             font-size: 10px;
-            color: var(--text-muted);
+            color: #8FA69A;
             text-transform: uppercase;
             letter-spacing: 0.1em;
         }
@@ -118,7 +161,7 @@
             content: '';
             flex: 1;
             height: 1px;
-            background: var(--border);
+            background: #1D3A2B;
         }
 
         .google-btn {
@@ -127,9 +170,9 @@
             justify-content: center;
             gap: 12px;
             width: 100%;
-            background: transparent;
-            border: 1px solid var(--border2);
-            color: var(--text);
+            background: #0D1C15;
+            border: 1px solid #1D3A2B;
+            color: #F8E7C9;
             padding: 12px;
             font-family: var(--fh);
             font-weight: 600;
@@ -139,8 +182,8 @@
         }
 
         .google-btn:hover {
-            border-color: var(--accent);
-            background: rgba(0, 212, 255, 0.05);
+            border-color: #046E3B;
+            background: rgba(4, 110, 59, 0.10);
         }
 
         .google-btn img {
@@ -153,20 +196,20 @@
             margin-top: 24px;
             font-family: var(--fb);
             font-size: 14px;
-            color: var(--text-muted);
+            color: #8FA69A;
         }
 
         .footer-links a {
-            color: var(--accent);
+            color: #F8E7C9;
             text-decoration: none;
             font-weight: 600;
             margin-left: 4px;
-            transition: opacity 0.3s;
+            transition: color 0.3s;
         }
 
         .footer-links a:hover {
+            color: #046E3B;
             text-decoration: underline;
-            opacity: 0.8;
         }
 
         /* Background glow */
@@ -175,7 +218,7 @@
             width: 600px;
             height: 600px;
             pointer-events: none;
-            background: radial-gradient(circle, rgba(0, 212, 255, 0.05) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(4, 110, 59, 0.20) 0%, transparent 70%);
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -183,6 +226,7 @@
         }
 
     </style>
+    <script src="/assets/js/session.js"></script>
 </head>
 <body class="grid-bg">
 
@@ -200,7 +244,8 @@
             <h1>System Access</h1>
             <p>Authentication Required</p>
         </div>
-        <form id="loginForm" onsubmit="event.preventDefault(); localStorage.setItem('isLoggedIn', 'true'); window.location.href = '/dashboard'; return false;">
+        <div id="error-message" style="color: #F8E7C9; background: rgba(163, 72, 81, 0.2); border: 1px solid #A34851; padding: 12px; margin-bottom: 20px; font-family: var(--fb); font-size: 13px; display: none; text-align: center;"></div>
+        <form id="loginForm">
             <div class="form-group">
                 <label for="email">Email Address</label>
                 <input type="email" id="email" name="email" placeholder="name@example.com" required>
@@ -217,8 +262,13 @@
 
         <div class="divider">Or continue with</div>
 
-        <button class="google-btn" id="googleLogin" onclick="localStorage.setItem('isLoggedIn', 'true'); window.location.href = '/dashboard';">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_and_wordmark_of_Google.svg" alt="Google">
+        <button class="google-btn" id="googleLogin" onclick="window.location.href='/auth/google';">
+            <svg width="18" height="18" viewBox="0 0 24 24" style="margin-right: 12px; display: inline-block; vertical-align: middle;">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+            </svg>
             Continue with Google
         </button>
 
@@ -226,5 +276,41 @@
             Don't have an account? <a href="/register">Create Profile</a>
         </p>
     </div>
+
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const error = urlParams.get('error');
+            if (error) {
+                const errorDiv = document.getElementById('error-message');
+                errorDiv.textContent = error;
+                errorDiv.style.display = 'block';
+            }
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const errorDiv = document.getElementById('error-message');
+            
+            errorDiv.style.display = 'none';
+            
+            try {
+                submitBtn.disabled = true;
+                submitBtn.classList.add('loading');
+                
+                await apiPost('/api/auth/login', { email, password });
+                window.location.href = '/dashboard';
+            } catch (e) {
+                errorDiv.textContent = e.message || "Invalid credentials. Please try again.";
+                errorDiv.style.display = 'block';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('loading');
+            }
+        });
+    </script>
 </body>
 </html>

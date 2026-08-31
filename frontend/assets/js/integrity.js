@@ -65,6 +65,7 @@ const Integrity = {
   _lastX: window.screenX,
   _lastY: window.screenY,
   _faceAbsent: 0,
+  _noFaceEventTriggered: false,
 
   start() {
     console.log("[Integrity] Monitor Active");
@@ -111,14 +112,22 @@ const Integrity = {
 
   // Called by external modules (like emotion detector) if they detect face exit
   reportCameraExit() {
+      if (this._noFaceEventTriggered) {
+          return;
+      }
+      const NO_FACE_CONFIRMATION_FRAMES = 10;
       this._faceAbsent++;
-      if (this._faceAbsent >= 3) { // Multiple consecutive absences
+      if (this._faceAbsent >= NO_FACE_CONFIRMATION_FRAMES) { // Multiple consecutive absences
           this._faceAbsent = 0;
+          this._noFaceEventTriggered = true;
           this._handleViolation("camera_exit");
       }
   },
 
-  resetFaceCounter() { this._faceAbsent = 0; },
+  resetFaceCounter() { 
+      this._faceAbsent = 0; 
+      this._noFaceEventTriggered = false; 
+  },
 
   async _handleViolation(type) {
     if (this.terminated) return;

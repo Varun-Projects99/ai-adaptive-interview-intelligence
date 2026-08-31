@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="/assets/css/style.css">
     <style>
         :root {
-            --editor-bg: #090e14;
+            --editor-bg: #090F0C;
             --sidebar-width: 320px;
-            --accent-pink: #ff00ff;
+            --accent-pink: #F8E7C9;
         }
 
         .coding-layout {
@@ -17,7 +17,7 @@
             margin: 0 auto;
             padding: 90px 24px 20px;
             display: grid;
-            grid-template-columns: 450px 1fr;
+            grid-template-columns: 360px 1fr;
             gap: 24px;
             height: calc(100vh - 120px);
             min-height: 550px;
@@ -144,8 +144,8 @@
         }
 
         .challenge-desc code {
-            background: rgba(0, 212, 255, 0.1);
-            color: var(--accent);
+            background: rgba(4, 110, 59, 0.15);
+            color: var(--accent2);
             padding: 2px 6px;
             font-family: var(--fm);
             font-size: 13px;
@@ -203,6 +203,7 @@
             border-bottom: 1px solid var(--border);
             min-height: 0;
             height: 0;
+            overflow: hidden;
         }
 
         .line-numbers {
@@ -215,6 +216,9 @@
             user-select: none;
             border-right: 1px solid rgba(28, 39, 48, 0.5);
             line-height: 1.6;
+            height: 100%;
+            overflow-y: hidden;
+            box-sizing: border-box;
         }
 
         textarea.code-editor {
@@ -230,42 +234,54 @@
             outline: none;
             white-space: pre;
             overflow-x: auto;
+            overflow-y: auto;
             tab-size: 4;
+            height: 100%;
+            box-sizing: border-box;
         }
 
-        /* Terminal Console */
-        .console-panel {
-            height: 220px;
+        /* Terminal Console Side-By-Side Layout (Compact) */
+        .bottom-panels-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            height: 160px;
             background: #05080c;
+            border-top: 1px solid var(--border);
+            min-height: 160px;
+        }
+
+        @media (max-width: 768px) {
+            .bottom-panels-wrapper {
+                grid-template-columns: 1fr;
+                height: auto;
+                min-height: auto;
+            }
+            .pane-right {
+                height: auto !important;
+            }
+        }
+
+        .console-panel-card {
             display: flex;
             flex-direction: column;
+            border: 1px solid var(--border);
+            background: rgba(13, 19, 25, 0.5);
             overflow: hidden;
+            height: 100%;
         }
 
-        .console-tabs {
-            display: flex;
-            background: rgba(13, 19, 25, 0.9);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .console-tab {
+        .panel-header-title {
             font-family: var(--fm);
             font-size: 10px;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
-            padding: 8px 16px;
-            cursor: pointer;
-            color: var(--text-muted);
-            border-right: 1px solid var(--border);
-            background: none;
-            border-top: none;
-            border-bottom: none;
-        }
-
-        .console-tab.active {
+            letter-spacing: 0.1em;
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(17, 25, 34, 0.7);
             color: var(--accent);
-            background: rgba(7, 11, 16, 0.5);
+            user-select: none;
         }
 
         .console-log-area {
@@ -279,7 +295,7 @@
         }
 
         .console-log-area.terminal-text {
-            color: #10f59a;
+            color: #2ecc71;
         }
 
         /* Review Overlay / Grid */
@@ -417,21 +433,22 @@
                 <textarea class="code-editor" id="code-textarea" spellcheck="false" oninput="onCodeInput()" onkeydown="handleTabIndent(event)"></textarea>
             </div>
 
-            <!-- Console and AI review tabs -->
-            <div class="console-panel">
-                <div class="console-tabs">
-                    <button class="console-tab active" id="tab-console" onclick="switchConsoleTab('console')">Console Log</button>
-                    <button class="console-tab" id="tab-review" onclick="switchConsoleTab('review')">AI Insights</button>
+            <!-- Bottom Panels (Console Log & AI Insights) -->
+            <div class="bottom-panels-wrapper">
+                <!-- Console Log Card -->
+                <div class="console-panel-card">
+                    <div class="panel-header-title">Console Log</div>
+                    <div class="console-log-area" id="console-output">
+                        Code compilation results will be shown here...
+                    </div>
                 </div>
 
-                <!-- Console area -->
-                <div class="console-log-area" id="console-output">
-                    Code compilation results will be shown here...
-                </div>
-
-                <!-- Review Area (Hidden by default) -->
-                <div class="console-log-area" id="review-output" style="display:none;">
-                    Submit code for complexity analysis...
+                <!-- AI Insights Card -->
+                <div class="console-panel-card">
+                    <div class="panel-header-title" style="color: var(--accent2);">AI Insights</div>
+                    <div class="console-log-area" id="review-output">
+                        Submit code for complexity analysis...
+                    </div>
                 </div>
             </div>
 
@@ -459,6 +476,15 @@
             
             // Handle line numbers setup
             updateLineNumbers();
+
+            // Sync gutter scroll with code textarea
+            const textarea = document.getElementById("code-textarea");
+            const gutters = document.getElementById("editor-gutters");
+            if (textarea && gutters) {
+                textarea.addEventListener("scroll", () => {
+                    gutters.scrollTop = textarea.scrollTop;
+                });
+            }
         });
 
         // Fetch problems list from backend
@@ -585,23 +611,14 @@
             }
         }
 
-        // Switch Console / AI Insights view tabs
+        // Focus scroll context if switched programmatically
         function switchConsoleTab(tab) {
-            const tabConsole = document.getElementById("tab-console");
-            const tabReview = document.getElementById("tab-review");
-            const areaConsole = document.getElementById("console-output");
-            const areaReview = document.getElementById("review-output");
-
-            if (tab === "console") {
-                tabConsole.classList.add("active");
-                tabReview.classList.remove("active");
-                areaConsole.style.display = "block";
-                areaReview.style.display = "none";
+            if (tab === "review") {
+                const areaReview = document.getElementById("review-output");
+                if (areaReview) areaReview.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             } else {
-                tabConsole.classList.remove("active");
-                tabReview.classList.add("active");
-                areaConsole.style.display = "none";
-                areaReview.style.display = "block";
+                const areaConsole = document.getElementById("console-output");
+                if (areaConsole) areaConsole.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         }
 

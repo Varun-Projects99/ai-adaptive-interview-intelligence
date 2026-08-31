@@ -99,7 +99,7 @@
         .form-group input:focus {
             outline: none;
             border-color: var(--accent);
-            box-shadow: 0 0 10px rgba(0, 212, 255, 0.1);
+            box-shadow: 0 0 10px rgba(4, 110, 59, 0.15);
         }
 
         .footer-links {
@@ -129,7 +129,7 @@
             width: 600px;
             height: 600px;
             pointer-events: none;
-            background: radial-gradient(circle, rgba(0, 212, 255, 0.05) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(4, 110, 59, 0.05) 0%, transparent 70%);
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -137,6 +137,7 @@
         }
 
     </style>
+    <script src="/assets/js/session.js"></script>
 </head>
 <body class="grid-bg">
 
@@ -155,6 +156,8 @@
             <p>Initialize Your Candidate Identity</p>
         </div>
 
+        <div id="error-message" style="color: #F8E7C9; background: rgba(163, 72, 81, 0.2); border: 1px solid #A34851; padding: 12px; margin-bottom: 20px; font-family: var(--fb); font-size: 13px; display: none; text-align: center;"></div>
+        <div id="success-message" style="color: #F8E7C9; background: rgba(4, 110, 59, 0.2); border: 1px solid #046E3B; padding: 12px; margin-bottom: 20px; font-family: var(--fb); font-size: 13px; display: none; text-align: center;"></div>
         <form id="registerForm">
             <div class="form-group">
                 <label for="name">Full Name</label>
@@ -172,6 +175,13 @@
                 <label for="confirm-password">Confirm Key</label>
                 <input type="password" id="confirm-password" name="confirm-password" placeholder="••••••••" required>
             </div>
+            <div class="form-group">
+                <label for="role">Account Role</label>
+                <select id="role" name="role" class="form-control" style="width: 100%; background: var(--surface2); border: 1px solid var(--border2); color: var(--text); padding: 14px; font-family: var(--fb); font-size: 14px; transition: all 0.3s; margin-bottom: 20px;">
+                    <option value="candidate" selected>Candidate (Mock Interview Practice)</option>
+                    <option value="recruiter">Recruiter (Hiring & Operations Manager)</option>
+                </select>
+            </div>
             
             <button type="submit" class="btn btn-primary btn-full">
                 <span class="btn-text">Activate Protocol</span>
@@ -184,23 +194,43 @@
     </div>
 
     <script>
-        document.getElementById('registerForm').addEventListener('submit', function(event) {
+        document.getElementById('registerForm').addEventListener('submit', async function(event) {
             event.preventDefault();
             
-            // Simple password match check
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
             const pass = document.getElementById('password').value;
             const confirm = document.getElementById('confirm-password').value;
+            const role = document.getElementById('role').value;
+            const errorDiv = document.getElementById('error-message');
+            const successDiv = document.getElementById('success-message');
+            
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
             
             if (pass !== confirm) {
-                alert("Security keys do not match!");
+                errorDiv.textContent = "Security keys do not match!";
+                errorDiv.style.display = 'block';
                 return;
             }
 
-            // Simulate successful registration
-            localStorage.setItem('sessionToken', 'registered_user_token_' + Date.now());
-            
-            // Redirect to login
-            window.location.href = '/login';
+            const submitBtn = this.querySelector('button[type="submit"]');
+            try {
+                submitBtn.disabled = true;
+                submitBtn.classList.add('loading');
+                
+                await apiPost('/api/auth/register', { name, email, password: pass, role });
+                successDiv.textContent = "Registration successful! Redirecting to login...";
+                successDiv.style.display = 'block';
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 2000);
+            } catch (e) {
+                errorDiv.textContent = e.message || "Registration failed. Please try again.";
+                errorDiv.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('loading');
+            }
         });
     </script>
 </body>

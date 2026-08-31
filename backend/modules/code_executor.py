@@ -103,7 +103,7 @@ CHALLENGES = {
             {"args": ["hello"], "expected": "olleh"},
             {"args": ["Hannah"], "expected": "hannaH"},
             {"args": ["a"], "expected": "a"},
-            {"args": ["InterviewIQ"], "expected": "QIwieveetnI"}
+            {"args": ["InterviewIQ"], "expected": "QIweivretnI"}
         ]
     }
 }
@@ -180,14 +180,14 @@ print("---RESULTS_JSON_END---")
         )
 
         try:
-            stdout, stderr = process.communicate(timeout=2.0)
+            stdout, stderr = process.communicate(timeout=5.0)
         except subprocess.TimeoutExpired:
             process.kill()
             stdout, stderr = process.communicate()
             return {
                 "success": False,
-                "error": "Time Limit Exceeded (execution exceeded 2.0s limit)",
-                "console": "Execution timed out.",
+                "error": "Time Limit Exceeded (execution exceeded 5.0s limit)",
+                "console": "Execution timed out. Please check for infinite loops or try running again.",
                 "test_results": []
             }
 
@@ -335,14 +335,14 @@ console.log("---RESULTS_JSON_END---");
         )
 
         try:
-            stdout, stderr = process.communicate(timeout=2.0)
+            stdout, stderr = process.communicate(timeout=5.0)
         except subprocess.TimeoutExpired:
             process.kill()
             stdout, stderr = process.communicate()
             return {
                 "success": False,
-                "error": "Time Limit Exceeded",
-                "console": "Execution timed out.",
+                "error": "Time Limit Exceeded (execution exceeded 5.0s limit)",
+                "console": "Execution timed out. Please check for infinite loops or try running again.",
                 "test_results": []
             }
 

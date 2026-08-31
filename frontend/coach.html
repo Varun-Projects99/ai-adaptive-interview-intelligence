@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="/assets/css/style.css">
     <style>
         :root {
-            --card-bg: rgba(13, 19, 25, 0.85);
-            --chat-bubble-user: rgba(0, 212, 255, 0.08);
-            --chat-bubble-coach: rgba(139, 92, 246, 0.08);
-            --border-user: rgba(0, 212, 255, 0.2);
-            --border-coach: rgba(139, 92, 246, 0.2);
+            --card-bg: rgba(13, 28, 21, 0.85);
+            --chat-bubble-user: rgba(4, 110, 59, 0.08);
+            --chat-bubble-coach: rgba(248, 231, 201, 0.08);
+            --border-user: rgba(4, 110, 59, 0.2);
+            --border-coach: rgba(248, 231, 201, 0.25);
         }
 
         .coach-layout {
@@ -108,7 +108,7 @@
 
         .topic-btn:hover {
             border-color: var(--accent);
-            background: rgba(0, 212, 255, 0.05);
+            background: rgba(4, 110, 59, 0.05);
             transform: translateX(4px);
         }
 
@@ -304,7 +304,7 @@
             <div class="corner corner-br" style="border-color: var(--accent2);"></div>
             
             <div class="chat-header">
-                <span class="chip" style="color: var(--accent2); border-color: rgba(139, 92, 246, 0.3); background: rgba(139, 92, 246, 0.05);">Coach System Online</span>
+                <span class="chip" style="color: var(--accent2); border-color: rgba(4, 110, 59, 0.3); background: rgba(4, 110, 59, 0.05);">Coach System Online</span>
                 <span class="font-mono text-muted" style="font-size: 10px;">Llama-3 Consultancy</span>
             </div>
 
@@ -339,7 +339,7 @@
 
     <!-- Background glow -->
     <div style="position:fixed;width:800px;height:800px;pointer-events:none;
-                background:radial-gradient(circle,rgba(139,92,246,.02) 0%,transparent 70%);
+                background:radial-gradient(circle,rgba(4,110,59,.03) 0%,transparent 70%);
                 top:50%;left:50%;transform:translate(-50%,-50%);z-index:0"></div>
 
     <div class="toast" id="toast"></div>
