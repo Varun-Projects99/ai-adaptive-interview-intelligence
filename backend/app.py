@@ -21,8 +21,10 @@ sys.path.append(os.path.dirname(__file__))
 # ── Module imports (graceful fallbacks if a lib is missing) ──────────────────
 
 try:
-    from modules.resume_parser import extract_skills_from_resume, analyze_resume_data
+    from modules.resume_parser import extract_skills_from_resume, analyze_resume_data, get_ocr_reader
     print("[OK] resume_parser loaded")
+    import threading
+    threading.Thread(target=get_ocr_reader, daemon=True).start()
 except Exception as e:
     print(f"[WARN] resume_parser: {e}")
 

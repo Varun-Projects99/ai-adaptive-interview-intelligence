@@ -1,12 +1,28 @@
 """
 Resume Intelligence Module
-Extracts text from PDF resume and detects all technical skills under skills sections.
+Extracts text from PDF resume and detects technical skills.
+Supports standard PDF text streams, section extraction, and pre-warmed EasyOCR engine for scanned image PDFs.
 """
 
 import os
 import re
 import json
 import unicodedata
+
+_OCR_READER = None
+
+def get_ocr_reader():
+    global _OCR_READER
+    if _OCR_READER is None:
+        try:
+            import easyocr
+            print("[ResumeParser] Initializing EasyOCR singleton engine...")
+            _OCR_READER = easyocr.Reader(['en'], gpu=False, verbose=False)
+            print("[ResumeParser] EasyOCR engine initialized and cached.")
+        except Exception as e:
+            print(f"[ResumeParser] Failed to load EasyOCR: {e}")
+    return _OCR_READER
+
 
 KNOWN_SPECIFIC_SKILLS = [
     # Languages
@@ -47,6 +63,7 @@ SKILL_TAXONOMY = {
 
 def extract_text_from_pdf(path: str) -> str:
     text = ""
+    # 1. Fast pdfplumber text extraction
     try:
         import pdfplumber
         with pdfplumber.open(path) as pdf:
@@ -57,7 +74,7 @@ def extract_text_from_pdf(path: str) -> str:
     except Exception as e:
         print(f"[ResumeParser] pdfplumber error: {e}")
 
-    # Fallback to pdfminer if text is sparse
+    # 2. Fast pdfminer fallback if text is sparse
     if len(text.strip()) < 30:
         try:
             from pdfminer.high_level import extract_text as pdfminer_extract
@@ -67,27 +84,26 @@ def extract_text_from_pdf(path: str) -> str:
         except Exception as e2:
             print(f"[ResumeParser] pdfminer fallback error: {e2}")
 
-    # Fallback to EasyOCR for scanned / image-based PDFs
+    # 3. EasyOCR image OCR fallback for scanned image PDFs (using cached reader)
     if len(text.strip()) < 30:
         try:
-            print("[ResumeParser] Scanned PDF detected, initializing EasyOCR engine...")
-            import fitz
-            import numpy as np
-            import easyocr
-            
-            reader = easyocr.Reader(['en'], gpu=False, verbose=False)
-            doc = fitz.open(path)
-            for page in doc:
-                pix = page.get_pixmap(dpi=150)
-                img_np = np.frombuffer(pix.samples, dtype=np.uint8).reshape(pix.height, pix.width, pix.n)
-                if pix.n == 4:
-                    img_np = img_np[:, :, :3]
-                results = reader.readtext(img_np, detail=0)
-                if results:
-                    text += "\n".join(results) + "\n"
-            print(f"[ResumeParser] EasyOCR extracted {len(text.strip())} chars from scanned PDF.")
+            reader = get_ocr_reader()
+            if reader:
+                import fitz
+                import numpy as np
+                print(f"[ResumeParser] Processing scanned PDF with cached EasyOCR...")
+                doc = fitz.open(path)
+                for page in doc[:2]:  # Limit to 2 pages for speed
+                    pix = page.get_pixmap(dpi=100) # Fast 100 DPI
+                    img_np = np.frombuffer(pix.samples, dtype=np.uint8).reshape(pix.height, pix.width, pix.n)
+                    if pix.n == 4:
+                        img_np = img_np[:, :, :3]
+                    results = reader.readtext(img_np, detail=0)
+                    if results:
+                        text += "\n".join(results) + "\n"
+                print(f"[ResumeParser] EasyOCR extracted {len(text.strip())} chars.")
         except Exception as e_ocr:
-            print(f"[ResumeParser] EasyOCR fallback error: {e_ocr}")
+            print(f"[ResumeParser] OCR error: {e_ocr}")
 
     text = unicodedata.normalize("NFKD", text)
     return text.strip()
@@ -130,7 +146,6 @@ def extract_skills_from_resume(path: str) -> list:
     for s in found:
         formatted = _format_skill_name(s)
         if formatted and formatted.lower() not in seen and len(formatted) >= 2:
-            # Filter duplicates like Git vs Git & GitHub
             if formatted == "Git" and "Git & GitHub" in seen:
                 continue
             if formatted == "GitHub" and "Git & GitHub" in seen:
