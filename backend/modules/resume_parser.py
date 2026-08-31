@@ -22,8 +22,6 @@ SKILL_TAXONOMY = {
     "DevOps":           ["devops", "ci/cd", "jenkins", "docker", "kubernetes", "ansible", "terraform", "github actions"],
     "AWS":              ["aws", "amazon web services", "ec2", "s3", "rds", "lambda", "iam", "vpc"],
     "AI/ML":            ["ai", "ml", "artificial intelligence", "machine learning", "deep learning", "neural networks", "pytorch", "tensorflow", "scikit-learn"],
-    "HR":               ["hr", "behavioral", "communication", "soft skills", "leadership", "teamwork", "management"],
-    "Aptitude":         ["aptitude", "quantitative", "logical reasoning", "verbal", "analytical", "problem solving"],
     "Cybersecurity":    ["cybersecurity", "penetration testing", "ethical hacking", "cryptography", "kali linux"]
 }
 

@@ -14025,5 +14025,361 @@
         "date": "2026-08-31 22:35",
         "interview_id": "6a95b4597818fccb38ed77c8",
         "invitation_token": "faca08f5-ad6a-44b3-af74-c1df57c80b99"
+    },
+    "1ef839cf-48bd-4c28-91ba-5a39ec98edcd": {
+        "session_id": "1ef839cf-48bd-4c28-91ba-5a39ec98edcd",
+        "terminated": false,
+        "scores": {
+            "technical": 80,
+            "confidence": 0,
+            "emotion_stability": "Moderate",
+            "readiness_index": 50,
+            "readiness_label": "Needs Practice"
+        },
+        "summary": {
+            "total_questions": 4,
+            "skills_covered": [
+                "AWS",
+                "Python",
+                "MongoDB"
+            ],
+            "difficulty_progression": [
+                "easy",
+                "easy",
+                "easy",
+                "hard"
+            ],
+            "violations": {
+                "tab_switch": 0,
+                "camera_exit": 0,
+                "window_move": 0,
+                "total": 0
+            },
+            "final_summary": "Overall solid performance, demonstrated strong technical competencies."
+        },
+        "emotion_breakdown": {},
+        "answers": [
+            {
+                "question": "What is the basic purpose of modules and packages in Python?",
+                "answer": "Mock test response content details.",
+                "score": 80,
+                "overall": 80,
+                "overall_score": 80,
+                "skill": "Python",
+                "difficulty": "easy",
+                "feedback": "Mock feedback details.",
+                "evaluation": {
+                    "technical_correctness": 80,
+                    "relevance": 80,
+                    "depth": 80,
+                    "completeness": 80
+                },
+                "confidence": {
+                    "technical_correctness": 90,
+                    "relevance": 95,
+                    "depth": 85,
+                    "completeness": 80
+                },
+                "evidence": [
+                    "Correct statement",
+                    "Relevant statement",
+                    "Detailed statement",
+                    "Complete statement"
+                ],
+                "reasons": {
+                    "technical_correctness": "Good",
+                    "relevance": "Good",
+                    "depth": "Good",
+                    "completeness": "Good"
+                },
+                "strengths": [
+                    "Mock strength 1",
+                    "Mock strength 2"
+                ],
+                "improvements": [
+                    "Mock improvement 1"
+                ],
+                "timestamp": "2026-08-31T17:07:56.885401"
+            },
+            {
+                "question": "Explain the fundamental difference between prioritizing multiple urgent deliverables and other core mechanisms in HR.?",
+                "answer": "Mock test response content details.",
+                "score": 80,
+                "overall": 80,
+                "overall_score": 80,
+                "skill": "MongoDB",
+                "difficulty": "easy",
+                "feedback": "Mock feedback details.",
+                "evaluation": {
+                    "technical_correctness": 80,
+                    "relevance": 80,
+                    "depth": 80,
+                    "completeness": 80
+                },
+                "confidence": {
+                    "technical_correctness": 90,
+                    "relevance": 95,
+                    "depth": 85,
+                    "completeness": 80
+                },
+                "evidence": [
+                    "Correct statement",
+                    "Relevant statement",
+                    "Detailed statement",
+                    "Complete statement"
+                ],
+                "reasons": {
+                    "technical_correctness": "Good",
+                    "relevance": "Good",
+                    "depth": "Good",
+                    "completeness": "Good"
+                },
+                "strengths": [
+                    "Mock strength 1",
+                    "Mock strength 2"
+                ],
+                "improvements": [
+                    "Mock improvement 1"
+                ],
+                "timestamp": "2026-08-31T17:07:58.470035"
+            },
+            {
+                "question": "How would you explain CloudFront CDN caching to a junior AWS developer?",
+                "answer": "Mock test response content details.",
+                "score": 80,
+                "overall": 80,
+                "overall_score": 80,
+                "skill": "AWS",
+                "difficulty": "easy",
+                "feedback": "Mock feedback details.",
+                "evaluation": {
+                    "technical_correctness": 80,
+                    "relevance": 80,
+                    "depth": 80,
+                    "completeness": 80
+                },
+                "confidence": {
+                    "technical_correctness": 90,
+                    "relevance": 95,
+                    "depth": 85,
+                    "completeness": 80
+                },
+                "evidence": [
+                    "Correct statement",
+                    "Relevant statement",
+                    "Detailed statement",
+                    "Complete statement"
+                ],
+                "reasons": {
+                    "technical_correctness": "Good",
+                    "relevance": "Good",
+                    "depth": "Good",
+                    "completeness": "Good"
+                },
+                "strengths": [
+                    "Mock strength 1",
+                    "Mock strength 2"
+                ],
+                "improvements": [
+                    "Mock improvement 1"
+                ],
+                "timestamp": "2026-08-31T17:07:59.556622"
+            },
+            {
+                "question": "Discuss how iterator protocol behaves under extreme load spike scenarios in a production Python service.?",
+                "answer": "Mock test response content details.",
+                "score": 80,
+                "overall": 80,
+                "overall_score": 80,
+                "skill": "Python",
+                "difficulty": "hard",
+                "feedback": "Mock feedback details.",
+                "evaluation": {
+                    "technical_correctness": 80,
+                    "relevance": 80,
+                    "depth": 80,
+                    "completeness": 80
+                },
+                "confidence": {
+                    "technical_correctness": 90,
+                    "relevance": 95,
+                    "depth": 85,
+                    "completeness": 80
+                },
+                "evidence": [
+                    "Correct statement",
+                    "Relevant statement",
+                    "Detailed statement",
+                    "Complete statement"
+                ],
+                "reasons": {
+                    "technical_correctness": "Good",
+                    "relevance": "Good",
+                    "depth": "Good",
+                    "completeness": "Good"
+                },
+                "strengths": [
+                    "Mock strength 1",
+                    "Mock strength 2"
+                ],
+                "improvements": [
+                    "Mock improvement 1"
+                ],
+                "timestamp": "2026-08-31T17:08:00.611479"
+            }
+        ],
+        "recommendations": [
+            "Work on speaking confidence \u2014 record yourself and practice mock answers aloud."
+        ],
+        "skill_scores": {
+            "Python": 80,
+            "MongoDB": 80,
+            "AWS": 80
+        },
+        "strong_areas": [
+            "Python"
+        ],
+        "weak_areas": [
+            "Provide more deep architectural details."
+        ],
+        "covered_topics": [
+            "Python",
+            "MongoDB",
+            "AWS"
+        ],
+        "candidate_profile": {
+            "user_id": "6a95b4e940021c47e41519a7",
+            "skills": {
+                "Python": {
+                    "score": 80,
+                    "depth": "Advanced",
+                    "confidence": 65,
+                    "consistency": "High",
+                    "evidence_count": 2,
+                    "easy_scores": [
+                        80
+                    ],
+                    "medium_scores": [],
+                    "hard_scores": [
+                        80
+                    ],
+                    "scores": [
+                        80,
+                        80
+                    ],
+                    "uncertainty_count": 0,
+                    "contradictions_count": 0,
+                    "technical_correctness_scores": [
+                        80,
+                        80
+                    ],
+                    "technical_correctness": 80,
+                    "relevance_scores": [
+                        80,
+                        80
+                    ],
+                    "relevance": 80,
+                    "depth_scores": [
+                        80,
+                        80
+                    ],
+                    "depth_score": 80,
+                    "completeness_scores": [
+                        80,
+                        80
+                    ],
+                    "completeness": 80
+                },
+                "MongoDB": {
+                    "score": 80,
+                    "depth": "Basic",
+                    "confidence": 52,
+                    "consistency": "High",
+                    "evidence_count": 1,
+                    "easy_scores": [
+                        80
+                    ],
+                    "medium_scores": [],
+                    "hard_scores": [],
+                    "scores": [
+                        80
+                    ],
+                    "uncertainty_count": 0,
+                    "contradictions_count": 0,
+                    "technical_correctness_scores": [
+                        80
+                    ],
+                    "technical_correctness": 80,
+                    "relevance_scores": [
+                        80
+                    ],
+                    "relevance": 80,
+                    "depth_scores": [
+                        80
+                    ],
+                    "depth_score": 80,
+                    "completeness_scores": [
+                        80
+                    ],
+                    "completeness": 80
+                },
+                "AWS": {
+                    "score": 80,
+                    "depth": "Basic",
+                    "confidence": 52,
+                    "consistency": "High",
+                    "evidence_count": 1,
+                    "easy_scores": [
+                        80
+                    ],
+                    "medium_scores": [],
+                    "hard_scores": [],
+                    "scores": [
+                        80
+                    ],
+                    "uncertainty_count": 0,
+                    "contradictions_count": 0,
+                    "technical_correctness_scores": [
+                        80
+                    ],
+                    "technical_correctness": 80,
+                    "relevance_scores": [
+                        80
+                    ],
+                    "relevance": 80,
+                    "depth_scores": [
+                        80
+                    ],
+                    "depth_score": 80,
+                    "completeness_scores": [
+                        80
+                    ],
+                    "completeness": 80
+                }
+            },
+            "strong_areas": [
+                "Python"
+            ],
+            "weak_areas": [],
+            "contradictions": [],
+            "self_corrections": [],
+            "knowledge_map": {
+                "Python": {
+                    "General": "High"
+                },
+                "MongoDB": {
+                    "General": "High"
+                },
+                "AWS": {
+                    "General": "High"
+                }
+            },
+            "updated_at": "2026-08-31T17:08:00.659875"
+        },
+        "user_id": "6a95b4e940021c47e41519a7",
+        "is_practice": false,
+        "date": "2026-08-31 22:38",
+        "interview_id": "6a95b4ea40021c47e41519ae",
+        "invitation_token": "eeb7b902-3295-43fc-b830-aecd359a2a0f"
     }
 }
