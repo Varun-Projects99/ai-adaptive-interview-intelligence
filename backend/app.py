@@ -203,14 +203,30 @@ except Exception as e:
 
 app = Flask(__name__, static_folder=None)
 
-# 🔐 Secure Secret Key fallback
+# 🔐 Secure Secret Key validation
 flask_secret_env = os.environ.get("FLASK_SECRET")
 if not flask_secret_env:
+    if os.environ.get("VERCEL"):
+        raise RuntimeError("FLASK_SECRET environment variable is missing! Serverless deployment cannot maintain session stability without a persistent key.")
     print("[WARN] FLASK_SECRET key is missing from environment! Generating a dynamic session key for this launch.")
     import secrets
     app.secret_key = secrets.token_hex(32)
 else:
     app.secret_key = flask_secret_env
+
+# 🔐 Production-safe Session Cookie settings
+if os.environ.get("VERCEL") or os.environ.get("PROD_MODE") == "true":
+    app.config.update(
+        SESSION_COOKIE_SECURE=True,
+        SESSION_COOKIE_HTTPONLY=True,
+        SESSION_COOKIE_SAMESITE="Lax"
+    )
+else:
+    app.config.update(
+        SESSION_COOKIE_SECURE=False,
+        SESSION_COOKIE_HTTPONLY=True,
+        SESSION_COOKIE_SAMESITE="Lax"
+    )
 
 # 🔐 Secure CORS origins
 frontend_origin = os.environ.get("FRONTEND_ORIGIN")
@@ -1052,7 +1068,12 @@ import urllib.parse
 @app.route("/auth/google")
 def google_login():
     client_id = os.environ.get("GOOGLE_CLIENT_ID")
-    redirect_uri = os.environ.get("GOOGLE_REDIRECT_URI", "http://127.0.0.1:5000/auth/google/callback")
+    redirect_uri = os.environ.get("GOOGLE_REDIRECT_URI")
+    if not redirect_uri:
+        if os.environ.get("VERCEL"):
+            redirect_uri = f"https://{request.headers.get('Host')}/auth/google/callback"
+        else:
+            redirect_uri = "http://127.0.0.1:5000/auth/google/callback"
     
     if not client_id:
         return "Google OAuth is not configured in the server environment.", 500
@@ -1085,8 +1106,14 @@ def google_callback():
         
     client_id = os.environ.get("GOOGLE_CLIENT_ID")
     client_secret = os.environ.get("GOOGLE_CLIENT_SECRET")
-    redirect_uri = os.environ.get("GOOGLE_REDIRECT_URI", "http://127.0.0.1:5000/auth/google/callback")
     
+    redirect_uri = os.environ.get("GOOGLE_REDIRECT_URI")
+    if not redirect_uri:
+        if os.environ.get("VERCEL"):
+            redirect_uri = f"https://{request.headers.get('Host')}/auth/google/callback"
+        else:
+            redirect_uri = "http://127.0.0.1:5000/auth/google/callback"
+            
     token_url = "https://oauth2.googleapis.com/token"
     data = {
         "code": code,
@@ -1226,12 +1253,31 @@ def get_candidate_name():
 
 
 def get_sess(sid):
+    if not sid:
+        return None
+    
+    # Track accessed session ID in Flask request context if running in HTTP request
+    from flask import g
+    try:
+        if "accessed_sessions" not in g:
+            g.accessed_sessions = set()
+        g.accessed_sessions.add(sid)
+    except RuntimeError:
+        pass
+        
+    if db is not None:
+        doc = db["sessions"].find_one({"id": sid})
+        if doc:
+            doc.pop("_id", None)
+            sessions[sid] = doc
+            return doc
+            
     return sessions.get(sid)
 
 
 def new_sess(sid):
     user_id = str(session.get("user_id")) if "user_id" in session else "anonymous"
-    sessions[sid] = {
+    sess_data = {
         "id": sid,
         "user_id": user_id,
         "status": "active",
@@ -1252,8 +1298,37 @@ def new_sess(sid):
             "conversation": []
         }
     }
+    sessions[sid] = sess_data
+    
+    # Track accessed session ID in Flask request context
+    from flask import g
+    try:
+        if "accessed_sessions" not in g:
+            g.accessed_sessions = set()
+        g.accessed_sessions.add(sid)
+    except RuntimeError:
+        pass
+        
+    if db is not None:
+        db["sessions"].replace_one({"id": sid}, sess_data, upsert=True)
+        
     log_audit("SESSION_CREATED", user_id=user_id, session_id=sid)
-    return sessions[sid]
+    return sess_data
+
+
+@app.after_request
+def save_accessed_sessions(response):
+    from flask import g
+    if db is not None:
+        try:
+            if "accessed_sessions" in g:
+                for sid in g.accessed_sessions:
+                    sess = sessions.get(sid)
+                    if sess:
+                        db["sessions"].replace_one({"id": sid}, sess, upsert=True)
+        except RuntimeError:
+            pass
+    return response
 
 
 # ── API ROUTES ───────────────────────────────────────────────────────────────
