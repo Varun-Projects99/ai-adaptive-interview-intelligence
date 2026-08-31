@@ -5,26 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>InterviewIQ — Upload Resume</title>
 <link rel="stylesheet" href="/assets/css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
-<body class="grid-bg">
+<body>
 
 <!-- NAVBAR -->
-<nav class="navbar">
-  <div class="navbar-logo">
-    <div class="logo-dot"></div>InterviewIQ
+<header class="navbar">
+  <a href="/" class="nav-logo">
+    <div class="logo-dot"></div>
+    InterviewIQ
+  </a>
+  <nav class="nav-links">
+    <a href="/" class="nav-link">Home</a>
+    <a href="/upload" class="nav-link active">Practice</a>
+    <a href="/dashboard" class="nav-link">Dashboard</a>
+  </nav>
+  <div style="font-family:var(--fm);font-size:11px;color:var(--text-muted);letter-spacing:1px">
+    POWERED BY CLAUDE AI
   </div>
-  <div class="navbar-right">
-    <div class="chip accent">Powered by Claude AI</div>
-  </div>
-</nav>
+</header>
 
-<!-- HERO -->
-<main style="min-height:100vh;display:flex;align-items:center;justify-content:center;
-             padding:100px 40px 60px;position:relative;z-index:1">
+<!-- MAIN WORKSPACE -->
+<main style="min-height:calc(100vh - 60px);display:flex;align-items:center;
+             justify-content:center;padding:60px 20px;position:relative;z-index:1">
 
   <!-- Background glow -->
   <div style="position:absolute;width:700px;height:700px;pointer-events:none;
-              background:radial-gradient(circle,rgba(4,110,59,.06) 0%,transparent 70%);
+              background:radial-gradient(circle,rgba(0,212,255,.06) 0%,transparent 70%);
               top:50%;left:50%;transform:translate(-50%,-50%)"></div>
 
   <div style="width:100%;max-width:580px;display:flex;flex-direction:column;
@@ -40,8 +48,8 @@
     <h1 class="font-heading fade-up fade-up-1"
         style="font-size:clamp(42px,7vw,78px);font-weight:800;line-height:.95;
                letter-spacing:-3px;text-align:center">
-      Ace Your <span style="color:var(--accent2)">Next</span><br>
-      <span style="-webkit-text-stroke:1.5px rgba(4,110,59,.4);color:transparent">Interview</span>
+      Ace Your <span style="color:var(--accent)">Next</span><br>
+      <span style="-webkit-text-stroke:1.5px rgba(0,212,255,.4);color:transparent">Interview</span>
     </h1>
 
     <!-- Sub -->
@@ -87,59 +95,19 @@
         No file selected
       </div>
 
-      <!-- Detected & Target Skills -->
-      <div id="skills-area" style="display:flex; flex-direction:column; gap:10px">
-        <div style="display:flex; justify-content:space-between; align-items:center">
-          <div class="font-mono text-muted" style="font-size:10px; letter-spacing:.15em; text-transform:uppercase">
-            Detected / Target Skills
-          </div>
-          <div class="font-mono text-muted" style="font-size:10px; color:var(--accent)">
-            Click chips to toggle skills
-          </div>
+      <!-- Detected skills -->
+      <div id="skills-area" style="display:none;flex-direction:column;gap:10px">
+        <div class="font-mono text-muted"
+             style="font-size:10px;letter-spacing:.15em;text-transform:uppercase">
+          Detected Skills
         </div>
-        <div id="skills-grid" style="display:flex; flex-wrap:wrap; gap:8px">
-          <!-- Preset/Detected skills rendered dynamically -->
-        </div>
-        <div style="display:flex; gap:8px; margin-top:4px">
-          <input type="text" id="custom-skill-input" placeholder="Add custom skill (e.g. FastAPI, Docker)" 
-                 style="flex:1; background:var(--surface2); border:1px solid var(--border2); color:var(--text); font-family:var(--fb); font-size:12px; padding:8px 12px; outline:none; border-radius:4px"
-                 onkeydown="if(event.key==='Enter'){event.preventDefault(); addCustomSkill();}">
-          <button type="button" class="btn btn-secondary" onclick="addCustomSkill()" style="padding:6px 14px; font-size:12px">
-            + Add
-          </button>
-        </div>
-      </div>
-
-      <!-- Personality & Language Selection -->
-      <div id="setup-area" style="display:flex; flex-direction:column; gap:14px; border-top:1px solid var(--border); padding-top:16px">
-        <div class="font-mono text-muted" style="font-size:10px; letter-spacing:0.15em; text-transform:uppercase">
-          AI Interviewer Setup
-        </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px">
-          <div style="display:flex; flex-direction:column; gap:6px">
-            <label class="font-mono text-muted" style="font-size:10px; text-transform:uppercase">Personality</label>
-            <select id="select-personality" class="form-select" style="background:var(--surface2); border:1px solid var(--border2); color:var(--text); font-family:var(--fb); font-size:13px; padding:10px 14px; outline:none; width:100%; cursor:pointer">
-              <option value="professional" selected>Professional (Concise)</option>
-              <option value="friendly">Friendly (Encouraging)</option>
-              <option value="technical">Technical (Demanding)</option>
-              <option value="hr">HR (Behavioral)</option>
-            </select>
-          </div>
-          <div style="display:flex; flex-direction:column; gap:6px">
-            <label class="font-mono text-muted" style="font-size:10px; text-transform:uppercase">Language</label>
-            <select id="select-language" class="form-select" style="background:var(--surface2); border:1px solid var(--border2); color:var(--text); font-family:var(--fb); font-size:13px; padding:10px 14px; outline:none; width:100%; cursor:pointer">
-              <option value="en" selected>English</option>
-              <option value="hi">Hindi (हिंदी)</option>
-              <option value="kn">Kannada (ಕನ್ನಡ)</option>
-            </select>
-          </div>
-        </div>
+        <div id="skills-grid" style="display:flex;flex-wrap:wrap;gap:8px"></div>
       </div>
 
       <!-- CTA button -->
-      <button class="btn btn-primary btn-full" id="start-btn"
-              onclick="startAdaptiveInterview()">
-        <span class="btn-text">Start Adaptive AI Interview</span>
+      <button class="btn btn-primary btn-full" id="start-btn" disabled
+              onclick="uploadResume()">
+        <span class="btn-text">Upload &amp; Start Interview</span>
         <div class="spinner" style="border-top-color:#000"></div>
       </button>
     </div>
@@ -179,12 +147,6 @@
 <script src="/assets/js/session.js"></script>
 <script>
 let selectedFile = null;
-let activeSkills = ["Python", "Java", "JavaScript", "SQL", "React", "DevOps", "DSA"];
-
-// Render initial preset skills
-document.addEventListener("DOMContentLoaded", () => {
-  renderSkills(activeSkills);
-});
 
 function handleDrop(e) {
   e.preventDefault();
@@ -203,11 +165,9 @@ function handleFile(file) {
   selectedFile = file;
   document.getElementById("drop-label").textContent = file.name;
   document.getElementById("drop-sub").textContent   =
-    (file.size / 1024).toFixed(0) + " KB · Uploading & Analyzing...";
-  setStatus("Uploading resume and extracting skills...", "", 25);
-  
-  // Auto-trigger resume processing
-  uploadResume();
+    (file.size / 1024).toFixed(0) + " KB · Ready to upload";
+  setStatus("File ready — click button to upload", "", 10);
+  document.getElementById("start-btn").disabled = false;
 }
 
 async function uploadResume() {
@@ -216,130 +176,49 @@ async function uploadResume() {
   btn.classList.add("loading"); btn.disabled = true;
 
   try {
-    // 1. Start session if not started
-    if (!Session.id) {
-      setStatus("Starting session...", "", 20);
-      const sess = await apiPost("/api/session/start", {});
-      Session.id = sess.session_id;
-    }
+    // 1. Start session
+    setStatus("Starting session...", "", 20);
+    const sess = await apiPost("/api/session/start", {});
+    Session.id = sess.session_id;
 
     // 2. Upload resume + extract skills
-    setStatus("Extracting skills from resume with AI...", "", 50);
+    setStatus("Extracting skills from resume...", "", 40);
     const form = new FormData();
     form.append("session_id", Session.id);
     form.append("resume", selectedFile);
     const up = await apiPost("/api/resume/upload", form, true);
-    
-    if (up.skills_detected && up.skills_detected.length > 0) {
-      activeSkills = up.skills_detected;
-      Session.skills = activeSkills;
-      renderSkills(activeSkills);
-      setStatus(`✓ ${up.skill_count} skills detected: ${activeSkills.join(", ")}`, "ok", 100);
-      document.getElementById("drop-sub").textContent = `${(selectedFile.size / 1024).toFixed(0)} KB · ${up.skill_count} SKILLS DETECTED`;
-    } else {
-      setStatus("✓ Resume uploaded. Review or select skills below:", "ok", 100);
-    }
+    Session.skills = up.skills_detected;
+    showSkills(up.skills_detected);
+    setStatus(`✓ ${up.skill_count} skills detected`, "ok", 65);
 
-    btn.classList.remove("loading");
-    btn.disabled = false;
-
-  } catch(e) {
-    setStatus("Error parsing resume: " + e.message, "err", 0);
-    btn.classList.remove("loading"); btn.disabled = false;
-    showToast(e.message, "err");
-  }
-}
-
-function renderSkills(skills) {
-  const grid = document.getElementById("skills-grid");
-  grid.innerHTML = "";
-  skills.forEach((s, i) => {
-    const c = document.createElement("div");
-    c.className = "skill-chip selected";
-    c.style.background = "var(--accent-glow)";
-    c.style.border = "1px solid var(--accent)";
-    c.style.color = "var(--text)";
-    c.style.padding = "6px 14px";
-    c.style.borderRadius = "20px";
-    c.style.fontSize = "12px";
-    c.style.cursor = "pointer";
-    c.style.transition = "all 0.2s";
-    c.style.display = "flex";
-    c.style.alignItems = "center";
-    c.style.gap = "6px";
-    c.innerHTML = `<span>${s}</span> <span style="font-size:10px; opacity:0.6" onclick="event.stopPropagation(); removeSkill('${s}')">✕</span>`;
-    
-    c.onclick = () => removeSkill(s);
-    grid.appendChild(c);
-  });
-}
-
-function removeSkill(skillName) {
-  activeSkills = activeSkills.filter(s => s !== skillName);
-  if (activeSkills.length === 0) {
-    activeSkills = ["Python", "DSA", "SQL"];
-  }
-  Session.skills = activeSkills;
-  renderSkills(activeSkills);
-}
-
-function addCustomSkill() {
-  const input = document.getElementById("custom-skill-input");
-  const val = input.value.trim();
-  if (val && !activeSkills.includes(val)) {
-    activeSkills.push(val);
-    Session.skills = activeSkills;
-    renderSkills(activeSkills);
-    input.value = "";
-  }
-}
-
-async function startAdaptiveInterview() {
-  const btn = document.getElementById("start-btn");
-  btn.classList.add("loading"); btn.disabled = true;
-  
-  const personality = document.getElementById("select-personality").value;
-  const language = document.getElementById("select-language").value;
-  
-  try {
-    // Ensure session ID exists
-    if (!Session.id) {
-      setStatus("Starting session...", "", 20);
-      const sess = await apiPost("/api/session/start", {});
-      Session.id = sess.session_id;
-    }
-
-    // Ensure skills exist
-    if (!activeSkills || activeSkills.length === 0) {
-      activeSkills = ["Python", "DSA", "SQL", "Web Development"];
-    }
-    Session.skills = activeSkills;
-
-    // 1. Configure interviewer options
-    setStatus("Configuring AI interviewer personality...", "", 50);
-    await apiPost("/api/interviewer/configure", {
-      session_id: Session.id,
-      personality: personality,
-      language: language
-    });
-    
-    // Save locally for frontend access
-    localStorage.setItem("personality", personality);
-    localStorage.setItem("language", language);
-
-    // 2. Generate questions
-    setStatus("Generating questions with Claude AI...", "", 85);
+    // 3. Generate questions via Claude
+    setStatus("Generating questions with Claude AI...", "", 82);
     const qd = await apiPost("/api/questions/generate", { session_id: Session.id });
     Session.total = qd.total_questions;
-    
-    setStatus("✓ Ready! Launching AI Interviewer...", "ok", 100);
-    setTimeout(() => { window.location.href = "/interview"; }, 600);
+    setStatus(`✓ ${qd.total_questions} questions ready — launching interview...`, "ok", 100);
+
+    setTimeout(() => { window.location.href = "/interview"; }, 1000);
+
   } catch(e) {
     setStatus("Error: " + e.message, "err", 0);
     btn.classList.remove("loading"); btn.disabled = false;
     showToast(e.message, "err");
   }
 }
+
+function showSkills(skills) {
+  const grid = document.getElementById("skills-grid");
+  grid.innerHTML = "";
+  skills.forEach((s, i) => {
+    const c = document.createElement("div");
+    c.className = "skill-chip";
+    c.textContent = s;
+    c.style.animationDelay = (i * 0.05) + "s";
+    grid.appendChild(c);
+  });
+  document.getElementById("skills-area").style.display = "flex";
+}
+
 function setStatus(msg, cls, pct) {
   const el = document.getElementById("status-msg");
   el.textContent = msg;
