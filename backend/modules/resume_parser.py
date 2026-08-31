@@ -1,11 +1,28 @@
 """
 Resume Intelligence Module
-Extracts text from PDF resume and detects technical skills using keyword taxonomy + AI fallback.
+Extracts text from PDF resume and detects specific technical skills using keyword taxonomy + AI fallback.
 """
 
 import os
 import re
 import json
+
+KNOWN_SPECIFIC_SKILLS = [
+    # Languages
+    "Python", "Java", "C++", "C#", "JavaScript", "TypeScript", "Go", "Rust", "PHP", "Ruby", "Swift", "Kotlin", "SQL",
+    # Frontend & Web
+    "React.js", "React", "Next.js", "Vue.js", "Angular", "HTML", "CSS", "Tailwind CSS", "Bootstrap", "Redux", "Web Development",
+    # Backend
+    "FastAPI", "Flask", "Node.js", "Express.js", "Django", "Spring Boot", "GraphQL", "REST APIs", "Microservices",
+    # Databases
+    "MongoDB", "MySQL", "PostgreSQL", "SQLite", "Redis", "Oracle", "Cassandra", "DynamoDB", "DBMS",
+    # AI / ML / Data
+    "TensorFlow", "PyTorch", "OpenCV", "Scikit-Learn", "NLP", "Machine Learning", "Deep Learning", "Data Analytics", "Pandas", "NumPy", "GenAI", "LLMs", "RAG", "Prompt Engineering", "Computer Vision",
+    # Cloud & DevOps
+    "AWS", "Azure", "Docker", "Kubernetes", "Git & GitHub", "Git", "GitHub", "Terraform", "CI/CD", "Jenkins", "Linux", "Ansible", "Helm",
+    # Core
+    "DSA", "Data Structures", "Algorithms", "Cybersecurity", "System Design", "Agile"
+]
 
 SKILL_TAXONOMY = {
     "Python":           ["python", "django", "flask", "fastapi", "pandas", "numpy", "scipy", "pytest", "streamlit"],
@@ -21,9 +38,7 @@ SKILL_TAXONOMY = {
     "Cloud":            ["aws", "amazon web services", "azure", "gcp", "google cloud", "ec2", "s3", "lambda"],
     "AI/ML":            ["ai", "ml", "artificial intelligence", "machine learning", "deep learning", "neural networks", "pytorch", "tensorflow", "scikit-learn", "genai", "generative ai", "llm", "llms", "prompt engineering", "rag", "nlp"],
     "OS":               ["operating system", "os", "linux", "unix", "shell scripting", "bash"],
-    "Cybersecurity":    ["cybersecurity", "penetration testing", "ethical hacking", "cryptography", "kali linux"],
-    "HR":               ["hr", "behavioral", "communication", "soft skills", "leadership", "teamwork", "management"],
-    "Aptitude":         ["aptitude", "quantitative", "logical reasoning", "verbal", "analytical", "problem solving"]
+    "Cybersecurity":    ["cybersecurity", "penetration testing", "ethical hacking", "cryptography", "kali linux"]
 }
 
 DEFAULT_FALLBACK_SKILLS = ["Python", "DSA", "SQL", "Web Development"]
@@ -42,27 +57,31 @@ def extract_text_from_pdf(path: str) -> str:
     except Exception as e:
         print(f"[ResumeParser] pdfplumber error: {e}")
 
-    # 2. Try pypdf / PyPDF2 fallback if text is sparse
+    # 2. Try pdfminer fallback if text is sparse
     if len(text.strip()) < 30:
         try:
-            from pypdf import PdfReader
-            reader = PdfReader(path)
-            for page in reader.pages:
-                t = page.extract_text()
-                if t:
-                    text += t + "\n"
-        except Exception:
-            try:
-                import PyPDF2
-                with open(path, "rb") as f:
-                    reader = PyPDF2.PdfReader(f)
-                    for page in reader.pages:
-                        t = page.extract_text()
-                        if t:
-                            text += t + "\n"
-            except Exception as e2:
-                print(f"[ResumeParser] PyPDF fallback error: {e2}")
+            from pdfminer.high_level import extract_text as pdfminer_extract
+            t = pdfminer_extract(path)
+            if t:
+                text += "\n" + t
+        except Exception as e2:
+            print(f"[ResumeParser] pdfminer fallback error: {e2}")
 
+    # 3. Try PyPDF2 fallback if text is still sparse
+    if len(text.strip()) < 30:
+        try:
+            import PyPDF2
+            with open(path, "rb") as f:
+                reader = PyPDF2.PdfReader(f)
+                for page in reader.pages:
+                    t = page.extract_text()
+                    if t:
+                        text += t + "\n"
+        except Exception as e3:
+            print(f"[ResumeParser] PyPDF2 fallback error: {e3}")
+
+    import unicodedata
+    text = unicodedata.normalize("NFKD", text)
     return text.strip()
 
 
@@ -72,39 +91,52 @@ def extract_skills_from_resume(path: str) -> list:
 
     if raw:
         norm = raw.lower()
-        for skill, keywords in SKILL_TAXONOMY.items():
-            for kw in keywords:
-                # Word boundary check or special char regex
-                pattern = r'(?:\b|_)' + re.escape(kw) + r'(?:\b|_)'
-                if kw in ["c++", "c/c++", "next.js", "node.js", "ci/cd"]:
-                    pattern = re.escape(kw)
-                if re.search(pattern, norm):
-                    found.append(skill)
-                    break
+        # 1. Extract specific skills directly
+        for skill in KNOWN_SPECIFIC_SKILLS:
+            pattern = r'(?:\b|_)' + re.escape(skill.lower()) + r'(?:\b|_)'
+            if "+" in skill or "." in skill or "&" in skill or "/" in skill:
+                pattern = re.escape(skill.lower())
+            if re.search(pattern, norm):
+                found.append(skill)
 
-    # Deduplicate preserving order
-    seen, unique = set(), []
+        # 2. If no specific skills found, fallback to category taxonomy
+        if not found:
+            for skill, keywords in SKILL_TAXONOMY.items():
+                for kw in keywords:
+                    pattern = r'(?:\b|_)' + re.escape(kw) + r'(?:\b|_)'
+                    if kw in ["c++", "c/c++", "next.js", "node.js", "ci/cd"]:
+                        pattern = re.escape(kw)
+                    if re.search(pattern, norm):
+                        found.append(skill)
+                        break
+
+    # Deduplicate & filter overlapping sub-strings (e.g. Git vs Git & GitHub, React vs React.js)
+    final_skills = []
     for s in found:
-        if s not in seen:
-            seen.add(s)
-            unique.append(s)
+        if s == "Git" and "Git & GitHub" in found:
+            continue
+        if s == "GitHub" and "Git & GitHub" in found:
+            continue
+        if s == "React" and "React.js" in found:
+            continue
+        if s not in final_skills:
+            final_skills.append(s)
 
-    # If heuristic keyword match yielded fewer than 2 skills, try AI extraction
-    if len(unique) < 2 and raw:
+    # 3. If skills are low (<2), try AI extraction
+    if len(final_skills) < 2 and raw:
         print("[ResumeParser] Heuristic skills low, attempting AI extraction...")
         ai_skills = _extract_skills_with_ai(raw)
         for s in ai_skills:
-            if s not in seen:
-                seen.add(s)
-                unique.append(s)
+            if s not in final_skills:
+                final_skills.append(s)
 
-    # Final fallback if zero skills detected
-    if not unique:
+    # 4. Final fallback if zero skills detected
+    if not final_skills:
         print("[ResumeParser] Zero skills detected, returning standard fallback skills.")
-        unique = list(DEFAULT_FALLBACK_SKILLS)
+        final_skills = list(DEFAULT_FALLBACK_SKILLS)
 
-    print(f"[ResumeParser] Final Extracted Skills ({len(unique)}): {unique}")
-    return unique
+    print(f"[ResumeParser] Final Extracted Skills ({len(final_skills)}): {final_skills}")
+    return final_skills
 
 
 def _extract_skills_with_ai(text: str) -> list:
@@ -113,10 +145,10 @@ def _extract_skills_with_ai(text: str) -> list:
         try:
             from groq import Groq
             client = Groq(api_key=api_key)
-            prompt = f"""Extract 4 to 8 primary technical skills or domain topics (e.g., Python, React, SQL, DevOps, DSA, AI/ML, FastApi, MongoDB) from this resume:
+            prompt = f"""Extract all primary technical skills or domain topics (e.g., Python, React.js, FastAPI, Node.js, TensorFlow, OpenCV, MongoDB, Docker, Kubernetes, AWS, NLP, Machine Learning) mentioned in this resume:
             {text[:2000]}
 
-            Return ONLY a raw JSON array of strings, like: ["Python", "React", "SQL", "DevOps"]
+            Return ONLY a raw JSON array of strings, like: ["Python", "FastAPI", "React.js", "TensorFlow", "Docker"]
             """
             completion = client.chat.completions.create(
                 model="llama3-8b-8192",
