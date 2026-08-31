@@ -17,8 +17,8 @@
     InterviewIQ
   </a>
   <nav class="nav-links">
-    <a href="/" class="nav-link">Home</a>
     <a href="/upload" class="nav-link active">Practice</a>
+    <a href="/coding" class="nav-link">Coding</a>
     <a href="/dashboard" class="nav-link">Dashboard</a>
   </nav>
   <div style="font-family:var(--fm);font-size:11px;color:var(--text-muted);letter-spacing:1px">
@@ -104,6 +104,32 @@
         <div id="skills-grid" style="display:flex;flex-wrap:wrap;gap:8px"></div>
       </div>
 
+      <!-- Personality & Language Selection -->
+      <div id="setup-area" style="display:flex; flex-direction:column; gap:14px; border-top:1px solid var(--border); padding-top:16px">
+        <div class="font-mono text-muted" style="font-size:10px; letter-spacing:0.15em; text-transform:uppercase">
+          AI Interviewer Setup
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px">
+          <div style="display:flex; flex-direction:column; gap:6px">
+            <label class="font-mono text-muted" style="font-size:10px; text-transform:uppercase">Personality</label>
+            <select id="select-personality" class="form-select" style="background:var(--surface2); border:1px solid var(--border2); color:var(--text); font-family:var(--fb); font-size:13px; padding:10px 14px; outline:none; width:100%; cursor:pointer">
+              <option value="professional" selected>Professional (Concise)</option>
+              <option value="friendly">Friendly (Encouraging)</option>
+              <option value="technical">Technical (Demanding)</option>
+              <option value="hr">HR (Behavioral)</option>
+            </select>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:6px">
+            <label class="font-mono text-muted" style="font-size:10px; text-transform:uppercase">Language</label>
+            <select id="select-language" class="form-select" style="background:var(--surface2); border:1px solid var(--border2); color:var(--text); font-family:var(--fb); font-size:13px; padding:10px 14px; outline:none; width:100%; cursor:pointer">
+              <option value="en" selected>English</option>
+              <option value="hi">Hindi (हिंदी)</option>
+              <option value="kn">Kannada (ಕನ್ನಡ)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
       <!-- CTA button -->
       <button class="btn btn-primary btn-full" id="start-btn" disabled
               onclick="uploadResume()">
@@ -175,6 +201,9 @@ async function uploadResume() {
   const btn = document.getElementById("start-btn");
   btn.classList.add("loading"); btn.disabled = true;
 
+  const personality = document.getElementById("select-personality").value;
+  const language = document.getElementById("select-language").value;
+
   try {
     // 1. Start session
     setStatus("Starting session...", "", 20);
@@ -189,15 +218,27 @@ async function uploadResume() {
     const up = await apiPost("/api/resume/upload", form, true);
     Session.skills = up.skills_detected;
     showSkills(up.skills_detected);
-    setStatus(`✓ ${up.skill_count} skills detected`, "ok", 65);
+    
+    const count = up.skills_detected ? up.skills_detected.length : 0;
+    setStatus(`✓ ${count} skills detected`, "ok", 60);
 
-    // 3. Generate questions via Claude
-    setStatus("Generating questions with Claude AI...", "", 82);
+    // 3. Configure interviewer options
+    setStatus("Configuring AI interviewer personality...", "", 75);
+    await apiPost("/api/interviewer/configure", {
+      session_id: Session.id,
+      personality: personality,
+      language: language
+    });
+    localStorage.setItem("personality", personality);
+    localStorage.setItem("language", language);
+
+    // 4. Generate questions via Claude
+    setStatus("Generating questions with Claude AI...", "", 90);
     const qd = await apiPost("/api/questions/generate", { session_id: Session.id });
     Session.total = qd.total_questions;
     setStatus(`✓ ${qd.total_questions} questions ready — launching interview...`, "ok", 100);
 
-    setTimeout(() => { window.location.href = "/interview"; }, 1000);
+    setTimeout(() => { window.location.href = "/interview"; }, 800);
 
   } catch(e) {
     setStatus("Error: " + e.message, "err", 0);
