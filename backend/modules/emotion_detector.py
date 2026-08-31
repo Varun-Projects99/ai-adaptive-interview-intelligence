@@ -19,23 +19,39 @@ FACE_CONFIRMATION_FRAMES = 1        # Consecutive frames to confirm FACE_PRESENT
 NO_FACE_CONFIRMATION_FRAMES = 1     # Consecutive frames to confirm NO_FACE
 # ─────────────────────────────────────────────────────────────────────────────
 
-# Try importing FER
+# Try importing FER lazily
 fer_available = False
-try:
-    from fer import FER
-    try:
-        detector = FER(mtcnn=True)
-        print("[EmotionDetector] MTCNN ready.")
-    except:
-        detector = FER(mtcnn=False)
-        print("[EmotionDetector] Fallback ready.")
-    fer_available = True
-except Exception as e:
-    print(f"[EmotionDetector] FER/TensorFlow unavailable, falling back to OpenCV Haar Cascades: {e}")
+detector = None
+face_cascade = None
+cv2 = None
 
-# Load OpenCV face detector
-cascade_path = cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
-face_cascade = cv2.CascadeClassifier(cascade_path)
+def _lazy_init():
+    global fer_available, detector, face_cascade, cv2
+    if cv2 is not None:
+        return
+    try:
+        import cv2 as _cv2
+        cv2 = _cv2
+        # Load OpenCV face detector
+        cascade_path = cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
+        face_cascade = cv2.CascadeClassifier(cascade_path)
+    except Exception as e:
+        print(f"[EmotionDetector] OpenCV/cv2 not available: {e}")
+        cv2 = False
+        return
+
+    try:
+        from fer import FER
+        try:
+            detector = FER(mtcnn=True)
+            print("[EmotionDetector] MTCNN ready.")
+        except:
+            detector = FER(mtcnn=False)
+            print("[EmotionDetector] Fallback ready.")
+        fer_available = True
+    except Exception as e:
+        print(f"[EmotionDetector] FER/TensorFlow unavailable, falling back to OpenCV Haar Cascades: {e}")
+        fer_available = False
 
 EMOTION_MAP = {
     "happy":"confident","neutral":"neutral","surprise":"neutral",
@@ -45,6 +61,10 @@ EMOTION_SCORE = {"confident":90,"neutral":65,"nervous":35,"stressed":20}
 
 
 def analyze_emotion_frame(frame_b64: str, sess: dict = None) -> dict:
+    _lazy_init()
+    if not cv2:
+        return _default("opencv_unavailable", "no_face")
+
     if not frame_b64:
         return _default("no_frame", "no_face")
 
@@ -208,6 +228,9 @@ def analyze_emotion_frame(frame_b64: str, sess: dict = None) -> dict:
 
 
 def check_face_present(frame_b64: str) -> bool:
+    _lazy_init()
+    if not cv2:
+        return False
     try:
         if "," in frame_b64:
             frame_b64 = frame_b64.split(",")[1]

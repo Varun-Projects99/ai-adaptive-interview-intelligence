@@ -5,13 +5,36 @@ Scores speech rate, pauses, tone variation, filler words → 0-100 confidence sc
 
 import os, re
 import numpy as np
-import librosa
-import speech_recognition as sr
+
+librosa = None
+sr = None
+
+def _lazy_init():
+    global librosa, sr
+    if librosa is not None:
+        return
+    try:
+        import librosa as _librosa
+        librosa = _librosa
+    except Exception as e:
+        print(f"[VoiceAnalyzer] librosa not available: {e}")
+        librosa = False
+        
+    try:
+        import speech_recognition as _sr
+        sr = _sr
+    except Exception as e:
+        print(f"[VoiceAnalyzer] speech_recognition not available: {e}")
+        sr = False
 
 FILLERS = ["um","uh","like","you know","basically","literally","sort of","kind of","i mean","actually"]
 
 
 def analyze_voice_confidence(path: str) -> dict:
+    _lazy_init()
+    if not librosa or not sr:
+        return _default("dependencies_unavailable")
+
     if not os.path.exists(path):
         return _default("file_not_found")
     try:
