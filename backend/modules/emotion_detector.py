@@ -1,7 +1,6 @@
 """
-Real-Time Emotion Detection Module
-Uses FER + OpenCV to detect emotions from base64 webcam frames.
-Includes low-light pre-filtering, face sizing/confidence checks, and temporal smoothing.
+Real-Time Emotion & Face Detection Module
+Uses OpenCV Cascade Classifiers to detect candidate face, eye visibility, multiple faces, and low lighting.
 """
 
 import base64
@@ -9,49 +8,36 @@ import numpy as np
 import cv2
 import os
 
-# ── DETECTOR CONFIGURATION ───────────────────────────────────────────────────
-LOW_LIGHT_THRESHOLD = 30.0          # Minimum average pixel luminance (0-255)
-FACE_CONFIDENCE_THRESHOLD = 0.50    # Minimum normalized confidence (0.0-1.0)
-MIN_FACE_WIDTH = 20                 # Minimum width of bounding box in pixels
-MIN_FACE_HEIGHT = 20                # Minimum height of bounding box in pixels
-MIN_FACE_AREA_RATIO = 0.003          # Minimum face bounding box area relative to frame area (0.3%)
-FACE_CONFIRMATION_FRAMES = 1        # Consecutive frames to confirm FACE_PRESENT
-NO_FACE_CONFIRMATION_FRAMES = 1     # Consecutive frames to confirm NO_FACE
-# ─────────────────────────────────────────────────────────────────────────────
+LOW_LIGHT_THRESHOLD = 20.0          # Average luminance threshold (0-255)
+MIN_FACE_WIDTH = 15                 # Minimum bounding box width
+MIN_FACE_HEIGHT = 15                # Minimum bounding box height
+MIN_FACE_AREA_RATIO = 0.001          # Minimum face area ratio
 
-# Try importing FER lazily
-fer_available = False
-detector = None
 face_cascade = None
-cv2 = None
+eye_cascade = None
+cv2_initialized = False
 
 def _lazy_init():
-    global fer_available, detector, face_cascade, cv2
-    if cv2 is not None:
+    global face_cascade, eye_cascade, cv2_initialized
+    if cv2_initialized:
         return
     try:
-        import cv2 as _cv2
-        cv2 = _cv2
-        # Load OpenCV face detector
-        cascade_path = cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
-        face_cascade = cv2.CascadeClassifier(cascade_path)
-    except Exception as e:
-        print(f"[EmotionDetector] OpenCV/cv2 not available: {e}")
-        cv2 = False
-        return
+        models_dir = os.path.join(os.path.dirname(__file__), "..", "models")
+        face_path = os.path.join(models_dir, "haarcascade_frontalface_default.xml")
+        eye_path = os.path.join(models_dir, "haarcascade_eye.xml")
 
-    try:
-        from fer import FER
-        try:
-            detector = FER(mtcnn=True)
-            print("[EmotionDetector] MTCNN ready.")
-        except:
-            detector = FER(mtcnn=False)
-            print("[EmotionDetector] Fallback ready.")
-        fer_available = True
+        if not os.path.exists(face_path):
+            face_path = cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
+        if not os.path.exists(eye_path):
+            eye_path = cv2.data.haarcascades + "haarcascade_eye.xml"
+
+        face_cascade = cv2.CascadeClassifier(face_path)
+        eye_cascade = cv2.CascadeClassifier(eye_path)
+        cv2_initialized = True
+        print(f"[EmotionDetector] Face & Eye cascades loaded (Face empty: {face_cascade.empty()}, Eye empty: {eye_cascade.empty()})")
     except Exception as e:
-        print(f"[EmotionDetector] FER/TensorFlow unavailable, falling back to OpenCV Haar Cascades: {e}")
-        fer_available = False
+        print(f"[EmotionDetector] OpenCV init error: {e}")
+        cv2_initialized = False
 
 EMOTION_MAP = {
     "happy":"confident","neutral":"neutral","surprise":"neutral",
@@ -62,20 +48,11 @@ EMOTION_SCORE = {"confident":90,"neutral":65,"nervous":35,"stressed":20}
 
 def analyze_emotion_frame(frame_b64: str, sess: dict = None) -> dict:
     _lazy_init()
-    if not cv2:
+    if not cv2_initialized or face_cascade is None or face_cascade.empty():
         return _default("opencv_unavailable", "no_face")
 
     if not frame_b64:
         return _default("no_frame", "no_face")
-
-    # Initialize session temporal smoothing variables if session is provided
-    if sess is not None:
-        if "consecutive_face_frames" not in sess:
-            sess["consecutive_face_frames"] = 0
-        if "consecutive_no_face_frames" not in sess:
-            sess["consecutive_no_face_frames"] = 0
-        if "last_stable_state" not in sess:
-            sess["last_stable_state"] = "no_face"
 
     try:
         if "," in frame_b64:
@@ -85,212 +62,103 @@ def analyze_emotion_frame(frame_b64: str, sess: dict = None) -> dict:
         if frame is None:
             return _default("decode_failed", "no_face")
 
-        # 1. Calculate brightness / luminance
+        # 1. Calculate luminance / brightness
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         brightness = float(np.mean(gray))
-        
-        # Logging for debugging
-        print(f"[FACE] brightness={brightness:.2f}")
 
-        # 2. Check if frame is in low light
-        if brightness < LOW_LIGHT_THRESHOLD:
-            print("[FACE] state=LOW_LIGHT")
-            if sess is not None:
-                sess["consecutive_face_frames"] = 0
-                sess["consecutive_no_face_frames"] = 0
-                sess["last_stable_state"] = "low_light"
+        # Check for extreme low light
+        if brightness < 15.0:
+            print(f"[FACE] Low brightness: {brightness:.2f}")
             return _default("low_light", "low_light")
 
-        # Equalize histogram to improve contrast
-        gray = cv2.equalizeHist(gray)
+        # Equalize histogram for robust contrast
+        gray_eq = cv2.equalizeHist(gray)
         frame_h, frame_w = frame.shape[:2]
         frame_area = frame_h * frame_w
 
-        valid_faces_count = 0
-        best_confidence = 0.0
-        best_emotion = "neutral"
-        best_emotions_dict = {"neutral": 100.0}
-
-        # 3. Detect face candidates using the available classifier
-        if fer_available:
-            results = detector.detect_emotions(frame)
-            if results:
-                for res in results:
-                    box = res["box"]  # [x, y, w, h]
-                    emotions = res["emotions"]
-                    w, h = box[2], box[3]
-                    area_ratio = (w * h) / frame_area
-                    
-                    confidence = 0.90
-                    
-                    if (confidence >= FACE_CONFIDENCE_THRESHOLD and
-                        w >= MIN_FACE_WIDTH and
-                        h >= MIN_FACE_HEIGHT and
-                        area_ratio >= MIN_FACE_AREA_RATIO):
-                        
-                        valid_faces_count += 1
-                        if valid_faces_count == 1:
-                            best_confidence = confidence
-                            dominant_raw = max(emotions, key=emotions.get)
-                            best_emotion = EMOTION_MAP.get(dominant_raw, "neutral")
-                            
-                            best_emotions_dict = {}
-                            for k, v in emotions.items():
-                                cat = EMOTION_MAP.get(k, "neutral")
-                                best_emotions_dict[cat] = round(best_emotions_dict.get(cat, 0) + v * 100, 1)
-        else:
-            # OpenCV Haar Cascade detectMultiScale3
-            rects, rejectLevels, levelWeights = face_cascade.detectMultiScale3(
+        # 2. Detect face candidates (equalized first, fallback to original gray)
+        faces = face_cascade.detectMultiScale(
+            gray_eq, 
+            scaleFactor=1.08, 
+            minNeighbors=2, 
+            minSize=(20, 20)
+        )
+        if len(faces) == 0:
+            faces = face_cascade.detectMultiScale(
                 gray, 
-                scaleFactor=1.05, 
-                minNeighbors=3, 
-                minSize=(20, 20),
-                outputRejectLevels=True
+                scaleFactor=1.08, 
+                minNeighbors=2, 
+                minSize=(20, 20)
             )
-            
-            if len(rects) > 0:
-                for i, (x, y, w, h) in enumerate(rects):
-                    weight = levelWeights[i] if i < len(levelWeights) else 5.0
-                    confidence = min(1.0, float(weight) / 4.0)
-                    area_ratio = (w * h) / frame_area
-                    
-                    print(f"[FACE] candidate size={w}x{h}, area_ratio={area_ratio:.4f}, confidence={confidence:.2f}")
 
-                    if (confidence >= FACE_CONFIDENCE_THRESHOLD and
-                        w >= MIN_FACE_WIDTH and
-                        h >= MIN_FACE_HEIGHT and
-                        area_ratio >= MIN_FACE_AREA_RATIO):
-                        
-                        valid_faces_count += 1
-                        if valid_faces_count == 1:
-                            best_confidence = confidence
+        valid_faces = []
+        for (x, y, w, h) in faces:
+            area_ratio = (w * h) / frame_area
+            if w >= MIN_FACE_WIDTH and h >= MIN_FACE_HEIGHT and area_ratio >= MIN_FACE_AREA_RATIO:
+                valid_faces.append((x, y, w, h))
 
-        # Map faces count to raw status state
-        if valid_faces_count > 1:
-            raw_face_detected = False
-            raw_state = "multiple_faces"
-        elif valid_faces_count == 1:
-            raw_face_detected = True
-            raw_state = "face_present"
-        else:
-            raw_face_detected = False
-            raw_state = "no_face"
+        valid_count = len(valid_faces)
+        print(f"[FACE] brightness={brightness:.1f}, valid_count={valid_count}")
 
-        # 4. Apply Temporal Smoothing
-        stable_state = "no_face"
-        if sess is not None:
-            if raw_state == "face_present":
-                sess["consecutive_face_frames"] += 1
-                sess["consecutive_no_face_frames"] = 0
-                if sess["consecutive_face_frames"] >= FACE_CONFIRMATION_FRAMES:
-                    sess["last_stable_state"] = "face_present"
-            elif raw_state == "multiple_faces":
-                sess["consecutive_face_frames"] = 0
-                sess["consecutive_no_face_frames"] = 0
-                sess["last_stable_state"] = "multiple_faces"
-            else:
-                sess["consecutive_no_face_frames"] += 1
-                sess["consecutive_face_frames"] = 0
-                if sess["consecutive_no_face_frames"] >= NO_FACE_CONFIRMATION_FRAMES:
-                    sess["last_stable_state"] = "no_face"
-            
-            stable_state = sess["last_stable_state"]
-            print(f"[FACE] raw_detected={raw_face_detected}, consecutive_face={sess['consecutive_face_frames']}, consecutive_no_face={sess['consecutive_no_face_frames']}, status={stable_state.upper()}")
-        else:
-            stable_state = raw_state
-            print(f"[FACE] stateless raw_detected={raw_face_detected}, status={stable_state.upper()}")
-
-        # 5. Return appropriate response matching the stable state
-        if stable_state == "face_present":
-            print(f"[FACE] confidence={best_confidence:.2f}")
-            print(f"[FACE] status=FACE_PRESENT")
-            return {
-                "face_detected":    True,
-                "status":           "face_present",
-                "confidence":       round(best_confidence, 2),
-                "dominant_emotion": best_emotion,
-                "interview_score":  EMOTION_SCORE.get(best_emotion, 65),
-                "emotions":         best_emotions_dict
-            }
-        elif stable_state == "low_light":
-            print(f"[FACE] status=LOW_LIGHT")
-            return _default("low_light", "low_light")
-        elif stable_state == "multiple_faces":
-            print(f"[FACE] status=MULTIPLE_FACES")
-            return _default("multiple_faces", "multiple_faces")
-        else:
-            print(f"[FACE] status=NO_FACE")
+        # Case: No Face Detected
+        if valid_count == 0:
             return _default("no_face", "no_face")
 
+        # Case: Multiple Faces Detected
+        if valid_count > 1:
+            return _default("multiple_faces", "multiple_faces")
+
+        # Exactly 1 Face Found! Check eyes & visibility
+        x, y, w, h = valid_faces[0]
+        face_roi = gray[y : y + int(h * 0.65), x : x + w]
+        
+        eyes = []
+        if eye_cascade and not eye_cascade.empty():
+            eyes = eye_cascade.detectMultiScale(face_roi, scaleFactor=1.1, minNeighbors=1, minSize=(6, 6))
+        
+        eyes_visible = len(eyes) > 0
+
+        # Check if lighting is dim
+        if brightness < 28.0:
+            status_state = "low_light"
+            reason = "low_light"
+            face_detected = False
+        elif not eyes_visible:
+            status_state = "eyes_not_visible"
+            reason = "eyes_not_visible"
+            face_detected = True
+        else:
+            status_state = "face_present"
+            reason = "ok"
+            face_detected = True
+
+        return {
+            "face_detected": face_detected,
+            "status": status_state,
+            "confidence": 0.90 if eyes_visible else 0.70,
+            "dominant_emotion": "neutral",
+            "interview_score": 75 if eyes_visible else 55,
+            "emotions": {"neutral": 100.0},
+            "eyes_visible": eyes_visible,
+            "reason": reason
+        }
+
     except Exception as e:
-        print(f"[EmotionDetector] Exception: {e}")
+        print(f"[EmotionDetector] Error: {e}")
         return _default("error", "no_face")
 
 
 def check_face_present(frame_b64: str) -> bool:
-    _lazy_init()
-    if not cv2:
-        return False
-    try:
-        if "," in frame_b64:
-            frame_b64 = frame_b64.split(",")[1]
-        arr   = np.frombuffer(base64.b64decode(frame_b64), np.uint8)
-        frame = cv2.imdecode(arr, cv2.IMREAD_COLOR)
-        
-        # Brightness filter
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        brightness = float(np.mean(gray))
-        if brightness < LOW_LIGHT_THRESHOLD:
-            return False
-
-        gray = cv2.equalizeHist(gray)
-        frame_h, frame_w = frame.shape[:2]
-        frame_area = frame_h * frame_w
-
-        if fer_available:
-            results = detector.detect_emotions(frame)
-            if results:
-                for res in results:
-                    box = res["box"]
-                    w, h = box[2], box[3]
-                    area_ratio = (w * h) / frame_area
-                    if (w >= MIN_FACE_WIDTH and
-                        h >= MIN_FACE_HEIGHT and
-                        area_ratio >= MIN_FACE_AREA_RATIO):
-                        return True
-            return False
-        else:
-            rects, rejectLevels, levelWeights = face_cascade.detectMultiScale3(
-                gray, 
-                scaleFactor=1.05, 
-                minNeighbors=3, 
-                minSize=(20, 20),
-                outputRejectLevels=True
-            )
-            if len(rects) > 0:
-                for i, (x, y, w, h) in enumerate(rects):
-                    weight = levelWeights[i] if i < len(levelWeights) else 5.0
-                    confidence = min(1.0, float(weight) / 10.0)
-                    area_ratio = (w * h) / frame_area
-                    if (confidence >= FACE_CONFIDENCE_THRESHOLD and
-                        w >= MIN_FACE_WIDTH and
-                        h >= MIN_FACE_HEIGHT and
-                        area_ratio >= MIN_FACE_AREA_RATIO):
-                        return True
-            return False
-    except:
-        return False
+    res = analyze_emotion_frame(frame_b64)
+    return res.get("face_detected", False)
 
 
 def _default(reason: str, status: str) -> dict:
-    face_det = False
-    dom_em = "unknown" if status in ["low_light", "unknown"] else "neutral"
-    
     return {
-        "face_detected":    face_det,
+        "face_detected":    False,
         "status":           status,
         "confidence":       0.0,
-        "dominant_emotion": dom_em,
+        "dominant_emotion": "neutral",
         "interview_score":  65,
         "emotions":         {"neutral": 100.0},
         "reason":           reason

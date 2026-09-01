@@ -109,6 +109,25 @@ def extract_text_from_pdf(path: str) -> str:
     return text.strip()
 
 
+SPOKEN_LANGUAGES = {
+    "english", "kannada", "hindi", "spanish", "french", "german", "tamil", "telugu",
+    "malayalam", "marathi", "bengali", "japanese", "mandarin", "chinese", "korean",
+    "arabic", "russian", "latin", "english kannada", "english hindi", "kannada english",
+    "languages spoken", "spoken languages"
+}
+
+GENERIC_IGNORE_WORDS = {
+    "languages", "frontend", "backend", "databases", "genai", "devops", "tools",
+    "frameworks", "libraries", "platforms", "operating systems", "technologies",
+    "key skills", "core competencies", "technical skills", "skill set", "technical proficiency",
+    "frameworks & backend databases", "tools core concepts", "core concepts",
+    "object oriented", "programming", "database design", "software", "development",
+    "software development", "web development", "mobile development", "rest api development",
+    "rest api development mongodb", "others", "miscellaneous", "general", "concepts",
+    "methods", "methodologies", "tools & technologies", "technical expertise", "languages:"
+}
+
+
 def extract_skills_from_resume(path: str) -> list:
     raw = extract_text_from_pdf(path)
     if not raw:
@@ -140,12 +159,37 @@ def extract_skills_from_resume(path: str) -> list:
                     found.append(skill)
                     break
 
-    # Clean & deduplicate skills
+    # Clean & filter skills
     seen = set()
     final_skills = []
     for s in found:
+        norm_s = s.strip().lower()
+        if norm_s in SPOKEN_LANGUAGES or any(sl in norm_s for sl in ["english", "kannada", "hindi", "spanish", "french", "german"]):
+            continue
+        if norm_s in GENERIC_IGNORE_WORDS:
+            continue
+
+        # If s is a composite phrase (e.g. "C++ Html" or "Rest Api Development Mongodb"), extract known skills
+        if " " in s and s not in KNOWN_SPECIFIC_SKILLS:
+            sub_found = []
+            for known in KNOWN_SPECIFIC_SKILLS:
+                pattern = r'(?:\b|_)' + re.escape(known.lower()) + r'(?:\b|_)'
+                if "+" in known or "." in known or "&" in known:
+                    pattern = re.escape(known.lower())
+                if re.search(pattern, norm_s):
+                    sub_found.append(known)
+            if sub_found:
+                for sf in sub_found:
+                    formatted = _format_skill_name(sf)
+                    if formatted and formatted.lower() not in seen:
+                        seen.add(formatted.lower())
+                        final_skills.append(formatted)
+                continue
+
         formatted = _format_skill_name(s)
         if formatted and formatted.lower() not in seen and len(formatted) >= 2:
+            if formatted.lower() in SPOKEN_LANGUAGES or formatted.lower() in GENERIC_IGNORE_WORDS:
+                continue
             if formatted == "Git" and "Git & GitHub" in seen:
                 continue
             if formatted == "GitHub" and "Git & GitHub" in seen:
@@ -206,7 +250,8 @@ def _parse_line_items(line: str, out_list: list):
         clean = re.sub(r'\(.*?\)', '', clean).strip()
         clean = re.sub(r'^[-–—•*\s]+', '', clean).strip()
         if clean and len(clean) >= 2 and len(clean) <= 35:
-            if clean.lower() not in ["languages", "frontend", "backend", "databases", "genai", "devops", "tools", "frameworks", "libraries"]:
+            c_lower = clean.lower()
+            if c_lower not in GENERIC_IGNORE_WORDS and c_lower not in SPOKEN_LANGUAGES:
                 out_list.append(clean)
 
 

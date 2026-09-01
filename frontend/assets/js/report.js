@@ -159,6 +159,8 @@ function renderReport(d) {
 
   const tScore  = scores.technical  || 0;
   const cScore  = scores.confidence || 0;
+  const eScore  = scores.emotion_score !== undefined ? scores.emotion_score : (scores.emotion_stability === "Excellent" ? 90 : scores.emotion_stability === "Good" ? 75 : scores.emotion_stability === "Moderate" ? 50 : 30);
+  const eLabel  = scores.emotion_stability || "Good";
   const rScore  = scores.readiness_index || 0;
 
   const labelMap = {
@@ -273,12 +275,12 @@ function renderReport(d) {
             </div>
             <div class="metric-body">
               <div class="score-display">
-                <span class="score-num">${scores.emotion_stability || "—"}</span>
-                <span class="score-status ${emotionClass(scores.emotion_stability)}">Webcam Analysis</span>
+                <span class="score-num">${eScore}%</span>
+                <span class="score-status ${scoreClass(eScore)}">${eLabel}</span>
               </div>
               <div class="progress-track">
-                <div class="progress-bar-fill ${emotionClass(scores.emotion_stability)}" 
-                     style="width:${scores.emotion_stability === 'Excellent' ? 100 : scores.emotion_stability === 'Good' ? 75 : scores.emotion_stability === 'Moderate' ? 50 : 25}%"></div>
+                <div class="progress-bar-fill ${scoreClass(eScore)}" 
+                     style="width:${eScore}%"></div>
               </div>
               <p class="metric-desc">Assesses body language, camera focus consistency, and facial expression poise.</p>
             </div>

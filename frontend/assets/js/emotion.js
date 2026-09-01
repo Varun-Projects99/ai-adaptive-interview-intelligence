@@ -141,14 +141,21 @@ const Emotion = {
           el.textContent = "● FACE DETECTED";
           el.className = "cam-face-status ok";
       } else if (status === "low_light") {
-          el.textContent = "○ LOW LIGHT — Improve lighting";
-          el.className = "cam-face-status gone";
+          el.textContent = "⚠ LOW LIGHTING DETECTED";
+          el.className = "cam-face-status warn";
+          if (typeof showToast === "function") showToast("⚠ Room lighting is too low! Please increase room lighting.", "err");
       } else if (status === "multiple_faces") {
-          el.textContent = "○ MULTIPLE FACES DETECTED";
+          el.textContent = "⚠ MULTIPLE FACES DETECTED";
           el.className = "cam-face-status gone";
+          if (typeof showToast === "function") showToast("⚠ Multiple faces detected in camera frame!", "err");
+      } else if (status === "eyes_not_visible" || status === "eye_contact_lost") {
+          el.textContent = "⚠ EYES NOT VISIBLE / LOOK AT CAMERA";
+          el.className = "cam-face-status warn";
+          if (typeof showToast === "function") showToast("⚠ Eye contact lost or eyes not visible! Please look directly at the camera.", "err");
       } else {
-          el.textContent = "○ NO FACE DETECTED";
+          el.textContent = "⚠ NO FACE DETECTED";
           el.className = "cam-face-status gone";
+          if (typeof showToast === "function") showToast("⚠ No face detected in camera frame! Please face the camera.", "err");
       }
   }
 };

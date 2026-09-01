@@ -55,8 +55,10 @@ def generate_final_report(session: dict) -> dict:
     avg_e = (sum(emap.get(e.get("dominant_emotion","neutral"),0.5) for e in emot)/len(emot)
              if emot else 0.5)
 
+    emotion_score_pct = int(round(avg_e * 100))
+
     elabel = ("Excellent" if avg_e>=0.75 else "Good" if avg_e>=0.55
-              else "Moderate" if avg_e>=0.35 else "Needs Improvement")
+              else "Moderate" if avg_e>=0.35 else "Needs Practice")
 
     readiness = int(tech_score*0.50 + conf_score*0.30 + avg_e*100*0.20)
     rlabel    = ("Interview Ready" if readiness>=80 else "Improving" if readiness>=60
@@ -76,6 +78,7 @@ def generate_final_report(session: dict) -> dict:
         "scores": {
             "technical":         tech_score,
             "confidence":        conf_score,
+            "emotion_score":     emotion_score_pct,
             "emotion_stability": elabel,
             "readiness_index":   readiness,
             "readiness_label":   rlabel

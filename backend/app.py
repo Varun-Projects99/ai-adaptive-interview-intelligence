@@ -3227,7 +3227,12 @@ def recruiter_get_audit_logs():
     for l in logs:
         l["_id"] = str(l["_id"])
         
-    return jsonify(clean_json(logs))
+@app.route("/download-presentation-pdf", methods=["GET"])
+def download_presentation_pdf():
+    pdf_path = os.path.abspath(os.path.join(base_dir, "..", "InterviewIQ_Presentation_Guide.pdf"))
+    if os.path.exists(pdf_path):
+        return send_from_directory(os.path.dirname(pdf_path), os.path.basename(pdf_path), as_attachment=True)
+    return jsonify({"error": "PDF not found"}), 404
 
 
 # ── RUN ──────────────────────────────────────────────────────────────────────
