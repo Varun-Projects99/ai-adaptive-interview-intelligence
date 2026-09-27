@@ -3,60 +3,98 @@ import json
 import random
 from groq import Groq
 
+from modules import skill_mapper, question_bank
+
+
 def generate_questions(skills, lang="en", personality="professional"):
     """
-    Initial question generation from AI (Groq llama3-8b-8192)
-    based on resume skills. Generates a balanced set of questions.
+    DATASET-PRIMARY initial question pool builder (up to 24 questions).
+
+    Order of operations (LLM is a FALLBACK, never the primary source, per
+    project requirement):
+      1. Map detected resume skills to canonical dataset-backed skills via
+         modules/skill_mapper.py (only maps when there is reasonable
+         topical evidence -- never guesses).
+      2. Build the pool primarily from modules/question_bank.py / the local
+         datasets, via get_fallback_questions() below (name kept for
+         backward compatibility -- despite the name, this IS the dataset
+         retrieval path, not a last-resort).
+      3. The Groq LLM is only ever called to cover detected skills that
+         have NO backing dataset at all (skill_mapper reports them
+         "unmapped"). If every detected skill maps to a dataset, the LLM is
+         not called at all for this step.
+
+    Every returned question carries a "source" key ("dataset" or
+    "llm_fallback") so this is auditable rather than just asserted.
+    """
+    mapping = skill_mapper.map_resume_skills(skills or [])
+    canonical_skills = mapping["canonical_skills"]
+    unmapped_skills = mapping["unmapped"]
+
+    dataset_questions = get_fallback_questions(canonical_skills or (skills or []), lang=lang)
+    for q in dataset_questions:
+        q["source"] = "dataset"
+
+    if not unmapped_skills:
+        print(f"[Questions] Pool built entirely from local datasets "
+              f"({len(dataset_questions)} questions, 0 LLM calls) for skills: {canonical_skills}")
+        return dataset_questions
+
+    print(f"[Questions] {len(unmapped_skills)} detected skill(s) have no local dataset "
+          f"coverage ({unmapped_skills}) -> supplementing with LLM fallback for those only.")
+
+    llm_questions = _generate_llm_questions_for_skills(unmapped_skills, lang=lang, personality=personality)
+    for q in llm_questions:
+        q["source"] = "llm_fallback"
+
+    combined = dataset_questions + llm_questions
+    random.shuffle(combined)
+    return combined
+
+
+def _generate_llm_questions_for_skills(skills, lang="en", personality="professional", max_questions=12):
+    """
+    LLM FALLBACK ONLY: generates a small supplemental set of questions for
+    resume-detected skills that have no local dataset coverage at all (see
+    generate_questions() above). Deliberately capped (max_questions) since
+    this is meant to fill a genuine gap, not to be the primary source.
+    Returns [] (never raises) if no API key is configured or the call
+    fails -- the dataset-built portion of the pool is always sufficient on
+    its own to run an interview.
     """
     api_key = os.environ.get("GROQ_API_KEY")
     if not api_key:
-        print("[WARN] GROQ_API_KEY not found. Falling back to basic questions.")
-        return get_fallback_questions(skills, lang=lang)
+        print(f"[Questions] GROQ_API_KEY not configured -- skills {skills} will simply "
+              f"not get dedicated questions in the initial pool (adaptive per-question "
+              f"generation may still cover them later via the same LLM-fallback path).")
+        return []
 
     lang_name = "English"
+    if lang == "hi":
+        lang_name = "Hindi"
+    elif lang == "kn":
+        lang_name = "Kannada"
+
+    skills_str = ", ".join(skills)
+    count = min(max_questions, max(6, len(skills) * 3))
 
     try:
         client = Groq(api_key=api_key)
-        
-        skills_str = ", ".join(skills) if isinstance(skills, list) else str(skills)
-        
-        if "HR" in skills or "Behavioral" in skills:
-            prompt = f"""
-            Generate exactly 24 behavioral, situational, or HR interview questions (e.g., STAR method, leadership, problem solving, teamwork, conflicts, strengths/weaknesses).
-            Make sure to write the questions in the {lang_name} language (using native {lang_name} script, e.g. Devanagari for Hindi, Kannada script for Kannada).
-            Adopt a {personality} interviewer tone.
-            Provide exactly:
-            - 8 easy questions
-            - 8 medium questions
-            - 8 hard questions
-            
-            Return ONLY a JSON list of objects. Each object MUST have "question", "difficulty", and "skill" keys.
-            The "skill" key should be "Behavioral".
-            Example Format:
-            [
-              {{"question": "Describe a time you faced a conflict with a coworker and how you resolved it.", "difficulty": "medium", "skill": "Behavioral"}}
-            ]
-            """
-        else:
-            prompt = f"""
-            Generate exactly 24 technical interview questions for a candidate with these skills: {skills_str}.
-            Make sure to generate questions covering ALL the listed skills.
-            Make sure to write the questions in the {lang_name} language (using native {lang_name} script, e.g. Devanagari for Hindi, Kannada script for Kannada).
-            Adopt a {personality} interviewer tone.
-            Provide exactly:
-            - 8 easy questions
-            - 8 medium questions
-            - 8 hard questions
-            
-            Return ONLY a JSON list of objects. Each object MUST have "question", "difficulty", and "skill" keys.
-            The "skill" key should match one of the provided skills.
-            Example Format:
-            [
-              {{"question": "What is a closure in JavaScript?", "difficulty": "easy", "skill": "JavaScript"}},
-              {{"question": "Explain the difference between SQL and NoSQL.", "difficulty": "medium", "skill": "Databases"}}
-            ]
-            """
+        prompt = f"""
+        Generate exactly {count} technical interview questions covering ONLY these skills
+        (which have no local question bank available): {skills_str}.
+        Make sure to write the questions in the {lang_name} language (using native {lang_name} script,
+        e.g. Devanagari for Hindi, Kannada script for Kannada).
+        Adopt a {personality} interviewer tone.
+        Spread the questions roughly evenly across easy, medium, and hard difficulty.
 
+        Return ONLY a JSON list of objects. Each object MUST have "question", "difficulty", and "skill" keys.
+        The "skill" key must be one of: {skills_str}.
+        Example Format:
+        [
+          {{"question": "What is a closure in JavaScript?", "difficulty": "easy", "skill": "{skills[0]}"}}
+        ]
+        """
         completion = client.chat.completions.create(
             model="llama3-8b-8192",
             messages=[
@@ -64,26 +102,22 @@ def generate_questions(skills, lang="en", personality="professional"):
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7,
-            max_tokens=1500
+            max_tokens=1200
         )
-
         response_text = completion.choices[0].message.content.strip()
-        
         if "[" in response_text and "]" in response_text:
             start_index = response_text.find("[")
             end_index = response_text.rfind("]") + 1
             response_text = response_text[start_index:end_index]
-            
+
         questions = json.loads(response_text)
-        
         if isinstance(questions, list) and len(questions) > 0:
             return questions
-        else:
-            raise ValueError("Invalid JSON format or empty list")
-
+        return []
     except Exception as e:
-        print(f"[ERROR] Groq API question generation failed: {e}")
-        return get_fallback_questions(skills, lang=lang)
+        print(f"[WARN] LLM gap-fill question generation failed for {skills}: {e}")
+        return []
+
 
 def get_next_question(session):
     """
@@ -112,15 +146,17 @@ def get_next_question(session):
         target_skill, target_difficulty, reason = select_next_topic(session)
         print(f"[AdaptiveEngine] Next target skill: {target_skill} ({target_difficulty}) | Reason: {reason}")
         
-        # Generate or load fallback question dynamically
-        q_text = generate_adaptive_question(session, target_skill, target_difficulty, user_id=user_id)
+        # Generate or load fallback question dynamically (dataset-primary,
+        # LLM fallback -- see modules/adaptive_engine.generate_adaptive_question)
+        q_text, q_source = generate_adaptive_question(session, target_skill, target_difficulty, user_id=user_id)
         
         # Ensure it is unique and format it
         q = {
             "question": q_text,
             "skill": target_skill,
             "difficulty": target_difficulty,
-            "reason": reason
+            "reason": reason,
+            "source": q_source
         }
         
         # Sync indices and target difficulty
@@ -155,137 +191,44 @@ def get_next_question(session):
         return q
 
 def get_fallback_questions(skills, lang="en"):
-    """Loads a balanced set of 24 questions covering ALL detected skills."""
-    import os
-    import json
-    import random
-    
-    modules_dir = os.path.dirname(os.path.abspath(__file__))
-    backend_dir = os.path.dirname(modules_dir)
-    workspace_dir = os.path.dirname(backend_dir)
-    
-    datasets_dir = os.path.join(workspace_dir, "datasets")
-    if not os.path.exists(datasets_dir):
-        datasets_dir = os.path.join(backend_dir, "datasets")
-    
-    DATASET_MAP = {
-        "Python": "python.json",
-        "Java": "java.json",
-        "C": "c.json",
-        "C++": "cpp.json",
-        "DSA": "dsa.json",
-        "DBMS": "dbms.json",
-        "OS": "os.json",
-        "CN": "cn.json",
-        "SQL": "sql.json",
-        "HTML/CSS": "html_css.json",
-        "JavaScript": "javascript.json",
-        "React": "react.json",
-        "DevOps": "devops.json",
-        "AWS": "aws.json",
-        "AI/ML": "ai_ml.json",
-        "HR": "hr.json",
-        "Aptitude": "aptitude.json",
-        "Cybersecurity": "cybersecurity.json"
-    }
-    
-    # Deduplicate/filter valid skills
-    matched_skills = [s for s in skills if s in DATASET_MAP]
-    
-    # If no valid skills found, load Aptitude, HR, and DSA questions
-    if not matched_skills:
-        matched_skills = ["Aptitude", "HR", "DSA"]
-        
-    questions_by_diff = {"easy": [], "medium": [], "hard": []}
-    
-    for skill in matched_skills:
-        filename = DATASET_MAP.get(skill)
-        if not filename:
-            continue
-        file_path = os.path.join(datasets_dir, filename)
-        if os.path.exists(file_path):
-            try:
-                with open(file_path, "r") as f:
-                    q_list = json.load(f)
-                    for q in q_list:
-                        diff = q.get("difficulty", "").lower()
-                        if diff in questions_by_diff:
-                            questions_by_diff[diff].append(q)
-            except Exception as e:
-                print(f"[WARN] Error loading dataset {filename}: {e}")
-                
-    # If we need padding, load from HR and Aptitude
-    padding_skills = ["HR", "Aptitude"]
-    for p_skill in padding_skills:
-        filename = DATASET_MAP.get(p_skill)
-        file_path = os.path.join(datasets_dir, filename)
-        if os.path.exists(file_path):
-            try:
-                with open(file_path, "r") as f:
-                    q_list = json.load(f)
-                    for q in q_list:
-                        diff = q.get("difficulty", "").lower()
-                        if diff in questions_by_diff:
-                            questions_by_diff[diff].append(q)
-            except Exception as e:
-                pass
+    """
+    Build a skill-balanced pool of up to 24 questions PRIMARILY from the
+    local datasets (modules/question_bank.py).
 
-    final_questions = []
-    
-    for diff in ["easy", "medium", "hard"]:
-        qs = questions_by_diff[diff]
-        # Deduplicate list of dicts based on question text
-        seen = set()
-        unique_qs = []
-        for q in qs:
-            if q["question"] not in seen:
-                seen.add(q["question"])
-                unique_qs.append(q)
-                
-        selected = []
-        if len(unique_qs) >= 8:
-            by_skill = {}
-            for q in unique_qs:
-                s = q["skill"]
-                if s not in by_skill:
-                    by_skill[s] = []
-                by_skill[s].append(q)
-                
-            skill_list = list(by_skill.keys())
-            while len(selected) < 8 and skill_list:
-                for s in list(skill_list):
-                    if by_skill[s]:
-                        selected.append(by_skill[s].pop(random.randint(0, len(by_skill[s]) - 1)))
-                        if len(selected) == 8:
-                            break
-                    else:
-                        skill_list.remove(s)
-            
-            if len(selected) < 8:
-                remaining_candidates = [q for q in unique_qs if q not in selected]
-                if remaining_candidates:
-                    selected.extend(random.sample(remaining_candidates, min(8 - len(selected), len(remaining_candidates))))
-        else:
-            selected = unique_qs
-            
-        final_questions.extend(selected)
-        
-    # Ensure exactly 24 questions in total
-    all_flat_unique = []
-    seen = set()
-    for diff in ["easy", "medium", "hard"]:
-        for q in questions_by_diff[diff]:
-            if q["question"] not in seen:
-                seen.add(q["question"])
-                all_flat_unique.append(q)
-                
-    remaining = [q for q in all_flat_unique if q not in final_questions]
-    while len(final_questions) < 24 and remaining:
-        chosen = random.choice(remaining)
-        final_questions.append(chosen)
-        remaining.remove(chosen)
-        
-    # If we still failed to get 24 questions, fall back to a minimal hardcoded set
+    NOTE (bug fix, previously): this function used to always merge the
+    *entire* HR + Aptitude datasets into the candidate pool "just in case
+    padding was needed", even when the detected skills already had plenty
+    of coverage -- which meant generic HR/Aptitude questions could leak
+    into a pool for a candidate whose resume only listed e.g. Python and
+    React. modules/question_bank.pool_for_skills() only pads with a
+    skill's own dataset and reports a genuine shortfall instead of
+    silently mixing in unrelated skills, so that padding bug cannot
+    reoccur here.
+    """
+    matched_skills = [s for s in (skills or []) if skill_mapper.has_dataset(s)]
+
+    if not matched_skills:
+        # No recognized skill -> generic, clearly-labeled default pool.
+        # This is NOT "inventing" a skill match; it is the documented
+        # fallback for a resume with no dataset-backed skills at all.
+        matched_skills = ["Aptitude", "HR", "DSA"]
+
+    pool, shortfall = question_bank.pool_for_skills(matched_skills, target_total=24, per_difficulty=8)
+
+    # Convert to the schema the rest of the app expects (string difficulty
+    # label, not the internal int) -- matches the pre-existing public
+    # contract of this function exactly.
+    final_questions = [
+        {"question": q["question"], "difficulty": q["difficulty_label"], "skill": q["skill"]}
+        for q in pool
+    ]
+
+    if any(shortfall.values()):
+        print(f"[Questions] Dataset pool short by {shortfall} for skills {matched_skills} "
+              f"-- proceeding with {len(final_questions)}/24 dataset questions "
+              f"(generate_questions() handles topping up unmapped skills via LLM separately).")
+
+    # Absolute last resort: dataset directory itself unreadable/missing.
     if not final_questions:
         final_questions = [
             {"question": "Explain a challenging technical project you worked on.", "difficulty": "medium", "skill": "General"},
@@ -298,7 +241,7 @@ def get_fallback_questions(skills, lang="en"):
             {"question": "What are your long-term career aspirations?", "difficulty": "easy", "skill": "HR"},
             {"question": "Why are you interested in this role and our company?", "difficulty": "easy", "skill": "HR"}
         ]
-        
+
     # Translate questions on generation if target language is Hindi or Kannada
     if lang in ["hi", "kn"]:
         print(f"[Questions] Translating question set to {lang}...")

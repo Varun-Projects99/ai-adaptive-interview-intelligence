@@ -7,9 +7,14 @@ const Emotion = {
   _video: null,
   _timer: null,
   _interval: 3000, // Every 3 seconds
-  _violationTimer: null,
-  _activeViolationType: null,
-  _strikeTriggered: false,
+
+  // Per-violation-type state (was a single shared flag/timer before -- a
+  // camera_exit countdown in progress could silently swallow a distinct
+  // multiple_faces episode, or vice versa. Each strike-eligible type now
+  // gets its own independent timer/flag, same 5-second debounce as before).
+  _violationTimers: {},
+  _activeStatus: {},
+  _strikeTriggered: {},
 
   start(videoEl) {
     console.log("[Emotion] Analysis started");
@@ -37,7 +42,7 @@ const Emotion = {
     canvas.width = 320; // 320x240 for reliable detection
     canvas.height = 240;
     const ctx = canvas.getContext("2d");
-    
+
     try {
         ctx.drawImage(this._video, 0, 0, canvas.width, canvas.height);
         const frame = canvas.toDataURL("image/jpeg", 0.6);
@@ -52,14 +57,32 @@ const Emotion = {
         console.log("[CAMERA] status:", data.status);
         console.log("[CAMERA] UI state:", data.face_detected ? "face_present" : data.status);
 
+        // New Tier-1/2 telemetry (quality/position/head-pose/phone). These
+        // are purely informational/warning-tier and are handled completely
+        // separately from the strike path below -- see
+        // backend/modules/integrity_config.py for why (low light, blur,
+        // face position, and sustained head-turn must NEVER strike).
+        this._renderQuality(data);
+        this._handleNewEvents(data);
+        this._handlePhoneStrike(data);
+
         if (data.face_detected) {
-            this._clearViolationTimer();
-            this._strikeTriggered = false;
+            this._clearViolationTimer("camera_exit");
+            this._clearViolationTimer("multiple_faces");
             Integrity.resetFaceCounter();
             this._updateFaceStatus("face_present");
             this._updateUI(data);
+        } else if (data.status === "low_light") {
+            // Low light must NEVER contribute to a strike (fixed: this used
+            // to fall into the generic "else" branch below and, after 5
+            // continuous seconds, count as a camera_exit strike). It is
+            // still shown to the candidate and still logged server-side as
+            // a structured, non-strike event (see /api/emotion/analyze).
+            this._updateFaceStatus("low_light");
+            this._clearViolationTimer("camera_exit");
         } else {
-            // "low_light", "no_face", or "multiple_faces"
+            // "no_face", "multiple_faces", "eyes_not_visible" -- unchanged,
+            // still strike-eligible via the same 5-second debounce.
             this._updateFaceStatus(data.status);
             this._handleProctoringViolation(data.status);
         }
@@ -69,40 +92,108 @@ const Emotion = {
   },
 
   _handleProctoringViolation(status) {
-      if (this._strikeTriggered) {
+      const vtype = status === "multiple_faces" ? "multiple_faces" : "camera_exit";
+
+      if (this._strikeTriggered[vtype]) {
           return;
       }
-      
-      if (this._violationTimer) {
-          if (this._activeViolationType === status) {
+
+      if (this._violationTimers[vtype]) {
+          if (this._activeStatus[vtype] === status) {
               return; // Keep existing timer running
           } else {
-              clearTimeout(this._violationTimer);
+              clearTimeout(this._violationTimers[vtype]);
           }
       }
 
-      this._activeViolationType = status;
+      this._activeStatus[vtype] = status;
       console.log(`[CAMERA] Starting 5-second countdown for strike due to ${status}`);
-      
-      this._violationTimer = setTimeout(async () => {
+
+      this._violationTimers[vtype] = setTimeout(async () => {
           console.log(`[CAMERA] 5 seconds expired. Submitting strike for ${status}`);
-          this._strikeTriggered = true;
-          this._violationTimer = null;
+          this._strikeTriggered[vtype] = true;
+          delete this._violationTimers[vtype];
           try {
-              // Trigger strike via Integrity monitor
-              await Integrity._handleViolation("camera_exit");
+              // Multiple people in frame is a distinct signal from the
+              // candidate simply being away/unclear (no_face, eyes_not_
+              // visible all still fold into "camera_exit"), so it gets its
+              // own tracked violation type -- see /api/integrity/violation
+              // and the "Multiple Faces" counter in interview.html. Still
+              // goes through the same 5-second debounce above and the same
+              // 3-strike rule, just counted and reported separately.
+              await Integrity._handleViolation(vtype);
           } catch (e) {
               console.error("[CAMERA] Violation reporting failed:", e);
           }
       }, 5000);
   },
 
-  _clearViolationTimer() {
-      if (this._violationTimer) {
-          clearTimeout(this._violationTimer);
-          this._violationTimer = null;
+  _clearViolationTimer(vtype) {
+      if (this._violationTimers[vtype]) {
+          clearTimeout(this._violationTimers[vtype]);
+          delete this._violationTimers[vtype];
       }
-      this._activeViolationType = null;
+      this._activeStatus[vtype] = null;
+      this._strikeTriggered[vtype] = false;
+  },
+
+  // ── New Tier-1/2 telemetry (non-strike) ──────────────────────────────
+
+  _renderQuality(data) {
+      const el = document.getElementById("cam-quality");
+      if (!el) return;
+
+      if (!data.face_detected) { el.style.display = "none"; return; }
+
+      const msgs = [];
+      if (data.quality && data.quality.blurry) msgs.push("Camera image looks blurry");
+      if (data.face_position === "too_far") msgs.push("Move closer to the camera");
+      else if (data.face_position === "too_close") msgs.push("Move back from the camera a little");
+      else if (data.face_position === "partially_visible") msgs.push("Keep your full face inside the frame");
+      if (data.head_pose && data.head_pose.direction && !["center", "unknown"].includes(data.head_pose.direction)) {
+          msgs.push("Please face the camera");
+      }
+      if (data.phone && data.phone.detected) msgs.push("Possible phone-like object in view");
+
+      if (msgs.length === 0) { el.style.display = "none"; return; }
+      el.textContent = "ℹ " + msgs[0];
+      el.style.display = "block";
+  },
+
+  _newEventLabels: {
+      BLURRY_IMAGE: "Image quality: camera feed looks blurry",
+      LOW_LIGHT: "Room lighting looks low",
+      FACE_TOO_FAR: "Please move closer to the camera",
+      FACE_TOO_CLOSE: "Please move back from the camera",
+      FACE_PARTIALLY_VISIBLE: "Please keep your full face in the frame",
+      HEAD_LEFT: "Please face the camera",
+      HEAD_RIGHT: "Please face the camera",
+      HEAD_UP: "Please face the camera",
+      HEAD_DOWN: "Please face the camera",
+      PHONE_DETECTED: "Potential integrity concern: phone-like object detected"
+  },
+
+  _handleNewEvents(data) {
+      if (!data.new_events || !data.new_events.length) return;
+      data.new_events.forEach((evt) => {
+          const msg = this._newEventLabels[evt] || evt;
+          if (typeof showToast === "function") {
+              showToast("ℹ " + msg, evt === "PHONE_DETECTED" ? "err" : "warn");
+          }
+      });
+  },
+
+  _handlePhoneStrike(data) {
+      // Server-confirmed, sustained phone detection (see
+      // modules/emotion_detector.py's PHONE_CONFIRM_SECONDS window and
+      // PHONE_MIN_CONFIDENCE floor) -- reported once, edge-triggered, and
+      // routed through the EXACT same violation pipeline every other
+      // strike-eligible type already uses (same 3-strike rule, same UI).
+      // Per spec, a confirmed phone is treated as a potential integrity
+      // concern, never as proof of cheating.
+      if (data.phone && data.phone.confirmed_strike) {
+          Integrity._handleViolation("phone_detected");
+      }
   },
 
   _updateUI(data) {

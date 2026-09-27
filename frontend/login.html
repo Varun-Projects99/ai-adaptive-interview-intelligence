@@ -1,31 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>(function(){try{var t=localStorage.getItem('iq_theme');if(t==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InterviewIQ — Login</title>
     <link rel="stylesheet" href="/assets/css/style.css">
     <style>
-        :root {
-            --bg: #07130E;
-            --surface: #0D1C15;
-            --surface2: #10251A;
-            --border: #1D3A2B;
-            --border2: #1D3A2B;
-            --accent: #046E3B;
-            --accent2: #F8E7C9;
-            --text: #C9D6CF;
-            --text-muted: #8FA69A;
-            --success: #046E3B;
-        }
-
         body {
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             padding: 24px;
-            background: #07130E;
+            background: var(--bg);
         }
 
         .grid-bg::before {
@@ -35,8 +23,8 @@
         }
 
         .login-card {
-            background: #0D1C15;
-            border: 1px solid #1D3A2B;
+            background: var(--surface);
+            border: 1px solid var(--border);
             padding: 48px;
             width: 100%;
             max-width: 440px;
@@ -52,7 +40,7 @@
             position: absolute;
             width: 12px;
             height: 12px;
-            border: 1px solid #046E3B;
+            border: 1px solid var(--accent);
             opacity: 0.8;
         }
         .corner-tl { top: 0; left: 0; border-right: none; border-bottom: none; }
@@ -73,26 +61,26 @@
             justify-content: center;
             gap: 10px;
             margin-bottom: 8px;
-            color: #F8E7C9;
+            color: var(--accent2);
         }
 
         .login-header .logo-dot {
-            background: #046E3B;
-            box-shadow: 0 0 8px #046E3B;
+            background: var(--accent);
+            box-shadow: 0 0 8px var(--accent);
         }
 
         .login-header h1 {
             font-family: var(--fh);
             font-size: 28px;
             font-weight: 700;
-            color: #F8E7C9;
+            color: var(--accent2);
             letter-spacing: -0.5px;
         }
 
         .login-header p {
             font-family: var(--fm);
             font-size: 12px;
-            color: #8FA69A;
+            color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.12em;
             margin-top: 4px;
@@ -108,15 +96,15 @@
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            color: #C9D6CF;
+            color: var(--text);
             margin-bottom: 8px;
         }
 
         .form-group input {
             width: 100%;
-            background: #10251A;
-            border: 1px solid #1D3A2B;
-            color: #F8E7C9;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--accent2);
             padding: 14px;
             font-family: var(--fb);
             font-size: 14px;
@@ -124,25 +112,25 @@
         }
 
         .form-group input::placeholder {
-            color: #71877A;
+            color: var(--text-muted);
         }
 
         .form-group input:focus {
             outline: none;
-            border-color: #046E3B;
+            border-color: var(--accent);
             box-shadow: 0 0 10px rgba(4, 110, 59, 0.25);
         }
 
         .login-card .btn-primary {
-            background: #046E3B;
-            border: 1px solid #046E3B;
-            color: #F8E7C9;
+            background: var(--accent);
+            border: 1px solid var(--accent);
+            color: var(--accent-ink);
         }
 
         .login-card .btn-primary:hover {
             background: #058c4b;
             border-color: #058c4b;
-            color: #F8E7C9;
+            color: var(--accent-ink);
         }
 
         .divider {
@@ -152,7 +140,7 @@
             margin: 24px 0;
             font-family: var(--fm);
             font-size: 10px;
-            color: #8FA69A;
+            color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.1em;
         }
@@ -161,7 +149,7 @@
             content: '';
             flex: 1;
             height: 1px;
-            background: #1D3A2B;
+            background: var(--border);
         }
 
         .google-btn {
@@ -170,9 +158,9 @@
             justify-content: center;
             gap: 12px;
             width: 100%;
-            background: #0D1C15;
-            border: 1px solid #1D3A2B;
-            color: #F8E7C9;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--accent2);
             padding: 12px;
             font-family: var(--fh);
             font-weight: 600;
@@ -182,7 +170,7 @@
         }
 
         .google-btn:hover {
-            border-color: #046E3B;
+            border-color: var(--accent);
             background: rgba(4, 110, 59, 0.10);
         }
 
@@ -196,11 +184,11 @@
             margin-top: 24px;
             font-family: var(--fb);
             font-size: 14px;
-            color: #8FA69A;
+            color: var(--text-muted);
         }
 
         .footer-links a {
-            color: #F8E7C9;
+            color: var(--accent2);
             text-decoration: none;
             font-weight: 600;
             margin-left: 4px;
@@ -208,7 +196,7 @@
         }
 
         .footer-links a:hover {
-            color: #046E3B;
+            color: var(--accent);
             text-decoration: underline;
         }
 
@@ -227,6 +215,7 @@
 
     </style>
     <script src="/assets/js/session.js"></script>
+<script src="/assets/js/theme.js" defer></script>
 </head>
 <body class="grid-bg">
 
@@ -244,7 +233,7 @@
             <h1>System Access</h1>
             <p>Authentication Required</p>
         </div>
-        <div id="error-message" style="color: #F8E7C9; background: rgba(163, 72, 81, 0.2); border: 1px solid #A34851; padding: 12px; margin-bottom: 20px; font-family: var(--fb); font-size: 13px; display: none; text-align: center;"></div>
+        <div id="error-message" style="color: var(--accent2); background: rgba(163, 72, 81, 0.2); border: 1px solid var(--danger); padding: 12px; margin-bottom: 20px; font-family: var(--fb); font-size: 13px; display: none; text-align: center;"></div>
         <form id="loginForm">
             <div class="form-group">
                 <label for="email">Email Address</label>

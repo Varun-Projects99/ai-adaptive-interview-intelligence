@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>(function(){try{var t=localStorage.getItem('iq_theme');if(t==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InterviewIQ — Settings</title>
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  .settings-container {
+    max-width: 920px; margin: 0 auto; padding: 110px 24px 80px;
+    position: relative; z-index: 1;
+  }
+  .settings-header { margin-bottom: 36px; }
+  .settings-header p { color: var(--text-muted); font-size: 13px; }
+  .settings-header h1 { font-size: 34px; margin-top: 6px; }
+  .settings-back {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--fm); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text-muted);
+    text-decoration: none !important; margin-bottom: 18px;
+  }
+  .settings-back:hover { color: var(--accent2); }
+
+  .settings-section {
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 28px; margin-bottom: 22px;
+  }
+  .settings-section h2 {
+    font-size: 16px; display: flex; align-items: center; gap: 10px;
+    margin-bottom: 6px;
+  }
+  .settings-section .settings-desc {
+    color: var(--text-muted); font-size: 13px; margin-bottom: 20px; line-height: 1.5;
+  }
+
+  .form-row { margin-bottom: 18px; }
+  .form-row:last-child { margin-bottom: 0; }
+  .form-row label {
+    display: block; font-family: var(--fm); font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--text);
+    margin-bottom: 8px;
+  }
+  .form-row input[type="text"], .form-row input[type="email"] {
+    width: 100%; max-width: 420px;
+    background: var(--surface2); border: 1px solid var(--border2);
+    color: var(--accent2); padding: 12px 14px;
+    font-family: var(--fb); font-size: 14px; transition: all 0.2s;
+  }
+  .form-row input:focus {
+    outline: none; border-color: var(--accent);
+    box-shadow: 0 0 10px rgba(4,110,59,0.25);
+  }
+  .form-row input:disabled {
+    color: var(--text-muted); cursor: not-allowed; opacity: 0.7;
+  }
+  .field-hint { font-size: 11.5px; color: var(--text-muted); margin-top: 6px; }
+
+  .option-group { display: flex; flex-wrap: wrap; gap: 10px; }
+  .option-btn {
+    font-family: var(--fm); font-size: 12px; letter-spacing: 0.04em;
+    padding: 10px 16px; background: var(--surface2);
+    border: 1px solid var(--border2); color: var(--text-muted);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .option-btn:hover { border-color: var(--accent); color: var(--text); }
+  .option-btn.selected {
+    border-color: var(--accent); color: var(--accent2);
+    background: rgba(4,110,59,0.15); box-shadow: 0 0 10px rgba(4,110,59,0.2);
+  }
+  .option-btn .rec-tag {
+    font-size: 9px; color: var(--accent); margin-left: 6px; letter-spacing: 0.08em;
+  }
+
+  .status-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 0; border-bottom: 1px solid var(--border);
+    gap: 16px; flex-wrap: wrap;
+  }
+  .status-row:last-child { border-bottom: none; }
+  .status-label { font-size: 13.5px; }
+  .status-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--fm); font-size: 11px; letter-spacing: 0.06em;
+    text-transform: uppercase; padding: 5px 12px; border: 1px solid var(--border2);
+  }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .status-badge.ready .status-dot, .status-badge.available .status-dot { background: var(--success); box-shadow: 0 0 8px var(--success); }
+  .status-badge.blocked .status-dot, .status-badge.unavailable .status-dot { background: var(--danger); box-shadow: 0 0 8px var(--danger); }
+  .status-badge.not_checked .status-dot, .status-badge.configuration_required .status-dot { background: var(--warn); box-shadow: 0 0 8px var(--warn); }
+  .status-badge.ready, .status-badge.available { color: var(--accent2); border-color: rgba(4,110,59,0.3); }
+  .status-badge.blocked, .status-badge.unavailable { color: var(--danger); border-color: rgba(163,72,81,0.3); }
+  .status-badge.not_checked, .status-badge.configuration_required { color: var(--warn); border-color: rgba(217,160,91,0.3); }
+
+  .privacy-item { padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .privacy-item:last-child { border-bottom: none; }
+  .privacy-item .p-label { font-size: 13.5px; font-weight: 600; color: var(--text); }
+  .privacy-item .p-detail { font-size: 12.5px; color: var(--text-muted); margin-top: 3px; }
+
+  .danger-zone { border-color: rgba(163,72,81,0.35); }
+  .danger-zone h2 { color: var(--danger); }
+  .confirm-delete-box {
+    display: none; margin-top: 14px; padding: 16px; background: var(--surface2);
+    border: 1px solid rgba(163,72,81,0.35);
+  }
+  .confirm-delete-box.open { display: block; }
+  .confirm-delete-box input {
+    width: 100%; max-width: 260px; background: var(--bg);
+    border: 1px solid var(--danger); color: var(--text);
+    padding: 10px 12px; font-family: var(--fm); margin: 10px 0;
+  }
+
+  .save-row { display: flex; align-items: center; gap: 14px; margin-top: 20px; }
+  .save-feedback { font-size: 12.5px; color: var(--text-muted); }
+  .save-feedback.ok { color: var(--success); }
+  .save-feedback.err { color: var(--danger); }
+
+  @media (max-width: 600px) {
+    .settings-container { padding: 100px 16px 60px; }
+    .settings-header h1 { font-size: 26px; }
+    .settings-section { padding: 20px; }
+    .status-row { align-items: flex-start; }
+  }
+</style>
+<script src="/assets/js/theme.js" defer></script>
+</head>
+<body class="grid-bg">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-logo" onclick="window.location.href='/dashboard'" style="cursor:pointer;">
+      <div class="logo-dot"></div>InterviewIQ
+    </div>
+    <div class="navbar-right">
+      <div class="chip accent" id="user-email-chip">Candidate</div>
+    </div>
+  </nav>
+
+  <main class="settings-container">
+    <a href="/dashboard" class="settings-back">&larr; Back to Mission Control</a>
+    <div class="settings-header">
+      <p>Account &amp; Preferences</p>
+      <h1>Settings</h1>
+    </div>
+
+    <!-- PROFILE -->
+    <section class="settings-section" id="section-profile">
+      <h2>&#128100; Profile</h2>
+      <p class="settings-desc">Your account identity. Email is your login identifier and can't be changed here.</p>
+      <div class="form-row">
+        <label for="profile-name">Name</label>
+        <input type="text" id="profile-name" maxlength="80">
+      </div>
+      <div class="form-row">
+        <label for="profile-email">Email</label>
+        <input type="email" id="profile-email" disabled>
+        <div class="field-hint" id="profile-provider-hint"></div>
+      </div>
+      <div class="save-row">
+        <button class="btn btn-primary" id="save-profile-btn" onclick="saveProfile()">Save Changes</button>
+        <span class="save-feedback" id="profile-feedback"></span>
+      </div>
+    </section>
+
+    <!-- INTERVIEW PREFERENCES -->
+    <section class="settings-section" id="section-preferences">
+      <h2>&#127919; Interview Preferences</h2>
+      <p class="settings-desc">These only change the starting point of a practice interview &mdash; the adaptive engine still adjusts difficulty in real time based on how you answer.</p>
+      <div class="form-row">
+        <label>Default interview length</label>
+        <div class="option-group" id="length-options">
+          <button class="option-btn" data-value="short">Short (5 questions)</button>
+          <button class="option-btn" data-value="standard">Standard (10 questions)</button>
+          <button class="option-btn" data-value="extended">Extended (15 questions)</button>
+        </div>
+      </div>
+      <div class="form-row">
+        <label>Preferred starting difficulty</label>
+        <div class="option-group" id="difficulty-options">
+          <button class="option-btn" data-value="easy">Easy</button>
+          <button class="option-btn" data-value="adaptive">Adaptive <span class="rec-tag">RECOMMENDED</span></button>
+          <button class="option-btn" data-value="hard">Hard</button>
+        </div>
+      </div>
+      <div class="save-row">
+        <button class="btn btn-primary" id="save-prefs-btn" onclick="savePreferences()">Save Preferences</button>
+        <span class="save-feedback" id="prefs-feedback"></span>
+      </div>
+    </section>
+
+    <!-- CAMERA / MICROPHONE -->
+    <section class="settings-section" id="section-devices">
+      <h2>&#127909; Camera &amp; Microphone</h2>
+      <p class="settings-desc">Interviews use your camera and microphone for integrity monitoring and voice analysis. Nothing is accessed until you click Test.</p>
+      <div class="status-row">
+        <span class="status-label">Camera</span>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span class="status-badge not_checked" id="camera-status"><span class="status-dot"></span>NOT CHECKED</span>
+          <button class="btn btn-outline" style="padding:8px 16px;font-size:12px" onclick="testDevice('camera')">Test Camera</button>
+        </div>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Microphone</span>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span class="status-badge not_checked" id="mic-status"><span class="status-dot"></span>NOT CHECKED</span>
+          <button class="btn btn-outline" style="padding:8px 16px;font-size:12px" onclick="testDevice('mic')">Test Microphone</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTEGRITY PREFERENCES -->
+    <section class="settings-section" id="section-integrity">
+      <h2>&#128737; Integrity Monitoring</h2>
+      <p class="settings-desc">
+        Integrity monitoring helps identify unusual interview conditions &mdash; such as no face visible, multiple faces, or leaving the interview window &mdash; during proctored interviews.
+        It runs automatically on proctored interviews and can't be disabled here, so results stay consistent and trustworthy for everyone.
+      </p>
+      <div class="status-row">
+        <span class="status-label">Monitoring</span>
+        <span class="status-badge available"><span class="status-dot"></span>Always Active</span>
+      </div>
+    </section>
+
+    <!-- APPEARANCE -->
+    <section class="settings-section" id="section-appearance">
+      <h2>&#127912; Appearance</h2>
+      <p class="settings-desc">Choose how InterviewIQ looks. Applied instantly, and saved to your account so it follows you to any device you sign in from.</p>
+      <div class="form-row">
+        <label>Theme</label>
+        <div class="option-group" id="theme-options">
+          <button class="option-btn" data-value="dark">Dark (Cyberpunk)</button>
+          <button class="option-btn" data-value="light">Light</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOTIFICATIONS -->
+    <section class="settings-section" id="section-notifications">
+      <h2>&#128276; Notifications</h2>
+      <p class="settings-desc">InterviewIQ does not currently send email or push notifications. This section will be enabled once notification delivery is implemented.</p>
+    </section>
+
+    <!-- PRIVACY & DATA -->
+    <section class="settings-section" id="section-privacy">
+      <h2>&#128274; Privacy &amp; Data</h2>
+      <p class="settings-desc">What InterviewIQ stores about your account:</p>
+      <div id="privacy-list"></div>
+      <div class="save-row" style="flex-wrap:wrap;">
+        <button class="btn btn-outline" onclick="clearAiConversation()">Clear AI Assistant Conversation</button>
+        <span class="save-feedback" id="privacy-feedback"></span>
+      </div>
+    </section>
+
+    <!-- SECURITY -->
+    <section class="settings-section" id="section-security">
+      <h2>&#128272; Security</h2>
+      <div class="status-row">
+        <span class="status-label">Login method</span>
+        <span class="chip" id="security-auth-provider">&mdash;</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Session</span>
+        <span class="status-badge ready"><span class="status-dot"></span>Active</span>
+      </div>
+      <div class="save-row">
+        <button class="btn btn-outline" onclick="logout()">Logout</button>
+      </div>
+    </section>
+
+    <!-- AI / SYSTEM STATUS -->
+    <section class="settings-section" id="section-ai-status">
+      <h2>&#129302; AI / System Status</h2>
+      <div class="status-row">
+        <span class="status-label" id="ai-status-detail">Checking&hellip;</span>
+        <span class="status-badge not_checked" id="ai-status-badge"><span class="status-dot"></span>&hellip;</span>
+      </div>
+    </section>
+
+    <!-- DANGER ZONE -->
+    <section class="settings-section danger-zone" id="section-danger">
+      <h2>&#9888; Delete Account</h2>
+      <p class="settings-desc">
+        Permanently deletes your login, profile, resume data, learning progress, and AI Assistant conversations.
+        Interview reports already shared with a recruiter are retained for record-keeping. This cannot be undone.
+      </p>
+      <button class="btn btn-danger" onclick="toggleDeleteConfirm()">Delete My Account</button>
+      <div class="confirm-delete-box" id="confirm-delete-box">
+        <label style="display:block;font-family:var(--fm);font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--danger);">
+          Type DELETE to confirm
+        </label>
+        <input type="text" id="confirm-delete-input" placeholder="DELETE" autocomplete="off">
+        <div>
+          <button class="btn btn-danger" onclick="deleteAccount()">Permanently Delete</button>
+          <button class="btn btn-outline" onclick="toggleDeleteConfirm()">Cancel</button>
+        </div>
+        <span class="save-feedback" id="delete-feedback"></span>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/assets/js/session.js"></script>
+  <script src="/assets/js/global-menu.js" defer></script>
+  <script>
+    let currentPreferences = { interview_length: "standard", preferred_difficulty: "adaptive", theme: "dark" };
+
+    function setStatusBadge(el, key, label) {
+      el.className = "status-badge " + key;
+      el.innerHTML = '<span class="status-dot"></span>' + label;
+    }
+
+    function selectOption(groupId, value) {
+      document.querySelectorAll('#' + groupId + ' .option-btn').forEach(btn => {
+        btn.classList.toggle('selected', btn.dataset.value === value);
+      });
+    }
+
+    async function loadSettings() {
+      try {
+        const res = await fetch('/api/settings');
+        if (!res.ok) {
+          if (res.status === 401) { window.location.href = '/login'; return; }
+          throw new Error('Failed to load settings');
+        }
+        const data = await res.json();
+
+        document.getElementById('user-email-chip').textContent = data.profile.email || 'Candidate';
+        document.getElementById('profile-name').value = data.profile.name || '';
+        document.getElementById('profile-email').value = data.profile.email || '';
+        const providerLabel = data.profile.auth_provider === 'google' ? 'Signed in with Google' : 'Local account (email + password)';
+        document.getElementById('profile-provider-hint').textContent = providerLabel;
+        document.getElementById('security-auth-provider').textContent = providerLabel;
+
+        currentPreferences = data.preferences;
+        selectOption('length-options', currentPreferences.interview_length);
+        selectOption('difficulty-options', currentPreferences.preferred_difficulty);
+        selectOption('theme-options', window.IQTheme ? window.IQTheme.get() : currentPreferences.theme);
+
+        const privacyList = document.getElementById('privacy-list');
+        privacyList.innerHTML = '';
+        (data.privacy.data_categories || []).forEach(cat => {
+          const div = document.createElement('div');
+          div.className = 'privacy-item';
+          div.innerHTML = '<div class="p-label">' + cat.label + '</div><div class="p-detail">' + cat.detail + '</div>';
+          privacyList.appendChild(div);
+        });
+
+        const ai = data.ai_status;
+        const badge = document.getElementById('ai-status-badge');
+        const detail = document.getElementById('ai-status-detail');
+        detail.textContent = 'AI Assistant';
+        if (ai.assistant_status === 'available') {
+          setStatusBadge(badge, 'available', 'Available');
+        } else if (ai.assistant_status === 'configuration_required') {
+          setStatusBadge(badge, 'configuration_required', 'Configuration Required');
+        } else {
+          setStatusBadge(badge, 'unavailable', 'Unavailable');
+        }
+        badge.title = ai.assistant_detail;
+      } catch (e) {
+        console.error(e);
+        showToast('Could not load settings.', 'err');
+      }
+    }
+
+    document.getElementById('length-options').addEventListener('click', e => {
+      const btn = e.target.closest('.option-btn');
+      if (btn) selectOption('length-options', btn.dataset.value);
+    });
+    document.getElementById('difficulty-options').addEventListener('click', e => {
+      const btn = e.target.closest('.option-btn');
+      if (btn) selectOption('difficulty-options', btn.dataset.value);
+    });
+    document.getElementById('theme-options').addEventListener('click', e => {
+      const btn = e.target.closest('.option-btn');
+      if (!btn) return;
+      selectOption('theme-options', btn.dataset.value);
+      if (window.IQTheme) window.IQTheme.set(btn.dataset.value);
+      currentPreferences.theme = btn.dataset.value;
+      showToast('Theme updated.', 'ok');
+    });
+
+    async function saveProfile() {
+      const feedback = document.getElementById('profile-feedback');
+      const name = document.getElementById('profile-name').value.trim();
+      feedback.textContent = 'Saving...';
+      feedback.className = 'save-feedback';
+      try {
+        const res = await fetch('/api/settings/profile', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Could not save profile.');
+        feedback.textContent = 'Saved';
+        feedback.className = 'save-feedback ok';
+        showToast('Profile updated.', 'ok');
+      } catch (e) {
+        feedback.textContent = e.message;
+        feedback.className = 'save-feedback err';
+      }
+    }
+
+    async function savePreferences() {
+      const feedback = document.getElementById('prefs-feedback');
+      const length = document.querySelector('#length-options .option-btn.selected');
+      const difficulty = document.querySelector('#difficulty-options .option-btn.selected');
+      feedback.textContent = 'Saving...';
+      feedback.className = 'save-feedback';
+      try {
+        const res = await fetch('/api/settings/preferences', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            interview_length: length ? length.dataset.value : currentPreferences.interview_length,
+            preferred_difficulty: difficulty ? difficulty.dataset.value : currentPreferences.preferred_difficulty
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Could not save preferences.');
+        currentPreferences = data.preferences;
+        feedback.textContent = 'Saved';
+        feedback.className = 'save-feedback ok';
+        showToast('Preferences updated.', 'ok');
+      } catch (e) {
+        feedback.textContent = e.message;
+        feedback.className = 'save-feedback err';
+      }
+    }
+
+    async function testDevice(kind) {
+      const statusEl = document.getElementById(kind === 'camera' ? 'camera-status' : 'mic-status');
+      const constraints = kind === 'camera' ? { video: true } : { audio: true };
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        setStatusBadge(statusEl, 'unavailable', 'NOT AVAILABLE');
+        return;
+      }
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        stream.getTracks().forEach(t => t.stop());
+        setStatusBadge(statusEl, 'ready', 'READY');
+      } catch (e) {
+        if (e.name === 'NotAllowedError' || e.name === 'SecurityError') {
+          setStatusBadge(statusEl, 'blocked', 'BLOCKED');
+        } else {
+          setStatusBadge(statusEl, 'unavailable', 'NOT AVAILABLE');
+        }
+      }
+    }
+
+    async function clearAiConversation() {
+      const feedback = document.getElementById('privacy-feedback');
+      feedback.textContent = 'Clearing...';
+      feedback.className = 'save-feedback';
+      try {
+        const res = await fetch('/api/settings/ai-assistant/clear', { method: 'POST' });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Could not clear conversation.');
+        feedback.textContent = 'Cleared';
+        feedback.className = 'save-feedback ok';
+        showToast('AI Assistant conversation cleared.', 'ok');
+      } catch (e) {
+        feedback.textContent = e.message;
+        feedback.className = 'save-feedback err';
+      }
+    }
+
+    function toggleDeleteConfirm() {
+      document.getElementById('confirm-delete-box').classList.toggle('open');
+      document.getElementById('confirm-delete-input').value = '';
+    }
+
+    async function deleteAccount() {
+      const feedback = document.getElementById('delete-feedback');
+      const confirmVal = document.getElementById('confirm-delete-input').value.trim();
+      if (confirmVal.toUpperCase() !== 'DELETE') {
+        feedback.textContent = 'Type DELETE to confirm.';
+        feedback.className = 'save-feedback err';
+        return;
+      }
+      feedback.textContent = 'Deleting...';
+      feedback.className = 'save-feedback';
+      try {
+        const res = await fetch('/api/settings/account', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ confirm: 'DELETE' })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Could not delete account.');
+        Session.clear();
+        window.location.href = '/login';
+      } catch (e) {
+        feedback.textContent = e.message;
+        feedback.className = 'save-feedback err';
+      }
+    }
+
+    loadSettings();
+  </script>
+</body>
+</html>

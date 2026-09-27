@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>(function(){try{var t=localStorage.getItem('iq_theme');if(t==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InterviewIQ — AI Assistant</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        :root {
+            --card-bg: rgba(13, 28, 21, 0.85);
+            --chat-bubble-user: rgba(4, 110, 59, 0.08);
+            --chat-bubble-assistant: rgba(248, 231, 201, 0.08);
+            --border-user: rgba(4, 110, 59, 0.2);
+            --border-assistant: rgba(248, 231, 201, 0.25);
+        }
+
+        .assistant-layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 24px 40px;
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 28px;
+            height: calc(100vh - 20px);
+            min-height: 600px;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 900px) {
+            .assistant-layout {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+        }
+
+        .page-header {
+            grid-column: 1 / -1;
+            margin-bottom: -8px;
+        }
+
+        .back-nav {
+            margin-bottom: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-family: var(--fm);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        .back-nav:hover { color: var(--accent); }
+
+        .sidebar-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            backdrop-filter: blur(12px);
+            position: relative;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        @media (max-width: 900px) {
+            .sidebar-panel { height: auto; }
+        }
+
+        .corner {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border: 1px solid var(--accent);
+            opacity: 0.4;
+        }
+        .corner-tl { top: 0; left: 0; border-right: none; border-bottom: none; }
+        .corner-br { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+        .topics-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .topic-btn {
+            background: rgba(17, 25, 34, 0.6);
+            border: 1px solid var(--border);
+            padding: 12px;
+            text-align: left;
+            font-family: var(--fb);
+            font-size: 13px;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .topic-btn:hover {
+            border-color: var(--accent);
+            background: rgba(4, 110, 59, 0.05);
+            transform: translateX(4px);
+        }
+
+        .topic-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .clear-btn {
+            margin-top: auto;
+            background: none;
+            border: 1px solid var(--border);
+            padding: 10px;
+            color: var(--text-muted);
+            font-family: var(--fm);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .clear-btn:hover { border-color: var(--warn); color: var(--warn); }
+
+        .chat-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(12px);
+            position: relative;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        @media (max-width: 900px) {
+            .chat-panel { height: 560px; }
+        }
+
+        .chat-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(17, 25, 34, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-stream {
+            flex-grow: 1;
+            padding: 24px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .message {
+            max-width: 82%;
+            padding: 16px 20px;
+            border: 1px solid;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .message.assistant {
+            align-self: flex-start;
+            background: var(--chat-bubble-assistant);
+            border-color: var(--border-assistant);
+            color: var(--text);
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background: var(--chat-bubble-user);
+            border-color: var(--border-user);
+            color: var(--text);
+        }
+
+        .message.error {
+            border-color: rgba(217, 90, 90, 0.4);
+            background: rgba(217, 90, 90, 0.06);
+        }
+
+        .message-sender {
+            font-family: var(--fm);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 6px;
+            color: var(--accent2);
+        }
+
+        .message.user .message-sender {
+            color: var(--accent);
+            text-align: right;
+        }
+
+        .retry-btn {
+            margin-top: 10px;
+            background: none;
+            border: 1px solid rgba(217, 90, 90, 0.4);
+            color: #d95a5a;
+            font-family: var(--fm);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 6px 12px;
+            cursor: pointer;
+        }
+        .retry-btn:hover { background: rgba(217, 90, 90, 0.1); }
+
+        .chat-footer {
+            padding: 18px 24px;
+            border-top: 1px solid var(--border);
+            background: rgba(7, 11, 16, 0.4);
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .chat-input-wrapper {
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .chat-input-wrapper textarea {
+            width: 100%;
+            resize: none;
+            max-height: 140px;
+            min-height: 44px;
+            padding: 12px 48px 12px 14px;
+            font-family: var(--fb);
+            font-size: 14px;
+            background: rgba(17, 25, 34, 0.6);
+            border: 1px solid var(--border);
+            color: var(--text);
+            line-height: 1.4;
+        }
+        .chat-input-wrapper textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .chat-send-btn {
+            position: absolute;
+            right: 8px;
+            bottom: 10px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: var(--accent);
+            transition: transform 0.2s;
+            outline: none;
+        }
+        .chat-send-btn:hover { transform: scale(1.1); }
+        .chat-send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+        .typing-loader {
+            display: flex;
+            align-self: flex-start;
+            gap: 4px;
+            padding: 12px 18px;
+            background: var(--chat-bubble-assistant);
+            border: 1px solid var(--border-assistant);
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent2);
+            border-radius: 50%;
+            animation: bounce-dot 0.6s infinite alternate;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes bounce-dot { to { transform: translateY(-4px); } }
+    </style>
+<script src="/assets/js/global-menu.js" defer></script>
+<script src="/assets/js/theme.js" defer></script>
+</head>
+<body class="grid-bg">
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-logo" onclick="window.location.href='/dashboard'" style="cursor:pointer;">
+            <div class="logo-dot"></div>InterviewIQ
+        </div>
+        <div class="navbar-right">
+            <div class="chip accent" onclick="window.location.href='/dashboard'" style="cursor:pointer;">Dashboard</div>
+            <div class="chip" id="user-email-chip" style="margin-left: 10px;">Candidate</div>
+        </div>
+    </nav>
+
+    <!-- MAIN ASSISTANT CONTAINER -->
+    <main class="assistant-layout">
+
+        <div class="page-header">
+            <div>
+                <a class="back-nav" onclick="window.location.href='/dashboard'">← Back to Mission Control</a>
+                <h1>InterviewIQ <span style="color:var(--accent2)">AI Assistant</span></h1>
+            </div>
+            <p>Your intelligent guide for interviews, performance, and InterviewIQ.</p>
+        </div>
+
+        <!-- LEFT SIDEBAR: QUICK PROMPTS -->
+        <aside class="sidebar-panel">
+            <div class="corner corner-tl"></div>
+            <div class="corner corner-br"></div>
+            <div class="section-title">Quick Prompts</div>
+            <p style="font-size: 11.5px; color: var(--text-muted); line-height: 1.5; margin-bottom: 8px;">
+                Tap any prompt to ask the assistant instantly:
+            </p>
+            <div class="topics-list" id="quick-prompts-list">
+                <button class="topic-btn" onclick="submitPrompt('Explain my last interview report')">📊 Explain my last interview report</button>
+                <button class="topic-btn" onclick="submitPrompt('What are my weak areas?')">🎯 What are my weak areas?</button>
+                <button class="topic-btn" onclick="submitPrompt('How does adaptive interviewing work in InterviewIQ?')">🧠 How does adaptive interviewing work?</button>
+                <button class="topic-btn" onclick="submitPrompt('How is my interview score calculated?')">📐 How is my score calculated?</button>
+                <button class="topic-btn" onclick="submitPrompt('Explain how the Resume Analyzer works')">📄 Explain the Resume Analyzer</button>
+                <button class="topic-btn" onclick="submitPrompt('Where do interview questions come from?')">📚 Where do questions come from?</button>
+                <button class="topic-btn" onclick="submitPrompt('How does integrity monitoring work in InterviewIQ?')">🛡️ How does integrity monitoring work?</button>
+                <button class="topic-btn" onclick="submitPrompt('What should I improve?')">📈 What should I improve?</button>
+                <button class="topic-btn" onclick="submitPrompt('Explain InterviewIQ')">ℹ️ Explain InterviewIQ</button>
+            </div>
+            <button class="clear-btn" id="clear-btn" onclick="clearConversation()">Clear Conversation</button>
+        </aside>
+
+        <!-- RIGHT PANEL: CONVERSATIONAL STREAM -->
+        <section class="chat-panel">
+            <div class="corner corner-tl" style="border-color: var(--accent2);"></div>
+            <div class="corner corner-br" style="border-color: var(--accent2);"></div>
+
+            <div class="chat-header">
+                <span class="chip" style="color: var(--accent2); border-color: rgba(4, 110, 59, 0.3); background: rgba(4, 110, 59, 0.05);">Assistant Online</span>
+                <span class="font-mono text-muted" style="font-size: 10px;">Project-aware &middot; Authenticated</span>
+            </div>
+
+            <div class="chat-stream" id="chat-stream-area">
+                <div class="message assistant">
+                    <div class="message-sender">AI Assistant</div>
+                    <div>Hi! I'm the InterviewIQ AI Assistant. Ask me about your interview performance, resume, reports, adaptive difficulty, integrity monitoring, coding practice, or any general interview-prep or technical topic.</div>
+                </div>
+            </div>
+
+            <div class="chat-stream" id="typing-indicator-wrapper" style="display:none; flex-grow: 0; padding-top: 0; padding-bottom: 12px; margin-top:-20px;">
+                <div class="typing-loader">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+
+            <div class="chat-footer">
+                <div class="chat-input-wrapper">
+                    <textarea id="chat-input-box" rows="1" placeholder="Ask InterviewIQ anything..." onkeydown="handleInputKeydown(event)" oninput="autoResizeInput(this)"></textarea>
+                    <button class="chat-send-btn" id="send-btn" onclick="sendAssistantMessage()">⚡</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Background glow -->
+    <div style="position:fixed;width:800px;height:800px;pointer-events:none;
+                background:radial-gradient(circle,rgba(4,110,59,.03) 0%,transparent 70%);
+                top:50%;left:50%;transform:translate(-50%,-50%);z-index:0"></div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="/assets/js/session.js"></script>
+    <script>
+        let conversationId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : ("c-" + Date.now() + "-" + Math.random().toString(16).slice(2));
+        let lastFailedMessage = null;
+        let isSending = false;
+
+        window.addEventListener("DOMContentLoaded", async () => {
+            try {
+                const res = await fetch("/api/auth/me");
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.authenticated && data.user && data.user.email) {
+                        document.getElementById("user-email-chip").textContent = data.user.name || data.user.email;
+                    }
+                }
+            } catch (e) {
+                console.error("Failed to load user info:", e);
+            }
+        });
+
+        function escapeHtml(str) {
+            const div = document.createElement("div");
+            div.textContent = str == null ? "" : String(str);
+            return div.innerHTML;
+        }
+
+        function setSending(sending) {
+            isSending = sending;
+            const btn = document.getElementById("send-btn");
+            if (btn) btn.disabled = sending;
+            document.querySelectorAll(".topic-btn").forEach(b => b.disabled = sending);
+        }
+
+        async function sendAssistantMessage(overrideText) {
+            if (isSending) return;
+            const inputBox = document.getElementById("chat-input-box");
+            const text = (overrideText !== undefined ? overrideText : inputBox.value).trim();
+            if (!text) return;
+
+            if (overrideText === undefined) {
+                inputBox.value = "";
+                autoResizeInput(inputBox);
+            }
+            appendMessage("user", text);
+            setSending(true);
+
+            const loader = document.getElementById("typing-indicator-wrapper");
+            loader.style.display = "flex";
+            scrollStreamToBottom();
+
+            try {
+                const result = await apiPost("/api/ai-assistant/chat", {
+                    message: text,
+                    conversation_id: conversationId
+                });
+                loader.style.display = "none";
+                if (result.conversation_id) conversationId = result.conversation_id;
+                appendMessage("assistant", result.reply);
+                lastFailedMessage = null;
+            } catch (e) {
+                loader.style.display = "none";
+                lastFailedMessage = text;
+                appendErrorMessage((e && e.message) || "I'm temporarily unable to reach the AI service. Please try again in a moment.");
+            }
+
+            setSending(false);
+            scrollStreamToBottom();
+        }
+
+        function retryLastMessage() {
+            if (lastFailedMessage && !isSending) {
+                const msg = lastFailedMessage;
+                lastFailedMessage = null;
+                sendAssistantMessage(msg);
+            }
+        }
+
+        function appendMessage(sender, content) {
+            const stream = document.getElementById("chat-stream-area");
+            const bubble = document.createElement("div");
+            bubble.className = `message ${sender}`;
+            const senderLabel = sender === "user" ? "You" : "AI Assistant";
+            const safeContent = escapeHtml(content).replace(/\n/g, "<br>");
+            bubble.innerHTML = `
+                <div class="message-sender">${senderLabel}</div>
+                <div>${safeContent}</div>
+            `;
+            stream.appendChild(bubble);
+            scrollStreamToBottom();
+        }
+
+        function appendErrorMessage(message) {
+            const stream = document.getElementById("chat-stream-area");
+            const bubble = document.createElement("div");
+            bubble.className = "message assistant error";
+            bubble.innerHTML = `
+                <div class="message-sender">AI Assistant</div>
+                <div>${escapeHtml(message)}</div>
+                <button class="retry-btn" onclick="retryLastMessage()">Retry ⟳</button>
+            `;
+            stream.appendChild(bubble);
+            scrollStreamToBottom();
+        }
+
+        function scrollStreamToBottom() {
+            const stream = document.getElementById("chat-stream-area");
+            stream.scrollTop = stream.scrollHeight;
+        }
+
+        function handleInputKeydown(e) {
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                sendAssistantMessage();
+            }
+        }
+
+        function autoResizeInput(el) {
+            el.style.height = "auto";
+            el.style.height = Math.min(el.scrollHeight, 140) + "px";
+        }
+
+        function submitPrompt(text) {
+            sendAssistantMessage(text);
+        }
+
+        function clearConversation() {
+            if (isSending) return;
+            conversationId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : ("c-" + Date.now() + "-" + Math.random().toString(16).slice(2));
+            lastFailedMessage = null;
+            const stream = document.getElementById("chat-stream-area");
+            stream.innerHTML = `
+                <div class="message assistant">
+                    <div class="message-sender">AI Assistant</div>
+                    <div>Conversation cleared. What would you like to know?</div>
+                </div>
+            `;
+            if (typeof showToast === "function") showToast("Conversation cleared", "ok");
+        }
+    </script>
+</body>
+</html>

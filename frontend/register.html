@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>(function(){try{var t=localStorage.getItem('iq_theme');if(t==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InterviewIQ — Register</title>
@@ -138,6 +139,7 @@
 
     </style>
     <script src="/assets/js/session.js"></script>
+<script src="/assets/js/theme.js" defer></script>
 </head>
 <body class="grid-bg">
 
@@ -156,8 +158,8 @@
             <p>Initialize Your Candidate Identity</p>
         </div>
 
-        <div id="error-message" style="color: #F8E7C9; background: rgba(163, 72, 81, 0.2); border: 1px solid #A34851; padding: 12px; margin-bottom: 20px; font-family: var(--fb); font-size: 13px; display: none; text-align: center;"></div>
-        <div id="success-message" style="color: #F8E7C9; background: rgba(4, 110, 59, 0.2); border: 1px solid #046E3B; padding: 12px; margin-bottom: 20px; font-family: var(--fb); font-size: 13px; display: none; text-align: center;"></div>
+        <div id="error-message" style="color: var(--accent2); background: rgba(163, 72, 81, 0.2); border: 1px solid var(--danger); padding: 12px; margin-bottom: 20px; font-family: var(--fb); font-size: 13px; display: none; text-align: center;"></div>
+        <div id="success-message" style="color: var(--accent2); background: rgba(4, 110, 59, 0.2); border: 1px solid var(--accent); padding: 12px; margin-bottom: 20px; font-family: var(--fb); font-size: 13px; display: none; text-align: center;"></div>
         <form id="registerForm">
             <div class="form-group">
                 <label for="name">Full Name</label>

@@ -18,6 +18,24 @@
   --danger:    #A34851;
   --text:      #C9D6CF;
   --text-muted:#9BAEA3;
+  /* Fixed regardless of theme: text that sits ON a solid --accent fill
+     (e.g. .btn-primary) always needs to stay light, in both themes. */
+  --accent-ink: #F8E7C9;
+  /* Today's hardcoded "#ffffff" report-heading color, now a token so it
+     can flip to a dark color in the light theme (see the light block
+     below) -- value unchanged here, so dark mode renders identically. */
+  --text-strong: #ffffff;
+  /* Surfaces that were previously hardcoded per-page/per-component with no
+     light equivalent (see AI_ASSISTANT.md-style notes in the theme patch
+     set): the navbar's own background, the six pages' shared "big card"
+     background, and a couple of RGB-tuple variants for call sites that
+     need the same color family at a different alpha. Values here exactly
+     match what was already hardcoded, so dark-theme rendering is
+     unchanged. */
+  --navbar-bg-rgb: 7, 11, 16;
+  --card-bg-rgb: 13, 28, 21;
+  --card-bg: rgba(13, 28, 21, 0.85);
+  --panel-bg-rgb: 7, 11, 16;
   --fh: 'Syne', sans-serif;
   --fb: 'Plus Jakarta Sans', sans-serif;
   --fm: 'DM Mono', monospace;
@@ -37,14 +55,14 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 h1, h2, h3, h4, h5, h6 {
-  color: #F8E7C9;
+  color: var(--accent2);
 }
 a {
-  color: #F8E7C9;
+  color: var(--accent2);
   transition: color var(--transition);
 }
 a:hover {
-  color: #046E3B;
+  color: var(--accent);
 }
 
 /* ── GRID BACKGROUND ─────────────────────────── */
@@ -71,7 +89,7 @@ a:hover {
   height: 64px;
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 48px;
-  background: rgba(7,11,16,0.92);
+  background: rgba(var(--navbar-bg-rgb), 0.92);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
 }
@@ -140,8 +158,8 @@ a:hover {
 }
 .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
 
-.btn-primary { background: var(--accent); color: var(--accent2); }
-.btn-primary:hover:not(:disabled) { background: #058c4b; color: var(--accent2); transform: translateY(-1px); }
+.btn-primary { background: var(--accent); color: var(--accent-ink); }
+.btn-primary:hover:not(:disabled) { background: #058c4b; color: var(--accent-ink); transform: translateY(-1px); }
 
 .btn-outline { background: transparent; border: 1px solid var(--accent); color: var(--accent2); }
 .btn-outline:hover:not(:disabled) { background: rgba(4,110,59,0.15); border-color: var(--accent); color: var(--accent2); }
@@ -332,6 +350,13 @@ textarea::placeholder, input::placeholder { color: var(--text-muted); }
   position: absolute; bottom: 10px; left: 10px;
   background: rgba(7,11,16,0.85);
 }
+.cam-quality {
+  position: absolute; bottom: 10px; right: 10px;
+  font-family: var(--fm); font-size: 9.5px; letter-spacing: 0.03em;
+  padding: 3px 9px; background: rgba(7,11,16,0.85);
+  color: var(--warn); border: 1px solid rgba(217,160,91,0.4);
+  max-width: 62%; text-align: right; display: none;
+}
 
 /* ── FEEDBACK CARD ───────────────────────────── */
 .fb-card {
@@ -489,7 +514,7 @@ textarea::placeholder, input::placeholder { color: var(--text-muted); }
   font-weight: 800;
   letter-spacing: -1.5px;
   line-height: 1.1;
-  color: #ffffff;
+  color: var(--text-strong);
   margin-bottom: 6px;
 }
 .report-meta {
@@ -618,7 +643,7 @@ textarea::placeholder, input::placeholder { color: var(--text-muted); }
   font-family: var(--fh);
   font-size: 34px;
   font-weight: 800;
-  color: #ffffff;
+  color: var(--text-strong);
   line-height: 1;
 }
 .radial-center .rating-label {
@@ -633,7 +658,7 @@ textarea::placeholder, input::placeholder { color: var(--text-muted); }
   font-family: var(--fh);
   font-size: 16px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-strong);
 }
 .card-desc {
   font-size: 12px;
@@ -683,7 +708,7 @@ textarea::placeholder, input::placeholder { color: var(--text-muted); }
   font-family: var(--fh);
   font-size: 15px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-strong);
 }
 .score-display {
   display: flex;
@@ -887,7 +912,10 @@ textarea::placeholder, input::placeholder { color: var(--text-muted); }
 /* Integrity summary cards */
 .integrity-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  /* auto-fit instead of a hardcoded repeat(3, ...) so a 4th stat tile
+     (Multiple Person Events) lays out evenly instead of stranding itself
+     alone on a new row */
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
   gap: 12px;
 }
 .integrity-stat {
@@ -943,6 +971,128 @@ textarea::placeholder, input::placeholder { color: var(--text-muted); }
   border: 1px solid rgba(255,61,90,0.25);
 }
 
+/* Authoritative strike-total badge (backend summary.strike_count) */
+.integrity-strike-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+.integrity-strike-total .strike-total-label {
+  font-family: var(--fm);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.integrity-strike-total .strike-total-value {
+  font-family: var(--fh);
+  font-size: 20px;
+  font-weight: 800;
+}
+.integrity-strike-total.strike-total-green {
+  background: rgba(16,245,154,0.06);
+  color: var(--success);
+  border: 1px solid rgba(16,245,154,0.2);
+}
+.integrity-strike-total.strike-total-yellow {
+  background: rgba(255,176,32,0.06);
+  color: var(--warn);
+  border: 1px solid rgba(255,176,32,0.2);
+}
+.integrity-strike-total.strike-total-red {
+  background: rgba(255,61,90,0.08);
+  color: var(--danger);
+  border: 1px solid rgba(255,61,90,0.25);
+}
+
+/* Auto-termination detail box */
+.integrity-termination-box {
+  margin-top: 10px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: rgba(255,61,90,0.05);
+  border: 1px solid rgba(255,61,90,0.2);
+}
+.integrity-termination-box .termination-title {
+  font-family: var(--fh);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--danger);
+  margin-bottom: 8px;
+}
+.integrity-termination-box .termination-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-muted);
+  padding: 3px 0;
+}
+.integrity-termination-box .termination-row span:last-child {
+  color: var(--text);
+  font-family: var(--fm);
+}
+
+/* Integrity event timeline */
+.integrity-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+.timeline-event {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.timeline-event.timeline-strike {
+  border-color: rgba(255,61,90,0.25);
+  background: rgba(255,61,90,0.04);
+}
+.timeline-event.timeline-warning {
+  border-color: rgba(255,176,32,0.2);
+  background: rgba(255,176,32,0.03);
+}
+.timeline-event-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.timeline-event-name {
+  font-size: 13px;
+  font-weight: 600;
+}
+.timeline-event-badge {
+  font-family: var(--fm);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.timeline-event-badge.badge-strike {
+  color: var(--danger);
+  background: rgba(255,61,90,0.1);
+}
+.timeline-event-badge.badge-warning {
+  color: var(--warn);
+  background: rgba(255,176,32,0.1);
+}
+.timeline-event-meta {
+  display: flex;
+  gap: 14px;
+  font-family: var(--fm);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
 /* Recommendations Insights cards */
 .reccos-list {
   display: flex;
@@ -977,7 +1127,7 @@ textarea::placeholder, input::placeholder { color: var(--text-muted); }
   font-family: var(--fh);
   font-size: 18px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-strong);
   margin-bottom: 16px;
 }
 .answers-list {
@@ -1051,7 +1201,7 @@ textarea::placeholder, input::placeholder { color: var(--text-muted); }
   font-size: 15px;
   font-weight: 600;
   line-height: 1.5;
-  color: #ffffff;
+  color: var(--text-strong);
 }
 .arc-label {
   font-family: var(--fm);
@@ -1190,3 +1340,108 @@ textarea::placeholder, input::placeholder { color: var(--text-muted); }
     color: #000000 !important;
   }
 }
+
+/* ── GLOBAL MAIN MENU ────────────────────────── */
+/* Compact dropdown reused across every authenticated page (see
+   assets/js/global-menu.js). Deliberately minimal -- no new colors, only
+   the existing --accent/--surface2/--border2 tokens already used above. */
+.gmenu-wrap { position: relative; display: inline-flex; }
+.gmenu-toggle {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--fm); font-size: 11px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text);
+  background: var(--surface2); border: 1px solid var(--border2);
+  padding: 8px 14px; cursor: pointer; transition: all var(--transition);
+}
+.gmenu-toggle:hover, .gmenu-toggle[aria-expanded="true"] {
+  border-color: var(--accent); box-shadow: 0 0 12px rgba(4,110,59,0.3);
+}
+.gmenu-toggle-icon { font-size: 14px; line-height: 1; }
+
+.gmenu-panel {
+  position: absolute; top: calc(100% + 10px); right: 0;
+  min-width: 240px;
+  background: var(--surface); border: 1px solid var(--border2);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+  padding: 10px 0;
+  display: none;
+  flex-direction: column;
+  z-index: 600;
+}
+.gmenu-panel.gmenu-open { display: flex; }
+
+.gmenu-section-label {
+  font-family: var(--fm); font-size: 9px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--text-muted);
+  padding: 8px 18px 6px;
+}
+.gmenu-divider { height: 1px; background: var(--border); margin: 6px 0; }
+
+.gmenu-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 18px;
+  font-family: var(--fb); font-size: 13.5px; color: var(--text);
+  text-decoration: none !important;
+  transition: background var(--transition), color var(--transition);
+}
+.gmenu-item:hover { background: rgba(4,110,59,0.12); color: var(--accent2); }
+.gmenu-item.active { color: var(--accent2); border-left: 2px solid var(--accent); padding-left: 16px; }
+.gmenu-item-icon { width: 18px; text-align: center; font-size: 14px; flex-shrink: 0; }
+.gmenu-item.gmenu-logout { color: var(--danger); }
+.gmenu-item.gmenu-logout:hover { background: rgba(163,72,81,0.12); color: var(--danger); }
+
+@media (max-width: 600px) {
+  .gmenu-toggle-label { display: none; }
+  .gmenu-toggle { padding: 8px 10px; }
+  .gmenu-panel { right: -12px; min-width: 220px; }
+}
+
+/* ── LIGHT THEME ─────────────────────────────── */
+/* Applied by setting data-theme="light" on <html> (see assets/js/theme.js).
+   Same technical/cyberpunk identity, same green accent, just inverted for
+   a bright surface -- every component below already reads these tokens via
+   var(), so this block is the entire light theme; no component CSS above
+   needed to change except the handful of places that used to hardcode a
+   literal color instead of a token (see patch_style_theme_vars.py /
+   patch_style_report_headings.py). --accent and --accent-ink are
+   deliberately unchanged: the green brand color and "text on a solid green
+   fill" both already read fine on a light surface. */
+:root[data-theme="light"] {
+  --bg:          #F3F7F4;
+  --surface:     #FFFFFF;
+  --surface2:    #EAF1EC;
+  --border:      #D6E2D9;
+  --border2:     #C1D3C6;
+  --accent:      #046E3B;
+  --accent2:     #0B3B22;
+  --accent-ink:  #F8E7C9;
+  --text-strong: #10201A;
+  /* Light-theme values for the surface tokens added in patch_style_surface_tokens.py.
+     --navbar-bg-rgb and --card-bg-rgb/--card-bg match --surface (pure
+     white) so the navbar and the six pages' main content cards sit on the
+     same primary-card surface as every other card in the light theme;
+     --panel-bg-rgb matches --surface2's light green tint so the smaller
+     inset panels that use it (chat footers, example boxes, etc.) read as
+     a visually distinct, slightly recessed layer inside those cards --
+     the same relationship --surface/--surface2 already have everywhere
+     else. */
+  --navbar-bg-rgb: 255, 255, 255;
+  --card-bg-rgb: 255, 255, 255;
+  --card-bg: rgba(255, 255, 255, 0.92);
+  --panel-bg-rgb: 234, 241, 236;
+  --success:     #046E3B;
+  --warn:        #8A5A1E;
+  --danger:      #8B3A42;
+  --text:        #1C2B22;
+  --text-muted:  #5B6E62;
+}
+
+/* ── THEME TOGGLE BUTTON ─────────────────────── */
+.theme-toggle-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px;
+  font-size: 15px; line-height: 1;
+  background: var(--surface2); border: 1px solid var(--border2);
+  color: var(--text); cursor: pointer; transition: all var(--transition);
+}
+.theme-toggle-btn:hover { border-color: var(--accent); box-shadow: 0 0 10px rgba(4,110,59,0.3); }

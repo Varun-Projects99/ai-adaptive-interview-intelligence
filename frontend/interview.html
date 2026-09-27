@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>(function(){try{var t=localStorage.getItem('iq_theme');if(t==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>InterviewIQ — Live Interview</title>
@@ -174,6 +175,7 @@ body { overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
   100% { transform: scale(1.1); box-shadow: 0 0 15px rgba(255,176,32,0.4); }
 }
 </style>
+<script src="/assets/js/theme.js" defer></script>
 </head>
 <body>
 
@@ -235,6 +237,40 @@ body { overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
   </div>
 </div>
 
+<!-- PRE-INTERVIEW ENVIRONMENT GUIDANCE (new: shown once, after consent, before the first question) -->
+<div class="overlay" id="env-guidance-overlay" style="z-index: 998; display: none;">
+  <div class="fb-card" style="max-width: 480px; width: 90%; background: var(--surface); border: 2px solid var(--accent); padding: 28px; border-radius: 8px; box-shadow: 0 8px 32px rgba(0,0,0,0.5);">
+    <div style="text-align: center; margin-bottom: 20px;">
+      <span style="font-size: 36px;">🎥</span>
+      <h2 style="font-family: var(--fh); font-size: 22px; font-weight: 800; color: var(--text); margin-top: 10px; margin-bottom: 4px;">BEFORE YOU BEGIN</h2>
+      <div style="font-family: var(--fm); font-size: 10px; letter-spacing: 0.1em; color: var(--accent); text-transform: uppercase;">Recommended Environment</div>
+    </div>
+
+    <div class="flex-col gap-12" style="background: var(--surface2); border: 1px solid var(--border); padding: 16px; border-radius: 6px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 12px;">
+      <div style="display:flex; gap:10px; align-items:flex-start;">
+        <span>💡</span>
+        <div style="font-size: 13px; color: var(--text-muted);">Sit somewhere well-lit, ideally facing a light source rather than a window behind you.</div>
+      </div>
+      <div style="display:flex; gap:10px; align-items:flex-start;">
+        <span>🧍</span>
+        <div style="font-size: 13px; color: var(--text-muted);">Center your face in the camera frame, at a comfortable arm's-length distance.</div>
+      </div>
+      <div style="display:flex; gap:10px; align-items:flex-start;">
+        <span>🙂</span>
+        <div style="font-size: 13px; color: var(--text-muted);">Make sure only you are visible in frame, with no phones or other screens nearby.</div>
+      </div>
+      <div style="display:flex; gap:10px; align-items:flex-start;">
+        <span>🖥️</span>
+        <div style="font-size: 13px; color: var(--text-muted);">We recommend fullscreen for the smoothest experience -- continuing below will request it.</div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" id="env-guidance-continue-btn" style="width: 100%; padding: 14px; font-weight: 700;" onclick="proceedFromEnvironmentGuidance()">
+      Continue to Interview
+    </button>
+  </div>
+</div>
+
 <!-- TOPBAR -->
 <div class="topbar">
   <div class="tb-logo">
@@ -254,6 +290,15 @@ body { overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
     </div>
     <div class="vbadge" id="vbadge-win">
       <div class="vbadge-dot" id="vdot-win"></div>WIN
+    </div>
+    <div class="vbadge" id="vbadge-multi">
+      <div class="vbadge-dot" id="vdot-multi"></div>MULTI
+    </div>
+    <div class="vbadge" id="vbadge-phone">
+      <div class="vbadge-dot" id="vdot-phone"></div>PHONE
+    </div>
+    <div class="vbadge" id="vbadge-full">
+      <div class="vbadge-dot" id="vdot-full"></div>FULL
     </div>
   </div>
 </div>
@@ -340,6 +385,7 @@ body { overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
           <div class="spinner" style="border-top-color:#000"></div>
         </button>
         <button class="btn-skip" onclick="skipQuestion()">Skip</button>
+        <button class="btn-skip" onclick="requestEndInterview()">End Interview</button>
       </div>
 
     </div>
@@ -353,6 +399,7 @@ body { overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
       <video id="webcam" autoplay muted playsinline></video>
       <div class="cam-face-status ok" id="cam-face">● FACE OK</div>
       <div class="cam-emotion emotion-badge neutral" id="cam-emotion">NEUTRAL</div>
+      <div class="cam-quality" id="cam-quality"></div>
     </div>
 
     <!-- Live performance meters -->
@@ -407,7 +454,19 @@ body { overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
 
 <div class="integrity-item viol-row" id="window-move-count">
   Window Move 0 / 3
-</div>  
+</div>
+
+<div class="integrity-item viol-row" id="multiple-faces-count">
+  Multiple Faces 0 / 3
+</div>
+
+<div class="integrity-item viol-row" id="phone-detected-count">
+  Phone Detected 0 / 3
+</div>
+
+<div class="integrity-item viol-row" id="fullscreen-exit-count">
+  Fullscreen Exit 0 / 3
+</div>
       </div>
     </div>
 
@@ -484,6 +543,24 @@ body { overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
     You exceeded 3 integrity violations. The session has been automatically ended.
   </div>
   <button class="btn btn-danger" onclick="goToReport()">View Final Report</button>
+</div>
+
+<!-- END INTERVIEW CONFIRMATION -->
+<div class="overlay" id="end-confirm-overlay">
+  <div class="fb-card" style="max-width: 420px; width: 90%; text-align: center; gap: 18px">
+    <div style="font-size: 36px">⚠️</div>
+    <div class="font-heading" style="font-size: 19px; font-weight: 700">
+      Are you sure you want to end the interview?
+    </div>
+    <div class="text-muted" style="font-size: 13px; line-height: 1.6">
+      Your progress so far will be evaluated and a report generated, but any
+      remaining questions will not be asked.
+    </div>
+    <div style="display:flex; gap:10px">
+      <button class="btn btn-outline" style="flex:1" onclick="closeEndConfirm()">Continue Interview</button>
+      <button class="btn btn-danger" style="flex:1" onclick="confirmEndInterview()">End Interview</button>
+    </div>
+  </div>
 </div>
 
 <!-- WARN BANNER (integrity violations) -->

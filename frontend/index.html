@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>(function(){try{var t=localStorage.getItem('iq_theme');if(t==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>InterviewIQ — Upload Resume</title>
 <link rel="stylesheet" href="/assets/css/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="/assets/js/global-menu.js" defer></script>
+<script src="/assets/js/theme.js" defer></script>
 </head>
 <body>
 
@@ -173,6 +176,14 @@
 <script>
 let selectedFile = null;
 let resumeParsed = false;
+
+// This page always starts a brand-new interview. Session.id is backed by
+// localStorage (see assets/js/session.js), so a session_id left over from
+// a previous interview/practice run would otherwise get reused here even
+// though it no longer exists on the server - making analyzeResumeFile()
+// below upload against a dead session and fail with "Session not found".
+// Clearing it on load guarantees a fresh /api/session/start call.
+Session.clear();
 
 function handleDrop(e) {
   e.preventDefault();

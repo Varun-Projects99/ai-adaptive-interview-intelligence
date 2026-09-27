@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>(function(){try{var t=localStorage.getItem('iq_theme');if(t==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InterviewIQ — Recruiter Portal</title>
@@ -464,6 +465,8 @@
             color: var(--text-muted);
         }
     </style>
+<script src="/assets/js/global-menu.js" defer></script>
+<script src="/assets/js/theme.js" defer></script>
 </head>
 <body class="grid-bg">
 
@@ -494,6 +497,7 @@
             <button class="tab-btn" onclick="switchTab('interviews')">Assessments</button>
             <button class="tab-btn" onclick="switchTab('invitations')">Invitations</button>
             <button class="tab-btn" onclick="switchTab('candidates')">Candidates Directory</button>
+            <button class="tab-btn" onclick="switchTab('live')">Live Sessions</button>
             <button class="tab-btn" onclick="switchTab('integrity')">Integrity Review</button>
             <button class="tab-btn" onclick="switchTab('audit')">Audit logs</button>
         </div>
@@ -730,6 +734,20 @@
             </div>
         </div>
 
+        <!-- ── LIVE SESSIONS TAB ── -->
+        <div id="tab-live" class="tab-content">
+            <div class="section-card">
+                <h2>Live Interview Sessions</h2>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:16px;">
+                    Real-time stats and integrity signals for interviews currently in progress
+                    (question index, running scores, latest emotion, violations). This polls
+                    session state every few seconds -- it is not a live webcam/audio feed.
+                </p>
+                <div id="live-sessions-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:16px;"></div>
+                <p id="live-sessions-empty" style="color:var(--text-muted); font-size:13px; display:none;">No active interview sessions right now.</p>
+            </div>
+        </div>
+
         <!-- ── INTEGRITY LOGS TAB ── -->
         <div id="tab-integrity" class="tab-content">
             <div class="section-card">
@@ -856,18 +874,23 @@
         function switchTab(tabId) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            
+
             const targetBtn = Array.from(document.querySelectorAll('.tab-btn')).find(btn => btn.innerText.toLowerCase().includes(tabId.split('-')[0]));
             if (targetBtn) targetBtn.classList.add('active');
-            
+
             const targetContent = document.getElementById(`tab-${tabId}`);
             if (targetContent) targetContent.classList.add('active');
+
+            // Live Sessions polls on an interval -- stop it whenever we
+            // navigate away so it doesn't keep hitting the API in the background.
+            stopLiveSessionsPolling();
 
             // Fetch tab specific data
             if (tabId === 'dashboard') loadDashboardData();
             else if (tabId === 'interviews') loadInterviewsTab();
             else if (tabId === 'invitations') loadInvitationsTab();
             else if (tabId === 'candidates') fetchCandidates();
+            else if (tabId === 'live') startLiveSessionsPolling();
             else if (tabId === 'integrity') fetchIntegrityLogs();
             else if (tabId === 'audit') fetchAuditLogs();
         }
@@ -1269,8 +1292,16 @@
                             <td>${h.date}</td>
                             <td>${h.score}%</td>
                             <td><span class="badge ${h.integrity_status === 'Normal' ? 'normal' : 'warning'}">${h.integrity_status}</span></td>
-                            <td>
+                            <td style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
                                 <button class="btn-secondary" style="padding:4px 8px; font-size:11px;" onclick="window.location.href='/report?session_id=${h.session_id}'">Report</button>
+                                <select class="form-control" style="padding:4px 6px; font-size:11px; width:auto;"
+                                        onchange="setInterviewOutcome('${h.session_id}', this.value)">
+                                    <option value="" ${!h.human_outcome ? 'selected' : ''} disabled>Outcome…</option>
+                                    <option value="advanced" ${h.human_outcome && h.human_outcome.outcome === 'advanced' ? 'selected' : ''}>Advanced</option>
+                                    <option value="hired" ${h.human_outcome && h.human_outcome.outcome === 'hired' ? 'selected' : ''}>Hired</option>
+                                    <option value="rejected" ${h.human_outcome && h.human_outcome.outcome === 'rejected' ? 'selected' : ''}>Rejected</option>
+                                    <option value="no_decision" ${h.human_outcome && h.human_outcome.outcome === 'no_decision' ? 'selected' : ''}>No Decision</option>
+                                </select>
                             </td>
                         </tr>
                     `).join("");
@@ -1279,6 +1310,89 @@
                 openModal("profile-modal");
             } catch (e) {
                 alert("Failed to load profile.");
+            }
+        }
+
+        // ── LIVE SESSIONS (point-in-time stats/integrity polling -- see
+        //    /api/recruiter/live-sessions in app.py. Not a webcam/audio
+        //    relay: that would need WebRTC signaling this project doesn't
+        //    have, so this is deliberately scoped to session state only.) ──
+        let liveSessionsPollInterval = null;
+
+        function startLiveSessionsPolling() {
+            fetchLiveSessions();
+            stopLiveSessionsPolling();
+            liveSessionsPollInterval = setInterval(fetchLiveSessions, 5000);
+        }
+
+        function stopLiveSessionsPolling() {
+            if (liveSessionsPollInterval) {
+                clearInterval(liveSessionsPollInterval);
+                liveSessionsPollInterval = null;
+            }
+        }
+
+        async function fetchLiveSessions() {
+            const grid = document.getElementById("live-sessions-grid");
+            const empty = document.getElementById("live-sessions-empty");
+            if (!grid || !empty) return;
+
+            try {
+                const res = await fetch("/api/recruiter/live-sessions");
+                const data = await res.json();
+                const list = data.sessions || [];
+
+                if (list.length === 0) {
+                    grid.innerHTML = "";
+                    empty.style.display = "block";
+                    return;
+                }
+                empty.style.display = "none";
+
+                grid.innerHTML = list.map(s => {
+                    const violCount = (s.violations && s.violations.total) || 0;
+                    return `
+                    <div class="section-card" style="padding:16px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                            <strong style="font-size:13px;">${s.candidate_name}</strong>
+                            ${s.is_practice ? '<span class="skill-chip">Practice</span>' : ''}
+                        </div>
+                        <div style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">${s.candidate_email || ''}</div>
+                        <div style="font-size:12px; margin-bottom:4px;">
+                            Question ${s.current_index + 1} / ${s.total_questions || '—'} · ${(s.current_difficulty || 'easy').toUpperCase()}
+                        </div>
+                        ${s.round_progress ? `<div style="font-size:11px; color:var(--accent2); margin-bottom:6px;">${s.round_progress}</div>` : ''}
+                        <div style="display:flex; gap:14px; font-size:12px; margin:8px 0; flex-wrap:wrap;">
+                            <span>Tech: ${s.avg_technical_score !== null && s.avg_technical_score !== undefined ? s.avg_technical_score + '%' : '—'}</span>
+                            <span>Voice: ${s.latest_voice_score !== null && s.latest_voice_score !== undefined ? s.latest_voice_score + '%' : '—'}</span>
+                            <span>Emotion: ${s.latest_emotion || '—'}</span>
+                        </div>
+                        <div style="font-size:11px; color:${violCount > 0 ? 'var(--danger)' : 'var(--text-muted)'};">
+                            Integrity violations: ${violCount}
+                        </div>
+                    </div>
+                `; }).join("");
+            } catch (e) {
+                console.error("[LiveSessions]", e);
+            }
+        }
+
+        // ── OUTCOME LOGGING (real hiring-decision data -- see
+        //    backend/modules/outcome_model.py) ──
+        async function setInterviewOutcome(sessionId, outcome) {
+            if (!outcome) return;
+            try {
+                const res = await fetch(`/api/recruiter/interviews/${sessionId}/outcome`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ outcome })
+                });
+                if (!res.ok) {
+                    const err = await res.json().catch(() => ({}));
+                    throw new Error(err.error || `HTTP ${res.status}`);
+                }
+            } catch (e) {
+                alert("Failed to record outcome: " + e.message);
             }
         }
 

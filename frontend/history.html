@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>(function(){try{var t=localStorage.getItem('iq_theme');if(t==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InterviewIQ — Performance History</title>
@@ -205,6 +206,8 @@
             margin-bottom: 24px;
         }
     </style>
+<script src="/assets/js/global-menu.js" defer></script>
+<script src="/assets/js/theme.js" defer></script>
 </head>
 <body class="grid-bg">
 
@@ -246,6 +249,26 @@
             </div>
         </div>
 
+        <!-- CONTINUE PRACTICE -->
+        <div class="history-card" style="margin-bottom: 24px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px;">
+            <div class="corner corner-tl"></div>
+            <div class="corner corner-br"></div>
+            <div>
+                <div class="section-title" style="margin-bottom: 6px;">Continue Your Preparation</div>
+                <p style="color: var(--text-muted); font-size: 13px; margin: 0;">
+                    Start a practice session on your weak areas, or a full re-interview, based on your stored performance history.
+                </p>
+            </div>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                <button class="btn btn-primary" onclick="startPracticeSession()" style="padding: 8px 16px; font-size:12px;">
+                    🎯 Practice Weak Areas
+                </button>
+                <button class="btn btn-outline" onclick="startReInterview()" style="padding: 8px 16px; font-size:12px;">
+                    🔄 Start Re-Interview
+                </button>
+            </div>
+        </div>
+
         <!-- MAIN CARD LIST -->
         <div class="history-card">
             <div class="corner corner-tl"></div>
@@ -267,6 +290,21 @@
     <div style="position:fixed;width:800px;height:800px;pointer-events:none;
                 background:radial-gradient(circle,rgba(4,110,59,.03) 0%,transparent 70%);
                 top:50%;left:50%;transform:translate(-50%,-50%);z-index:0"></div>
+
+    <!-- Interview Recording Replay Modal -->
+    <div class="overlay" id="recording-modal">
+        <div class="fb-card" style="max-width:720px; width:92%;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="font-heading" style="font-size:16px; font-weight:700; color:var(--text);">Interview Recording</div>
+                <button class="btn btn-outline" style="padding:4px 12px; font-size:11px;" onclick="closeRecordingModal()">✕ Close</button>
+            </div>
+            <video id="recording-video" controls style="width:100%; max-height:60vh; background:#000; border-radius:4px;"></video>
+            <div id="recording-error" style="display:none; text-align:center; padding:32px 0; color:var(--text-muted); font-size:13px;">
+                No recording is available for this session. It may not have been saved (recording consent declined,
+                or -- on a serverless deployment -- temporary storage was cleared between requests).
+            </div>
+        </div>
+    </div>
 
     <script src="/assets/js/session.js"></script>
     <script>
@@ -338,10 +376,14 @@
                             <span class="label">Readiness</span>
                             <span class="val" style="color:${indexColor}">${s.readiness_index}%</span>
                         </div>
-                        <div>
-                            <button class="btn btn-outline" style="padding: 8px 16px; font-size: 11px; width: 100%;" 
+                        <div style="display:flex; flex-direction:column; gap:6px;">
+                            <button class="btn btn-outline" style="padding: 8px 16px; font-size: 11px; width: 100%;"
                                     onclick="viewReport('${s.session_id}')">
                                 📊 View Report
+                            </button>
+                            <button class="btn btn-outline" style="padding: 8px 16px; font-size: 11px; width: 100%;"
+                                    onclick="openRecording('${s.session_id}')">
+                                🎥 Replay
                             </button>
                         </div>
                     `;
@@ -354,6 +396,40 @@
                         Error querying performance database: ${e.message}
                     </div>
                 `;
+            }
+        }
+
+        async function startPracticeSession() {
+            showToast("Initializing personalized practice loop...", "ok");
+            try {
+                const res = await apiPost("/api/practice/start");
+                localStorage.setItem("session_id", res.session_id);
+                localStorage.setItem("session_skills", JSON.stringify(res.skills_detected));
+                localStorage.setItem("session_total", String(res.total_questions));
+
+                showToast("Practice session configured. Launching...", "ok");
+                setTimeout(() => {
+                    window.location.href = "/interview";
+                }, 1000);
+            } catch (e) {
+                showToast("Failed to start practice: " + e.message, "err");
+            }
+        }
+
+        async function startReInterview() {
+            showToast("Structuring re-interview matching your weak skills...", "ok");
+            try {
+                const res = await apiPost("/api/practice/reinterview");
+                localStorage.setItem("session_id", res.session_id);
+                localStorage.setItem("session_skills", JSON.stringify(res.skills_detected));
+                localStorage.setItem("session_total", String(res.total_questions));
+
+                showToast("Re-interview configured. Redirecting...", "ok");
+                setTimeout(() => {
+                    window.location.href = "/interview";
+                }, 1000);
+            } catch (e) {
+                showToast("Failed to start re-interview: " + e.message, "err");
             }
         }
 
@@ -370,6 +446,39 @@
 
         function viewReport(sid) {
             window.location.href = `/report?session_id=${sid}`;
+        }
+
+        /* ── RECORDING REPLAY ──────────────────────────
+           Reuses the existing, ownership-checked /api/recording/download/<sid>
+           endpoint (already used for the download flow) as a <video> source
+           instead of a file download. If no recording was saved for that
+           session (declined consent, save failure, or ephemeral storage on a
+           serverless deploy already cleared it), the video's error event
+           swaps in a plain, honest explanation rather than a broken player. */
+        function openRecording(sid) {
+            const modal = document.getElementById("recording-modal");
+            const video = document.getElementById("recording-video");
+            const errBox = document.getElementById("recording-error");
+
+            errBox.style.display = "none";
+            video.style.display = "block";
+            video.src = `/api/recording/download/${sid}`;
+            video.onerror = () => {
+                video.style.display = "none";
+                errBox.style.display = "block";
+            };
+
+            modal.classList.add("show");
+            video.play().catch(() => {}); // autoplay may be blocked; controls remain usable
+        }
+
+        function closeRecordingModal() {
+            const modal = document.getElementById("recording-modal");
+            const video = document.getElementById("recording-video");
+            video.pause();
+            video.removeAttribute("src");
+            video.load();
+            modal.classList.remove("show");
         }
     </script>
 </body>

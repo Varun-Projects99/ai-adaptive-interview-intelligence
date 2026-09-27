@@ -38,4 +38,19 @@ def generate_followup_simple(answer):
     if not answer:
         return "Can you elaborate your answer?"
 
-    return f"Can you explain more about: {answer[:60]}?"
+    text = answer.strip()
+    max_len = 60
+
+    if len(text) <= max_len:
+        snippet = text.rstrip(" ,.;:-")
+    else:
+        truncated = text[:max_len]
+        # Back off to the last whole word so we never chop mid-word or
+        # leave a dangling comma right before the appended "?" (e.g. the
+        # old code produced "...because,?").
+        last_space = truncated.rfind(" ")
+        if last_space > 20:
+            truncated = truncated[:last_space]
+        snippet = truncated.rstrip(" ,.;:-") + "..."
+
+    return f"Can you explain more about: {snippet}?"

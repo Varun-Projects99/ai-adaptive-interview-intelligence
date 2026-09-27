@@ -148,6 +148,58 @@ function renderTimeoutError() {
     </div>`;
 }
 
+// Human-readable labels for every integrity_events[].type this project
+// actually emits (see backend/modules/integrity_config.py STATE_* / the
+// STRIKE_ELIGIBLE_VIOLATION_TYPES set it defines, and app.py's
+// /api/integrity/violation route, which uses these same uppercase names).
+// Anything not in this map still renders (title-cased fallback) instead of
+// silently disappearing, so a future new event type is never invisible.
+const INTEGRITY_EVENT_LABELS = {
+  TAB_SWITCH: "Tab Switch",
+  CAMERA_EXIT: "Camera Exit",
+  WINDOW_MOVE: "Window Move",
+  MULTIPLE_FACES: "Multiple Faces",
+  PHONE_DETECTED: "Phone Detected",
+  FULLSCREEN_EXIT: "Fullscreen Exit",
+  LOW_LIGHT: "Low Light",
+  SEVERE_LOW_LIGHT: "Severe Low Light",
+  BLURRY_IMAGE: "Blurry Camera Image",
+  FACE_TOO_FAR: "Face Too Far",
+  FACE_TOO_CLOSE: "Face Too Close",
+  FACE_PARTIALLY_VISIBLE: "Face Partially Visible",
+  FACE_OUT_OF_FRAME: "Face Out Of Frame",
+  HEAD_LEFT: "Looked Left",
+  HEAD_RIGHT: "Looked Right",
+  HEAD_UP: "Looked Up",
+  HEAD_DOWN: "Looked Down",
+};
+
+// These are the ONLY event types that ever count toward the 3-strike
+// termination rule (mirrors backend/modules/integrity_config.py's
+// STRIKE_ELIGIBLE_VIOLATION_TYPES exactly) -- everything else is shown as
+// an informational warning, never as a strike, no matter its severity.
+const STRIKE_ELIGIBLE_EVENT_TYPES = new Set([
+  "TAB_SWITCH", "CAMERA_EXIT", "WINDOW_MOVE", "MULTIPLE_FACES",
+  "PHONE_DETECTED", "FULLSCREEN_EXIT",
+]);
+
+function humanEventLabel(type) {
+  if (!type) return "Unknown Event";
+  if (INTEGRITY_EVENT_LABELS[type]) return INTEGRITY_EVENT_LABELS[type];
+  return String(type).toLowerCase().split("_").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+}
+
+function fmtEventTime(ts) {
+  if (ts === null || ts === undefined) return "--";
+  try {
+    const d2 = new Date(ts * 1000);
+    if (isNaN(d2.getTime())) return "--";
+    return d2.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  } catch (e) {
+    return "--";
+  }
+}
+
 function renderReport(d) {
   const scores  = d.scores   || {};
   const summary = d.summary  || {};
@@ -156,6 +208,13 @@ function renderReport(d) {
   const emots   = d.emotion_breakdown || {};
   const viols   = summary.violations || {};
   const prog    = summary.difficulty_progression || [];
+  // Authoritative integrity fields (backend/modules/evaluator.py) -- the
+  // Integrity Summary below reads THESE, never a frontend recomputation
+  // from the per-type counters, so it can never contradict the actual
+  // termination decision the server already made.
+  const integrityEvents = (summary.integrity_events || []).slice().sort((a, b) => (a.timestamp||0) - (b.timestamp||0));
+  const strikeCount     = summary.strike_count !== undefined ? summary.strike_count : (viols.total || 0);
+  const autoTerminated  = summary.auto_terminated === true && summary.termination_reason === "integrity_strike_limit" && strikeCount >= 3;
 
   const tScore  = scores.technical  || 0;
   const cScore  = scores.confidence || 0;
@@ -183,6 +242,14 @@ function renderReport(d) {
         display:flex;align-items:center;gap:12px;margin-bottom:12px;border-radius:8px">
         <span style="font-size:20px">🚫</span>
         <span>This interview was <strong>terminated</strong> due to repeated integrity violations.</span>
+      </div>` : ""}
+
+      ${d.ended_early ? `
+      <div style="background:rgba(255,176,32,.08);border:1px solid rgba(255,176,32,.4);
+        padding:14px 20px;color:var(--warn);font-size:14px;
+        display:flex;align-items:center;gap:12px;margin-bottom:12px;border-radius:8px">
+        <span style="font-size:20px">ℹ️</span>
+        <span>This interview was <strong>ended early by the candidate</strong> before all questions were asked. Results below reflect only the questions actually answered.</span>
       </div>` : ""}
 
       <!-- HERO HEADER -->
@@ -287,6 +354,33 @@ function renderReport(d) {
           </div>
         </div>
       </div>
+
+      ${(d.round_scores && d.round_scores.length) ? `
+      <!-- ROUND BREAKDOWN (multi-round interviews only -- see
+           backend/modules/round_manager.py. Empty/absent for an ordinary
+           single-round interview, so this card simply doesn't render then. -->
+      <div class="detail-card" style="margin-top: 10px">
+        <h3 class="card-title">Round Breakdown</h3>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:14px; margin-top:12px">
+          ${d.round_scores.map(r => `
+            <div class="metric-item" style="padding:14px">
+              <div class="metric-header">
+                <span class="metric-icon">${r.round === 'hr' ? '🗣️' : r.round === 'coding' ? '💻' : '🧩'}</span>
+                <span class="metric-title">${r.label || r.round}</span>
+              </div>
+              <div class="metric-body">
+                <div class="score-display">
+                  <span class="score-num">${r.avg_score}%</span>
+                  <span class="score-status ${scoreClass(r.avg_score)}">${r.questions_answered} question${r.questions_answered === 1 ? '' : 's'}</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-bar-fill ${scoreClass(r.avg_score)}" style="width:${r.avg_score}%"></div>
+                </div>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      </div>` : ""}
 
       <!-- SKILLS & CANDIDATE INTELLIGENCE MAP -->
       <div class="detail-card" style="margin-top: 10px">
@@ -453,6 +547,10 @@ function renderReport(d) {
           <!-- Integrity Monitor -->
           <div class="detail-card">
             <h3 class="card-title">Integrity Summary</h3>
+            <div class="integrity-strike-total ${autoTerminated ? 'strike-total-red' : strikeCount > 0 ? 'strike-total-yellow' : 'strike-total-green'}">
+              <span class="strike-total-label">Integrity Strikes</span>
+              <span class="strike-total-value">${strikeCount} / 3</span>
+            </div>
             <div class="integrity-grid">
               <div class="integrity-stat ${(viols.tab_switch||0)>0 ? 'viol-warning' : 'viol-ok'}">
                 <span class="stat-count">${viols.tab_switch||0}</span>
@@ -466,14 +564,59 @@ function renderReport(d) {
                 <span class="stat-count">${viols.window_move||0}</span>
                 <span class="stat-desc">Window Moves</span>
               </div>
+              <div class="integrity-stat ${(viols.multiple_faces||0)>0 ? 'viol-warning' : 'viol-ok'}">
+                <span class="stat-count">${viols.multiple_faces||0}</span>
+                <span class="stat-desc">Multiple Faces</span>
+              </div>
+              <div class="integrity-stat ${(viols.phone_detected||0)>0 ? 'viol-warning' : 'viol-ok'}">
+                <span class="stat-count">${viols.phone_detected||0}</span>
+                <span class="stat-desc">Phone Detection</span>
+              </div>
+              <div class="integrity-stat ${(viols.fullscreen_exit||0)>0 ? 'viol-warning' : 'viol-ok'}">
+                <span class="stat-count">${viols.fullscreen_exit||0}</span>
+                <span class="stat-desc">Fullscreen Exits</span>
+              </div>
             </div>
-            <div class="integrity-status-banner ${d.terminated ? 'banner-red' : (viols.tab_switch || viols.camera_exit || viols.window_move) ? 'banner-yellow' : 'banner-green'}">
-              ${d.terminated
-                ? '⚠️ Session auto-terminated due to multiple strikes.'
-                : (viols.tab_switch || viols.camera_exit || viols.window_move)
-                  ? '⚠️ Disruptions or tab focus switches detected during evaluation.'
-                  : '✓ Full Compliance: Excellent focus and webcam integrity maintained.'}
+            <div class="integrity-status-banner ${autoTerminated ? 'banner-red' : strikeCount > 0 ? 'banner-yellow' : 'banner-green'}">
+              ${autoTerminated
+                ? '⚠️ Session auto-terminated: the integrity strike limit (3/3) was reached.'
+                : strikeCount > 0
+                  ? `⚠️ ${strikeCount} integrity strike${strikeCount === 1 ? '' : 's'} recorded during this interview. This is not proof of any wrongdoing -- review the counts and timeline for context.`
+                  : d.ended_early
+                    ? 'ℹ️ Interview ended early by the candidate. No integrity strikes were recorded.'
+                    : '✓ Full Compliance: Excellent focus and webcam integrity maintained.'}
             </div>
+            ${autoTerminated ? `
+            <div class="integrity-termination-box">
+              <div class="termination-title">🚫 AUTO-TERMINATED</div>
+              <div class="termination-row"><span>Reason</span><span>Integrity strike limit reached</span></div>
+              <div class="termination-row"><span>Strikes</span><span>${strikeCount} / 3</span></div>
+              <div class="termination-row"><span>Trigger</span><span>${humanEventLabel((summary.termination_trigger_event||'').toUpperCase())}</span></div>
+              <div class="termination-row"><span>Time</span><span>${summary.termination_time ? new Date(summary.termination_time).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" }) : '--'}</span></div>
+            </div>` : ''}
+          </div>
+
+          <!-- Integrity Event Timeline -->
+          <div class="detail-card">
+            <h3 class="card-title">Integrity Event Timeline</h3>
+            ${integrityEvents.length ? `
+            <div class="integrity-timeline">
+              ${integrityEvents.map(ev => {
+                const isStrike = STRIKE_ELIGIBLE_EVENT_TYPES.has(ev.type) && (ev.details && ev.details.strike_number);
+                return `
+                <div class="timeline-event ${isStrike ? 'timeline-strike' : 'timeline-warning'}">
+                  <div class="timeline-event-main">
+                    <span class="timeline-event-name">${humanEventLabel(ev.type)}</span>
+                    <span class="timeline-event-badge ${isStrike ? 'badge-strike' : 'badge-warning'}">${isStrike ? `Strike ${ev.details.strike_number}` : 'Warning (no strike)'}</span>
+                  </div>
+                  <div class="timeline-event-meta">
+                    <span>${fmtEventTime(ev.timestamp)}</span>
+                    ${ev.duration_sec !== null && ev.duration_sec !== undefined ? `<span>${ev.duration_sec}s</span>` : ''}
+                    ${ev.confidence !== null && ev.confidence !== undefined ? `<span>Confidence: ${(ev.confidence*100).toFixed(0)}%</span>` : ''}
+                  </div>
+                </div>`;
+              }).join("")}
+            </div>` : `<div class="empty-state">No integrity events were recorded during this interview.</div>`}
           </div>
 
           <!-- Recommendations -->
@@ -502,6 +645,8 @@ function renderReport(d) {
                   <span class="arc-num" style="font-weight: 700; color: var(--accent2)">Question ${i+1}</span>
                   <span class="arc-difficulty ${a.difficulty||'easy'}" style="margin-left: 8px">${(a.difficulty||"easy").toUpperCase()}</span>
                   <span class="chip accent" style="margin-left: 8px; scale: 0.85">${a.skill || 'General'}</span>
+                  ${(a.response_latency_seconds !== null && a.response_latency_seconds !== undefined) ? `
+                  <span style="margin-left: 8px; font-size: 11px; color: var(--text-muted)" title="Time from question shown to answer submitted">⏱ ${a.response_latency_seconds}s</span>` : ""}
                 </div>
                 <div class="arc-score">
                   <span class="arc-score-label" style="font-size: 11px; color: var(--text-muted)">Score</span>

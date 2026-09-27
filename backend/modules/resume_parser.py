@@ -41,6 +41,15 @@ KNOWN_SPECIFIC_SKILLS = [
     "DSA", "Data Structures", "Algorithms", "Cybersecurity", "System Design", "Agile"
 ]
 
+# A few KNOWN_SPECIFIC_SKILLS entries double as ordinary English words
+# ("Go", "Rust", "Ruby", "Swift"). Matching these anywhere in free-form
+# prose produces false positives (e.g. "go wrong", "rust on old parts",
+# "Taylor Swift", "ruby ring" - all seen in real testing). For these
+# specific names we only trust an explicit Skills/Technologies section
+# listing (see _extract_skills_from_section) as evidence, never a bare
+# word match anywhere in the document.
+AMBIGUOUS_WORD_SKILLS = {"go", "rust", "ruby", "swift"}
+
 SKILL_TAXONOMY = {
     "Python":           ["python", "django", "flask", "fastapi", "pandas", "numpy", "scipy"],
     "Java":             ["java", "spring", "spring boot", "hibernate", "maven", "gradle", "j2ee"],
@@ -56,7 +65,7 @@ SKILL_TAXONOMY = {
     "React":            ["react", "reactjs", "next.js", "nextjs", "redux", "react native"],
     "DevOps":           ["devops", "ci/cd", "jenkins", "docker", "kubernetes", "ansible", "terraform", "github actions"],
     "AWS":              ["aws", "amazon web services", "ec2", "s3", "rds", "lambda", "iam", "vpc"],
-    "AI/ML":            ["ai", "ml", "artificial intelligence", "machine learning", "deep learning", "neural networks", "pytorch", "tensorflow", "scikit-learn"],
+    "AI/ML":            ["ai", "artificial intelligence", "machine learning", "deep learning", "neural networks", "pytorch", "tensorflow", "scikit-learn"],
     "Cybersecurity":    ["cybersecurity", "penetration testing", "ethical hacking", "cryptography", "kali linux"]
 }
 
@@ -139,9 +148,15 @@ def extract_skills_from_resume(path: str) -> list:
     section_skills = _extract_skills_from_section(raw)
     found.extend(section_skills)
 
-    # 2. Match known specific skills across full document
+    # 2. Match known specific skills across full document.
+    # Ambiguous English-word skill names (see AMBIGUOUS_WORD_SKILLS) are
+    # skipped here - they are only accepted via the explicit Skills-section
+    # extraction in step 1, since a bare word match anywhere in prose is
+    # not reliable evidence for those specific names.
     norm = raw.lower()
     for skill in KNOWN_SPECIFIC_SKILLS:
+        if skill.lower() in AMBIGUOUS_WORD_SKILLS:
+            continue
         pattern = r'(?:\b|_)' + re.escape(skill.lower()) + r'(?:\b|_)'
         if "+" in skill or "." in skill or "&" in skill or "/" in skill:
             pattern = re.escape(skill.lower())
@@ -259,17 +274,36 @@ def _format_skill_name(s: str) -> str:
     known = {
         "python": "Python", "java": "Java", "c++": "C++", "c": "C", "javascript": "JavaScript",
         "js": "JavaScript", "typescript": "TypeScript", "ts": "TypeScript", "sql": "SQL",
-        "react": "React", "react.js": "React.js", "next.js": "Next.js", "vue.js": "Vue.js",
-        "node.js": "Node.js", "express": "Express.js", "express.js": "Express.js", "fastapi": "FastAPI",
+        "react": "React", "react.js": "React.js", "reactjs": "React", "next.js": "Next.js",
+        "nextjs": "Next.js", "vue.js": "Vue.js", "vuejs": "Vue.js",
+        "node.js": "Node.js", "nodejs": "Node.js", "express": "Express.js", "express.js": "Express.js",
+        "expressjs": "Express.js", "fastapi": "FastAPI",
         "flask": "Flask", "mongodb": "MongoDB", "mysql": "MySQL", "postgresql": "PostgreSQL",
         "aws": "AWS", "azure": "Azure", "docker": "Docker", "kubernetes": "Kubernetes",
         "git": "Git", "github": "GitHub", "git & github": "Git & GitHub", "rest api": "REST APIs",
         "rest apis": "REST APIs", "nlp": "NLP", "llm": "LLMs", "llms": "LLMs", "rag": "RAG",
         "ai": "AI/ML", "ml": "Machine Learning", "machine learning": "Machine Learning",
         "dsa": "DSA", "html": "HTML", "css": "CSS", "ci/cd": "CI/CD", "jenkins": "Jenkins",
-        "terraform": "Terraform", "linux": "Linux", "postman": "Postman", "vs code": "VS Code"
+        "terraform": "Terraform", "linux": "Linux", "postman": "Postman", "vs code": "VS Code",
+        "stl": "STL", "opengl": "OpenGL"
     }
-    return known.get(s.lower(), s.strip().title())
+    key = s.strip().lower()
+    if key in known:
+        return known[key]
+
+    # If this string is literally one of our known skill names (just typed
+    # in a different case, e.g. "tensorflow" for "TensorFlow"), return the
+    # canonical casing instead of falling through to a blind .title() call,
+    # which mangles names like TensorFlow/OpenCV/FastAPI/DBMS/GraphQL/GenAI
+    # (e.g. "TensorFlow".title() == "Tensorflow").
+    for canonical in KNOWN_SPECIFIC_SKILLS:
+        if canonical.lower() == key:
+            return canonical
+    for canonical in SKILL_TAXONOMY.keys():
+        if canonical.lower() == key:
+            return canonical
+
+    return s.strip().title()
 
 
 def extract_candidate_name(path: str) -> str:

@@ -15,7 +15,14 @@ import sys
 from dotenv import load_dotenv
 base_dir = os.path.dirname(os.path.abspath(__file__))
 dotenv_path = os.path.join(base_dir, "..", ".env")
-load_dotenv(dotenv_path=dotenv_path)
+# override=True: .env is the authoritative source for these variables.
+# Without this, python-dotenv silently keeps any value already present in
+# the OS/terminal environment (e.g. a stale GROQ_API_KEY set earlier in a
+# long-lived shell, VS Code launch config, or Windows user/system env
+# vars) instead of picking up an updated .env -- which looks exactly like
+# "I changed the key but it's still failing" with no visible cause.
+load_dotenv(dotenv_path=dotenv_path, override=True)
+print(f"[Env] Loaded .env from: {dotenv_path} (exists={os.path.exists(dotenv_path)}, override=True)")
 sys.path.append(os.path.dirname(__file__))
 
 # ── Module imports (graceful fallbacks if a lib is missing) ──────────────────
@@ -174,7 +181,38 @@ except Exception as e:
             ],
         }
 
-from modules.integrity_monitor import check_violation
+from modules.difficulty_engine import initial_difficulty_from_score
+from modules import round_manager
+from modules import outcome_model
+from modules.integrity_config import NEVER_STRIKE_EVENT_TYPES
+
+
+def _next_question_or_advance_round(sess):
+    """
+    Wraps get_next_question(sess) so a multi-round session (see
+    modules/round_manager.py) transparently moves on to its next configured
+    round instead of ending the interview when the current round's pool is
+    exhausted. Returns (next_q, round_transitioned).
+
+    For a non-multi-round session, round_manager.advance_round() is a no-op
+    that always returns None, so next_q stays None and behavior is byte-for-
+    byte identical to before this existed.
+    """
+    next_q = get_next_question(sess)
+    if next_q is not None:
+        return next_q, False
+
+    new_round = round_manager.advance_round(sess)
+    if new_round is None:
+        return None, False
+
+    lang = sess.get("interviewer", {}).get("language", "en")
+    personality = sess.get("interviewer", {}).get("personality", "professional")
+    sess["questions"] = generate_questions(sess["skills"], lang=lang, personality=personality)
+    sess["current_index"] = 0
+    sess["current_difficulty"] = "easy"
+    return get_next_question(sess), True
+
 
 try:
     from modules.advanced_features import get_ai_insights, generate_followup_simple
@@ -199,6 +237,39 @@ try:
     print("[OK] code_executor loaded")
 except Exception as e:
     print(f"[WARN] code_executor: {e}")
+
+try:
+    from modules.ai_assistant import (
+        handle_chat_message as assistant_handle_chat_message,
+        check_rate_limit as assistant_check_rate_limit,
+        AssistantProviderError,
+        MAX_MESSAGE_LENGTH as ASSISTANT_MAX_MESSAGE_LENGTH,
+        clear_conversations_for_user as assistant_clear_conversations_for_user,
+    )
+    print("[OK] ai_assistant loaded")
+except Exception as e:
+    print(f"[WARN] ai_assistant: {e}")
+
+    class AssistantProviderError(Exception):
+        pass
+
+    ASSISTANT_MAX_MESSAGE_LENGTH = 1500
+
+    def assistant_handle_chat_message(user_id, message, conversation_id=None):
+        raise AssistantProviderError("AI Assistant module unavailable")
+
+    def assistant_check_rate_limit(user_id):
+        return True, 0
+
+    def assistant_clear_conversations_for_user(user_id):
+        return 0
+
+try:
+    from modules import settings_manager
+    print("[OK] settings_manager loaded")
+except Exception as e:
+    print(f"[WARN] settings_manager: {e}")
+    settings_manager = None
 
 
 # ── Flask setup ──────────────────────────────────────────────────────────────
@@ -906,6 +977,11 @@ def serve_career():
 def serve_coding():
     return send_from_directory(FRONTEND_DIR, "coding.html")
 
+@app.route("/ai-assistant")
+@login_required
+def serve_ai_assistant():
+    return send_from_directory(FRONTEND_DIR, "assistant.html")
+
 @app.route("/history")
 @login_required
 def serve_history():
@@ -1215,6 +1291,158 @@ def route_logout():
     return redirect("/login")
 
 
+# ── SETTINGS ──────────────────────────────────────────────────────────────
+# Every route below derives the acting user from session["user_id"] (already
+# verified authenticated by @login_required) -- never from the request body
+# or a query parameter -- so one candidate can never read or change another
+# candidate's settings. Preferences are stored on the existing `users`
+# document under a `preferences` sub-object; no new MongoDB collection is
+# created (see modules/settings_manager.py).
+
+@app.route("/settings")
+@login_required
+def serve_settings():
+    return send_from_directory(FRONTEND_DIR, "settings.html")
+
+
+@app.route("/api/settings", methods=["GET"])
+@login_required
+def api_get_settings():
+    if settings_manager is None:
+        return jsonify({"error": "Settings module unavailable."}), 503
+    if db is None:
+        return jsonify({"error": "Database connection unavailable. Please try again later."}), 503
+    try:
+        user_id = session["user_id"]
+        user = db["users"].find_one({"_id": ObjectId(user_id)})
+        if not user:
+            return jsonify({"error": "Account not found."}), 404
+
+        created_at = user.get("created_at")
+        member_since = None
+        if isinstance(created_at, datetime.datetime):
+            member_since = created_at.isoformat() + "Z"
+
+        return jsonify({
+            "profile": {
+                "name": user.get("name", "Candidate"),
+                "email": user.get("email"),
+                "role": user.get("role", "candidate"),
+                "auth_provider": user.get("auth_provider", "local"),
+                "member_since": member_since,
+            },
+            "preferences": settings_manager.get_preferences(user),
+            "ai_status": settings_manager.get_ai_status(),
+            "privacy": {"data_categories": settings_manager.DATA_CATEGORIES},
+            "security": {
+                "auth_provider": user.get("auth_provider", "local"),
+                "role": user.get("role", "candidate"),
+            },
+        })
+    except Exception as e:
+        print(f"[ERROR] Settings fetch failed: {e}")
+        return jsonify({"error": "Could not load settings. Please try again."}), 500
+
+
+@app.route("/api/settings/profile", methods=["PUT"])
+@login_required
+def api_update_profile():
+    if settings_manager is None:
+        return jsonify({"error": "Settings module unavailable."}), 503
+    if db is None:
+        return jsonify({"error": "Database connection unavailable. Please try again later."}), 503
+    data = request.get_json(silent=True) or {}
+    clean, err = settings_manager.validate_profile_update(data)
+    if err:
+        return jsonify({"error": err}), 400
+    try:
+        user_id = session["user_id"]
+        result = db["users"].update_one({"_id": ObjectId(user_id)}, {"$set": clean})
+        if result.matched_count == 0:
+            return jsonify({"error": "Account not found."}), 404
+        session["user_name"] = clean["name"]
+        log_audit("SETTINGS_PROFILE_UPDATED", user_id=user_id)
+        return jsonify({"success": True, "profile": {"name": clean["name"]}})
+    except Exception as e:
+        print(f"[ERROR] Profile update failed: {e}")
+        return jsonify({"error": "Could not update profile. Please try again."}), 500
+
+
+@app.route("/api/settings/preferences", methods=["PUT"])
+@login_required
+def api_update_preferences():
+    if settings_manager is None:
+        return jsonify({"error": "Settings module unavailable."}), 503
+    if db is None:
+        return jsonify({"error": "Database connection unavailable. Please try again later."}), 503
+    data = request.get_json(silent=True) or {}
+    clean, err = settings_manager.validate_preferences_update(data)
+    if err:
+        return jsonify({"error": err}), 400
+    try:
+        user_id = session["user_id"]
+        set_fields = {f"preferences.{k}": v for k, v in clean.items()}
+        result = db["users"].update_one({"_id": ObjectId(user_id)}, {"$set": set_fields})
+        if result.matched_count == 0:
+            return jsonify({"error": "Account not found."}), 404
+        log_audit("SETTINGS_PREFERENCES_UPDATED", user_id=user_id)
+        user = db["users"].find_one({"_id": ObjectId(user_id)})
+        return jsonify({"success": True, "preferences": settings_manager.get_preferences(user)})
+    except Exception as e:
+        print(f"[ERROR] Preferences update failed: {e}")
+        return jsonify({"error": "Could not update preferences. Please try again."}), 500
+
+
+@app.route("/api/settings/ai-assistant/clear", methods=["POST"])
+@login_required
+def api_clear_ai_conversations():
+    try:
+        user_id = session["user_id"]
+        deleted = assistant_clear_conversations_for_user(user_id)
+        log_audit("SETTINGS_AI_CONVERSATIONS_CLEARED", user_id=user_id)
+        return jsonify({"success": True, "deleted": deleted})
+    except Exception as e:
+        print(f"[ERROR] Clearing AI Assistant conversations failed: {e}")
+        return jsonify({"error": "Could not clear conversations. Please try again."}), 500
+
+
+@app.route("/api/settings/account", methods=["DELETE"])
+@login_required
+def api_delete_account():
+    if db is None:
+        return jsonify({"error": "Database connection unavailable. Please try again later."}), 503
+    data = request.get_json(silent=True) or {}
+    if str(data.get("confirm", "")).strip().upper() != "DELETE":
+        return jsonify({"error": 'Type "DELETE" to confirm account deletion.'}), 400
+    try:
+        user_id = session["user_id"]
+        oid = ObjectId(user_id)
+        user = db["users"].find_one({"_id": oid})
+        if not user:
+            return jsonify({"error": "Account not found."}), 404
+
+        # Candidate-owned personal data this account directly controls.
+        # Interview reports/interviews/audit logs already shared with a
+        # recruiter workflow are intentionally retained for record-keeping
+        # (disclosed in the Settings page copy) -- only this account's own
+        # login credentials and directly-owned personal data are removed.
+        db["candidate_profiles"].delete_many({"user_id": user_id})
+        db["learning_progress"].delete_many({"user_id": user_id})
+        db["sessions"].delete_many({"user_id": user_id})
+        try:
+            assistant_clear_conversations_for_user(user_id)
+        except Exception:
+            pass
+        db["users"].delete_one({"_id": oid})
+
+        log_audit("ACCOUNT_DELETED", user_id=user_id)
+        session.clear()
+        return jsonify({"success": True, "message": "Your account has been deleted."})
+    except Exception as e:
+        print(f"[ERROR] Account deletion failed: {e}")
+        return jsonify({"error": "Could not delete account. Please try again."}), 500
+
+
 @app.route("/health")
 def health():
     host = request.headers.get("Host") or "127.0.0.1:5000"
@@ -1280,10 +1508,13 @@ def get_sess(sid):
 
 def new_sess(sid):
     user_id = str(session.get("user_id")) if "user_id" in session else "anonymous"
+    now_iso = datetime.datetime.utcnow().isoformat()
     sess_data = {
         "id": sid,
         "user_id": user_id,
         "status": "active",
+        "created_at": now_iso,
+        "updated_at": now_iso,
         "skills": [],
         "questions": [],
         "current_index": 0,
@@ -1292,7 +1523,19 @@ def new_sess(sid):
         "emotion_timeline": [],
         "voice_scores": [],
         "technical_scores": [],
-        "violations": {"tab_switch": 0, "camera_exit": 0, "window_move": 0, "total": 0},
+        # multiple_faces is tracked distinctly from camera_exit (see
+        # /api/integrity/violation and emotion.js) so the final report and
+        # recruiter view can show "Multiple Person Events" as its own signal
+        # instead of folding it into the generic camera-away count.
+        "violations": {"tab_switch": 0, "camera_exit": 0, "window_move": 0, "multiple_faces": 0, "total": 0},
+        # Structured, additive event log for the Face/Integrity monitoring
+        # subsystem (see modules/integrity_config.py + modules/
+        # emotion_detector.py): every entry has type/severity/confidence/
+        # duration/timestamp. Populated for BOTH warning-tier telemetry
+        # (low light, blur, face position, head pose) and every real strike
+        # (mirrored here too) -- never read for strike decisions itself,
+        # sess["violations"] remains the sole source of truth for that.
+        "integrity_events": [],
         "interviewer": {
             "personality": "professional",
             "language": "en",
@@ -1328,6 +1571,11 @@ def save_accessed_sessions(response):
                 for sid in g.accessed_sessions:
                     sess = sessions.get(sid)
                     if sess:
+                        # Powers the recruiter live-sessions view (see
+                        # /api/recruiter/live-sessions below), which needs to
+                        # tell an actively-progressing session apart from one
+                        # the candidate has abandoned mid-interview.
+                        sess["updated_at"] = datetime.datetime.utcnow().isoformat()
                         db["sessions"].replace_one({"id": sid}, sess, upsert=True)
         except RuntimeError:
             pass
@@ -1524,16 +1772,42 @@ def generate_interview_questions():
     if not sess.get("skills"):
         return jsonify({"error": "Upload resume or select skills first"}), 400
 
+    # Opt-in only (default off): candidate/recruiter explicitly asked for a
+    # full multi-round interview (Technical -> HR by default). This must run
+    # before generate_questions() below so the first round's skill list
+    # (a no-op for "technical") is already in place. Every existing flow that
+    # never sends multi_round=true is completely unaffected.
+    if data.get("multi_round"):
+        round_manager.init_rounds(sess, rounds=data.get("rounds"))
+
     try:
         lang = sess.get("interviewer", {}).get("language", "en")
         personality = sess.get("interviewer", {}).get("personality", "professional")
         questions = generate_questions(sess["skills"], lang=lang, personality=personality)
         num_q = sess.get("num_questions")
+        # Self-practice sessions (no recruiter invitation) may carry the
+        # candidate's own Settings > Interview Preferences as a soft
+        # question-count cap and starting-difficulty seed. Recruiter-
+        # assigned interviews already set num_questions/current_difficulty
+        # explicitly in start_session() above and are never touched here --
+        # "adaptive" (the default) reproduces today's exact prior behavior.
+        starting_difficulty = "easy"
+        if not sess.get("invitation_token") and settings_manager is not None \
+                and "user_id" in session and db is not None:
+            try:
+                pref_user = db["users"].find_one({"_id": ObjectId(session["user_id"])})
+                prefs = settings_manager.get_preferences(pref_user)
+                if not num_q:
+                    num_q = settings_manager.LENGTH_TO_QUESTION_COUNT.get(prefs["interview_length"])
+                starting_difficulty = settings_manager.DIFFICULTY_TO_SEED.get(
+                    prefs["preferred_difficulty"], "easy")
+            except Exception as _pref_err:
+                print(f"[WARN] Could not load interview preferences, using defaults: {_pref_err}")
         if num_q and isinstance(num_q, int):
             questions = questions[:num_q]
         sess["questions"] = questions
         sess["current_index"] = 0
-        sess["current_difficulty"] = "easy"
+        sess["current_difficulty"] = starting_difficulty
         log_audit("INTERVIEW_STARTED", session_id=sid)
         print(f"[Questions] {len(questions)} generated")
         return jsonify(
@@ -1541,6 +1815,7 @@ def generate_interview_questions():
                 "session_id": sid,
                 "total_questions": len(questions),
                 "first_question": questions[0] if questions else None,
+                "round_progress": round_manager.round_progress_label(sess),
             }
         )
     except Exception as e:
@@ -1611,6 +1886,15 @@ def submit_answer():
     if not sess:
         return jsonify({"error": "Invalid session"}), 400
 
+    # Response latency (spec: "how long the candidate takes to begin
+    # answering") -- purely a performance/UX metric surfaced on the report,
+    # never used to adjust scoring or flag anything. Optional and additive:
+    # older frontend builds that don't send it just get None stored.
+    latency_raw = data.get("response_latency_seconds")
+    response_latency = None
+    if isinstance(latency_raw, (int, float)) and latency_raw >= 0:
+        response_latency = int(latency_raw)
+
     # Perform evaluation and next action decision using the AI Interviewer
     if data.get("mock_eval"):
         ev = data.get("mock_eval")
@@ -1656,6 +1940,7 @@ def submit_answer():
             "reasons": reasons_map,
             "strengths": ev.get("strengths", []),
             "improvements": ev.get("improvements", []),
+            "response_latency_seconds": response_latency,
             "timestamp": datetime.datetime.utcnow().isoformat()
         }
     )
@@ -1698,9 +1983,12 @@ def submit_answer():
         "text": ans
     })
 
+    round_transitioned = False
+
     if action == "next_question":
-        # Pull next question from the pre-generated pool
-        next_q = get_next_question(sess)
+        # Pull next question from the pre-generated pool (or, for a
+        # multi-round session, roll into the next configured round first)
+        next_q, round_transitioned = _next_question_or_advance_round(sess)
         if next_q is None:
             action = "finish"
             question_text = "That completes our questions. Thank you for your time."
@@ -1712,7 +2000,7 @@ def submit_answer():
         question_text = ev.get("question", "")
         if not question_text:
             # Fallback if AI forgot to write the question
-            next_q = get_next_question(sess)
+            next_q, round_transitioned = _next_question_or_advance_round(sess)
             if next_q is None:
                 action = "finish"
                 question_text = "Thank you for your response. We have completed the questions."
@@ -1724,6 +2012,9 @@ def submit_answer():
         question_text = "Thank you. That concludes the interview."
         question_skill = "General"
 
+    if round_transitioned:
+        action = "round_complete"
+
     # Save next interviewer question in context if not finish
     if action != "finish":
         full_interviewer_text = (ev.get("transition", "") + " " + question_text).strip()
@@ -1733,8 +2024,16 @@ def submit_answer():
             "text": full_interviewer_text
         })
 
-    # Update difficulty progression based on moving average
-    rt = sess["technical_scores"][-3:]
+    # Update difficulty progression based on moving average. For a multi-round
+    # session, this is windowed to the CURRENT round only (round_started_at_
+    # answer_count, the same offset should_interview_finish uses in
+    # modules/adaptive_engine.py) so a new round's difficulty trend isn't
+    # skewed by the previous round's trailing scores. round_started_at_
+    # answer_count is never set for an ordinary single-round session, so
+    # round_scores below is just the full list there - unchanged behavior.
+    round_start = sess.get("round_started_at_answer_count", 0)
+    round_scores = sess["technical_scores"][round_start:] or sess["technical_scores"]
+    rt = round_scores[-3:]
     rv = sess["voice_scores"][-3:] if sess["voice_scores"] else [50]
     at = sum(rt) / len(rt)
     av = sum(rv) / len(rv)
@@ -1747,9 +2046,13 @@ def submit_answer():
         sess["current_difficulty"] = "easy"
 
     sess["current_index"] += 1
-    
+
     # If the action was finish, set session status
     if action == "finish":
+        # Snapshot whichever round was still active into round_history too --
+        # advance_round() above only snapshots the rounds *between*
+        # transitions. No-op for a non-multi-round session.
+        round_manager.finalize(sess)
         sess["status"] = "completed"
         log_audit("INTERVIEW_COMPLETED", session_id=sid)
         import threading
@@ -1768,6 +2071,8 @@ def submit_answer():
             "next_difficulty": sess["current_difficulty"],
             "action": action,
             "transition": ev.get("transition", ""),
+            "round_complete": round_transitioned,
+            "round_progress": round_manager.round_progress_label(sess),
             "next_question": {
                 "question": {
                     "question": question_text,
@@ -1781,6 +2086,40 @@ def submit_answer():
             "done": (action == "finish")
         }
     )
+
+
+@app.route("/api/interview/end-early", methods=["POST"])
+@session_owner_required
+def end_interview_early():
+    """
+    Candidate-initiated early end (the "End Interview" button + confirmation
+    dialog in interview.html). Distinct from both a normal completion
+    (status "completed", ends naturally when the adaptive engine/question
+    cap decides enough evidence is in) and an integrity termination (status
+    "terminated", set by /api/integrity/violation) -- this is a deliberate,
+    voluntary stop, and the report should say so neutrally rather than
+    implying either of those.
+    """
+    data = request.json or {}
+    sid = data.get("session_id")
+    sess = get_sess(sid)
+    if not sess:
+        return jsonify({"error": "Invalid session"}), 400
+
+    if sess.get("status") not in ("completed", "terminated"):
+        # Snapshot whichever round was active (no-op for a non-multi-round
+        # session) so round_scores still reflects what was actually covered.
+        round_manager.finalize(sess)
+        sess["status"] = "ended_early"
+        log_audit("INTERVIEW_ENDED_EARLY", session_id=sid)
+
+        import threading
+        u_id = session.get("user_id")
+        t = threading.Thread(target=async_generate_report, args=(sid, u_id))
+        t.daemon = True
+        t.start()
+
+    return jsonify({"success": True, "status": sess.get("status")})
 
 
 @app.route("/api/emotion/analyze", methods=["POST"])
@@ -1818,33 +2157,135 @@ def analyze_voice():
 @app.route("/api/integrity/violation", methods=["POST"])
 @session_owner_required
 def integrity_violation():
+    """
+    Records one integrity event (tab_switch / camera_exit / window_move /
+    multiple_faces) and applies the existing 3-strike termination rule.
+
+    NOTE (fix): this used to decide termination from modules/
+    integrity_monitor.py's `violations` dict, a plain in-process module-level
+    global. That works fine in a single long-lived dev process, but under
+    the project's actual Vercel/serverless deployment target each function
+    invocation can get a fresh process, silently resetting that counter to 0
+    -- so strikes would never reliably accumulate in production. The count
+    now comes from sess["violations"]["total"], which is persisted to
+    MongoDB via save_accessed_sessions on every request, so it survives
+    across invocations exactly like every other piece of session state.
+    """
     data = request.json or {}
     session_id = data.get("session_id")
     vtype = data.get("type")
 
-    result = check_violation(session_id, vtype)
-
-    # Sync with session if it exists
     sess = get_sess(session_id)
-    if sess:
-        sess["violations"]["total"] = result["count"]
-        if vtype in sess["violations"]:
-            sess["violations"][vtype] += 1
-        if result["terminate"]:
-            sess["status"] = "terminated"
-            log_audit("INTERVIEW_TERMINATED", session_id=session_id)
-            import threading
-            u_id = session.get("user_id")
-            t = threading.Thread(target=async_generate_report, args=(session_id, u_id))
-            t.daemon = True
-            t.start()
+    if not sess:
+        return jsonify({"error": "Invalid session"}), 400
+
+    # Hard guarantee: certain signals (low light, blur, face too-far/too-
+    # close/partially-visible, sustained head-turn) must NEVER contribute
+    # to the 3-strike count, no matter what calls this route with what
+    # vtype string -- see modules/integrity_config.NEVER_STRIKE_EVENT_TYPES.
+    # They are logged as a structured, non-strike event instead, using the
+    # same shape /api/emotion/analyze already logs Tier-1/2 telemetry with.
+    if vtype in NEVER_STRIKE_EVENT_TYPES:
+        sess.setdefault("integrity_events", []).append({
+            "type": vtype.upper(),
+            "severity": "info",
+            "confidence": None,
+            "start_ts": None,
+            "end_ts": None,
+            "duration_sec": None,
+            "timestamp": datetime.datetime.utcnow().timestamp(),
+            "details": {"source": "client_reported_non_strike"},
+        })
+        return jsonify({
+            "violations": sess.get("violations", {}).get("total", 0),
+            "terminate": False,
+            "counts": sess.get("violations", {}),
+            "warning": None,
+            "warning_level": "info",
+        })
+
+    sess.setdefault("violations", {})
+    sess["violations"][vtype] = sess["violations"].get(vtype, 0) + 1
+    sess["violations"]["total"] = sess["violations"].get("total", 0) + 1
+    count = sess["violations"]["total"]
+    terminate = count >= 3
+
+    # Mirror every real strike into the same structured event log the new
+    # Tier-1/2 warning-tier telemetry uses, so the final report can show
+    # one consistent timeline (type/severity/timestamp/duration) instead of
+    # two disconnected data shapes.
+    #
+    # FIX: phone_detected is special -- modules/emotion_detector.py's
+    # _confirm_episode() already appended a richer event for this exact
+    # episode (real confidence + duration) the moment it was server-
+    # confirmed, just before the client posted this violation. Attach the
+    # strike number to THAT event instead of appending a second, poorer-
+    # quality duplicate (confidence/duration all None) for the same
+    # episode -- otherwise the report's integrity timeline would show the
+    # same phone-detection episode twice.
+    now_ts = datetime.datetime.utcnow().timestamp()
+    events = sess.setdefault("integrity_events", [])
+    mirrored_existing = False
+    if vtype == "phone_detected":
+        for ev in reversed(events):
+            if (ev.get("type") == "PHONE_DETECTED"
+                    and (ev.get("details") or {}).get("strike_number") is None
+                    and (now_ts - (ev.get("timestamp") or 0)) < 15):
+                ev["details"] = dict(ev.get("details") or {}, strike_number=count)
+                mirrored_existing = True
+                break
+
+    if not mirrored_existing:
+        events.append({
+            "type": vtype.upper(),
+            "severity": "critical",
+            "confidence": None,
+            "start_ts": None,
+            "end_ts": None,
+            "duration_sec": None,
+            "timestamp": now_ts,
+            "details": {"strike_number": count},
+        })
+
+    if terminate:
+        sess["status"] = "terminated"
+        # Explicit, authoritative termination record -- so the report can
+        # show the EXACT reason/trigger/time instead of inferring it from
+        # a bare boolean (see modules/evaluator.py's generate_final_report
+        # and frontend/assets/js/report.js's Integrity Summary section).
+        sess["termination_reason"] = "integrity_strike_limit"
+        sess["termination_trigger_event"] = vtype
+        sess["termination_time"] = datetime.datetime.utcnow().isoformat() + "Z"
+        log_audit("INTERVIEW_TERMINATED", session_id=session_id)
+
+        # FIX (race): persist the terminated session to MongoDB
+        # SYNCHRONOUSLY, before spawning the background report thread.
+        # get_sess() always does a fresh MongoDB read when db is
+        # configured, but the normal persistence path
+        # (@app.after_request save_accessed_sessions) only runs AFTER
+        # this view function returns -- so the background thread below
+        # could otherwise read a STALE pre-termination session (missing
+        # this final strike, still status="active") if it happened to run
+        # before that hook. This mirrors exactly what that hook does.
+        if db is not None:
+            try:
+                sess["updated_at"] = datetime.datetime.utcnow().isoformat()
+                db["sessions"].replace_one({"id": session_id}, sess, upsert=True)
+            except Exception as e:
+                print(f"[WARN] Failed to synchronously persist terminated session {session_id}: {e}")
+
+        import threading
+        u_id = session.get("user_id")
+        t = threading.Thread(target=async_generate_report, args=(session_id, u_id))
+        t.daemon = True
+        t.start()
 
     return jsonify({
-        "violations": result["count"],
-        "terminate": result["terminate"],
-        "counts": sess["violations"] if sess else {"total": result["count"]}, # keeping counts for frontend compatibility
-        "warning": f"Strike {result['count']}/3" if not result["terminate"] else "Interview terminated",
-        "warning_level": "critical" if result["count"] >= 2 else "warning"
+        "violations": count,
+        "terminate": terminate,
+        "counts": sess["violations"],  # per-type breakdown for the frontend badges
+        "warning": f"Strike {count}/3" if not terminate else "Interview terminated",
+        "warning_level": "critical" if count >= 2 else "warning"
     })
 
 
@@ -2154,16 +2595,10 @@ def start_practice_session():
             
     avg_score = sum(scores)/len(scores) if scores else 50
     
-    if avg_score < 40:
-        difficulty = "easy"
-    elif avg_score < 60:
-        difficulty = "easy"
-    elif avg_score < 75:
-        difficulty = "medium"
-    elif avg_score < 90:
-        difficulty = "medium"
-    else:
-        difficulty = "hard"
+    # Deterministic score-band rule shared with in-session adaptation
+    # (modules/difficulty_engine.py) -- one source of truth, not a
+    # bespoke ladder duplicated per endpoint.
+    difficulty = initial_difficulty_from_score(avg_score)
         
     sess["current_difficulty"] = difficulty
     
@@ -2227,16 +2662,10 @@ def start_reinterview_session():
         scores = [profile["skills"][s].get("score", 50) for s in weak_areas if s in profile.get("skills", {})]
         avg_score = sum(scores)/len(scores) if scores else 50
         
-    if avg_score < 40:
-        difficulty = "easy"
-    elif avg_score < 60:
-        difficulty = "easy"
-    elif avg_score < 75:
-        difficulty = "medium"
-    elif avg_score < 90:
-        difficulty = "medium"
-    else:
-        difficulty = "hard"
+    # Deterministic score-band rule shared with in-session adaptation
+    # (modules/difficulty_engine.py) -- one source of truth, not a
+    # bespoke ladder duplicated per endpoint.
+    difficulty = initial_difficulty_from_score(avg_score)
         
     sess["current_difficulty"] = difficulty
     
@@ -2453,6 +2882,49 @@ def api_coach_chat():
         
     return jsonify({"reply": reply})
 
+
+# ── INTERVIEWIQ AI ASSISTANT (authenticated, project+candidate-aware) ────────
+# Distinct from the legacy /api/coach/chat above: this is the ONE
+# candidate-facing AI assistant surfaced in the dashboard (see
+# frontend/assistant.html). /api/coach/chat is left untouched -- it has no
+# frontend link in the current dashboard and is not modified by this work.
+@app.route("/api/ai-assistant/chat", methods=["POST"])
+@login_required
+def api_ai_assistant_chat():
+    # SECURITY: the candidate identity comes ONLY from the authenticated
+    # server-side session -- never from the request body.
+    user_id = session.get("user_id")
+
+    data = request.json or {}
+    message = data.get("message", "")
+    conversation_id = data.get("conversation_id")
+
+    if not isinstance(message, str) or not message.strip():
+        return jsonify({"error": "Message cannot be empty."}), 400
+    if len(message) > ASSISTANT_MAX_MESSAGE_LENGTH:
+        return jsonify({"error": f"Message is too long (max {ASSISTANT_MAX_MESSAGE_LENGTH} characters)."}), 400
+    if conversation_id is not None and not isinstance(conversation_id, str):
+        return jsonify({"error": "Invalid conversation_id."}), 400
+
+    allowed, retry_after = assistant_check_rate_limit(user_id)
+    if not allowed:
+        return jsonify({
+            "error": f"You're sending messages too quickly. Please wait {retry_after} seconds and try again."
+        }), 429
+
+    try:
+        result = assistant_handle_chat_message(user_id, message, conversation_id=conversation_id)
+        log_audit("AI_ASSISTANT_CHAT", user_id=user_id)
+        return jsonify(result)
+    except ValueError as ve:
+        return jsonify({"error": str(ve)}), 400
+    except AssistantProviderError:
+        return jsonify({"error": "I'm temporarily unable to reach the AI service. Please try again in a moment."}), 503
+    except Exception as e:
+        print(f"[ERROR] AI Assistant chat failed: {e}")
+        return jsonify({"error": "Something went wrong on our end. Please try again."}), 500
+
+
 import json
 
 @app.route("/api/coding/challenges", methods=["GET"])
@@ -2521,8 +2993,8 @@ def api_review_code():
             completion = client.chat.completions.create(
                 model="llama3-8b-8192",
                 messages=[
-                    {{"role": "system", "content": "You are a senior software engineer and technical interviewer. You must output ONLY a valid JSON object."}},
-                    {{"role": "user", "content": prompt}}
+                    {"role": "system", "content": "You are a senior software engineer and technical interviewer. You must output ONLY a valid JSON object."},
+                    {"role": "user", "content": prompt}
                 ],
                 temperature=0.3,
                 max_tokens=800
@@ -2540,7 +3012,7 @@ def api_review_code():
             print(f"[ERROR] Groq code review failed: {e}")
             
     # Fallback response generator if Groq key is missing or fails:
-    return jsonify({{
+    return jsonify({
         "time_complexity": "O(N^2) or O(N)",
         "space_complexity": "O(N) or O(1)",
         "readability_score": 80,
@@ -2549,7 +3021,7 @@ def api_review_code():
             "Verify loop boundaries.",
             "Consider utilizing auxiliary hashes/dicts to optimize query times from O(N) to O(1)."
         ]
-    }})
+    })
 
 
 # ── SECURITY & ACCESS CONTROL DOWNLOADS / ADMIN ─────────────────────────────
@@ -3039,8 +3511,132 @@ def recruiter_get_candidates():
             "completed_interviews": completed_count,
             "created_at": c.get("created_at").isoformat() if isinstance(c.get("created_at"), datetime.datetime) else str(c.get("created_at"))
         })
-        
+
     return jsonify(clean_json(result))
+
+
+@app.route("/api/recruiter/live-sessions", methods=["GET"])
+@role_required(["recruiter", "admin"])
+def recruiter_live_sessions():
+    """
+    Recruiter live-watch view: point-in-time STATS/integrity polling for
+    interviews currently in progress (question index, running technical/voice
+    scores, latest emotion read, integrity violations) -- NOT a live webcam/
+    audio relay, which would need WebRTC signaling infrastructure this
+    project doesn't have. Recruiters poll this endpoint (see
+    frontend/recruiter.html's Live Sessions tab) every few seconds.
+
+    A session counts as "live" if it's status=="active" and was touched
+    (see save_accessed_sessions' updated_at stamp) within the last 10
+    minutes -- otherwise it's treated as abandoned, not live.
+    """
+    if db is None or users_col is None:
+        return jsonify({"error": "Database unavailable"}), 503
+
+    cutoff = (datetime.datetime.utcnow() - datetime.timedelta(minutes=10)).isoformat()
+    docs = list(db["sessions"].find({"status": "active", "updated_at": {"$gte": cutoff}}))
+
+    result = []
+    for sess in docs:
+        user_id = sess.get("user_id")
+        name, email = "Guest", ""
+        if user_id and user_id not in ("anonymous", "guest"):
+            try:
+                user = users_col.find_one({"_id": ObjectId(user_id)})
+                if user:
+                    name = user.get("name", "Candidate")
+                    email = user.get("email", "")
+            except Exception:
+                pass
+
+        tech = sess.get("technical_scores", [])
+        voice = sess.get("voice_scores", [])
+        emots = sess.get("emotion_timeline", [])
+
+        result.append({
+            "session_id": sess.get("id"),
+            "candidate_name": name,
+            "candidate_email": email,
+            "is_practice": sess.get("is_practice", False),
+            "current_index": sess.get("current_index", 0),
+            "total_questions": len(sess.get("questions", [])),
+            "current_difficulty": sess.get("current_difficulty", "easy"),
+            "round_progress": round_manager.round_progress_label(sess),
+            "avg_technical_score": int(sum(tech) / len(tech)) if tech else None,
+            "latest_technical_score": tech[-1] if tech else None,
+            "latest_voice_score": voice[-1] if voice else None,
+            "latest_emotion": emots[-1].get("dominant_emotion") if emots else None,
+            "violations": sess.get("violations", {}),
+            "started_at": sess.get("created_at"),
+            "last_activity_at": sess.get("updated_at"),
+        })
+
+    # Most recently active first
+    result.sort(key=lambda r: r.get("last_activity_at") or "", reverse=True)
+    return jsonify(clean_json({"sessions": result, "count": len(result)}))
+
+
+VALID_INTERVIEW_OUTCOMES = {"hired", "rejected", "advanced", "no_decision"}
+
+
+@app.route("/api/recruiter/interviews/<session_id>/outcome", methods=["PUT"])
+@role_required(["recruiter", "admin"])
+def recruiter_set_interview_outcome(session_id):
+    """
+    Records a recruiter's real hiring decision against a completed interview.
+    This is the first genuine outcome-labeled data this project collects --
+    every dataset it ships with (datasets/*.json) only has
+    {question, difficulty, skill}, nothing about whether a candidate who
+    scored well actually got hired. Purely additive: does not change
+    scoring, reports, or any existing recruiter/candidate flow. Once enough
+    labeled examples exist, this is what a real supervised "does this
+    interview predict a hire" model would train on -- see
+    modules/outcome_model.py's MIN_SAMPLES guard, which refuses to fabricate
+    a fitted model before there's enough data for that to mean anything.
+    """
+    if db is None:
+        return jsonify({"error": "Database unavailable"}), 503
+
+    data = request.json or {}
+    outcome = (data.get("outcome") or "").strip().lower()
+    notes = (data.get("notes") or "").strip()
+
+    if outcome not in VALID_INTERVIEW_OUTCOMES:
+        return jsonify({"error": f"outcome must be one of {sorted(VALID_INTERVIEW_OUTCOMES)}"}), 400
+
+    report_doc = db["reports"].find_one({"session_id": session_id})
+    if not report_doc:
+        return jsonify({"error": "No completed report found for this session"}), 404
+
+    recruiter_id = str(session["user_id"])
+    human_outcome = {
+        "outcome": outcome,
+        "notes": notes,
+        "recorded_by": recruiter_id,
+        "recorded_at": datetime.datetime.utcnow().isoformat() + "Z",
+    }
+
+    db["reports"].update_one(
+        {"session_id": session_id},
+        {"$set": {"report.human_outcome": human_outcome}}
+    )
+    log_audit("INTERVIEW_OUTCOME_RECORDED", user_id=recruiter_id, session_id=session_id)
+
+    return jsonify({"success": True, "human_outcome": human_outcome})
+
+
+@app.route("/api/recruiter/outcome-model/status", methods=["GET"])
+@role_required(["recruiter", "admin"])
+def recruiter_outcome_model_status():
+    """
+    Honest status check for the "train the data" request: how many real,
+    recruiter-recorded outcome labels exist right now, and whether that's
+    enough to train anything on. See modules/outcome_model.py -- this never
+    fabricates a trained model, only reports the real count.
+    """
+    if db is None:
+        return jsonify({"error": "Database unavailable"}), 503
+    return jsonify(outcome_model.train_outcome_model(db))
 
 
 @app.route("/api/recruiter/candidates/<candidate_id>", methods=["GET"])
@@ -3085,7 +3681,11 @@ def recruiter_get_candidate_profile(candidate_id):
             "score": overall_score,
             "duration": rep.get("duration", 30),
             "integrity_status": integrity_status,
-            "is_practice": rep.get("is_practice", False)
+            "is_practice": rep.get("is_practice", False),
+            # Recruiter-recorded hiring decision, if one has been set yet --
+            # see /api/recruiter/interviews/<session_id>/outcome. None for
+            # every existing report until a recruiter records one.
+            "human_outcome": rep.get("human_outcome")
         })
         
         integrity_history.append({

@@ -73,9 +73,48 @@ async function submitConsents() {
       console.warn("[Consent] Backend registration response error:", consentRes.status);
     }
 
-    // Hide overlay
+    // Hide the consent overlay, then show the pre-interview environment
+    // guidance screen (lighting / framing / fullscreen checklist) before
+    // starting the actual interview flow. This is a new Tier-1 addition --
+    // it does not change anything about the interview itself, it just adds
+    // one short guidance step between consent and the first question.
     document.getElementById("consent-overlay").style.display = "none";
+    const envOverlay = document.getElementById("env-guidance-overlay");
+    if (envOverlay) {
+        envOverlay.style.display = "flex";
+    } else {
+        // Guidance screen not present in this build -- fall back to the
+        // previous behavior so nothing breaks.
+        await beginInterviewFlow();
+    }
 
+  } catch (err) {
+    console.error("[Consent Media Error]", err);
+    errMedia.style.display = "block";
+  }
+}
+
+/* Called by the pre-interview environment-guidance screen's "Continue"
+   button. Requesting fullscreen here (a genuine, direct user-gesture
+   click) is what lets Integrity's fullscreenchange listener ever have
+   something to monitor -- the interview does NOT force fullscreen, so if
+   this fails, is blocked, or the browser doesn't support it, the
+   interview proceeds completely normally and fullscreen-exit monitoring
+   simply never fires for that session. */
+async function proceedFromEnvironmentGuidance() {
+    const envOverlay = document.getElementById("env-guidance-overlay");
+    try {
+        if (document.documentElement.requestFullscreen) {
+            await document.documentElement.requestFullscreen();
+        }
+    } catch (e) {
+        console.warn("[Fullscreen] Could not enter fullscreen:", e);
+    }
+    if (envOverlay) envOverlay.style.display = "none";
+    await beginInterviewFlow();
+}
+
+async function beginInterviewFlow() {
     // Trigger live recording status on screen
     const recIndicator = document.createElement("div");
     recIndicator.id = "rec-indicator";
@@ -95,11 +134,6 @@ async function submitConsents() {
     Emotion.start(document.getElementById("webcam"));
     Integrity.start(onViolation, onTerminate);
     await loadNextQuestion();
-
-  } catch (err) {
-    console.error("[Consent Media Error]", err);
-    errMedia.style.display = "block";
-  }
 }
 
 /* ── WEBCAM ─────────────────────────────────── */
@@ -178,6 +212,12 @@ function startTimer() {
 /* ── AI VOICE & AVATAR STATE MANAGEMENT ────────────────── */
 let nextQuestionPayload = null;
 let interviewDone = false;
+
+// Response latency (spec: "how long the candidate takes to begin
+// answering") -- a neutral performance metric only, never used to judge or
+// flag the candidate. Set when a question is actually shown, read (and
+// cleared) when the answer for it is submitted.
+let questionShownAt = null;
 
 const AI_VOICE = {
   speaking: false,
@@ -372,6 +412,9 @@ async function loadNextQuestion() {
     if (ta) ta.value = "";
     setText("voice-transcript", "Your spoken answer will appear here...");
 
+    // Question is now actually on screen -- start the response-latency clock.
+    questionShownAt = Date.now();
+
   } catch(e) {
     setAvatarState("idle", "Error loading question.");
     setText("q-text", "Error loading question. Check server connection.");
@@ -396,19 +439,35 @@ async function submitAnswer() {
   if (btn) { btn.classList.add("loading"); btn.disabled = true; }
   setAvatarState("thinking", "AI is evaluating your response...");
 
+  const responseLatencySeconds = questionShownAt
+    ? Math.round((Date.now() - questionShownAt) / 1000)
+    : null;
+  questionShownAt = null;
+
   try {
     const data = await apiPost("/api/answer/submit", {
       session_id: Session.id,
       question:   currentQuestion?.question || "",
-      answer
+      answer,
+      response_latency_seconds: responseLatencySeconds
     });
-    
+
     // Save next payloads
     techScores.push(data.score);
     updateTechMeter();
     
     nextQuestionPayload = data.next_question;
     interviewDone = data.done;
+
+    // Multi-round interview (see backend/modules/round_manager.py): the
+    // current round just ran out of questions and the session rolled into
+    // the next configured round (e.g. Technical -> HR). data.done stays
+    // false here (the interview itself isn't over), so the existing
+    // closeFeedback() -> loadNextQuestion() flow already continues
+    // correctly on its own; this just lets the candidate know why.
+    if (data.round_complete && data.round_progress) {
+      showToast("Round complete! Starting " + data.round_progress, "ok");
+    }
 
     showFeedback(data);
   } catch(e) {
@@ -516,7 +575,9 @@ function showFeedback(data) {
   const nd    = data.next_difficulty || "easy";
   const ndEl  = document.getElementById("fb-next-diff");
   if (ndEl) {
-    ndEl.textContent = "Next difficulty: " + nd.toUpperCase();
+    ndEl.textContent = data.round_complete && data.round_progress
+      ? "Next: " + data.round_progress
+      : "Next difficulty: " + nd.toUpperCase();
     ndEl.className   = "chip " + (nd==="hard"?"danger": nd==="medium"?"warn":"success");
   }
 
@@ -571,6 +632,33 @@ async function endInterview() {
   Integrity.stop();
   await saveRecording();
   window.location.href = "/report?session_id=" + Session.id;
+}
+
+/* ── CANDIDATE-INITIATED EARLY END (with confirmation) ─────────
+   Distinct from the natural "interview is done" flow above and from an
+   integrity termination -- this is the candidate voluntarily choosing to
+   stop, via the "End Interview" button. See backend
+   /api/interview/end-early, which marks the session status "ended_early"
+   (not "completed" or "terminated") so the report can say so neutrally. */
+function requestEndInterview() {
+  const ov = document.getElementById("end-confirm-overlay");
+  if (ov) ov.classList.add("show");
+}
+
+function closeEndConfirm() {
+  const ov = document.getElementById("end-confirm-overlay");
+  if (ov) ov.classList.remove("show");
+}
+
+async function confirmEndInterview() {
+  closeEndConfirm();
+  AI_VOICE.stop();
+  try {
+    await apiPost("/api/interview/end-early", { session_id: Session.id });
+  } catch (e) {
+    console.warn("[EndInterview] Failed to notify backend, ending locally anyway:", e);
+  }
+  await endInterview();
 }
 
 function goToReport() {

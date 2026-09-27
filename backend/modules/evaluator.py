@@ -47,6 +47,12 @@ def generate_final_report(session: dict) -> dict:
     emot   = session.get("emotion_timeline", [])
     ans    = session.get("answers", [])
     viols  = session.get("violations", {})
+    # Structured event log (see modules/integrity_config.py +
+    # modules/emotion_detector.py) -- type/severity/confidence/duration/
+    # timestamp for both warning-tier telemetry and every real strike.
+    # Purely additive: existing "violations" counts above are unchanged and
+    # remain the report's summary figure.
+    integrity_events = session.get("integrity_events", [])
 
     tech_score = int(sum(tech)/len(tech)) if tech else 0
     conf_score = int(sum(voice)/len(voice)) if voice else 0
@@ -72,9 +78,23 @@ def generate_final_report(session: dict) -> dict:
     total_e = sum(ecounts.values()) or 1
     ebreakdown = {k:round(v/total_e*100,1) for k,v in ecounts.items()}
 
+    # Single authoritative source of truth for whether this interview was
+    # auto-terminated: session["status"] is set to "terminated" in EXACTLY
+    # one place (backend/app.py's /api/integrity/violation route, only
+    # when the strike total reaches 3) -- every other field below is
+    # derived from this same boolean plus the session's own stored
+    # violations/termination_* fields, so the report can never show a
+    # termination message inconsistent with the strike count that
+    # actually caused it.
+    is_terminated = session.get("status") == "terminated"
+
     return {
         "session_id":  session.get("id"),
-        "terminated":  session.get("status") == "terminated",
+        "terminated":  is_terminated,
+        # Candidate voluntarily ended the interview early (see
+        # /api/interview/end-early) -- distinct from an integrity
+        # termination above, so the report can say so neutrally.
+        "ended_early": session.get("status") == "ended_early",
         "scores": {
             "technical":         tech_score,
             "confidence":        conf_score,
@@ -85,9 +105,29 @@ def generate_final_report(session: dict) -> dict:
         },
         "summary": {
             "total_questions":        len(ans),
-            "skills_covered":         list(set(session.get("skills",[]))),
+            # Built from the answers actually asked/recorded rather than the
+            # live session["skills"] list: for a multi-round interview (see
+            # modules/round_manager.py) session["skills"] only holds the
+            # CURRENT round's skills by the time the interview ends (e.g.
+            # just ["HR"] after the HR round), so reading it here would drop
+            # every earlier round's skills from the report. Each answer's own
+            # "skill" field is set once, at submission time, so this stays
+            # correct for both single-round and multi-round sessions.
+            "skills_covered":         sorted({a.get("skill") for a in ans if a.get("skill")}) or list(set(session.get("skills",[]))),
             "difficulty_progression": [a.get("difficulty","easy") for a in ans],
-            "violations":             viols
+            "violations":             viols,
+            "integrity_events":       integrity_events,
+            # Authoritative integrity summary -- the frontend report reads
+            # THESE fields directly instead of summing/inferring from the
+            # per-type "violations" counters above, which is what let a
+            # violation type the UI didn't have a card for (e.g.
+            # phone_detected, fullscreen_exit) silently disappear while
+            # still being the reason for termination.
+            "strike_count":              viols.get("total", 0),
+            "auto_terminated":           is_terminated,
+            "termination_reason":        session.get("termination_reason") if is_terminated else None,
+            "termination_trigger_event": session.get("termination_trigger_event") if is_terminated else None,
+            "termination_time":          session.get("termination_time") if is_terminated else None,
         },
         "emotion_breakdown":  ebreakdown,
         "answers":            ans,
@@ -98,7 +138,21 @@ def generate_final_report(session: dict) -> dict:
         "strong_areas":       session.get("strong_areas", []),
         "weak_areas":         session.get("weak_areas", []),
         "covered_topics":     session.get("covered_topics", []),
-        
+        # Per-skill deterministic performance tracker (questions_answered,
+        # average_score, current_difficulty, recent_scores) -- see
+        # modules/difficulty_engine.py. Additive field, does not replace
+        # skill_scores above (kept for backward compatibility with
+        # existing report/recruiter-dashboard consumers).
+        "skill_performance":  session.get("skill_performance", {}),
+
+        # Multi-round interview breakdown (see modules/round_manager.py):
+        # one entry per completed round with its own questions_answered,
+        # avg_score and skill_scores snapshot, taken right before that
+        # round's per-round state gets reset for the next round. Empty list
+        # for an ordinary single-round session -- purely additive field, no
+        # existing report/recruiter-dashboard consumer needs to change.
+        "round_scores":       session.get("round_history", []),
+
         # Advanced Candidate Intelligence Profile
         "candidate_profile":  session.get("candidate_profile", {})
     }

@@ -18174,6 +18174,7 @@
         "scores": {
             "technical": 0,
             "confidence": 50,
+            "emotion_score": 70,
             "emotion_stability": "Good",
             "readiness_index": 29,
             "readiness_label": "Early Stage"
@@ -18181,15 +18182,15 @@
         "summary": {
             "total_questions": 0,
             "skills_covered": [
-                "Python",
+                "Html/Css",
                 "HTML",
-                "Html/Css"
+                "Python"
             ],
             "difficulty_progression": [],
             "violations": {
                 "tab_switch": 0,
-                "camera_exit": 4,
-                "window_move": 0,
+                "camera_exit": 6,
+                "window_move": 1,
                 "total": 3
             },
             "final_summary": "Overall solid performance, demonstrated strong technical competencies."
@@ -18212,7 +18213,7 @@
         "candidate_profile": {},
         "user_id": "6a93ee88ad378708dffaba77",
         "is_practice": false,
-        "date": "2026-09-01 11:55"
+        "date": "2026-09-01 12:15"
     },
     "bc110ca4-a4ae-4b34-89de-94d89876c56f": {
         "session_id": "bc110ca4-a4ae-4b34-89de-94d89876c56f",
@@ -18570,5 +18571,1208 @@
         "date": "2026-09-01 12:01",
         "interview_id": "6a96711f08278cc92cca6779",
         "invitation_token": "f97990fd-87b6-4a5a-a1c3-3d381f8c6dde"
+    },
+    "d5bee673-5a6c-4aaf-b1b1-446d73c28606": {
+        "session_id": "d5bee673-5a6c-4aaf-b1b1-446d73c28606",
+        "terminated": false,
+        "scores": {
+            "technical": 0,
+            "confidence": 0,
+            "emotion_score": 70,
+            "emotion_stability": "Good",
+            "readiness_index": 14,
+            "readiness_label": "Early Stage"
+        },
+        "summary": {
+            "total_questions": 0,
+            "skills_covered": [
+                "FastAPI",
+                "Flask",
+                "Tensorflow",
+                "React",
+                "Java",
+                "Opencv",
+                "GitHub",
+                "Node.js",
+                "React.js",
+                "JavaScript",
+                "Python",
+                "C++",
+                "NLP",
+                "Machine Learning",
+                "MySQL",
+                "REST APIs",
+                "MongoDB",
+                "Data Analytics",
+                "Docker",
+                "Git",
+                "AWS",
+                "Kubernetes",
+                "Git & GitHub"
+            ],
+            "difficulty_progression": [],
+            "violations": {
+                "tab_switch": 0,
+                "camera_exit": 1,
+                "window_move": 1,
+                "total": 2
+            },
+            "final_summary": "Overall solid performance, demonstrated strong technical competencies."
+        },
+        "emotion_breakdown": {
+            "neutral": 100.0
+        },
+        "answers": [],
+        "recommendations": [
+            "Strengthen core technical concepts \u2014 review fundamentals and practice coding daily.",
+            "Work on speaking confidence \u2014 record yourself and practice mock answers aloud."
+        ],
+        "skill_scores": {},
+        "strong_areas": [
+            "Communicated technical ideas correctly."
+        ],
+        "weak_areas": [
+            "Provide more deep architectural details."
+        ],
+        "covered_topics": [],
+        "candidate_profile": {},
+        "user_id": "6a93ee88ad378708dffaba77",
+        "is_practice": false,
+        "date": "2026-09-01 15:38"
+    },
+    "4a5a9fb3-71ed-42eb-a5b1-c8e6a46d85a3": {
+        "session_id": "4a5a9fb3-71ed-42eb-a5b1-c8e6a46d85a3",
+        "terminated": true,
+        "scores": {
+            "technical": 0,
+            "confidence": 0,
+            "emotion_score": 70,
+            "emotion_stability": "Good",
+            "readiness_index": 14,
+            "readiness_label": "Early Stage"
+        },
+        "summary": {
+            "total_questions": 0,
+            "skills_covered": [
+                "iOS"
+            ],
+            "difficulty_progression": [],
+            "violations": {
+                "tab_switch": 0,
+                "camera_exit": 3,
+                "window_move": 0,
+                "total": 3
+            },
+            "final_summary": "Overall solid performance, demonstrated strong technical competencies."
+        },
+        "emotion_breakdown": {
+            "neutral": 100.0
+        },
+        "answers": [],
+        "recommendations": [
+            "Strengthen core technical concepts \u2014 review fundamentals and practice coding daily.",
+            "Work on speaking confidence \u2014 record yourself and practice mock answers aloud."
+        ],
+        "skill_scores": {},
+        "strong_areas": [
+            "Communicated technical ideas correctly."
+        ],
+        "weak_areas": [
+            "Provide more deep architectural details."
+        ],
+        "covered_topics": [],
+        "candidate_profile": {},
+        "user_id": "6a93ee88ad378708dffaba77",
+        "is_practice": false,
+        "date": "2026-09-01 15:45"
+    },
+    "3eb9002d-2850-4b23-ae87-cf9c493f328a": {
+        "session_id": "3eb9002d-2850-4b23-ae87-cf9c493f328a",
+        "terminated": true,
+        "scores": {
+            "technical": 0,
+            "confidence": 50,
+            "emotion_score": 70,
+            "emotion_stability": "Good",
+            "readiness_index": 29,
+            "readiness_label": "Early Stage"
+        },
+        "summary": {
+            "total_questions": 0,
+            "skills_covered": [
+                "Git",
+                "Data Structures",
+                "NLP",
+                "Algorithms",
+                "Computer Vision",
+                "CSS",
+                "MongoDB",
+                "Flask",
+                "JavaScript",
+                "Python",
+                "Java",
+                "HTML",
+                "C++",
+                "GitHub",
+                "Spring Boot",
+                "Machine Learning",
+                "MySQL",
+                "C"
+            ],
+            "difficulty_progression": [],
+            "violations": {
+                "tab_switch": 0,
+                "camera_exit": 3,
+                "window_move": 1,
+                "total": 4
+            },
+            "final_summary": "Overall solid performance, demonstrated strong technical competencies."
+        },
+        "emotion_breakdown": {
+            "neutral": 100.0
+        },
+        "answers": [],
+        "recommendations": [
+            "Strengthen core technical concepts \u2014 review fundamentals and practice coding daily."
+        ],
+        "skill_scores": {},
+        "strong_areas": [
+            "Communicated technical ideas correctly."
+        ],
+        "weak_areas": [
+            "Provide more deep architectural details."
+        ],
+        "covered_topics": [],
+        "candidate_profile": {},
+        "user_id": "6a93ee88ad378708dffaba77",
+        "is_practice": false,
+        "date": "2026-09-01 15:51"
+    },
+    "a1865ba1-c880-43a9-81ae-7e396d359ac6": {
+        "session_id": "a1865ba1-c880-43a9-81ae-7e396d359ac6",
+        "terminated": true,
+        "scores": {
+            "technical": 0,
+            "confidence": 0,
+            "emotion_score": 70,
+            "emotion_stability": "Good",
+            "readiness_index": 14,
+            "readiness_label": "Early Stage"
+        },
+        "summary": {
+            "total_questions": 0,
+            "skills_covered": [
+                "HTML",
+                "Python",
+                "HTML/CSS"
+            ],
+            "difficulty_progression": [],
+            "violations": {
+                "tab_switch": 0,
+                "camera_exit": 0,
+                "window_move": 3,
+                "total": 3
+            },
+            "final_summary": "Overall solid performance, demonstrated strong technical competencies."
+        },
+        "emotion_breakdown": {
+            "neutral": 100.0
+        },
+        "answers": [],
+        "recommendations": [
+            "Strengthen core technical concepts \u2014 review fundamentals and practice coding daily.",
+            "Work on speaking confidence \u2014 record yourself and practice mock answers aloud."
+        ],
+        "skill_scores": {},
+        "strong_areas": [
+            "Communicated technical ideas correctly."
+        ],
+        "weak_areas": [
+            "Provide more deep architectural details."
+        ],
+        "covered_topics": [],
+        "skill_performance": {},
+        "candidate_profile": {},
+        "user_id": "6a93ee88ad378708dffaba77",
+        "is_practice": false,
+        "date": "2026-09-12 17:11"
+    },
+    "54a99bf9-8e23-4c14-9e66-d70471aeb42e": {
+        "session_id": "54a99bf9-8e23-4c14-9e66-d70471aeb42e",
+        "terminated": true,
+        "ended_early": false,
+        "scores": {
+            "technical": 70,
+            "confidence": 0,
+            "emotion_score": 70,
+            "emotion_stability": "Good",
+            "readiness_index": 49,
+            "readiness_label": "Needs Practice"
+        },
+        "summary": {
+            "total_questions": 2,
+            "skills_covered": [
+                "HTML",
+                "Python"
+            ],
+            "difficulty_progression": [
+                "easy",
+                "medium"
+            ],
+            "violations": {
+                "tab_switch": 0,
+                "camera_exit": 1,
+                "window_move": 1,
+                "multiple_faces": 1,
+                "total": 3
+            },
+            "final_summary": "Overall solid performance, demonstrated strong technical competencies."
+        },
+        "emotion_breakdown": {
+            "neutral": 100.0
+        },
+        "answers": [
+            {
+                "question": "In simple terms, what is list comprehensions in Python?",
+                "answer": "[SKIPPED]",
+                "score": 70,
+                "overall": 70,
+                "overall_score": 70,
+                "skill": "Python",
+                "difficulty": "easy",
+                "feedback": "Answer noted. Let's proceed.",
+                "evaluation": {
+                    "technical_correctness": 70,
+                    "relevance": 80,
+                    "depth": 60,
+                    "clarity": 75,
+                    "problem_solving": null,
+                    "communication": 70,
+                    "completeness": 65
+                },
+                "confidence": {
+                    "technical_correctness": "MEDIUM",
+                    "relevance": "MEDIUM",
+                    "depth": "LOW",
+                    "clarity": "MEDIUM",
+                    "problem_solving": "MEDIUM",
+                    "communication": "MEDIUM",
+                    "completeness": "LOW"
+                },
+                "evidence": [
+                    "Answer provided",
+                    "Insufficient evidence"
+                ],
+                "reasons": {
+                    "technical_correctness": "Standard fallback assigned due to API timeout.",
+                    "relevance": "Evaluated as relevant by default fallback.",
+                    "depth": "Insufficient evidence to gauge technical depth.",
+                    "clarity": "Readability is acceptable.",
+                    "problem_solving": "Not applicable to this conceptual question.",
+                    "communication": "Speaking confidence is acceptable.",
+                    "completeness": "Default fallback completeness check."
+                },
+                "strengths": [
+                    "Response recorded"
+                ],
+                "improvements": [
+                    "Please provide more detail in subsequent answers"
+                ],
+                "response_latency_seconds": null,
+                "timestamp": "2026-09-12T13:45:18.113951"
+            },
+            {
+                "question": "What problem does CSS Box Model solve in HTML/CSS?",
+                "answer": "[SKIPPED]",
+                "score": 70,
+                "overall": 70,
+                "overall_score": 70,
+                "skill": "HTML",
+                "difficulty": "medium",
+                "feedback": "Answer noted. Let's proceed.",
+                "evaluation": {
+                    "technical_correctness": 70,
+                    "relevance": 80,
+                    "depth": 60,
+                    "clarity": 75,
+                    "problem_solving": null,
+                    "communication": 70,
+                    "completeness": 65
+                },
+                "confidence": {
+                    "technical_correctness": "MEDIUM",
+                    "relevance": "MEDIUM",
+                    "depth": "LOW",
+                    "clarity": "MEDIUM",
+                    "problem_solving": "MEDIUM",
+                    "communication": "MEDIUM",
+                    "completeness": "LOW"
+                },
+                "evidence": [
+                    "Answer provided",
+                    "Insufficient evidence"
+                ],
+                "reasons": {
+                    "technical_correctness": "Standard fallback assigned due to API timeout.",
+                    "relevance": "Evaluated as relevant by default fallback.",
+                    "depth": "Insufficient evidence to gauge technical depth.",
+                    "clarity": "Readability is acceptable.",
+                    "problem_solving": "Not applicable to this conceptual question.",
+                    "communication": "Speaking confidence is acceptable.",
+                    "completeness": "Default fallback completeness check."
+                },
+                "strengths": [
+                    "Response recorded"
+                ],
+                "improvements": [
+                    "Please provide more detail in subsequent answers"
+                ],
+                "response_latency_seconds": null,
+                "timestamp": "2026-09-12T13:45:26.657899"
+            }
+        ],
+        "recommendations": [
+            "Good technical base. Focus on explaining your reasoning clearly with examples.",
+            "Work on speaking confidence \u2014 record yourself and practice mock answers aloud."
+        ],
+        "skill_scores": {
+            "Python": 70,
+            "HTML": 70,
+            "HTML/CSS": 0
+        },
+        "strong_areas": [
+            "Communicated technical ideas correctly."
+        ],
+        "weak_areas": [
+            "Provide more deep architectural details."
+        ],
+        "covered_topics": [
+            "Python",
+            "HTML"
+        ],
+        "skill_performance": {
+            "Python": {
+                "questions_answered": 1,
+                "average_score": 70,
+                "current_difficulty": 2,
+                "recent_scores": [
+                    70
+                ],
+                "last_band": "good"
+            },
+            "HTML": {
+                "questions_answered": 1,
+                "average_score": 70,
+                "current_difficulty": 3,
+                "recent_scores": [
+                    70
+                ],
+                "last_band": "good"
+            }
+        },
+        "round_scores": [],
+        "candidate_profile": {
+            "user_id": "6a943fa59b7cdb281ed3d39f",
+            "skills": {
+                "Python": {
+                    "score": 70,
+                    "depth": "Basic",
+                    "confidence": 60,
+                    "consistency": "High",
+                    "evidence_count": 2,
+                    "easy_scores": [
+                        70,
+                        70
+                    ],
+                    "medium_scores": [],
+                    "hard_scores": [],
+                    "scores": [
+                        70,
+                        70
+                    ],
+                    "uncertainty_count": 0,
+                    "contradictions_count": 0,
+                    "technical_correctness_scores": [
+                        70,
+                        70
+                    ],
+                    "technical_correctness": 70,
+                    "relevance_scores": [
+                        80,
+                        80
+                    ],
+                    "relevance": 80,
+                    "depth_scores": [
+                        60,
+                        60
+                    ],
+                    "depth_score": 60,
+                    "completeness_scores": [
+                        65,
+                        65
+                    ],
+                    "completeness": 65
+                },
+                "HTML": {
+                    "score": 70,
+                    "depth": "Intermediate",
+                    "confidence": 60,
+                    "consistency": "High",
+                    "evidence_count": 2,
+                    "easy_scores": [],
+                    "medium_scores": [
+                        70,
+                        70
+                    ],
+                    "hard_scores": [],
+                    "scores": [
+                        70,
+                        70
+                    ],
+                    "uncertainty_count": 0,
+                    "contradictions_count": 0,
+                    "technical_correctness_scores": [
+                        70,
+                        70
+                    ],
+                    "technical_correctness": 70,
+                    "relevance_scores": [
+                        80,
+                        80
+                    ],
+                    "relevance": 80,
+                    "depth_scores": [
+                        60,
+                        60
+                    ],
+                    "depth_score": 60,
+                    "completeness_scores": [
+                        65,
+                        65
+                    ],
+                    "completeness": 65
+                },
+                "HTML/CSS": {
+                    "score": 0,
+                    "depth": "Basic",
+                    "confidence": 0,
+                    "consistency": "High",
+                    "evidence_count": 0,
+                    "easy_scores": [],
+                    "medium_scores": [],
+                    "hard_scores": [],
+                    "scores": [],
+                    "uncertainty_count": 0,
+                    "contradictions_count": 0
+                }
+            },
+            "strong_areas": [],
+            "weak_areas": [],
+            "contradictions": [],
+            "self_corrections": [],
+            "knowledge_map": {
+                "Python": {
+                    "General": "Medium"
+                },
+                "HTML": {
+                    "General": "Medium"
+                }
+            },
+            "updated_at": "2026-09-12T13:45:26.916111"
+        },
+        "user_id": "6a943fa59b7cdb281ed3d39f",
+        "is_practice": false,
+        "date": "2026-09-12 19:17"
+    },
+    "d88573f8-8158-4d8c-88f8-977e31c53a06": {
+        "session_id": "d88573f8-8158-4d8c-88f8-977e31c53a06",
+        "terminated": true,
+        "ended_early": false,
+        "scores": {
+            "technical": 0,
+            "confidence": 0,
+            "emotion_score": 70,
+            "emotion_stability": "Good",
+            "readiness_index": 14,
+            "readiness_label": "Early Stage"
+        },
+        "summary": {
+            "total_questions": 0,
+            "skills_covered": [
+                "Python",
+                "HTML/CSS",
+                "HTML"
+            ],
+            "difficulty_progression": [],
+            "violations": {
+                "tab_switch": 0,
+                "camera_exit": 0,
+                "window_move": 2,
+                "multiple_faces": 0,
+                "total": 3,
+                "fullscreen_exit": 1
+            },
+            "integrity_events": [
+                {
+                    "type": "FULLSCREEN_EXIT",
+                    "severity": "critical",
+                    "confidence": null,
+                    "start_ts": null,
+                    "end_ts": null,
+                    "duration_sec": null,
+                    "timestamp": 1790387093.952615,
+                    "details": {
+                        "strike_number": 1
+                    }
+                },
+                {
+                    "type": "HEAD_UP",
+                    "severity": "warning",
+                    "confidence": null,
+                    "start_ts": 1790406901.645001,
+                    "end_ts": 1790406907.7703328,
+                    "duration_sec": 6.1,
+                    "timestamp": 1790406907.7703328,
+                    "details": {
+                        "yaw_deg": 2.0,
+                        "pitch_deg": -15.8
+                    }
+                },
+                {
+                    "type": "WINDOW_MOVE",
+                    "severity": "critical",
+                    "confidence": null,
+                    "start_ts": null,
+                    "end_ts": null,
+                    "duration_sec": null,
+                    "timestamp": 1790387117.142721,
+                    "details": {
+                        "strike_number": 2
+                    }
+                },
+                {
+                    "type": "WINDOW_MOVE",
+                    "severity": "critical",
+                    "confidence": null,
+                    "start_ts": null,
+                    "end_ts": null,
+                    "duration_sec": null,
+                    "timestamp": 1790387120.033733,
+                    "details": {
+                        "strike_number": 3
+                    }
+                }
+            ],
+            "final_summary": "Overall solid performance, demonstrated strong technical competencies."
+        },
+        "emotion_breakdown": {
+            "neutral": 100.0
+        },
+        "answers": [],
+        "recommendations": [
+            "Strengthen core technical concepts \u2014 review fundamentals and practice coding daily.",
+            "Work on speaking confidence \u2014 record yourself and practice mock answers aloud."
+        ],
+        "skill_scores": {},
+        "strong_areas": [
+            "Communicated technical ideas correctly."
+        ],
+        "weak_areas": [
+            "Provide more deep architectural details."
+        ],
+        "covered_topics": [],
+        "skill_performance": {},
+        "round_scores": [],
+        "candidate_profile": {},
+        "user_id": "6a93ee88ad378708dffaba77",
+        "is_practice": false,
+        "date": "2026-09-26 12:45"
+    },
+    "5e1a880e-e0cf-4251-8664-4f52629d03b6": {
+        "session_id": "5e1a880e-e0cf-4251-8664-4f52629d03b6",
+        "terminated": false,
+        "ended_early": true,
+        "scores": {
+            "technical": 0,
+            "confidence": 0,
+            "emotion_score": 70,
+            "emotion_stability": "Good",
+            "readiness_index": 14,
+            "readiness_label": "Early Stage"
+        },
+        "summary": {
+            "total_questions": 0,
+            "skills_covered": [
+                "GitHub",
+                "Java",
+                "JavaScript",
+                "C++",
+                "React",
+                "React.js",
+                "Node.js",
+                "MongoDB",
+                "REST APIs",
+                "NLP",
+                "Docker",
+                "Flask",
+                "Python",
+                "Machine Learning",
+                "Kubernetes",
+                "OpenCV",
+                "Data Analytics",
+                "Git & GitHub",
+                "TensorFlow",
+                "FastAPI",
+                "MySQL",
+                "Git",
+                "AWS"
+            ],
+            "difficulty_progression": [],
+            "violations": {
+                "tab_switch": 0,
+                "camera_exit": 0,
+                "window_move": 0,
+                "multiple_faces": 0,
+                "total": 0
+            },
+            "integrity_events": [
+                {
+                    "type": "HEAD_UP",
+                    "severity": "warning",
+                    "confidence": null,
+                    "start_ts": 1790407152.8269527,
+                    "end_ts": 1790407161.5192275,
+                    "duration_sec": 8.7,
+                    "timestamp": 1790407161.5192275,
+                    "details": {
+                        "yaw_deg": 0.3,
+                        "pitch_deg": -20.1
+                    }
+                }
+            ],
+            "final_summary": "Overall solid performance, demonstrated strong technical competencies."
+        },
+        "emotion_breakdown": {
+            "neutral": 100.0
+        },
+        "answers": [],
+        "recommendations": [
+            "Strengthen core technical concepts \u2014 review fundamentals and practice coding daily.",
+            "Work on speaking confidence \u2014 record yourself and practice mock answers aloud."
+        ],
+        "skill_scores": {},
+        "strong_areas": [
+            "Communicated technical ideas correctly."
+        ],
+        "weak_areas": [
+            "Provide more deep architectural details."
+        ],
+        "covered_topics": [],
+        "skill_performance": {},
+        "round_scores": [],
+        "candidate_profile": {},
+        "user_id": "6a93ee88ad378708dffaba77",
+        "is_practice": false,
+        "date": "2026-09-26 12:49"
+    },
+    "990d2617-3ff7-454b-9049-98181e110e57": {
+        "session_id": "990d2617-3ff7-454b-9049-98181e110e57",
+        "terminated": true,
+        "ended_early": false,
+        "scores": {
+            "technical": 0,
+            "confidence": 0,
+            "emotion_score": 70,
+            "emotion_stability": "Good",
+            "readiness_index": 14,
+            "readiness_label": "Early Stage"
+        },
+        "summary": {
+            "total_questions": 0,
+            "skills_covered": [
+                "CSS",
+                "Flask",
+                "Python",
+                "Java",
+                "GitHub",
+                "JavaScript",
+                "Spring Boot",
+                "MongoDB",
+                "Machine Learning",
+                "C++",
+                "Algorithms",
+                "Computer Vision",
+                "Data Structures",
+                "C",
+                "HTML",
+                "NLP",
+                "MySQL",
+                "Git"
+            ],
+            "difficulty_progression": [],
+            "violations": {
+                "tab_switch": 0,
+                "camera_exit": 0,
+                "window_move": 0,
+                "multiple_faces": 0,
+                "total": 3,
+                "phone_detected": 3
+            },
+            "integrity_events": [
+                {
+                    "type": "HEAD_UP",
+                    "severity": "warning",
+                    "confidence": null,
+                    "start_ts": 1790407231.1520278,
+                    "end_ts": 1790407237.1918123,
+                    "duration_sec": 6.0,
+                    "timestamp": 1790407237.1918123,
+                    "details": {
+                        "yaw_deg": -0.5,
+                        "pitch_deg": -23.3
+                    }
+                },
+                {
+                    "type": "PHONE_DETECTED",
+                    "severity": "critical",
+                    "confidence": 0.629,
+                    "start_ts": 1790407249.1032782,
+                    "end_ts": 1790407255.1117315,
+                    "duration_sec": 6.0,
+                    "timestamp": 1790407255.1117315,
+                    "details": {}
+                },
+                {
+                    "type": "PHONE_DETECTED",
+                    "severity": "critical",
+                    "confidence": null,
+                    "start_ts": null,
+                    "end_ts": null,
+                    "duration_sec": null,
+                    "timestamp": 1790387455.525277,
+                    "details": {
+                        "strike_number": 1
+                    }
+                },
+                {
+                    "type": "PHONE_DETECTED",
+                    "severity": "critical",
+                    "confidence": 0.656,
+                    "start_ts": 1790407261.0940888,
+                    "end_ts": 1790407267.1946743,
+                    "duration_sec": 6.1,
+                    "timestamp": 1790407267.1946743,
+                    "details": {}
+                },
+                {
+                    "type": "PHONE_DETECTED",
+                    "severity": "critical",
+                    "confidence": null,
+                    "start_ts": null,
+                    "end_ts": null,
+                    "duration_sec": null,
+                    "timestamp": 1790387467.514836,
+                    "details": {
+                        "strike_number": 2
+                    }
+                },
+                {
+                    "type": "HEAD_UP",
+                    "severity": "warning",
+                    "confidence": null,
+                    "start_ts": 1790407294.2281716,
+                    "end_ts": 1790407300.2737134,
+                    "duration_sec": 6.0,
+                    "timestamp": 1790407300.2737134,
+                    "details": {
+                        "yaw_deg": 2.2,
+                        "pitch_deg": -15.4
+                    }
+                },
+                {
+                    "type": "HEAD_UP",
+                    "severity": "warning",
+                    "confidence": null,
+                    "start_ts": 1790407324.3349123,
+                    "end_ts": 1790407333.1519673,
+                    "duration_sec": 8.8,
+                    "timestamp": 1790407333.1519673,
+                    "details": {
+                        "yaw_deg": 2.5,
+                        "pitch_deg": -21.9
+                    }
+                },
+                {
+                    "type": "PHONE_DETECTED",
+                    "severity": "critical",
+                    "confidence": 0.516,
+                    "start_ts": 1790407339.3156292,
+                    "end_ts": 1790407348.1787982,
+                    "duration_sec": 8.9,
+                    "timestamp": 1790407348.1787982,
+                    "details": {}
+                },
+                {
+                    "type": "PHONE_DETECTED",
+                    "severity": "critical",
+                    "confidence": null,
+                    "start_ts": null,
+                    "end_ts": null,
+                    "duration_sec": null,
+                    "timestamp": 1790387548.843993,
+                    "details": {
+                        "strike_number": 3
+                    }
+                }
+            ],
+            "final_summary": "Overall solid performance, demonstrated strong technical competencies."
+        },
+        "emotion_breakdown": {
+            "neutral": 100.0
+        },
+        "answers": [],
+        "recommendations": [
+            "Strengthen core technical concepts \u2014 review fundamentals and practice coding daily.",
+            "Work on speaking confidence \u2014 record yourself and practice mock answers aloud."
+        ],
+        "skill_scores": {},
+        "strong_areas": [
+            "Communicated technical ideas correctly."
+        ],
+        "weak_areas": [
+            "Provide more deep architectural details."
+        ],
+        "covered_topics": [],
+        "skill_performance": {},
+        "round_scores": [],
+        "candidate_profile": {},
+        "user_id": "6a93ee88ad378708dffaba77",
+        "is_practice": false,
+        "date": "2026-09-26 12:52"
+    },
+    "37fd12a7-40f6-4614-bc52-9c6efc7ebb4a": {
+        "session_id": "37fd12a7-40f6-4614-bc52-9c6efc7ebb4a",
+        "terminated": true,
+        "ended_early": false,
+        "scores": {
+            "technical": 0,
+            "confidence": 0,
+            "emotion_score": 70,
+            "emotion_stability": "Good",
+            "readiness_index": 14,
+            "readiness_label": "Early Stage"
+        },
+        "summary": {
+            "total_questions": 0,
+            "skills_covered": [
+                "GitHub",
+                "FastAPI",
+                "JavaScript",
+                "Python",
+                "Machine Learning",
+                "React.js",
+                "AWS",
+                "React",
+                "Kubernetes",
+                "OpenCV",
+                "MySQL",
+                "REST APIs",
+                "Java",
+                "TensorFlow",
+                "Data Analytics",
+                "Git & GitHub",
+                "Flask",
+                "MongoDB",
+                "NLP",
+                "C++",
+                "Git",
+                "Docker",
+                "Node.js"
+            ],
+            "difficulty_progression": [],
+            "violations": {
+                "tab_switch": 0,
+                "camera_exit": 2,
+                "window_move": 1,
+                "multiple_faces": 0,
+                "total": 3
+            },
+            "integrity_events": [
+                {
+                    "type": "CAMERA_EXIT",
+                    "severity": "critical",
+                    "confidence": null,
+                    "start_ts": null,
+                    "end_ts": null,
+                    "duration_sec": null,
+                    "timestamp": 1790393046.732732,
+                    "details": {
+                        "strike_number": 1
+                    }
+                },
+                {
+                    "type": "CAMERA_EXIT",
+                    "severity": "critical",
+                    "confidence": null,
+                    "start_ts": null,
+                    "end_ts": null,
+                    "duration_sec": null,
+                    "timestamp": 1790393068.928879,
+                    "details": {
+                        "strike_number": 2
+                    }
+                },
+                {
+                    "type": "WINDOW_MOVE",
+                    "severity": "critical",
+                    "confidence": null,
+                    "start_ts": null,
+                    "end_ts": null,
+                    "duration_sec": null,
+                    "timestamp": 1790393107.556009,
+                    "details": {
+                        "strike_number": 3
+                    }
+                }
+            ],
+            "strike_count": 3,
+            "auto_terminated": true,
+            "termination_reason": "integrity_strike_limit",
+            "termination_trigger_event": "window_move",
+            "termination_time": "2026-09-26T08:55:07.557003Z",
+            "final_summary": "Overall solid performance, demonstrated strong technical competencies."
+        },
+        "emotion_breakdown": {
+            "neutral": 100.0
+        },
+        "answers": [],
+        "recommendations": [
+            "Strengthen core technical concepts \u2014 review fundamentals and practice coding daily.",
+            "Work on speaking confidence \u2014 record yourself and practice mock answers aloud."
+        ],
+        "skill_scores": {},
+        "strong_areas": [
+            "Communicated technical ideas correctly."
+        ],
+        "weak_areas": [
+            "Provide more deep architectural details."
+        ],
+        "covered_topics": [],
+        "skill_performance": {},
+        "round_scores": [],
+        "candidate_profile": {},
+        "user_id": "6a93ee88ad378708dffaba77",
+        "is_practice": false,
+        "date": "2026-09-26 14:25"
+    },
+    "1a4f015a-d4c5-41a0-a92b-1a378fbb91ec": {
+        "session_id": "1a4f015a-d4c5-41a0-a92b-1a378fbb91ec",
+        "terminated": true,
+        "ended_early": false,
+        "scores": {
+            "technical": 0,
+            "confidence": 0,
+            "emotion_score": 70,
+            "emotion_stability": "Good",
+            "readiness_index": 14,
+            "readiness_label": "Early Stage"
+        },
+        "summary": {
+            "total_questions": 0,
+            "skills_covered": [
+                "C++",
+                "Node.js",
+                "FastAPI",
+                "TensorFlow",
+                "Kubernetes",
+                "Data Analytics",
+                "AWS",
+                "Git",
+                "REST APIs",
+                "OpenCV",
+                "Flask",
+                "JavaScript",
+                "Python",
+                "MySQL",
+                "React",
+                "MongoDB",
+                "GitHub",
+                "NLP",
+                "Docker",
+                "Machine Learning",
+                "Java",
+                "React.js",
+                "Git & GitHub"
+            ],
+            "difficulty_progression": [],
+            "violations": {
+                "tab_switch": 0,
+                "camera_exit": 2,
+                "window_move": 1,
+                "multiple_faces": 0,
+                "total": 3
+            },
+            "integrity_events": [
+                {
+                    "type": "CAMERA_EXIT",
+                    "severity": "critical",
+                    "confidence": null,
+                    "start_ts": null,
+                    "end_ts": null,
+                    "duration_sec": null,
+                    "timestamp": 1790399778.527625,
+                    "details": {
+                        "strike_number": 1
+                    }
+                },
+                {
+                    "type": "WINDOW_MOVE",
+                    "severity": "critical",
+                    "confidence": null,
+                    "start_ts": null,
+                    "end_ts": null,
+                    "duration_sec": null,
+                    "timestamp": 1790399788.97145,
+                    "details": {
+                        "strike_number": 2
+                    }
+                },
+                {
+                    "type": "CAMERA_EXIT",
+                    "severity": "critical",
+                    "confidence": null,
+                    "start_ts": null,
+                    "end_ts": null,
+                    "duration_sec": null,
+                    "timestamp": 1790399803.471081,
+                    "details": {
+                        "strike_number": 3
+                    }
+                }
+            ],
+            "strike_count": 3,
+            "auto_terminated": true,
+            "termination_reason": "integrity_strike_limit",
+            "termination_trigger_event": "camera_exit",
+            "termination_time": "2026-09-26T10:46:43.471308Z",
+            "final_summary": "Overall solid performance, demonstrated strong technical competencies."
+        },
+        "emotion_breakdown": {
+            "neutral": 100.0
+        },
+        "answers": [],
+        "recommendations": [
+            "Strengthen core technical concepts \u2014 review fundamentals and practice coding daily.",
+            "Work on speaking confidence \u2014 record yourself and practice mock answers aloud."
+        ],
+        "skill_scores": {},
+        "strong_areas": [
+            "Communicated technical ideas correctly."
+        ],
+        "weak_areas": [
+            "Provide more deep architectural details."
+        ],
+        "covered_topics": [],
+        "skill_performance": {},
+        "round_scores": [],
+        "candidate_profile": {},
+        "user_id": "6a93ee88ad378708dffaba77",
+        "is_practice": false,
+        "date": "2026-09-26 16:16"
+    },
+    "b67727d4-b734-4288-894c-ee1c852e8d4e": {
+        "session_id": "b67727d4-b734-4288-894c-ee1c852e8d4e",
+        "terminated": true,
+        "ended_early": false,
+        "scores": {
+            "technical": 0,
+            "confidence": 0,
+            "emotion_score": 70,
+            "emotion_stability": "Good",
+            "readiness_index": 14,
+            "readiness_label": "Early Stage"
+        },
+        "summary": {
+            "total_questions": 0,
+            "skills_covered": [
+                "Python",
+                "HTML",
+                "HTML/CSS"
+            ],
+            "difficulty_progression": [],
+            "violations": {
+                "tab_switch": 0,
+                "camera_exit": 3,
+                "window_move": 0,
+                "multiple_faces": 0,
+                "total": 3
+            },
+            "integrity_events": [
+                {
+                    "type": "CAMERA_EXIT",
+                    "severity": "critical",
+                    "confidence": null,
+                    "start_ts": null,
+                    "end_ts": null,
+                    "duration_sec": null,
+                    "timestamp": 1790399836.789938,
+                    "details": {
+                        "strike_number": 1
+                    }
+                },
+                {
+                    "type": "CAMERA_EXIT",
+                    "severity": "critical",
+                    "confidence": null,
+                    "start_ts": null,
+                    "end_ts": null,
+                    "duration_sec": null,
+                    "timestamp": 1790399863.521535,
+                    "details": {
+                        "strike_number": 2
+                    }
+                },
+                {
+                    "type": "CAMERA_EXIT",
+                    "severity": "critical",
+                    "confidence": null,
+                    "start_ts": null,
+                    "end_ts": null,
+                    "duration_sec": null,
+                    "timestamp": 1790399881.25997,
+                    "details": {
+                        "strike_number": 3
+                    }
+                }
+            ],
+            "strike_count": 3,
+            "auto_terminated": true,
+            "termination_reason": "integrity_strike_limit",
+            "termination_trigger_event": "camera_exit",
+            "termination_time": "2026-09-26T10:48:01.260207Z",
+            "final_summary": "Overall solid performance, demonstrated strong technical competencies."
+        },
+        "emotion_breakdown": {
+            "neutral": 100.0
+        },
+        "answers": [],
+        "recommendations": [
+            "Strengthen core technical concepts \u2014 review fundamentals and practice coding daily.",
+            "Work on speaking confidence \u2014 record yourself and practice mock answers aloud."
+        ],
+        "skill_scores": {},
+        "strong_areas": [
+            "Communicated technical ideas correctly."
+        ],
+        "weak_areas": [
+            "Provide more deep architectural details."
+        ],
+        "covered_topics": [],
+        "skill_performance": {},
+        "round_scores": [],
+        "candidate_profile": {},
+        "user_id": "6a93ee88ad378708dffaba77",
+        "is_practice": false,
+        "date": "2026-09-26 16:18"
     }
 }

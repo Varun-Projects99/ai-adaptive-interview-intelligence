@@ -2,7 +2,11 @@ import os
 import json
 import random
 import re
+import datetime
 import pymongo
+
+from modules.similarity import stem_word, normalize_text, are_questions_similar, is_duplicate_of_any  # re-exported, see below
+from modules import skill_mapper, question_bank, difficulty_engine
 
 # MongoDB connection setup
 MONGO_URI = os.environ.get("MONGO_URI")
@@ -21,40 +25,9 @@ if MONGO_URI:
     except Exception as e:
         print(f"[WARN] AdaptiveEngine: MongoDB connection failed: {e}")
 
-def stem_word(word):
-    """Simple stemmer to normalize plurals for comparison by removing trailing 's'."""
-    if word.endswith("s") and not word.endswith("ss"):
-        return word[:-1]
-    return word
-
-def normalize_text(text):
-    """Tokenize and normalize question text for Jaccard similarity."""
-    text = text.lower()
-    text = re.sub(r'[^a-z0-9\s]', '', text)
-    words = text.split()
-    
-    filler_words = {
-        "what", "is", "the", "difference", "between", "a", "an", "and", "in", 
-        "of", "to", "for", "with", "on", "describe", "tell", "me", "about", 
-        "write", "code", "use", "using", "why", "does", "can", "you", "show", 
-        "give", "example", "concept", "how", "are", "from", "do", "does", 
-        "did", "explain", "different", "would", "your", "we", "us", "our",
-        "they", "them", "he", "she", "it", "this", "that", "these", "those"
-    }
-    
-    filtered = [stem_word(w) for w in words if w not in filler_words]
-    return set(filtered)
-
-def are_questions_similar(q1, q2, threshold=0.55):
-    """Check Jaccard similarity of two normalized questions."""
-    w1 = normalize_text(q1)
-    w2 = normalize_text(q2)
-    if not w1 or not w2:
-        return False
-    intersection = w1.intersection(w2)
-    union = w1.union(w2)
-    similarity = len(intersection) / len(union)
-    return similarity >= threshold
+# stem_word / normalize_text / are_questions_similar now live in
+# modules/similarity.py (imported above) so the adaptive engine and the
+# dataset-driven question bank share one implementation instead of two.
 
 def get_user_history(user_id):
     """Fetch user's previous questions history from MongoDB."""
@@ -67,8 +40,18 @@ def get_user_history(user_id):
         print(f"[WARN] Failed to fetch user history: {e}")
         return []
 
-def add_to_user_history(user_id, session_id, question_text, skill):
-    """Record asked question to MongoDB to prevent future repetitions."""
+def add_to_user_history(user_id, session_id, question_text, skill, difficulty=None, score=None):
+    """
+    Record an asked question (+ its difficulty, the answer score once known,
+    and a timestamp) to MongoDB. This serves two purposes:
+      1. Repetition prevention (the original purpose of this collection).
+      2. A genuine, growing per-question performance log — user_id,
+         interview/session id, skill, question, difficulty, score, timestamp
+         — which is exactly the labeled data a future supervised difficulty
+         model would need. Today there isn't enough of it to train on (see
+         modules/difficulty_engine.py docstring), but this is where that
+         data would come from if/when there is.
+    """
     if asked_col is None or not user_id:
         return
     try:
@@ -79,7 +62,10 @@ def add_to_user_history(user_id, session_id, question_text, skill):
             "session_id": str(session_id),
             "question": question_text,
             "question_fingerprint": normalized,
-            "skill": skill
+            "skill": skill,
+            "difficulty": difficulty,
+            "score": score,
+            "timestamp": datetime.datetime.utcnow().isoformat() + "Z"
         }
         asked_col.insert_one(doc)
     except Exception as e:
@@ -101,6 +87,12 @@ def initialize_adaptive_state(session, user_id=None):
         session["asked_questions"] = []
     if "difficulty_history" not in session:
         session["difficulty_history"] = []
+    if "skill_performance" not in session:
+        # Per-skill deterministic performance tracker, see
+        # modules/difficulty_engine.py. Schema per skill:
+        # {"questions_answered": int, "average_score": int,
+        #  "current_difficulty": 1|2|3, "recent_scores": [...]}
+        session["skill_performance"] = {}
     if "user_id" not in session and user_id:
         session["user_id"] = str(user_id)
 
@@ -115,7 +107,21 @@ def update_adaptive_state(session, question_text, skill, score):
     # Add to persistent user history if user is logged in
     user_id = session.get("user_id")
     if user_id:
-        add_to_user_history(user_id, session["id"], question_text, skill)
+        add_to_user_history(
+            user_id, session["id"], question_text, skill,
+            difficulty=session.get("current_difficulty"), score=score
+        )
+
+    # 1b. Deterministic per-skill performance tracker (drives the NEXT
+    # difficulty for this skill, see modules/difficulty_engine.py). This is
+    # additive: it does not replace the skill_scores/strong/weak-area logic
+    # below, which continues to drive WHICH skill to ask about next.
+    if skill:
+        perf_map = session["skill_performance"]
+        if skill not in perf_map:
+            starting = session.get("current_difficulty", "easy")
+            perf_map[skill] = difficulty_engine.init_skill_performance(starting)
+        difficulty_engine.update_skill_performance(perf_map[skill], score)
 
     # 2. Update skill scores (running average)
     if skill:
@@ -211,20 +217,28 @@ def select_next_topic(session):
     if session.get("is_practice"):
         tech_scores = session.get("technical_scores", [])
         recent_perf = tech_scores[-1] if tech_scores else 50
-        if recent_perf < 40:
-            difficulty = "easy"
-        elif recent_perf < 60:
-            difficulty = "medium" if recent_perf >= 50 else "easy"
-        elif recent_perf < 75:
-            difficulty = "medium"
-        elif recent_perf < 90:
-            difficulty = "hard" if recent_perf >= 82 else "medium"
-        else:
-            difficulty = "hard"
-        reason = f"Practice session: recent performance {recent_perf}% mapped to {difficulty}."
+        difficulty = difficulty_engine.initial_difficulty_from_score(recent_perf)
+        band = difficulty_engine.classify_score(recent_perf)
+        reason = f"Practice session: recent performance {recent_perf}% classified as '{band}' -> {difficulty}."
         return (selected_skill, difficulty, reason)
 
-    # Check dynamic profile for this skill's persistent depth
+    # PRIMARY difficulty signal (per project requirement: difficulty must
+    # depend on actual measured performance, never be randomly chosen):
+    # this skill's own deterministic performance tracker, if it already has
+    # data from this session. See modules/difficulty_engine.py.
+    skill_perf = session.get("skill_performance", {}).get(selected_skill)
+    if skill_perf and skill_perf.get("questions_answered", 0) > 0:
+        difficulty = difficulty_engine.recommend_difficulty_label(skill_perf)
+        band = skill_perf.get("last_band", "average")
+        reason = (
+            f"Score-band adaptation: recent answer(s) on {selected_skill} classified as "
+            f"'{band}' -> {difficulty} (deterministic rule, see difficulty_engine.py)."
+        )
+        return (selected_skill, difficulty, reason)
+
+    # Cold start for this skill this session (no answers on it yet): fall
+    # back to the candidate's persistent cross-session profile depth, then
+    # to the overall moving average, exactly as before.
     sk_info = profile_skills.get(selected_skill, {})
     depth = sk_info.get("depth", "Basic")
 
@@ -255,92 +269,57 @@ def select_next_topic(session):
 
 def get_fallback_question(session, target_skill, target_difficulty, user_id=None):
     """
-    Select an appropriate fallback question from local JSON datasets,
-    ensuring it matches skill and difficulty, and passes repetition filtering.
+    Select a fresh question straight from the local dataset
+    (modules/question_bank.py), applying the same repetition filtering used
+    everywhere else (this-session history + persistent per-user history).
+    Kept as a thin, name-stable wrapper so existing call sites are
+    unaffected by the introduction of question_bank.py.
     """
     initialize_adaptive_state(session, user_id)
-    
-    modules_dir = os.path.dirname(os.path.abspath(__file__))
-    backend_dir = os.path.dirname(modules_dir)
-    workspace_dir = os.path.dirname(backend_dir)
-    
-    datasets_dir = os.path.join(workspace_dir, "datasets")
-    if not os.path.exists(datasets_dir):
-        datasets_dir = os.path.join(backend_dir, "datasets")
 
-    DATASET_MAP = {
-        "Python": "python.json", "Java": "java.json", "C": "c.json", "C++": "cpp.json",
-        "DSA": "dsa.json", "DBMS": "dbms.json", "OS": "os.json", "CN": "cn.json",
-        "SQL": "sql.json", "HTML/CSS": "html_css.json", "JavaScript": "javascript.json",
-        "React": "react.json", "DevOps": "devops.json", "AWS": "aws.json",
-        "AI/ML": "ai_ml.json", "HR": "hr.json", "Aptitude": "aptitude.json",
-        "Cybersecurity": "cybersecurity.json"
-    }
+    canonical_skill = skill_mapper.normalize_skill(target_skill) or target_skill
 
-    filename = DATASET_MAP.get(target_skill)
-    if not filename:
-        filename = "hr.json"  # default fallback
-        
-    file_path = os.path.join(datasets_dir, filename)
-    candidates = []
-    
-    if os.path.exists(file_path):
-        try:
-            with open(file_path, "r") as f:
-                q_list = json.load(f)
-                for q in q_list:
-                    if q.get("difficulty", "").lower() == target_difficulty.lower():
-                        candidates.append(q["question"])
-        except Exception as e:
-            print(f"[WARN] Error reading dataset {filename}: {e}")
-
-    # If no matching difficulty found, get any from the dataset
-    if not candidates and os.path.exists(file_path):
-        try:
-            with open(file_path, "r") as f:
-                q_list = json.load(f)
-                candidates = [q["question"] for q in q_list]
-        except:
-            pass
-
-    # Hardcoded global safety fallbacks
-    if not candidates:
-        candidates = [
-            "Explain your understanding of scalability in system engineering.",
-            "How do you design secure Rest APIs?",
-            "Explain time and space complexity of sorting algorithms."
-        ]
-
-    # Gather user's total historic questions to prevent duplicates
     history_asked = session["asked_questions"][:]
     if user_id:
         history_asked.extend(get_user_history(user_id))
 
-    # Filter out candidates similar to previously asked questions
-    fresh_candidates = []
-    for c in candidates:
-        is_dup = False
-        for prev in history_asked:
-            if are_questions_similar(c, prev):
-                is_dup = True
-                break
-        if not is_dup:
-            fresh_candidates.append(c)
+    result = question_bank.select_question(canonical_skill, target_difficulty, exclude=history_asked)
+    if result:
+        return result["question"]
 
-    # Return a unique question if possible, else return a random candidate
-    if fresh_candidates:
-        return random.choice(fresh_candidates)
-    return random.choice(candidates)
+    # Dataset has nothing at all for this skill (e.g. an unmapped skill with
+    # no backing dataset) -> last-resort hardcoded safety question.
+    return question_bank.safety_question()
+
 
 def generate_adaptive_question(session, target_skill, target_difficulty, user_id=None):
     """
-    Generate a question using Groq LLM with full context of candidate performance,
-    repetition prevention, and fallback to local JSON database.
+    DATASET-PRIMARY question selection.
+
+    Order of operations (the LLM is a FALLBACK, never the primary source,
+    per project requirement):
+      1. Try modules/question_bank.py (the local datasets) for a fresh
+         question matching target_skill + target_difficulty.
+      2. Only if the dataset genuinely cannot satisfy the request -- the
+         skill has no backing dataset at all, or every available question
+         for that skill/difficulty has already been asked to this
+         candidate -- does this fall through to the Groq LLM.
+      3. Translation to Hindi/Kannada (when configured) is an
+         LLM/translation-API *enrichment* step applied AFTER selection,
+         regardless of which source produced the question. This is exactly
+         the "translation/enrichment" LLM use case the project spec allows.
+
+    Returns:
+        (question_text: str, source: str)
+        source is one of:
+          "dataset"                                   -- served from the primary source
+          "llm_no_dataset_for_skill"                   -- skill has no dataset at all
+          "llm_dataset_exhausted"                       -- dataset had this skill, but no fresh question left
+          "dataset_safety_net_llm_unavailable"          -- LLM fallback needed but no API key configured
+          "dataset_safety_net_llm_failed"               -- LLM fallback attempted but errored/produced a duplicate
     """
     initialize_adaptive_state(session, user_id)
-    api_key = os.environ.get("GROQ_API_KEY")
-    
-    # Check language configuration
+
     lang = session.get("interviewer", {}).get("language", "en")
     lang_name = "English"
     if lang == "hi":
@@ -348,20 +327,42 @@ def generate_adaptive_question(session, target_skill, target_difficulty, user_id
     elif lang == "kn":
         lang_name = "Kannada"
 
-    if not api_key:
-        print("[WARN] Groq API key missing. Fetching from local fallback database.")
-        q_text = get_fallback_question(session, target_skill, target_difficulty, user_id)
+    history_asked = session["asked_questions"][:]
+    if user_id:
+        history_asked.extend(get_user_history(user_id))
+
+    canonical_skill = skill_mapper.normalize_skill(target_skill) or target_skill
+    dataset_available = skill_mapper.has_dataset(canonical_skill)
+
+    def _translate_if_needed(text):
         if lang in ["hi", "kn"]:
             from modules.question_engine import translate_text
-            q_text = translate_text(q_text, lang)
-        return q_text
+            return translate_text(text, lang)
+        return text
 
-    # Prepare historic questions to pass as anti-examples to AI
-    history_asked = session["asked_questions"][-10:]
-    if user_id:
-        history_asked.extend(get_user_history(user_id)[-10:])
-        
-    history_str = "\n".join([f"- {q}" for q in history_asked])
+    # ---- 1. PRIMARY: dataset retrieval ----
+    if dataset_available:
+        result = question_bank.select_question(canonical_skill, target_difficulty, exclude=history_asked)
+        if result:
+            print(f"[AdaptiveEngine] Question served from PRIMARY dataset source "
+                  f"({canonical_skill}/{result['difficulty_label']}).")
+            return _translate_if_needed(result["question"]), "dataset"
+        llm_reason = "llm_dataset_exhausted"
+        print(f"[AdaptiveEngine] Dataset exhausted for {canonical_skill}/{target_difficulty} "
+              f"(candidate has already seen all available {canonical_skill} questions) -> LLM fallback.")
+    else:
+        llm_reason = "llm_no_dataset_for_skill"
+        print(f"[AdaptiveEngine] No dataset backs skill \'{target_skill}\' -> LLM fallback.")
+
+    # ---- 2. FALLBACK: LLM generation (only reached when the dataset could not help) ----
+    api_key = os.environ.get("GROQ_API_KEY")
+    if not api_key:
+        print("[WARN] Groq API key missing. Using local safety-net question instead of LLM fallback.")
+        q_text = get_fallback_question(session, target_skill, target_difficulty, user_id)
+        return _translate_if_needed(q_text), "dataset_safety_net_llm_unavailable"
+
+    history_for_prompt = history_asked[-10:]
+    history_str = "\n".join([f"- {q}" for q in history_for_prompt])
 
     prompt = f"""You are a professional AI Technical Interviewer.
 Candidate Details & Status:
@@ -401,32 +402,23 @@ Guidelines for the question:
             max_tokens=600
         )
         q_text = completion.choices[0].message.content.strip()
-        
-        # Cleanup quotes if LLM returned them
+
         if q_text.startswith('"') and q_text.endswith('"'):
             q_text = q_text[1:-1]
         elif q_text.startswith("'") and q_text.endswith("'"):
             q_text = q_text[1:-1]
-            
-        # Repetition sanity check on AI generated question
-        is_dup = False
-        for prev in history_asked:
-            if are_questions_similar(q_text, prev):
-                is_dup = True
-                break
-                
-        if is_dup:
-            print("[WARN] AI generated a duplicate question. Fetching from local fallback database.")
+
+        if is_duplicate_of_any(q_text, history_asked):
+            print("[WARN] AI generated a duplicate question. Falling back to local dataset safety net.")
             raise ValueError("Duplicate generated by AI")
 
-        return q_text
+        print(f"[AdaptiveEngine] Question served from LLM FALLBACK ({llm_reason}).")
+        return q_text, llm_reason
     except Exception as e:
-        print(f"[WARN] Groq AI question generation failed: {e}. Falling back to local database.")
+        print(f"[WARN] Groq AI question generation failed: {e}. Falling back to local dataset safety net.")
         q_text = get_fallback_question(session, target_skill, target_difficulty, user_id)
-        if lang in ["hi", "kn"]:
-            from modules.question_engine import translate_text
-            q_text = translate_text(q_text, lang)
-        return q_text
+        return _translate_if_needed(q_text), "dataset_safety_net_llm_failed"
+
 
 def should_interview_finish(session):
     """
@@ -434,14 +426,19 @@ def should_interview_finish(session):
     based on topic coverage, information gain, and safety boundaries.
     """
     initialize_adaptive_state(session)
-    total_answered = len(session.get("answers", []))
-    
-    # 1. Safety Minimum boundary limit
-    if total_answered < 10:
+    # round_started_at_answer_count is an additive, default-0 offset set by
+    # modules/round_manager.py for a multi-round session, so each round gets
+    # its own fresh 10-30 question window instead of inheriting the
+    # cumulative count from earlier rounds. It is never set for an ordinary
+    # single-round session, so total_answered is unchanged there.
+    total_answered = len(session.get("answers", [])) - session.get("round_started_at_answer_count", 0)
+
+    # 1. Safety Minimum boundary limit (spec: minimum 12 questions per round)
+    if total_answered < 12:
         return False
-        
-    # 2. Safety Maximum boundary limit
-    if total_answered >= 30:
+
+    # 2. Safety Maximum boundary limit (spec: maximum 25 questions per round)
+    if total_answered >= 25:
         return True
 
     # 3. Check Uncertainty of all resume skills
