@@ -1628,16 +1628,26 @@ def start_session():
             sess["invitation_token"] = invitation_token
             sess["interview_id"] = str(interview["_id"])
             sess["job_role"] = interview.get("job_role", "Software Engineer")
+            sess["experience_level"] = interview.get("experience_level", "1–3 Years")
+            sess["assessment_type"] = interview.get("assessment_type", "Technical Interview")
             sess["skills"] = interview.get("skills", [])
-            sess["difficulty"] = interview.get("difficulty", "medium")
-            sess["num_questions"] = interview.get("num_questions", 10)
+            sess["technical_areas"] = interview.get("technical_areas", [])
+            sess["difficulty"] = interview.get("difficulty", "adaptive")
+            sess["num_questions"] = interview.get("num_questions", 15)
             sess["duration"] = interview.get("duration", 30)
+            sess["communication_enabled"] = interview.get("communication_enabled", True)
+            sess["coding_enabled"] = interview.get("coding_enabled", False)
+            sess["resume_required"] = interview.get("resume_required", False)
+            sess["camera_required"] = interview.get("camera_required", True)
+            sess["microphone_required"] = interview.get("microphone_required", True)
+            sess["integrity_mode"] = interview.get("integrity_mode", "Standard")
+            sess["integrity_monitoring"] = interview.get("integrity_mode", "Standard") != "OFF"
+            sess["adaptive"] = interview.get("adaptive", True)
+            sess["question_source"] = interview.get("question_source", "Dataset Question Bank")
+            sess["candidate_instructions"] = interview.get("candidate_instructions", "")
             sess["language"] = interview.get("language", "en")
             sess["personality"] = interview.get("personality", "professional")
-            sess["type"] = interview.get("type", "technical")
-            sess["adaptive"] = interview.get("adaptive", True)
-            sess["ai_interviewer"] = interview.get("ai_interviewer", True)
-            sess["integrity_monitoring"] = interview.get("integrity_monitoring", True)
+            sess["type"] = interview.get("assessment_type", "technical")
             
             # Setup interviewer configuration dict
             sess["interviewer"] = {
@@ -1653,7 +1663,8 @@ def start_session():
                 "session_id": sid,
                 "status": "started",
                 "invitation_bound": True,
-                "interview_title": interview.get("title")
+                "interview_title": interview.get("title"),
+                "resume_required": sess["resume_required"]
             })
 
     print(f"[Session] Started: {sid[:8]}...")
@@ -3138,7 +3149,7 @@ def admin_audit_logs():
     return jsonify(logs)
 
 
-# ── RECRUITER ASSESSMENT TEMPLATES ──────────────────────────────────────────
+# ── RECRUITER ASSESSMENT TEMPLATES & CONFIGURATION ──────────────────────────
 
 @app.route("/api/recruiter/interviews", methods=["POST"])
 @role_required(["recruiter", "admin"])
@@ -3147,21 +3158,27 @@ def recruiter_create_interview():
         return jsonify({"error": "Database unavailable"}), 503
     
     data = request.json or {}
-    title = data.get("title", "New Interview Assessment").strip()
+    title = data.get("title", "Interview Assessment").strip()
     job_role = data.get("job_role", "Software Engineer").strip()
+    experience_level = data.get("experience_level", "1–3 Years").strip()
+    assessment_type = data.get("assessment_type", data.get("type", "Technical Interview")).strip()
     description = data.get("description", "").strip()
     skills = data.get("skills", [])
-    difficulty = data.get("difficulty", "medium")
-    num_questions = int(data.get("num_questions", 10))
+    technical_areas = data.get("technical_areas", [])
+    difficulty = data.get("difficulty", "adaptive").strip()
+    num_questions = int(data.get("num_questions", 15))
     duration = int(data.get("duration", 30))
-    language = data.get("language", "en")
-    personality = data.get("personality", "professional")
-    type_val = data.get("type", "technical")
     
-    # Flags
+    # Flags & Controls
+    communication_enabled = bool(data.get("communication_enabled", True))
+    coding_enabled = bool(data.get("coding_enabled", False))
+    resume_required = bool(data.get("resume_required", False))
+    camera_required = bool(data.get("camera_required", True))
+    microphone_required = bool(data.get("microphone_required", True))
+    integrity_mode = data.get("integrity_mode", "Standard").strip()
     adaptive = bool(data.get("adaptive", True))
-    ai_interviewer = bool(data.get("ai_interviewer", True))
-    integrity_monitoring = bool(data.get("integrity_monitoring", True))
+    question_source = data.get("question_source", "Dataset Question Bank").strip()
+    candidate_instructions = data.get("candidate_instructions", "").strip()
     
     recruiter_id = str(session["user_id"])
     
@@ -3169,17 +3186,25 @@ def recruiter_create_interview():
         "recruiter_id": recruiter_id,
         "title": title,
         "job_role": job_role,
+        "experience_level": experience_level,
+        "assessment_type": assessment_type,
+        "type": assessment_type,
         "description": description,
         "skills": skills,
+        "technical_areas": technical_areas,
         "difficulty": difficulty,
         "num_questions": num_questions,
         "duration": duration,
-        "language": language,
-        "personality": personality,
-        "type": type_val,
+        "communication_enabled": communication_enabled,
+        "coding_enabled": coding_enabled,
+        "resume_required": resume_required,
+        "camera_required": camera_required,
+        "microphone_required": microphone_required,
+        "integrity_mode": integrity_mode,
+        "integrity_monitoring": integrity_mode != "OFF",
         "adaptive": adaptive,
-        "ai_interviewer": ai_interviewer,
-        "integrity_monitoring": integrity_monitoring,
+        "question_source": question_source,
+        "candidate_instructions": candidate_instructions,
         "created_at": datetime.datetime.utcnow().isoformat() + "Z"
     }
     
@@ -3230,19 +3255,23 @@ def recruiter_update_interview(interview_id):
         
     updates = {}
     fields = [
-        "title", "job_role", "description", "skills", "difficulty", 
-        "num_questions", "duration", "language", "personality", "type",
-        "adaptive", "ai_interviewer", "integrity_monitoring"
+        "title", "job_role", "experience_level", "assessment_type", "type", "description",
+        "skills", "technical_areas", "difficulty", "num_questions", "duration",
+        "communication_enabled", "coding_enabled", "resume_required", "camera_required",
+        "microphone_required", "integrity_mode", "adaptive", "question_source", "candidate_instructions"
     ]
     for f in fields:
         if f in data:
             val = data[f]
             if f in ["num_questions", "duration"]:
                 val = int(val)
-            elif f in ["adaptive", "ai_interviewer", "integrity_monitoring"]:
+            elif f in ["communication_enabled", "coding_enabled", "resume_required", "camera_required", "microphone_required", "adaptive"]:
                 val = bool(val)
             updates[f] = val
             
+    if "integrity_mode" in updates:
+        updates["integrity_monitoring"] = updates["integrity_mode"] != "OFF"
+        
     updates["updated_at"] = datetime.datetime.utcnow().isoformat() + "Z"
     
     db["interviews"].update_one({"_id": ObjectId(interview_id)}, {"$set": updates})
@@ -3254,7 +3283,7 @@ def recruiter_update_interview(interview_id):
     return jsonify(clean_json(updated_doc))
 
 
-# ── CANDIDATE INVITATIONS ─────────────────────────────────────────────────────
+# ── CANDIDATE INVITATIONS & ACTIONS ───────────────────────────────────────────
 
 @app.route("/api/recruiter/invitations", methods=["POST"])
 @role_required(["recruiter", "admin"])
@@ -3264,17 +3293,68 @@ def recruiter_create_invitation():
         
     data = request.json or {}
     email = data.get("email", "").strip().lower()
-    interview_id = data.get("interview_id")
     expiration_hours = int(data.get("expiration_hours", 48))
     
-    if not email or not interview_id:
-        return jsonify({"error": "Email and interview_id are required"}), 400
+    if not email:
+        return jsonify({"error": "Candidate email is required"}), 400
         
     recruiter_id = str(session["user_id"])
-    
-    interview = db["interviews"].find_one({"_id": ObjectId(interview_id)})
-    if not interview:
-        return jsonify({"error": "Interview assessment configuration not found"}), 404
+    interview_id = data.get("interview_id")
+
+    # If full configuration is passed directly, create the interview document automatically
+    if not interview_id or "job_role" in data:
+        title = data.get("title", f"{data.get('job_role', 'Software Engineer')} Assessment").strip()
+        job_role = data.get("job_role", "Software Engineer").strip()
+        experience_level = data.get("experience_level", "1–3 Years").strip()
+        assessment_type = data.get("assessment_type", "Technical Interview").strip()
+        description = data.get("description", "").strip()
+        skills = data.get("skills", ["Python", "DSA"])
+        technical_areas = data.get("technical_areas", [])
+        difficulty = data.get("difficulty", "adaptive").strip()
+        num_questions = int(data.get("num_questions", 15))
+        duration = int(data.get("duration", 30))
+        communication_enabled = bool(data.get("communication_enabled", True))
+        coding_enabled = bool(data.get("coding_enabled", False))
+        resume_required = bool(data.get("resume_required", False))
+        camera_required = bool(data.get("camera_required", True))
+        microphone_required = bool(data.get("microphone_required", True))
+        integrity_mode = data.get("integrity_mode", "Standard").strip()
+        adaptive = bool(data.get("adaptive", True))
+        question_source = data.get("question_source", "Dataset Question Bank").strip()
+        candidate_instructions = data.get("candidate_instructions", "").strip()
+
+        interview_doc = {
+            "recruiter_id": recruiter_id,
+            "title": title,
+            "job_role": job_role,
+            "experience_level": experience_level,
+            "assessment_type": assessment_type,
+            "type": assessment_type,
+            "description": description,
+            "skills": skills,
+            "technical_areas": technical_areas,
+            "difficulty": difficulty,
+            "num_questions": num_questions,
+            "duration": duration,
+            "communication_enabled": communication_enabled,
+            "coding_enabled": coding_enabled,
+            "resume_required": resume_required,
+            "camera_required": camera_required,
+            "microphone_required": microphone_required,
+            "integrity_mode": integrity_mode,
+            "integrity_monitoring": integrity_mode != "OFF",
+            "adaptive": adaptive,
+            "question_source": question_source,
+            "candidate_instructions": candidate_instructions,
+            "created_at": datetime.datetime.utcnow().isoformat() + "Z"
+        }
+        res_int = db["interviews"].insert_one(interview_doc)
+        interview_id = str(res_int.inserted_id)
+        interview = interview_doc
+    else:
+        interview = db["interviews"].find_one({"_id": ObjectId(interview_id)})
+        if not interview:
+            return jsonify({"error": "Interview assessment configuration not found"}), 404
         
     token = str(uuid.uuid4())
     expiration_date = (datetime.datetime.utcnow() + datetime.timedelta(hours=expiration_hours)).isoformat() + "Z"
@@ -3283,8 +3363,13 @@ def recruiter_create_invitation():
         "recruiter_id": recruiter_id,
         "email": email,
         "interview_id": interview_id,
-        "interview_title": interview.get("title"),
-        "job_role": interview.get("job_role"),
+        "interview_title": interview.get("title", "Assessment"),
+        "job_role": interview.get("job_role", "Software Engineer"),
+        "experience_level": interview.get("experience_level", "1–3 Years"),
+        "assessment_type": interview.get("assessment_type", "Technical Interview"),
+        "skills": interview.get("skills", []),
+        "num_questions": interview.get("num_questions", 15),
+        "duration": interview.get("duration", 30),
         "expiration_date": expiration_date,
         "status": "Pending",
         "token": token,
@@ -3319,6 +3404,49 @@ def recruiter_get_invitations():
     return jsonify(clean_json(invitations))
 
 
+@app.route("/api/recruiter/invitations/<token>/revoke", methods=["POST"])
+@role_required(["recruiter", "admin"])
+def recruiter_revoke_invitation(token):
+    if db is None:
+        return jsonify({"error": "Database unavailable"}), 503
+        
+    res = db["interview_invitations"].update_one(
+        {"token": token},
+        {"$set": {"status": "Revoked", "updated_at": datetime.datetime.utcnow().isoformat() + "Z"}}
+    )
+    if res.matched_count == 0:
+        return jsonify({"error": "Invitation token not found"}), 404
+        
+    return jsonify({"success": True, "message": "Invitation successfully revoked."})
+
+
+@app.route("/api/recruiter/invitations/<token>/extend", methods=["POST"])
+@role_required(["recruiter", "admin"])
+def recruiter_extend_invitation(token):
+    if db is None:
+        return jsonify({"error": "Database unavailable"}), 503
+        
+    data = request.json or {}
+    hours = int(data.get("hours", 24))
+    
+    invite = db["interview_invitations"].find_one({"token": token})
+    if not invite:
+        return jsonify({"error": "Invitation token not found"}), 404
+        
+    try:
+        exp_dt = datetime.datetime.fromisoformat(invite["expiration_date"].replace("Z", ""))
+    except Exception:
+        exp_dt = datetime.datetime.utcnow()
+        
+    new_exp = (max(exp_dt, datetime.datetime.utcnow()) + datetime.timedelta(hours=hours)).isoformat() + "Z"
+    
+    db["interview_invitations"].update_one(
+        {"token": token},
+        {"$set": {"expiration_date": new_exp, "status": "Pending", "updated_at": datetime.datetime.utcnow().isoformat() + "Z"}}
+    )
+    return jsonify({"success": True, "new_expiration": new_exp, "message": f"Invitation extended by {hours} hours."})
+
+
 @app.route("/api/invite/status/<token>", methods=["GET"])
 def get_invite_status(token):
     if db is None:
@@ -3328,18 +3456,45 @@ def get_invite_status(token):
     if not invite:
         return jsonify({"error": "Invitation link is invalid"}), 404
         
-    # Check expiration
     exp = invite.get("expiration_date")
     if exp:
-        exp_dt = datetime.datetime.fromisoformat(exp.replace("Z", ""))
-        if datetime.datetime.utcnow() > exp_dt:
-            if invite.get("status") == "Pending":
-                db["interview_invitations"].update_one({"token": token}, {"$set": {"status": "Expired"}})
-                invite["status"] = "Expired"
-                
+        try:
+            exp_dt = datetime.datetime.fromisoformat(exp.replace("Z", ""))
+            if datetime.datetime.utcnow() > exp_dt:
+                if invite.get("status") == "Pending":
+                    db["interview_invitations"].update_one({"token": token}, {"$set": {"status": "Expired"}})
+                    invite["status"] = "Expired"
+        except Exception:
+            pass
+
+    interview = {}
+    if invite.get("interview_id"):
+        try:
+            int_doc = db["interviews"].find_one({"_id": ObjectId(invite["interview_id"])})
+            if int_doc:
+                interview = int_doc
+        except Exception:
+            pass
+            
     return jsonify({
-        "interview_title": invite.get("interview_title"),
-        "job_role": invite.get("job_role"),
+        "interview_title": invite.get("interview_title") or interview.get("title", "Assessment"),
+        "job_role": invite.get("job_role") or interview.get("job_role", "Software Engineer"),
+        "experience_level": interview.get("experience_level", invite.get("experience_level", "1–3 Years")),
+        "assessment_type": interview.get("assessment_type", invite.get("assessment_type", "Technical Interview")),
+        "required_skills": interview.get("skills", invite.get("skills", [])),
+        "technical_areas": interview.get("technical_areas", []),
+        "initial_difficulty": interview.get("difficulty", "adaptive"),
+        "num_questions": interview.get("num_questions", invite.get("num_questions", 15)),
+        "duration": interview.get("duration", invite.get("duration", 30)),
+        "communication_enabled": interview.get("communication_enabled", True),
+        "coding_enabled": interview.get("coding_enabled", False),
+        "resume_required": interview.get("resume_required", False),
+        "camera_required": interview.get("camera_required", True),
+        "microphone_required": interview.get("microphone_required", True),
+        "integrity_mode": interview.get("integrity_mode", "Standard"),
+        "adaptive_enabled": interview.get("adaptive", True),
+        "question_source": interview.get("question_source", "Dataset Question Bank"),
+        "candidate_instructions": interview.get("candidate_instructions", ""),
         "status": invite.get("status"),
         "expiration_date": invite.get("expiration_date"),
         "token": token
