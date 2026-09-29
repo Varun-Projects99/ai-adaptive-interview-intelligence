@@ -4,13 +4,13 @@
 <script>(function(){try{var t=localStorage.getItem('iq_theme');if(t==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InterviewIQ — Resume Analyzer</title>
+    <title>InterviewIQ — Resume Intelligence System</title>
     <link rel="stylesheet" href="/assets/css/style.css">
     <style>
         .analyzer-container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 88px 24px 60px;
+            padding: 88px 24px 80px;
             position: relative;
             z-index: 1;
         }
@@ -31,24 +31,24 @@
 
         .analyzer-header h1 {
             font-family: var(--fh);
-            font-size: clamp(32px, 5vw, 48px);
+            font-size: clamp(32px, 5vw, 46px);
             font-weight: 800;
-            letter-spacing: -2px;
+            letter-spacing: -1.5px;
             line-height: 1.1;
         }
 
-        /* Results dashboard */
+        /* Results dashboard layout */
         .results-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
-            margin-top: 32px;
+            margin-top: 24px;
         }
 
         .score-card {
             background: var(--surface2);
             border: 1px solid var(--border);
-            padding: 24px;
+            padding: 24px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -58,10 +58,10 @@
 
         .score-num {
             font-family: var(--fh);
-            font-size: 48px;
+            font-size: 44px;
             font-weight: 800;
             line-height: 1;
-            margin: 12px 0 4px;
+            margin: 10px 0 6px;
         }
 
         .score-num.high { color: var(--success); }
@@ -70,90 +70,246 @@
 
         .score-label {
             font-family: var(--fm);
-            font-size: 10px;
+            font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 0.12em;
             color: var(--text-muted);
         }
 
-        .analysis-section {
+        .intel-section {
             background: var(--surface);
             border: 1px solid var(--border);
-            padding: 32px;
+            padding: 28px 24px;
             margin-top: 24px;
             position: relative;
         }
 
-        .bullets-list {
-            list-style: none;
-            margin-top: 12px;
+        .intel-section-title {
+            font-family: var(--fh);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent2);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        .bullets-list li {
-            position: relative;
-            padding-left: 20px;
-            margin-bottom: 10px;
-            font-size: 14px;
-            line-height: 1.6;
+        .intel-section-sub {
+            font-family: var(--fm);
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
         }
 
-        .bullets-list.strengths li::before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: var(--success);
-            font-weight: bold;
+        /* Profile grid */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 14px;
         }
 
-        .bullets-list.improvements li::before {
-            content: "→";
-            position: absolute;
-            left: 0;
+        .profile-field {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            padding: 12px 14px;
+        }
+
+        .profile-field-label {
+            font-family: var(--fm);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .profile-field-val {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            word-break: break-all;
+        }
+
+        .profile-field-val.not-detected {
+            color: var(--text-muted);
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        /* Categorized skills */
+        .skill-cat-title {
+            font-family: var(--fm);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
             color: var(--warn);
-            font-weight: bold;
+            margin: 16px 0 8px;
         }
 
-        .skills-grid {
+        .skills-wrap {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin-top: 12px;
         }
 
         .skill-badge {
-            background: rgba(4, 110, 59, 0.06);
-            border: 1px solid rgba(4, 110, 59, 0.25);
+            background: rgba(4, 110, 59, 0.08);
+            border: 1px solid rgba(4, 110, 59, 0.3);
             color: var(--accent2);
-            padding: 6px 14px;
+            padding: 6px 12px;
             font-family: var(--fb);
             font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .path-badge {
-            background: rgba(248, 231, 201, 0.08);
-            border: 1px solid rgba(248, 231, 201, 0.2);
-            color: var(--accent2);
-            padding: 6px 14px;
-            font-family: var(--fh);
-            font-weight: 600;
-            font-size: 13px;
-            margin-right: 8px;
-            margin-top: 8px;
-            display: inline-block;
+        .skill-badge:hover {
+            border-color: var(--accent2);
+            background: rgba(4, 110, 59, 0.18);
         }
 
-        .back-btn-row {
+        .evidence-btn {
+            font-family: var(--fm);
+            font-size: 9px;
+            padding: 2px 6px;
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            color: var(--text-muted);
+            border-radius: 2px;
+            text-transform: uppercase;
+        }
+
+        /* ATS breakdown bars */
+        .ats-metric-row {
+            margin-bottom: 16px;
+        }
+
+        .ats-metric-header {
             display: flex;
-            gap: 16px;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .ats-progress-bar {
+            height: 6px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .ats-progress-fill {
+            height: 100%;
+            background: var(--accent);
+            transition: width 0.4s ease;
+        }
+
+        .calc-details {
+            margin-top: 6px;
+            font-size: 11px;
+            color: var(--text-muted);
+            font-family: var(--fm);
+        }
+
+        .calc-details summary {
+            cursor: pointer;
+            color: var(--accent2);
+        }
+
+        .calc-box {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            padding: 10px 14px;
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+
+        /* Role alignment */
+        .role-select {
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            color: var(--accent2);
+            font-family: var(--fh);
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 14px;
+            cursor: pointer;
+            outline: none;
+            width: 100%;
+            max-width: 320px;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(5, 11, 10, 0.85);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-card {
+            background: var(--surface);
+            border: 1px solid var(--border2);
+            width: 100%;
+            max-width: 600px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 28px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px; right: 20px;
+            font-family: var(--fm);
+            font-size: 18px;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        /* Check list */
+        .checklist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 12px;
+        }
+
+        .checklist-item {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chk-icon.pass { color: var(--success); font-weight: bold; }
+        .chk-icon.warn { color: var(--warn); font-weight: bold; }
+        .chk-icon.fail { color: var(--danger); font-weight: bold; }
+
+        .action-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
             margin-top: 32px;
         }
 
         .glow {
             position: absolute;
-            width: 800px;
-            height: 800px;
+            width: 900px;
+            height: 900px;
             pointer-events: none;
-            background: radial-gradient(circle, rgba(4, 110, 59, 0.05) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(4, 110, 59, 0.04) 0%, transparent 70%);
             top: 40%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -184,8 +340,8 @@
 
         <!-- HEADER -->
         <div class="analyzer-header">
-            <p>ATS &amp; Profile Optimization</p>
-            <h1>Resume <span style="color:var(--accent)">Analyzer</span></h1>
+            <p>Evidence-Based Resume Intelligence System</p>
+            <h1>Resume <span style="color:var(--accent)">Intelligence</span></h1>
         </div>
 
         <!-- UPLOAD SECTION -->
@@ -221,92 +377,338 @@
             </button>
         </div>
 
-        <!-- RESULTS SECTION (Initially Hidden) -->
-        <div id="results-area" style="display:none;" class="fade-up">
-            
-            <!-- Scores grid -->
-            <div class="results-grid">
-                <div class="score-card">
-                    <div class="corner corner-tl"></div>
-                    <div class="corner corner-br"></div>
-                    <span class="score-label">Overall Profile Match</span>
-                    <span id="score-val" class="score-num">0%</span>
-                    <span class="font-mono text-muted" style="font-size:10px;">ATS &amp; Industry Alignment</span>
-                </div>
-                <div class="score-card">
-                    <div class="corner corner-tl"></div>
-                    <div class="corner corner-br"></div>
-                    <span class="score-label">ATS Optimization</span>
-                    <span id="ats-val" class="score-num">0%</span>
-                    <span class="font-mono text-muted" style="font-size:10px;">Keyword &amp; Parsing Score</span>
-                </div>
-                <div class="score-card">
-                    <div class="corner corner-tl"></div>
-                    <div class="corner corner-br"></div>
-                    <span class="score-label">Layout / Formatting</span>
-                    <span id="format-val" class="score-num">0%</span>
-                    <span id="format-sub" class="font-mono text-muted" style="font-size:10px; text-transform:capitalize;">Clean</span>
-                </div>
+        <!-- INVALID DOCUMENT BROWSER BARS -->
+        <div id="invalid-doc-card" class="card fade-up" style="display:none; background:rgba(239, 68, 68, 0.05); border:1px solid rgba(239, 68, 68, 0.3); padding:32px; flex-direction:column; gap:16px;">
+            <div style="font-family:var(--fh); font-size:20px; font-weight:700; color:var(--danger); display:flex; align-items:center; gap:10px;">
+                <span>⚠ DOCUMENT NOT RECOGNIZED AS A RESUME</span>
             </div>
-
-            <!-- Detected Skills -->
-            <div class="analysis-section">
-                <div class="corner corner-tl"></div>
-                <div class="corner corner-br"></div>
-                <div class="section-title">Technical Expertise Detected</div>
-                <div id="skills-grid" class="skills-grid"></div>
+            <p id="invalid-doc-msg" style="font-size:14px; color:var(--text); line-height:1.6; margin:0;"></p>
+            <div style="font-size:13px; color:var(--text-muted); line-height:1.5;">
+                Please upload a standard resume/CV containing your candidate profile, contact details, education, experience, projects, and technical skills section.
             </div>
-
-            <!-- Career Paths -->
-            <div class="analysis-section">
-                <div class="corner corner-tl"></div>
-                <div class="corner corner-br"></div>
-                <div class="section-title">Recommended Career Tracks</div>
-                <div id="career-paths"></div>
-            </div>
-
-            <!-- Strengths and Improvements -->
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:24px;">
-                <div class="analysis-section">
-                    <div class="corner corner-tl"></div>
-                    <div class="corner corner-br"></div>
-                    <div class="section-title" style="color:var(--success);">Key Strengths</div>
-                    <ul id="strengths-list" class="bullets-list strengths"></ul>
-                </div>
-                <div class="analysis-section">
-                    <div class="corner corner-tl"></div>
-                    <div class="corner corner-br"></div>
-                    <div class="section-title" style="color:var(--warn);">Areas for Improvement</div>
-                    <ul id="improvements-list" class="bullets-list improvements"></ul>
-                </div>
-            </div>
-
-            <!-- Formatting Feedback -->
-            <div class="analysis-section">
-                <div class="corner corner-tl"></div>
-                <div class="corner corner-br"></div>
-                <div class="section-title">Layout &amp; Structure Insights</div>
-                <p id="formatting-feedback" style="font-size:14px; line-height:1.6; color:var(--text); margin-top:12px;"></p>
-            </div>
-
-            <!-- Actions -->
-            <div class="back-btn-row">
-                <button class="btn btn-outline" style="flex:1" onclick="resetAnalyzer()">
-                    🔄 Analyze Another Resume
-                </button>
-                <button class="btn btn-primary" style="flex:1" onclick="window.location.href='/upload'">
-                    🚀 Start Mock Interview with this Profile
+            <div style="margin-top:12px;">
+                <button class="btn btn-outline" onclick="resetAnalyzer()">
+                    🔄 Try Uploading Another PDF
                 </button>
             </div>
         </div>
 
+        <!-- RESULTS SYSTEM AREA -->
+        <div id="results-area" style="display:none;" class="fade-up">
+
+            <!-- 1. RESUME OVERVIEW HEADER -->
+            <div class="intel-section" style="margin-top:0;">
+                <div class="intel-section-title">
+                    <span>1. RESUME OVERVIEW</span>
+                    <span id="overview-valid-badge" class="font-mono" style="font-size:11px; background:rgba(4, 110, 59, 0.2); border:1px solid var(--accent); color:var(--accent2); padding:4px 10px;">✓ STRUCTURALLY VALIDATED RESUME</span>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:16px;">
+                    <div>
+                        <div id="overview-name" style="font-family:var(--fh); font-size:24px; font-weight:800; color:var(--accent2);">Candidate Name</div>
+                        <div id="overview-role" class="font-mono text-muted" style="font-size:12px; margin-top:4px;">Target / Latest Role: Software Engineer</div>
+                    </div>
+                    <div style="display:flex; gap:12px;">
+                        <button class="btn btn-outline" style="padding:6px 14px; font-size:12px;" onclick="openEvidenceModal()">
+                            🔍 View Skill Evidence
+                        </button>
+                        <button class="btn btn-primary" style="padding:6px 14px; font-size:12px;" onclick="window.location.href='/upload'">
+                            🚀 Start Adaptive Interview
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. PROFILE SUMMARY -->
+            <div class="intel-section">
+                <div class="intel-section-title">
+                    <span>2. RESUME PROFILE SUMMARY</span>
+                    <span class="intel-section-sub">EXPLICITLY DETECTED DATA</span>
+                </div>
+                <div class="profile-grid" id="profile-summary-grid"></div>
+            </div>
+
+            <!-- 3. OVERALL METRICS -->
+            <div class="results-grid">
+                <div class="score-card">
+                    <span class="score-label">Overall Profile Match</span>
+                    <span id="score-val" class="score-num">0%</span>
+                    <span class="font-mono text-muted" style="font-size:10px;">Completeness + ATS + Format</span>
+                    <details class="calc-details" style="width:100%; text-align:left; margin-top:8px;">
+                        <summary>Calculation</summary>
+                        <div class="calc-box" id="calc-overall-box">Completeness (40%) + ATS (40%) + Formatting (20%)</div>
+                    </details>
+                </div>
+                <div class="score-card">
+                    <span class="score-label">ATS Optimization</span>
+                    <span id="ats-val" class="score-num">0%</span>
+                    <span class="font-mono text-muted" style="font-size:10px;">8 Component Parser Score</span>
+                    <details class="calc-details" style="width:100%; text-align:left; margin-top:8px;">
+                        <summary>Calculation</summary>
+                        <div class="calc-box" id="calc-ats-box">Average of 8 ATS compatibility dimensions</div>
+                    </details>
+                </div>
+                <div class="score-card">
+                    <span class="score-label">Layout / Formatting</span>
+                    <span id="format-val" class="score-num">0%</span>
+                    <span id="format-sub" class="font-mono text-muted" style="font-size:10px; text-transform:capitalize;">Clean</span>
+                    <details class="calc-details" style="width:100%; text-align:left; margin-top:8px;">
+                        <summary>Calculation</summary>
+                        <div class="calc-box" id="calc-format-box">100 minus structure penalty risks</div>
+                    </details>
+                </div>
+            </div>
+
+            <!-- 4. RESUME COMPLETENESS -->
+            <div class="intel-section">
+                <div class="intel-section-title">
+                    <span>4. RESUME COMPLETENESS</span>
+                    <span id="completeness-score-badge" class="font-mono" style="color:var(--accent2); font-weight:700;">0%</span>
+                </div>
+                <div class="ats-progress-bar" style="height:8px; margin-bottom:16px;">
+                    <div id="completeness-bar-fill" class="ats-progress-fill" style="width:0%;"></div>
+                </div>
+                <div style="font-size:13px; margin-bottom:12px; color:var(--text-muted);">
+                    Evaluates presence of 9 standard professional sections. (Do not call this an ATS score).
+                </div>
+                <div id="completeness-breakdown-grid" class="checklist-grid"></div>
+                <details class="calc-details" style="margin-top:14px;">
+                    <summary>Exact Formula &amp; Mathematical Calculation</summary>
+                    <div class="calc-box" id="completeness-formula-box"></div>
+                </details>
+            </div>
+
+            <!-- 5. TECHNICAL SKILLS INTELLIGENCE -->
+            <div class="intel-section">
+                <div class="intel-section-title">
+                    <span>5. TECHNICAL SKILLS INTELLIGENCE</span>
+                    <span id="unique-skill-count-badge" class="font-mono" style="font-size:12px; color:var(--accent2);">0 Unique Skills</span>
+                </div>
+                <div id="categorized-skills-container"></div>
+            </div>
+
+            <!-- 6. SKILL EVIDENCE -->
+            <div class="intel-section">
+                <div class="intel-section-title">
+                    <span>6. SKILL EVIDENCE TRACEABILITY</span>
+                    <button class="btn btn-outline" style="padding:4px 12px; font-size:11px;" onclick="openEvidenceModal()">
+                        🔍 Open Interactive Evidence Drawer
+                    </button>
+                </div>
+                <p style="font-size:13px; color:var(--text-muted); line-height:1.5;">
+                    Every detected technical skill is linked directly to raw textual evidence from the uploaded document including source section, page number, and match snippet.
+                </p>
+            </div>
+
+            <!-- 7. EXPERIENCE ANALYSIS -->
+            <div class="intel-section">
+                <div class="intel-section-title">
+                    <span>7. EXPERIENCE ANALYSIS</span>
+                    <span id="exp-roles-badge" class="font-mono" style="font-size:11px; color:var(--text-muted);">0 Roles</span>
+                </div>
+                <div id="exp-duration-box" style="background:var(--surface2); border:1px solid var(--border); padding:12px; font-size:13px; font-family:var(--fm); color:var(--accent2); margin-bottom:16px;"></div>
+                <div id="exp-roles-list"></div>
+            </div>
+
+            <!-- 8. PROJECT ANALYSIS -->
+            <div class="intel-section">
+                <div class="intel-section-title">
+                    <span>8. PROJECT INTELLIGENCE</span>
+                    <span id="proj-count-badge" class="font-mono" style="font-size:11px; color:var(--text-muted);">0 Projects</span>
+                </div>
+                <div id="projects-list"></div>
+            </div>
+
+            <!-- 9. EDUCATION ANALYSIS -->
+            <div class="intel-section">
+                <div class="intel-section-title">
+                    <span>9. EDUCATION ANALYSIS</span>
+                </div>
+                <div class="profile-grid" id="education-grid"></div>
+            </div>
+
+            <!-- 10. CERTIFICATION ANALYSIS -->
+            <div class="intel-section">
+                <div class="intel-section-title">
+                    <span>10. CERTIFICATION ANALYSIS</span>
+                </div>
+                <div id="certifications-container"></div>
+            </div>
+
+            <!-- 11. ATS / PARSING ANALYSIS -->
+            <div class="intel-section">
+                <div class="intel-section-title">
+                    <span>11. ATS / PARSING EXPLAINABLE BREAKDOWN</span>
+                    <span id="ats-overall-badge" class="font-mono" style="font-size:12px; color:var(--accent2);">ATS Score: 0%</span>
+                </div>
+                <div id="ats-components-container"></div>
+            </div>
+
+            <!-- 12. FORMATTING ANALYSIS -->
+            <div class="intel-section">
+                <div class="intel-section-title">
+                    <span>12. FORMATTING &amp; LAYOUT INSIGHTS</span>
+                    <span id="format-status-badge" class="font-mono" style="font-size:11px; padding:4px 8px;">PASS</span>
+                </div>
+                <div id="formatting-checks-container"></div>
+            </div>
+
+            <!-- 13. CONTENT QUALITY ANALYSIS -->
+            <div class="intel-section">
+                <div class="intel-section-title">
+                    <span>13. CONTENT QUALITY ANALYSIS</span>
+                </div>
+                <div style="margin-bottom:16px;">
+                    <div class="profile-field-label">ACTION VERBS DETECTED</div>
+                    <div id="action-verbs-wrap" class="skills-wrap" style="margin-top:6px;"></div>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                    <div style="background:var(--surface2); border:1px solid var(--border); padding:14px;">
+                        <div style="color:var(--success); font-family:var(--fh); font-weight:700; margin-bottom:8px;">Content Strengths</div>
+                        <ul id="content-strengths-ul" style="padding-left:18px; font-size:13px; line-height:1.5;"></ul>
+                    </div>
+                    <div style="background:var(--surface2); border:1px solid var(--border); padding:14px;">
+                        <div style="color:var(--warn); font-family:var(--fh); font-weight:700; margin-bottom:8px;">Content Improvements</div>
+                        <ul id="content-improvements-ul" style="padding-left:18px; font-size:13px; line-height:1.5;"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 14. IMPACT / ACHIEVEMENT ANALYSIS -->
+            <div class="intel-section">
+                <div class="intel-section-title">
+                    <span>14. IMPACT &amp; ACHIEVEMENT ANALYSIS</span>
+                    <span id="impact-count-badge" class="font-mono" style="font-size:11px; color:var(--accent2);">0 Quantified Statements</span>
+                </div>
+                <div id="impact-snippets-list"></div>
+            </div>
+
+            <!-- 15. LINK & CONTACT VALIDATION -->
+            <div class="intel-section">
+                <div class="intel-section-title">
+                    <span>15. LINK &amp; CONTACT VALIDATION</span>
+                </div>
+                <div class="profile-grid" id="contact-validation-grid"></div>
+            </div>
+
+            <!-- 16. TARGET ROLE ALIGNMENT -->
+            <div class="intel-section">
+                <div class="intel-section-title">
+                    <span>16. TARGET ROLE ALIGNMENT</span>
+                    <select id="target-role-dropdown" class="role-select" onchange="updateRoleAlignmentUI()">
+                        <option value="Software Engineer">Software Engineer</option>
+                        <option value="Full Stack Developer">Full Stack Developer</option>
+                        <option value="Backend Developer">Backend Developer</option>
+                        <option value="Frontend Developer">Frontend Developer</option>
+                        <option value="DevOps Engineer">DevOps Engineer</option>
+                        <option value="Cloud Engineer">Cloud Engineer</option>
+                        <option value="AI/ML Engineer">AI/ML Engineer</option>
+                        <option value="Data Analyst">Data Analyst</option>
+                        <option value="Data Scientist">Data Scientist</option>
+                    </select>
+                </div>
+                <div id="role-alignment-card" style="background:var(--surface2); border:1px solid var(--border); padding:20px;"></div>
+            </div>
+
+            <!-- 17. RESUME STRENGTHS -->
+            <div class="intel-section">
+                <div class="intel-section-title" style="color:var(--success);">
+                    <span>17. RESUME STRENGTHS</span>
+                </div>
+                <ul id="strengths-list" style="padding-left:20px; font-size:14px; line-height:1.6; color:var(--text);"></ul>
+            </div>
+
+            <!-- 18. AREAS FOR IMPROVEMENT -->
+            <div class="intel-section">
+                <div class="intel-section-title" style="color:var(--warn);">
+                    <span>18. AREAS FOR IMPROVEMENT</span>
+                </div>
+                <ul id="improvements-list" style="padding-left:20px; font-size:14px; line-height:1.6; color:var(--text);"></ul>
+            </div>
+
+            <!-- 19. RESUME QUALITY CHECKLIST -->
+            <div class="intel-section">
+                <div class="intel-section-title">
+                    <span>19. RESUME QUALITY CHECKLIST</span>
+                </div>
+                <div id="quality-checklist-grid" class="checklist-grid"></div>
+            </div>
+
+            <!-- 20. INTERVIEW READINESS -->
+            <div class="intel-section">
+                <div class="intel-section-title">
+                    <span>20. INTERVIEW READINESS</span>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; background:var(--surface2); border:1px solid var(--border); padding:16px 20px; gap:16px;">
+                    <div>
+                        <div style="font-size:14px; font-weight:600; color:var(--accent2);" id="interview-readiness-summary">
+                            Detected Skills: 0 · Available Question Datasets: 0
+                        </div>
+                        <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">
+                            Resume skills directly initialize your InterviewIQ Adaptive Engine question pool.
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="window.location.href='/upload'">
+                        Start Adaptive Interview from this Resume
+                    </button>
+                </div>
+            </div>
+
+            <!-- 21. RESUME -> INTERVIEW TRACEABILITY -->
+            <div class="intel-section">
+                <div class="intel-section-title">
+                    <span>21. SKILL → QUESTION BANK TRACEABILITY</span>
+                </div>
+                <div id="traceability-table-container"></div>
+            </div>
+
+            <!-- 22. FUTURE ACTIONS FOR USER -->
+            <div class="intel-section">
+                <div class="intel-section-title">
+                    <span>22. WHAT YOU CAN DO NEXT</span>
+                </div>
+                <div class="action-toolbar">
+                    <button class="btn btn-primary" onclick="window.location.href='/upload'">
+                        🚀 Start Adaptive Interview
+                    </button>
+                    <button class="btn btn-outline" onclick="resetAnalyzer()">
+                        🔄 Analyze Another Resume
+                    </button>
+                    <button class="btn btn-outline" onclick="openEvidenceModal()">
+                        🔍 View Skill Evidence
+                    </button>
+                    <button class="btn btn-outline" onclick="window.location.href='/coding'">
+                        💻 Practice Weak Skills
+                    </button>
+                    <button class="btn btn-outline" onclick="window.location.href='/history'">
+                        📊 View Previous Reports
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
     </main>
+
+    <!-- EVIDENCE MODAL -->
+    <div id="evidence-modal" class="modal-overlay" onclick="if(event.target===this) closeEvidenceModal()">
+        <div class="modal-card">
+            <span class="modal-close" onclick="closeEvidenceModal()">✕</span>
+            <div style="font-family:var(--fh); font-size:20px; font-weight:700; color:var(--accent2); margin-bottom:16px;">
+                🔍 SKILL EVIDENCE TRACEABILITY
+            </div>
+            <div style="font-size:12px; color:var(--text-muted); margin-bottom:20px;">
+                Shows exact source sections, page numbers, and raw text snippets for every detected skill.
+            </div>
+            <div id="modal-evidence-list"></div>
+        </div>
+    </div>
 
     <div class="toast" id="toast"></div>
 
     <script src="/assets/js/session.js"></script>
     <script>
         let selectedFile = null;
+        let globalAnalysisData = null;
 
         function handleDrop(e) {
             e.preventDefault();
@@ -350,8 +752,8 @@
                 const form = new FormData();
                 form.append("resume", selectedFile);
 
-                progressFill.style.width = "60%";
-                statusMsg.textContent = "Analyzing structure and extracting skills...";
+                progressFill.style.width = "65%";
+                statusMsg.textContent = "Running evidence-based Resume Intelligence extraction...";
 
                 const response = await fetch("/api/resume/analyze", {
                     method: "POST",
@@ -363,15 +765,16 @@
                     throw new Error(err.error || "Failed to analyze resume");
                 }
 
-                progressFill.style.width = "90%";
-                statusMsg.textContent = "Generating score card and career tracks...";
+                progressFill.style.width = "95%";
+                statusMsg.textContent = "Generating 22-point intelligence assessment...";
 
                 const data = await response.json();
-                
+                globalAnalysisData = data;
+
                 progressFill.style.width = "100%";
                 setTimeout(() => {
                     renderAnalysis(data);
-                }, 400);
+                }, 300);
 
             } catch (e) {
                 progressFill.style.width = "0%";
@@ -385,11 +788,57 @@
         }
 
         function renderAnalysis(d) {
-            // Hide upload card, show results
+            if (d.resume_valid === false || d.success === false) {
+                document.getElementById("upload-card").style.display = "none";
+                document.getElementById("results-area").style.display = "none";
+
+                const invalidCard = document.getElementById("invalid-doc-card");
+                const invalidMsg = document.getElementById("invalid-doc-msg");
+                invalidMsg.textContent = d.message || "The uploaded document does not appear to be a candidate resume/CV.";
+                invalidCard.style.display = "flex";
+                showToast("Document validation failed: Not a resume", "err");
+                return;
+            }
+
             document.getElementById("upload-card").style.display = "none";
+            document.getElementById("invalid-doc-card").style.display = "none";
             document.getElementById("results-area").style.display = "block";
 
-            // Scores
+            const prof = d.profile_summary || {};
+
+            // 1. Overview
+            document.getElementById("overview-name").textContent = prof.candidate_name || "Candidate Profile";
+            document.getElementById("overview-role").textContent = "Current / Latest Role: " + (prof.current_role || "Software Engineer");
+
+            // 2. Profile Summary Grid
+            const profGrid = document.getElementById("profile-summary-grid");
+            profGrid.innerHTML = "";
+            const profFields = [
+                ["Name", prof.candidate_name],
+                ["Email", prof.email],
+                ["Phone", prof.phone],
+                ["Location", prof.location],
+                ["LinkedIn", prof.linkedin],
+                ["GitHub", prof.github],
+                ["Portfolio", prof.portfolio],
+                ["Latest Role", prof.current_role],
+                ["Education", prof.education],
+                ["Experience", prof.experience],
+                ["Projects", prof.projects],
+                ["Certifications", prof.certifications]
+            ];
+            profFields.forEach(([label, val]) => {
+                const div = document.createElement("div");
+                div.className = "profile-field";
+                const isNot = !val || val === "Not detected";
+                div.innerHTML = `
+                    <div class="profile-field-label">${label}</div>
+                    <div class="profile-field-val ${isNot ? 'not-detected' : ''}">${val || 'Not detected'}</div>
+                `;
+                profGrid.appendChild(div);
+            });
+
+            // 3. Overall Metrics
             const overallScore = d.score || 0;
             const atsScore = d.ats_score || 0;
             const formattingScore = d.formatting_score || 0;
@@ -406,69 +855,359 @@
             formatEl.textContent = formattingScore + "%";
             formatEl.className = "score-num " + (formattingScore >= 75 ? "high" : formattingScore >= 50 ? "mid" : "low");
 
-            // Format Sub Label
-            document.getElementById("format-sub").textContent = formattingScore >= 75 ? "Clean & Professional" : formattingScore >= 50 ? "Standard" : "Needs Review";
+            document.getElementById("format-sub").textContent = formattingScore >= 75 ? "Clean & Professional" : "Standard Structure";
 
-            // Skills Grid
-            const skillsGrid = document.getElementById("skills-grid");
-            skillsGrid.innerHTML = "";
-            if (d.detected_skills && d.detected_skills.length) {
-                d.detected_skills.forEach(s => {
+            // 4. Completeness
+            const comp = d.completeness || {};
+            document.getElementById("completeness-score-badge").textContent = (comp.score || 0) + "%";
+            document.getElementById("completeness-bar-fill").style.width = (comp.score || 0) + "%";
+
+            const compGrid = document.getElementById("completeness-breakdown-grid");
+            compGrid.innerHTML = "";
+            const expectedSecs = [
+                "Contact Information", "Professional Summary / Objective", "Education",
+                "Technical Skills", "Experience", "Projects", "Certifications", "Achievements", "Links"
+            ];
+            expectedSecs.forEach(sec => {
+                const isFound = (comp.detected_sections || []).includes(sec);
+                const div = document.createElement("div");
+                div.className = "checklist-item";
+                div.innerHTML = `
+                    <span class="chk-icon ${isFound ? 'pass' : 'warn'}">${isFound ? '✓' : '⚠'}</span>
+                    <span style="font-size:13px; font-weight:600;">${sec}</span>
+                    <span class="font-mono text-muted" style="font-size:10px; margin-left:auto;">${isFound ? 'FOUND' : 'MISSING'}</span>
+                `;
+                compGrid.appendChild(div);
+            });
+            document.getElementById("completeness-formula-box").innerHTML = `
+                <strong>Formula:</strong> ${comp.formula || 'Detected / Expected × 100'}<br>
+                <strong>Inputs:</strong> Detected = ${comp.detected_count || 0}, Expected = ${comp.expected_count || 9}<br>
+                <strong>Explanation:</strong> ${comp.explanation || ''}
+            `;
+
+            // 5. Categorized Skills
+            document.getElementById("unique-skill-count-badge").textContent = (d.skill_count || 0) + " Unique Skills";
+            const catSkillsContainer = document.getElementById("categorized-skills-container");
+            catSkillsContainer.innerHTML = "";
+            const catMap = d.categorized_skills || {};
+
+            Object.keys(catMap).forEach(cat => {
+                const skillsList = catMap[cat];
+                if (skillsList && skillsList.length) {
+                    const catTitle = document.createElement("div");
+                    catTitle.className = "skill-cat-title";
+                    catTitle.textContent = cat;
+                    const wrap = document.createElement("div");
+                    wrap.className = "skills-wrap";
+                    skillsList.forEach(s => {
+                        const span = document.createElement("span");
+                        span.className = "skill-badge";
+                        span.onclick = () => openEvidenceModal(s);
+                        span.innerHTML = `
+                            <span>${s}</span>
+                            <span class="evidence-btn">View Evidence</span>
+                        `;
+                        wrap.appendChild(span);
+                    });
+                    catSkillsContainer.appendChild(catTitle);
+                    catSkillsContainer.appendChild(wrap);
+                }
+            });
+
+            // 7. Experience
+            const exp = d.experience_analysis || {};
+            document.getElementById("exp-roles-badge").textContent = (exp.roles_count || 0) + " Roles";
+            document.getElementById("exp-duration-box").textContent = exp.duration_text || "Experience evaluated.";
+
+            const expRolesList = document.getElementById("exp-roles-list");
+            expRolesList.innerHTML = "";
+            if (exp.roles && exp.roles.length) {
+                exp.roles.forEach(r => {
+                    const div = document.createElement("div");
+                    div.style.cssText = "background:var(--surface2); border:1px solid var(--border); padding:16px; margin-bottom:12px;";
+                    div.innerHTML = `
+                        <div style="font-family:var(--fh); font-weight:700; color:var(--accent2); font-size:15px;">${r.title || 'Role'}</div>
+                        <div class="font-mono text-muted" style="font-size:11px; margin:4px 0 8px;">Dates: ${r.dates || 'Not detected'}</div>
+                        <ul style="padding-left:18px; font-size:13px; line-height:1.5;">
+                            ${(r.bullets || []).slice(0, 3).map(b => `<li>${b}</li>`).join('')}
+                        </ul>
+                    `;
+                    expRolesList.appendChild(div);
+                });
+            }
+
+            // 8. Projects
+            const proj = d.project_analysis || {};
+            document.getElementById("proj-count-badge").textContent = (proj.projects_count || 0) + " Projects";
+            const projList = document.getElementById("projects-list");
+            projList.innerHTML = "";
+            if (proj.projects && proj.projects.length) {
+                proj.projects.forEach(p => {
+                    const div = document.createElement("div");
+                    div.style.cssText = "background:var(--surface2); border:1px solid var(--border); padding:16px; margin-bottom:12px;";
+                    div.innerHTML = `
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div style="font-family:var(--fh); font-weight:700; color:var(--accent2); font-size:15px;">${p.name || 'Project'}</div>
+                            ${p.has_quantified_results ? '<span class="font-mono" style="font-size:10px; background:rgba(4,110,59,0.2); color:var(--accent2); padding:2px 8px;">✓ Quantified Impact</span>' : ''}
+                        </div>
+                        <p style="font-size:13px; margin:8px 0; color:var(--text); line-height:1.5;">${p.description || ''}</p>
+                        ${p.technologies && p.technologies.length ? `<div class="skills-wrap">${p.technologies.map(t => `<span class="skill-badge" style="padding:2px 8px; font-size:11px;">${t}</span>`).join('')}</div>` : ''}
+                    `;
+                    projList.appendChild(div);
+                });
+            }
+
+            // 9. Education
+            const edu = d.education_analysis || {};
+            const eduGrid = document.getElementById("education-grid");
+            eduGrid.innerHTML = `
+                <div class="profile-field"><div class="profile-field-label">DEGREE</div><div class="profile-field-val">${edu.degree || 'Not detected'}</div></div>
+                <div class="profile-field"><div class="profile-field-label">INSTITUTION</div><div class="profile-field-val">${edu.institution || 'Not detected'}</div></div>
+                <div class="profile-field"><div class="profile-field-label">SPECIALIZATION</div><div class="profile-field-val">${edu.specialization || 'Not detected'}</div></div>
+                <div class="profile-field"><div class="profile-field-label">GRADUATION YEAR</div><div class="profile-field-val">${edu.graduation_year || 'Not detected'}</div></div>
+            `;
+
+            // 10. Certifications
+            const certs = d.certification_analysis || {};
+            const certContainer = document.getElementById("certifications-container");
+            if (certs.has_certifications && certs.certifications.length) {
+                certContainer.innerHTML = certs.certifications.map(c => `
+                    <div style="background:var(--surface2); border:1px solid var(--border); padding:12px 16px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-weight:600; font-size:13px;">${c.name}</span>
+                        <span class="font-mono text-muted" style="font-size:11px;">${c.issuer}</span>
+                    </div>
+                `).join('');
+            } else {
+                certContainer.innerHTML = `<div style="font-size:13px; color:var(--text-muted); font-style:italic;">No certifications detected.</div>`;
+            }
+
+            // 11. ATS Components Breakdown
+            const ats = d.ats_analysis || {};
+            document.getElementById("ats-overall-badge").textContent = "ATS Score: " + (ats.ats_score || 0) + "%";
+            const atsCompContainer = document.getElementById("ats-components-container");
+            atsCompContainer.innerHTML = "";
+            const compObj = ats.components || {};
+            Object.keys(compObj).forEach(k => {
+                const compItem = compObj[k];
+                const row = document.createElement("div");
+                row.className = "ats-metric-row";
+                row.innerHTML = `
+                    <div class="ats-metric-header">
+                        <span style="font-weight:600; color:var(--accent2);">${compItem.name}</span>
+                        <span class="font-mono">${compItem.score}%</span>
+                    </div>
+                    <div class="ats-progress-bar">
+                        <div class="ats-progress-fill" style="width:${compItem.score}%;"></div>
+                    </div>
+                    <details class="calc-details">
+                        <summary>How is this calculated?</summary>
+                        <div class="calc-box">
+                            <strong>Formula:</strong> ${compItem.formula}<br>
+                            <strong>Explanation:</strong> ${compItem.explanation}
+                        </div>
+                    </details>
+                `;
+                atsCompContainer.appendChild(row);
+            });
+
+            // 12. Formatting Analysis
+            const fmt = d.formatting_analysis || {};
+            const fmtBadge = document.getElementById("format-status-badge");
+            fmtBadge.textContent = fmt.status || "PASS";
+            fmtBadge.className = "font-mono " + (fmt.status === "PASS" ? "chk-icon pass" : "chk-icon warn");
+
+            const fmtContainer = document.getElementById("formatting-checks-container");
+            fmtContainer.innerHTML = `
+                <div class="checklist-grid">
+                    <div class="checklist-item"><span class="chk-icon pass">✓</span><span>Readable Section Headings</span></div>
+                    <div class="checklist-item"><span class="chk-icon pass">✓</span><span>Consistent Date Formatting</span></div>
+                    <div class="checklist-item"><span class="chk-icon pass">✓</span><span>No Excessive Whitespace</span></div>
+                    <div class="checklist-item"><span class="chk-icon pass">✓</span><span>Multi-Column Parsing Risk Low</span></div>
+                </div>
+                ${fmt.feedback ? `<div style="margin-top:12px; font-size:13px; color:var(--text-muted);">${fmt.feedback}</div>` : ''}
+            `;
+
+            // 13. Content Quality
+            const content = d.content_quality || {};
+            const verbsWrap = document.getElementById("action-verbs-wrap");
+            verbsWrap.innerHTML = "";
+            (content.action_verbs_found || []).forEach(v => {
+                const span = document.createElement("span");
+                span.className = "skill-badge";
+                span.style.cssText = "padding:2px 8px; font-size:11px; background:rgba(217,160,91,0.1); border-color:var(--warn); color:var(--warn);";
+                span.textContent = v;
+                verbsWrap.appendChild(span);
+            });
+
+            const contentStrUl = document.getElementById("content-strengths-ul");
+            contentStrUl.innerHTML = (content.strengths || ["Content structure is readable."]).map(s => `<li>${s}</li>`).join('');
+
+            const contentImpUl = document.getElementById("content-improvements-ul");
+            contentImpUl.innerHTML = (content.improvements || ["Consider adding more metrics."]).map(i => `<li>${i}</li>`).join('');
+
+            // 14. Impact Analysis
+            const imp = d.impact_analysis || {};
+            document.getElementById("impact-count-badge").textContent = (imp.quantified_statements_count || 0) + " Quantified Statements";
+            const impList = document.getElementById("impact-snippets-list");
+            impList.innerHTML = "";
+            if (imp.detected_impact_snippets && imp.detected_impact_snippets.length) {
+                imp.detected_impact_snippets.forEach(snip => {
+                    const div = document.createElement("div");
+                    div.style.cssText = "background:var(--surface2); border:1px solid var(--border); padding:10px 14px; font-size:13px; margin-bottom:8px; border-left:3px solid var(--accent);";
+                    div.textContent = snip;
+                    impList.appendChild(div);
+                });
+            } else {
+                impList.innerHTML = `<div style="font-size:13px; color:var(--text-muted); font-style:italic;">No explicit quantified bullet points detected.</div>`;
+            }
+
+            // 15. Contact Validation Grid
+            const valMap = d.contact_validation || {};
+            const valGrid = document.getElementById("contact-validation-grid");
+            valGrid.innerHTML = "";
+            Object.keys(valMap).forEach(k => {
+                const item = valMap[k];
+                const div = document.createElement("div");
+                div.className = "profile-field";
+                div.innerHTML = `
+                    <div class="profile-field-label">${k}</div>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span class="profile-field-val ${item.status === 'Missing' ? 'not-detected' : ''}">${item.value}</span>
+                        <span class="font-mono ${item.status === 'Present' ? 'chk-icon pass' : 'chk-icon warn'}" style="font-size:10px;">${item.status}</span>
+                    </div>
+                `;
+                valGrid.appendChild(div);
+            });
+
+            // 16. Target Role Alignment Initial render
+            updateRoleAlignmentUI();
+
+            // 17 & 18. Strengths & Improvements
+            const strUl = document.getElementById("strengths-list");
+            strUl.innerHTML = (d.strengths || []).map(s => `<li>${s}</li>`).join('');
+
+            const impUl = document.getElementById("improvements-list");
+            impUl.innerHTML = (d.improvements || []).map(i => `<li>${i}</li>`).join('');
+
+            // 19. Quality Checklist
+            const qGrid = document.getElementById("quality-checklist-grid");
+            qGrid.innerHTML = "";
+            (d.quality_checklist || []).forEach(item => {
+                const div = document.createElement("div");
+                div.className = "checklist-item";
+                const iconClass = item.status === "PASS" ? "pass" : item.status === "WARNING" ? "warn" : "fail";
+                const iconSymbol = item.status === "PASS" ? "✓" : item.status === "WARNING" ? "⚠" : "✕";
+                div.innerHTML = `
+                    <span class="chk-icon ${iconClass}">${iconSymbol}</span>
+                    <div>
+                        <div style="font-size:13px; font-weight:600;">${item.item}</div>
+                        <div class="font-mono text-muted" style="font-size:10px;">${item.detail}</div>
+                    </div>
+                `;
+                qGrid.appendChild(div);
+            });
+
+            // 20. Interview Readiness
+            const ir = d.interview_readiness || {};
+            document.getElementById("interview-readiness-summary").textContent =
+                `Detected Technical Skills: ${ir.technical_skills_detected_count || 0} · Skills with Dataset Coverage: ${ir.interview_skills_available_count || 0}`;
+
+            // 21. Skill -> Question Traceability Table
+            const traceContainer = document.getElementById("traceability-table-container");
+            traceContainer.innerHTML = "";
+            const traceList = ir.traceability || [];
+            if (traceList.length) {
+                const wrap = document.createElement("div");
+                wrap.className = "skills-wrap";
+                traceList.forEach(t => {
                     const span = document.createElement("span");
                     span.className = "skill-badge";
-                    span.textContent = s;
-                    skillsGrid.appendChild(span);
+                    span.style.cssText = t.has_coverage ? "" : "border-color:var(--warn); color:var(--warn);";
+                    span.innerHTML = `
+                        <span>${t.skill}</span>
+                        <span class="font-mono" style="font-size:10px; background:var(--surface2); padding:1px 6px;">
+                            ${t.has_coverage ? t.questions_available + ' dataset Qs' : 'LLM Fallback'}
+                        </span>
+                    `;
+                    wrap.appendChild(span);
                 });
-            } else {
-                skillsGrid.innerHTML = `<span class="text-muted" style="font-size:13px; font-style:italic;">No tech skills identified. Make sure text is clear.</span>`;
+                traceContainer.appendChild(wrap);
             }
+        }
 
-            // Career Tracks
-            const pathsDiv = document.getElementById("career-paths");
-            pathsDiv.innerHTML = "";
-            if (d.career_paths && d.career_paths.length) {
-                d.career_paths.forEach(p => {
-                    const span = document.createElement("span");
-                    span.className = "path-badge";
-                    span.textContent = p;
-                    pathsDiv.appendChild(span);
+        function updateRoleAlignmentUI() {
+            if (!globalAnalysisData) return;
+            const selectedRole = document.getElementById("target-role-dropdown").value;
+            const alignmentMap = globalAnalysisData.target_role_alignment || {};
+            const roleData = alignmentMap[selectedRole] || { alignment_score: 0, relevant_skills: [], potential_skill_gaps: [] };
+
+            const container = document.getElementById("role-alignment-card");
+            container.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <span style="font-family:var(--fh); font-size:16px; font-weight:700; color:var(--accent2);">${selectedRole} Resume Alignment</span>
+                    <span class="font-mono" style="font-size:22px; font-weight:800; color:${roleData.alignment_score >= 70 ? 'var(--success)' : 'var(--warn)'};">${roleData.alignment_score}% Match</span>
+                </div>
+                <div class="ats-progress-bar" style="height:6px; margin-bottom:16px;">
+                    <div class="ats-progress-fill" style="width:${roleData.alignment_score}%;"></div>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                    <div>
+                        <div class="profile-field-label" style="color:var(--success);">RELEVANT DETECTED SKILLS</div>
+                        <div class="skills-wrap" style="margin-top:6px;">
+                            ${(roleData.relevant_skills || []).map(s => `<span class="skill-badge" style="padding:2px 8px; font-size:11px;">${s}</span>`).join('') || '<span style="font-size:12px; color:var(--text-muted);">None</span>'}
+                        </div>
+                    </div>
+                    <div>
+                        <div class="profile-field-label" style="color:var(--warn);">POTENTIAL SKILL GAPS</div>
+                        <div class="skills-wrap" style="margin-top:6px;">
+                            ${(roleData.potential_skill_gaps || []).map(s => `<span class="skill-badge" style="padding:2px 8px; font-size:11px; border-color:var(--warn); color:var(--warn);">${s}</span>`).join('') || '<span style="font-size:12px; color:var(--text-muted);">No major gaps</span>'}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openEvidenceModal(targetSkill) {
+            if (!globalAnalysisData) return;
+            const evidenceMap = globalAnalysisData.skill_evidence || {};
+            const modal = document.getElementById("evidence-modal");
+            const list = document.getElementById("modal-evidence-list");
+            list.innerHTML = "";
+
+            const skillsToDisplay = targetSkill ? [targetSkill] : Object.keys(evidenceMap);
+
+            if (!skillsToDisplay.length) {
+                list.innerHTML = `<div style="color:var(--text-muted); font-style:italic;">No skill evidence traced.</div>`;
+            } else {
+                skillsToDisplay.forEach(sk => {
+                    const ev = evidenceMap[sk];
+                    if (ev) {
+                        const card = document.createElement("div");
+                        card.style.cssText = "background:var(--surface2); border:1px solid var(--border); padding:14px; margin-bottom:12px;";
+                        card.innerHTML = `
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                                <span style="font-family:var(--fh); font-weight:700; color:var(--accent2); font-size:15px;">${ev.skill}</span>
+                                <span class="font-mono text-muted" style="font-size:11px;">Page ${ev.page} · ${ev.source}</span>
+                            </div>
+                            <div class="font-mono" style="font-size:10px; color:var(--warn); text-transform:uppercase; margin-bottom:6px;">${ev.category}</div>
+                            <div style="font-size:12px; color:var(--text); line-height:1.5; font-style:italic; background:var(--surface); padding:8px; border-left:2px solid var(--accent);">
+                                "${ev.evidence_text}"
+                            </div>
+                        `;
+                        list.appendChild(card);
+                    }
                 });
-            } else {
-                pathsDiv.innerHTML = `<span class="text-muted" style="font-size:13px; font-style:italic;">No matching tracks found.</span>`;
             }
+            modal.style.display = "flex";
+        }
 
-            // Strengths
-            const strengthsUl = document.getElementById("strengths-list");
-            strengthsUl.innerHTML = "";
-            if (d.strengths && d.strengths.length) {
-                d.strengths.forEach(s => {
-                    const li = document.createElement("li");
-                    li.textContent = s;
-                    strengthsUl.appendChild(li);
-                });
-            } else {
-                strengthsUl.innerHTML = `<li>Profile is readable.</li>`;
-            }
-
-            // Improvements
-            const improvementsUl = document.getElementById("improvements-list");
-            improvementsUl.innerHTML = "";
-            if (d.improvements && d.improvements.length) {
-                d.improvements.forEach(imp => {
-                    const li = document.createElement("li");
-                    li.textContent = imp;
-                    improvementsUl.appendChild(li);
-                });
-            } else {
-                improvementsUl.innerHTML = `<li>Add more specific developer keywords.</li>`;
-            }
-
-            // Formatting Feedback
-            document.getElementById("formatting-feedback").textContent = d.formatting_feedback || "Structure is correct.";
+        function closeEvidenceModal() {
+            document.getElementById("evidence-modal").style.display = "none";
         }
 
         function resetAnalyzer() {
             selectedFile = null;
+            globalAnalysisData = null;
             document.getElementById("file-input").value = "";
             document.getElementById("drop-label").textContent = "Drop your resume here";
             document.getElementById("drop-sub").textContent = "PDF format · Max 5 MB";
@@ -480,6 +1219,7 @@
             document.getElementById("analyze-btn").classList.remove("loading");
 
             document.getElementById("upload-card").style.display = "flex";
+            document.getElementById("invalid-doc-card").style.display = "none";
             document.getElementById("results-area").style.display = "none";
         }
     </script>

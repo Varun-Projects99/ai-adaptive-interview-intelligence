@@ -28,8 +28,9 @@ sys.path.append(os.path.dirname(__file__))
 # ── Module imports (graceful fallbacks if a lib is missing) ──────────────────
 
 try:
-    from modules.resume_parser import extract_skills_from_resume, analyze_resume_data, get_ocr_reader
-    print("[OK] resume_parser loaded")
+    from modules.resume_parser import extract_skills_from_resume, analyze_resume_data, extract_text_from_pdf, get_ocr_reader
+    from modules.resume_validator import validate_resume_document
+    print("[OK] resume_parser and resume_validator loaded")
     import threading
     threading.Thread(target=get_ocr_reader, daemon=True).start()
 except Exception as e:
@@ -38,8 +39,18 @@ except Exception as e:
     def extract_skills_from_resume(path):
         return ["Python", "Machine Learning", "Data Structures"]
 
+    def extract_text_from_pdf(path):
+        return ""
+
+    def validate_resume_document(text):
+        return {"resume_valid": True, "document_type": "resume", "resume_confidence": 80, "reason": "Fallback validator"}
+
     def analyze_resume_data(path):
         return {
+            "success": True,
+            "resume_valid": True,
+            "document_type": "resume",
+            "resume_confidence": 80,
             "score": 75,
             "ats_score": 80,
             "detected_skills": ["Python", "Machine Learning", "Data Structures"],
@@ -1711,13 +1722,38 @@ def upload_resume():
 
     path = os.path.join(UPLOAD_FOLDER, f"{sid}_resume.pdf")
     file.save(path)
+
+    raw_text = extract_text_from_pdf(path)
+    validation = validate_resume_document(raw_text)
+
+    if not validation["resume_valid"]:
+        sess["skills"] = []
+        log_audit("RESUME_REJECTED", session_id=sid, extra={"reason": validation["reason"], "doc_type": validation["document_type"]})
+        print(f"[Resume] REJECTED non-resume PDF ({validation['document_type']}): {validation['reason']}")
+        return jsonify({
+            "success": False,
+            "resume_valid": False,
+            "document_type": validation["document_type"],
+            "resume_confidence": validation["resume_confidence"],
+            "session_id": sid,
+            "skills_detected": [],
+            "skill_count": 0,
+            "message": validation["reason"]
+        })
+
     skills = extract_skills_from_resume(path)
     sess["skills"] = skills
     log_audit("RESUME_UPLOADED", session_id=sid)
     print(f"[Resume] {len(skills)} skills detected: {skills}")
-    return jsonify(
-        {"session_id": sid, "skills_detected": skills, "skill_count": len(skills)}
-    )
+    return jsonify({
+        "success": True,
+        "resume_valid": True,
+        "document_type": "resume",
+        "resume_confidence": validation["resume_confidence"],
+        "session_id": sid,
+        "skills_detected": skills,
+        "skill_count": len(skills)
+    })
 
 
 @app.route("/api/resume/analyze", methods=["POST"])

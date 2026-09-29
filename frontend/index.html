@@ -227,6 +227,18 @@ async function analyzeResumeFile() {
     form.append("session_id", Session.id);
     form.append("resume", selectedFile);
     const up = await apiPost("/api/resume/upload", form, true);
+    if (up.resume_valid === false || up.success === false) {
+      Session.skills = [];
+      showSkills([]);
+      resumeParsed = false;
+      btn.disabled = true;
+      btn.querySelector(".btn-text").textContent = "Start Adaptive AI Interview";
+      const errMsg = up.message || "Document not recognized as a resume/CV.";
+      setStatus("✕ Document Not Recognized as a Resume: " + errMsg, "err", 0);
+      showToast(errMsg, "err");
+      return;
+    }
+
     Session.skills = up.skills_detected || [];
     showSkills(Session.skills);
     

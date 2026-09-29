@@ -30,11 +30,13 @@ from modules.integrity_config import (
     BLUR_VARIANCE_THRESHOLD,
     HEAD_POSE_YAW_CENTER_DEG, HEAD_POSE_PITCH_CENTER_DEG, HEAD_POSE_CONFIRM_SECONDS,
     PHONE_MIN_CONFIDENCE, PHONE_CONFIRM_SECONDS,
+    PERSON_MIN_CONFIDENCE, ADDITIONAL_PERSON_CONFIRM_SECONDS,
     LOW_LIGHT_CONFIRM_SECONDS, BLUR_CONFIRM_SECONDS, FACE_POSITION_CONFIRM_SECONDS,
     STATE_LOW_LIGHT, STATE_BLURRY_IMAGE,
     STATE_FACE_TOO_FAR, STATE_FACE_TOO_CLOSE, STATE_FACE_PARTIALLY_VISIBLE,
     STATE_HEAD_LEFT, STATE_HEAD_RIGHT, STATE_HEAD_UP, STATE_HEAD_DOWN,
-    STATE_PHONE_DETECTED,
+    STATE_PHONE_DETECTED, STATE_ADDITIONAL_PERSON, STATE_MULTIPLE_ADDITIONAL_PEOPLE,
+    STATE_MULTIPLE_PEOPLE_NO_FACE,
     EVENT_SEVERITY,
     YUNET_MODEL_PATH, NANODET_MODEL_PATH, NANODET_INPUT_SIZE, NANODET_PHONE_CLASS_INDEX,
 )
@@ -43,15 +45,13 @@ face_cascade = None
 eye_cascade = None
 cv2_initialized = False
 
-# Tier-2 detectors are optional: if the model file is missing or fails to
-# load, the corresponding signal silently degrades to "unknown"/"not
-# detected" rather than crashing /api/emotion/analyze (see _lazy_init_yunet
-# / _lazy_init_nanodet).
 _yunet = None
 _yunet_size = None
 _yunet_load_attempted = False
 _nanodet_net = None
 _nanodet_load_attempted = False
+_hog_detector = None
+
 
 
 def _lazy_init():
@@ -331,6 +331,84 @@ def _detect_phone(frame):
         return False, 0.0
 
 
+def _lazy_init_hog():
+    global _hog_detector
+    if _hog_detector is not None:
+        return _hog_detector
+    try:
+        _hog_detector = cv2.HOGDescriptor()
+        _hog_detector.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
+    except Exception as e:
+        print(f"[EmotionDetector] HOG init warning: {e}")
+        _hog_detector = None
+    return _hog_detector
+
+
+def _detect_persons(frame):
+    """
+    Dual-layer person & body presence detector.
+    Evaluates NanoDet COCO Class 0 ('person') and/or OpenCV HOG People Detector.
+    Returns (person_count: int, confidence: float, boxes: list of dicts).
+    """
+    if frame is None:
+        return 0, 0.0, []
+    h_img, w_img = frame.shape[:2]
+    boxes = []
+    max_conf = 0.0
+
+    # 1. NanoDet COCO Class 0 ('person') pass
+    if _lazy_init_nanodet():
+        try:
+            side = max(h_img, w_img)
+            square = np.zeros((side, side, 3), dtype=np.uint8)
+            square[:h_img, :w_img] = frame
+            resized = cv2.resize(square, NANODET_INPUT_SIZE).astype(np.float32)
+
+            mean = np.array([103.53, 116.28, 123.675], dtype=np.float32).reshape(1, 1, 3)
+            std = np.array([57.375, 57.12, 58.395], dtype=np.float32).reshape(1, 1, 3)
+            normed = (resized - mean) / std
+            blob = cv2.dnn.blobFromImage(normed)
+
+            _nanodet_net.setInput(blob)
+            outs = _nanodet_net.forward(_nanodet_net.getUnconnectedOutLayersNames())
+
+            for cls_score in outs[0::2]:
+                arr = np.asarray(cls_score)
+                if arr.ndim == 3:
+                    arr = arr.squeeze(axis=0)
+                if arr.ndim != 2 or arr.shape[1] <= 0:
+                    continue
+                level_max = float(arr[:, 0].max()) if arr.shape[0] else 0.0
+                max_conf = max(max_conf, level_max)
+        except Exception as e:
+            print(f"[EmotionDetector] NanoDet person pass error: {e}")
+
+    # 2. OpenCV HOG People Detector pass
+    hog = _lazy_init_hog()
+    if hog is not None:
+        try:
+            scale = 320.0 / max(h_img, w_img)
+            small = cv2.resize(frame, (int(w_img * scale), int(h_img * scale)))
+            rects, weights = hog.detectMultiScale(small, winStride=(8, 8), padding=(8, 8), scale=1.05)
+            for i, (rx, ry, rw, rh) in enumerate(rects):
+                w_box = int(rw / scale)
+                h_box = int(rh / scale)
+                x_box = int(rx / scale)
+                y_box = int(ry / scale)
+                boxes.append({"x": x_box, "y": y_box, "w": w_box, "h": h_box, "type": "person"})
+                w_conf = float(weights[i]) if i < len(weights) else 0.5
+                max_conf = max(max_conf, min(1.0, w_conf))
+        except Exception as e:
+            print(f"[EmotionDetector] HOG detection error: {e}")
+
+    person_count = len(boxes)
+    if person_count == 0 and max_conf >= PERSON_MIN_CONFIDENCE:
+        person_count = 1
+
+    return person_count, round(max_conf, 3), boxes
+
+
+
 def _confirm_episode(sess, key, active, now, confirm_seconds, event_type, confidence, extra=None):
     """
     Server-side temporal confirmation + one-event-per-continuous-episode +
@@ -435,6 +513,9 @@ def analyze_emotion_frame(frame_b64: str, sess: dict = None) -> dict:
         if phone_strike:
             new_events.append(STATE_PHONE_DETECTED)
 
+        # Dual-Layer Person Presence Detector pass
+        person_count, person_conf, person_boxes = _detect_persons(frame)
+
         # Check for extreme low light
         if brightness < SEVERE_LOW_LIGHT_THRESHOLD:
             print(f"[FACE] Low brightness: {brightness:.2f}")
@@ -442,7 +523,7 @@ def analyze_emotion_frame(frame_b64: str, sess: dict = None) -> dict:
                               STATE_LOW_LIGHT, confidence=None,
                               extra={"brightness": round(brightness, 1)})
             result = _default("low_light", "low_light")
-            _attach_quality(result, brightness, blur_score, is_blurry, phone_detected, phone_confidence, phone_strike)
+            _attach_quality(result, brightness, blur_score, is_blurry, phone_detected, phone_confidence, phone_strike, person_count, person_conf, person_boxes, 0)
             return result
         else:
             _confirm_episode(sess, "low_light", False, now, LOW_LIGHT_CONFIRM_SECONDS, STATE_LOW_LIGHT, confidence=None)
@@ -469,12 +550,24 @@ def analyze_emotion_frame(frame_b64: str, sess: dict = None) -> dict:
 
         valid_faces = _filter_valid_faces(faces, frame_area)
         valid_count = len(valid_faces)
-        print(f"[FACE] brightness={brightness:.1f}, valid_count={valid_count}")
+        print(f"[FACE] brightness={brightness:.1f}, valid_count={valid_count}, person_count={person_count}")
+
+        # Check for additional person presence (face_count == 1, person_count >= 2)
+        active_additional_person = (valid_count == 1 and person_count >= 2)
+        additional_person_strike = _confirm_episode(
+            sess, "additional_person", active_additional_person, now,
+            ADDITIONAL_PERSON_CONFIRM_SECONDS, STATE_ADDITIONAL_PERSON,
+            confidence=person_conf, extra={"person_count": person_count, "face_count": valid_count}
+        )
+        if additional_person_strike:
+            new_events.append(STATE_ADDITIONAL_PERSON)
 
         # Case: No Face Detected
         if valid_count == 0:
-            result = _default("no_face", "no_face")
-            _attach_quality(result, brightness, blur_score, is_blurry, phone_detected, phone_confidence, phone_strike)
+            # Check if multiple bodies detected with no candidate face
+            no_face_status = "multiple_people_no_face" if person_count >= 2 else "no_face"
+            result = _default("no_face", no_face_status)
+            _attach_quality(result, brightness, blur_score, is_blurry, phone_detected, phone_confidence, phone_strike, person_count, person_conf, person_boxes, valid_count, additional_person_strike)
             return result
 
         # Case: Multiple Faces Detected -- confirm with a stricter re-detection
@@ -491,7 +584,7 @@ def analyze_emotion_frame(frame_b64: str, sess: dict = None) -> dict:
             print(f"[FACE] multi-face candidate={valid_count}, confirmed={confirmed_count}")
             if confirmed_count > 1:
                 result = _default("multiple_faces", "multiple_faces")
-                _attach_quality(result, brightness, blur_score, is_blurry, phone_detected, phone_confidence, phone_strike)
+                _attach_quality(result, brightness, blur_score, is_blurry, phone_detected, phone_confidence, phone_strike, person_count, person_conf, person_boxes, confirmed_count, additional_person_strike)
                 result["face_count"] = confirmed_count
                 return result
             # Not confirmed -- fall through and treat as a single face using
@@ -541,6 +634,10 @@ def analyze_emotion_frame(frame_b64: str, sess: dict = None) -> dict:
             status_state = "eyes_not_visible"
             reason = "eyes_not_visible"
             face_detected = True
+        elif active_additional_person:
+            status_state = "additional_person_detected"
+            reason = "additional_person_in_frame"
+            face_detected = True
         else:
             status_state = "face_present"
             reason = "ok"
@@ -564,7 +661,7 @@ def analyze_emotion_frame(frame_b64: str, sess: dict = None) -> dict:
                 "available": _yunet is not None,
             },
         }
-        _attach_quality(result, brightness, blur_score, is_blurry, phone_detected, phone_confidence, phone_strike)
+        _attach_quality(result, brightness, blur_score, is_blurry, phone_detected, phone_confidence, phone_strike, person_count, person_conf, person_boxes, valid_count, additional_person_strike)
         if new_events:
             result["new_events"] = new_events
         return result
@@ -574,11 +671,8 @@ def analyze_emotion_frame(frame_b64: str, sess: dict = None) -> dict:
         return _default("error", "no_face")
 
 
-def _attach_quality(result: dict, brightness, blur_score, is_blurry, phone_detected, phone_confidence, phone_strike):
-    """Additive-only telemetry attached to every response (Tier 1 fix for
-    'no event duration/severity/timestamp metadata' -- see
-    integrity_config.py / _confirm_episode for where the actual events get
-    logged). Never overwrites any pre-existing top-level key."""
+def _attach_quality(result: dict, brightness, blur_score, is_blurry, phone_detected, phone_confidence, phone_strike, person_count=0, person_conf=0.0, person_boxes=None, face_count=0, additional_person_strike=False):
+    """Additive-only telemetry attached to every response."""
     result["quality"] = {
         "brightness": round(brightness, 1),
         "blur_score": round(blur_score, 1) if blur_score == blur_score else None,  # NaN check
@@ -590,9 +684,20 @@ def _attach_quality(result: dict, brightness, blur_score, is_blurry, phone_detec
         "confirmed_strike": bool(phone_strike),
         "available": _nanodet_net is not None,
     }
+    additional_people = max(0, person_count - face_count) if face_count >= 1 else max(0, person_count - 1)
+    result["person_summary"] = {
+        "person_count": person_count,
+        "face_count": face_count,
+        "additional_people": additional_people,
+        "detected": additional_people > 0,
+        "confidence": person_conf,
+        "confirmed_strike": bool(additional_person_strike),
+        "boxes": person_boxes or [],
+    }
     result.setdefault("face_position", "unknown")
     result.setdefault("head_pose", {"direction": "unknown", "yaw_deg": None, "pitch_deg": None, "available": _yunet is not None})
-    result.setdefault("face_count", 0)
+    result.setdefault("face_count", face_count)
+
 
 
 def check_face_present(frame_b64: str) -> bool:

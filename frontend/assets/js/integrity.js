@@ -7,6 +7,7 @@ let tabSwitchCount = 0;
 let cameraExitCount = 0;
 let windowMoveCount = 0;
 let multipleFacesCount = 0;
+let additionalPersonCount = 0;
 let phoneDetectedCount = 0;
 let fullscreenExitCount = 0;
 let totalViolations = 0;
@@ -69,11 +70,6 @@ const Integrity = {
   _lastY: window.screenY,
   _faceAbsent: 0,
   _noFaceEventTriggered: false,
-  // Becomes true only once the candidate has actually entered fullscreen
-  // (offered, not forced, on the pre-interview environment-guidance
-  // screen -- see enterFullscreenIfPossible() in interview.js). If they
-  // never use fullscreen this listener simply never fires; the rest of the
-  // interview is completely unaffected.
   _fullscreenArmed: false,
 
   start() {
@@ -105,9 +101,7 @@ const Integrity = {
         this._checkCamera();
     }, 4000);
 
-    // 5. Fullscreen Exit -- new. Reuses the exact same strike pipeline as
-    // tab_switch/window_move (discrete, immediate event, same cooldown/
-    // 3-strike rule below).
+    // 5. Fullscreen Exit
     document.addEventListener("fullscreenchange", () => {
         if (document.fullscreenElement) {
             this._fullscreenArmed = true;
@@ -131,14 +125,13 @@ const Integrity = {
       }
   },
 
-  // Called by external modules (like emotion detector) if they detect face exit
   reportCameraExit() {
       if (this._noFaceEventTriggered) {
           return;
       }
       const NO_FACE_CONFIRMATION_FRAMES = 10;
       this._faceAbsent++;
-      if (this._faceAbsent >= NO_FACE_CONFIRMATION_FRAMES) { // Multiple consecutive absences
+      if (this._faceAbsent >= NO_FACE_CONFIRMATION_FRAMES) {
           this._faceAbsent = 0;
           this._noFaceEventTriggered = true;
           this._handleViolation("camera_exit");
@@ -153,55 +146,52 @@ const Integrity = {
   async _handleViolation(type) {
     if (this.terminated) return;
 
-    // Cooldown to prevent duplicate counting (e.g. visibilitychange + blur)
+    // Cooldown to prevent duplicate counting for single physical Alt+Tab
     const now = Date.now();
     if (now - lastViolationTime < 1500) {
         return;
     }
     lastViolationTime = now;
 
-    // Sync with backend
     try {
+
         const data = await apiPost("/api/integrity/violation", {
             session_id: Session.id,
             type: type
         });
 
-        // Update local counts from backend (source of truth)
         if (data.counts) {
             tabSwitchCount = data.counts.tab_switch || 0;
             cameraExitCount = data.counts.camera_exit || 0;
             windowMoveCount = data.counts.window_move || 0;
             multipleFacesCount = data.counts.multiple_faces || 0;
+            additionalPersonCount = data.counts.additional_person || 0;
             phoneDetectedCount = data.counts.phone_detected || 0;
             fullscreenExitCount = data.counts.fullscreen_exit || 0;
             totalViolations = data.violations || 0;
         }
 
-        // Update UI counters
         this._updateUI();
 
-        // 🚨 STRICT TERMINATION TRIGGER (Goal: only at 3/3)
         if (totalViolations >= 3) {
             terminateInterview(data.warning || "Interview Terminated: Excessive Integrity Violations");
             return;
         }
 
-        // Show warning banner for 1/3 and 2/3
         if (data.warning && totalViolations < 3) {
             this._showBanner(data.warning, data.warning_level);
         }
 
     } catch (e) {
         console.warn("[Integrity] Sync failed:", e);
-        // Fallback to local increments if backend fails
         if (type === "tab_switch") tabSwitchCount++;
         else if (type === "camera_exit") cameraExitCount++;
         else if (type === "window_move") windowMoveCount++;
         else if (type === "multiple_faces") multipleFacesCount++;
+        else if (type === "additional_person") additionalPersonCount++;
         else if (type === "phone_detected") phoneDetectedCount++;
         else if (type === "fullscreen_exit") fullscreenExitCount++;
-        totalViolations = tabSwitchCount + cameraExitCount + windowMoveCount + multipleFacesCount + phoneDetectedCount + fullscreenExitCount;
+        totalViolations = tabSwitchCount + cameraExitCount + windowMoveCount + multipleFacesCount + additionalPersonCount + phoneDetectedCount + fullscreenExitCount;
 
         this._updateUI();
         if (totalViolations >= 3) {
@@ -217,6 +207,7 @@ const Integrity = {
     const camEl = document.getElementById("camera-exit-count");
     const winEl = document.getElementById("window-move-count");
     const multiEl = document.getElementById("multiple-faces-count");
+    const addPersonEl = document.getElementById("additional-person-count");
     const phoneEl = document.getElementById("phone-detected-count");
     const fullEl = document.getElementById("fullscreen-exit-count");
 
@@ -224,18 +215,18 @@ const Integrity = {
     if (camEl) camEl.innerHTML = `Camera Exit <span>${cameraExitCount} / 3</span>`;
     if (winEl) winEl.innerHTML = `Window Move <span>${windowMoveCount} / 3</span>`;
     if (multiEl) multiEl.innerHTML = `Multiple Faces <span>${multipleFacesCount} / 3</span>`;
+    if (addPersonEl) addPersonEl.innerHTML = `Additional Person <span>${additionalPersonCount} / 3</span>`;
     if (phoneEl) phoneEl.innerHTML = `Phone Detected <span>${phoneDetectedCount} / 3</span>`;
     if (fullEl) fullEl.innerHTML = `Fullscreen Exit <span>${fullscreenExitCount} / 3</span>`;
 
-    // Highlight rows if violations exist
     tabEl?.classList.toggle("active", tabSwitchCount > 0);
     camEl?.classList.toggle("active", cameraExitCount > 0);
     winEl?.classList.toggle("active", windowMoveCount > 0);
     multiEl?.classList.toggle("active", multipleFacesCount > 0);
+    addPersonEl?.classList.toggle("active", additionalPersonCount > 0);
     phoneEl?.classList.toggle("active", phoneDetectedCount > 0);
     fullEl?.classList.toggle("active", fullscreenExitCount > 0);
 
-    // Update topbar badges
     this._updateBadge("tab", tabSwitchCount);
     this._updateBadge("cam", cameraExitCount);
     this._updateBadge("win", windowMoveCount);
@@ -243,6 +234,7 @@ const Integrity = {
     this._updateBadge("phone", phoneDetectedCount);
     this._updateBadge("full", fullscreenExitCount);
   },
+
 
   _updateBadge(type, count) {
       const badge = document.getElementById(`vbadge-${type}`);

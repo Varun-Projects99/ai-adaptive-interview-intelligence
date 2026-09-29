@@ -395,12 +395,14 @@ body { overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
   <div class="right-panel">
 
     <!-- Webcam -->
-    <div class="cam-wrap">
+    <div class="cam-wrap" id="cam-wrap">
       <video id="webcam" autoplay muted playsinline></video>
+      <canvas id="detection-canvas" style="position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:3;"></canvas>
       <div class="cam-face-status ok" id="cam-face">● FACE OK</div>
       <div class="cam-emotion emotion-badge neutral" id="cam-emotion">NEUTRAL</div>
       <div class="cam-quality" id="cam-quality"></div>
     </div>
+
 
     <!-- Live performance meters -->
     <div class="side-sec">
@@ -460,6 +462,10 @@ body { overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
   Multiple Faces 0 / 3
 </div>
 
+<div class="integrity-item viol-row" id="additional-person-count">
+  Additional Person 0 / 3
+</div>
+
 <div class="integrity-item viol-row" id="phone-detected-count">
   Phone Detected 0 / 3
 </div>
@@ -469,6 +475,7 @@ body { overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
 </div>
       </div>
     </div>
+
 
     <!-- AI Insights -->
     <div class="side-sec">

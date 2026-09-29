@@ -159,6 +159,9 @@ const INTEGRITY_EVENT_LABELS = {
   CAMERA_EXIT: "Camera Exit",
   WINDOW_MOVE: "Window Move",
   MULTIPLE_FACES: "Multiple Faces",
+  ADDITIONAL_PERSON: "Additional Person",
+  MULTIPLE_ADDITIONAL_PEOPLE: "Multiple Additional People",
+  MULTIPLE_PEOPLE_NO_FACE: "Multiple People (No Face)",
   PHONE_DETECTED: "Phone Detected",
   FULLSCREEN_EXIT: "Fullscreen Exit",
   LOW_LIGHT: "Low Light",
@@ -174,14 +177,11 @@ const INTEGRITY_EVENT_LABELS = {
   HEAD_DOWN: "Looked Down",
 };
 
-// These are the ONLY event types that ever count toward the 3-strike
-// termination rule (mirrors backend/modules/integrity_config.py's
-// STRIKE_ELIGIBLE_VIOLATION_TYPES exactly) -- everything else is shown as
-// an informational warning, never as a strike, no matter its severity.
 const STRIKE_ELIGIBLE_EVENT_TYPES = new Set([
   "TAB_SWITCH", "CAMERA_EXIT", "WINDOW_MOVE", "MULTIPLE_FACES",
-  "PHONE_DETECTED", "FULLSCREEN_EXIT",
+  "ADDITIONAL_PERSON", "MULTIPLE_ADDITIONAL_PEOPLE", "PHONE_DETECTED", "FULLSCREEN_EXIT",
 ]);
+
 
 function humanEventLabel(type) {
   if (!type) return "Unknown Event";
@@ -568,6 +568,10 @@ function renderReport(d) {
                 <span class="stat-count">${viols.multiple_faces||0}</span>
                 <span class="stat-desc">Multiple Faces</span>
               </div>
+              <div class="integrity-stat ${(viols.additional_person||0)>0 ? 'viol-warning' : 'viol-ok'}">
+                <span class="stat-count">${viols.additional_person||0}</span>
+                <span class="stat-desc">Additional Person</span>
+              </div>
               <div class="integrity-stat ${(viols.phone_detected||0)>0 ? 'viol-warning' : 'viol-ok'}">
                 <span class="stat-count">${viols.phone_detected||0}</span>
                 <span class="stat-desc">Phone Detection</span>
@@ -577,6 +581,7 @@ function renderReport(d) {
                 <span class="stat-desc">Fullscreen Exits</span>
               </div>
             </div>
+
             <div class="integrity-status-banner ${autoTerminated ? 'banner-red' : strikeCount > 0 ? 'banner-yellow' : 'banner-green'}">
               ${autoTerminated
                 ? '⚠️ Session auto-terminated: the integrity strike limit (3/3) was reached.'

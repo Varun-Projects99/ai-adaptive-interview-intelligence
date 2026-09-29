@@ -15,11 +15,11 @@ const Emotion = {
   _violationTimers: {},
   _activeStatus: {},
   _strikeTriggered: {},
+  _activeCameraWarning: null,
 
   start(videoEl) {
     console.log("[Emotion] Analysis started");
     this._video = videoEl;
-    // Delay first analysis to allow camera to warm up
     setTimeout(() => {
         this._timer = setInterval(() => this.analyze(), this._interval);
     }, 2000);
@@ -37,9 +37,8 @@ const Emotion = {
         return;
     }
 
-    // Capture frame from video
     const canvas = document.createElement("canvas");
-    canvas.width = 320; // 320x240 for reliable detection
+    canvas.width = 320;
     canvas.height = 240;
     const ctx = canvas.getContext("2d");
 
@@ -53,18 +52,12 @@ const Emotion = {
         });
 
         console.log("[CAMERA] API result:", data);
-        console.log("[CAMERA] face_detected:", data.face_detected);
-        console.log("[CAMERA] status:", data.status);
-        console.log("[CAMERA] UI state:", data.face_detected ? "face_present" : data.status);
 
-        // New Tier-1/2 telemetry (quality/position/head-pose/phone). These
-        // are purely informational/warning-tier and are handled completely
-        // separately from the strike path below -- see
-        // backend/modules/integrity_config.py for why (low light, blur,
-        // face position, and sustained head-turn must NEVER strike).
         this._renderQuality(data);
         this._handleNewEvents(data);
         this._handlePhoneStrike(data);
+        this._handleAdditionalPersonStrike(data);
+        this._drawDetectionBoxes(data);
 
         if (data.face_detected) {
             this._clearViolationTimer("camera_exit");
@@ -73,16 +66,9 @@ const Emotion = {
             this._updateFaceStatus("face_present");
             this._updateUI(data);
         } else if (data.status === "low_light") {
-            // Low light must NEVER contribute to a strike (fixed: this used
-            // to fall into the generic "else" branch below and, after 5
-            // continuous seconds, count as a camera_exit strike). It is
-            // still shown to the candidate and still logged server-side as
-            // a structured, non-strike event (see /api/emotion/analyze).
             this._updateFaceStatus("low_light");
             this._clearViolationTimer("camera_exit");
         } else {
-            // "no_face", "multiple_faces", "eyes_not_visible" -- unchanged,
-            // still strike-eligible via the same 5-second debounce.
             this._updateFaceStatus(data.status);
             this._handleProctoringViolation(data.status);
         }
@@ -100,7 +86,7 @@ const Emotion = {
 
       if (this._violationTimers[vtype]) {
           if (this._activeStatus[vtype] === status) {
-              return; // Keep existing timer running
+              return;
           } else {
               clearTimeout(this._violationTimers[vtype]);
           }
@@ -114,13 +100,6 @@ const Emotion = {
           this._strikeTriggered[vtype] = true;
           delete this._violationTimers[vtype];
           try {
-              // Multiple people in frame is a distinct signal from the
-              // candidate simply being away/unclear (no_face, eyes_not_
-              // visible all still fold into "camera_exit"), so it gets its
-              // own tracked violation type -- see /api/integrity/violation
-              // and the "Multiple Faces" counter in interview.html. Still
-              // goes through the same 5-second debounce above and the same
-              // 3-strike rule, just counted and reported separately.
               await Integrity._handleViolation(vtype);
           } catch (e) {
               console.error("[CAMERA] Violation reporting failed:", e);
@@ -137,7 +116,40 @@ const Emotion = {
       this._strikeTriggered[vtype] = false;
   },
 
-  // ── New Tier-1/2 telemetry (non-strike) ──────────────────────────────
+  _handlePhoneStrike(data) {
+      if (data.phone && data.phone.confirmed_strike) {
+          Integrity._handleViolation("phone_detected");
+      }
+  },
+
+  _handleAdditionalPersonStrike(data) {
+      if (data.person_summary && data.person_summary.confirmed_strike) {
+          Integrity._handleViolation("additional_person");
+      }
+  },
+
+  _drawDetectionBoxes(data) {
+      const canvas = document.getElementById("detection-canvas");
+      if (!canvas || !this._video) return;
+      const ctx = canvas.getContext("2d");
+      const w = canvas.width = this._video.videoWidth || 320;
+      const h = canvas.height = this._video.videoHeight || 240;
+
+      ctx.clearRect(0, 0, w, h);
+
+      if (data.person_summary && data.person_summary.boxes) {
+          data.person_summary.boxes.forEach((box, idx) => {
+              ctx.strokeStyle = idx === 0 ? "#10f59a" : "#ff3d5a";
+              ctx.lineWidth = 2;
+              ctx.strokeRect(box.x, box.y, box.w, box.h);
+
+              ctx.fillStyle = idx === 0 ? "#10f59a" : "#ff3d5a";
+              ctx.font = "10px monospace";
+              ctx.fillText(idx === 0 ? "CANDIDATE" : "ADDITIONAL PERSON", box.x + 4, Math.max(12, box.y - 4));
+          });
+      }
+  },
+
 
   _renderQuality(data) {
       const el = document.getElementById("cam-quality");
@@ -154,6 +166,7 @@ const Emotion = {
           msgs.push("Please face the camera");
       }
       if (data.phone && data.phone.detected) msgs.push("Possible phone-like object in view");
+      if (data.person_summary && data.person_summary.detected) msgs.push("Additional person detected in camera frame");
 
       if (msgs.length === 0) { el.style.display = "none"; return; }
       el.textContent = "ℹ " + msgs[0];
@@ -170,7 +183,8 @@ const Emotion = {
       HEAD_RIGHT: "Please face the camera",
       HEAD_UP: "Please face the camera",
       HEAD_DOWN: "Please face the camera",
-      PHONE_DETECTED: "Potential integrity concern: phone-like object detected"
+      PHONE_DETECTED: "Potential integrity concern: phone-like object detected",
+      ADDITIONAL_PERSON: "Integrity alert: additional person detected in camera frame"
   },
 
   _handleNewEvents(data) {
@@ -178,26 +192,12 @@ const Emotion = {
       data.new_events.forEach((evt) => {
           const msg = this._newEventLabels[evt] || evt;
           if (typeof showToast === "function") {
-              showToast("ℹ " + msg, evt === "PHONE_DETECTED" ? "err" : "warn");
+              showToast("ℹ " + msg, (evt === "PHONE_DETECTED" || evt === "ADDITIONAL_PERSON") ? "err" : "warn");
           }
       });
   },
 
-  _handlePhoneStrike(data) {
-      // Server-confirmed, sustained phone detection (see
-      // modules/emotion_detector.py's PHONE_CONFIRM_SECONDS window and
-      // PHONE_MIN_CONFIDENCE floor) -- reported once, edge-triggered, and
-      // routed through the EXACT same violation pipeline every other
-      // strike-eligible type already uses (same 3-strike rule, same UI).
-      // Per spec, a confirmed phone is treated as a potential integrity
-      // concern, never as proof of cheating.
-      if (data.phone && data.phone.confirmed_strike) {
-          Integrity._handleViolation("phone_detected");
-      }
-  },
-
   _updateUI(data) {
-    // Update dominant emotion badge
     const badge = document.getElementById("cam-emotion");
     if (badge) {
         const emo = data.dominant_emotion || "neutral";
@@ -205,21 +205,18 @@ const Emotion = {
         badge.className = "cam-emotion emotion-badge " + emo;
     }
 
-    // Update live meters
     const score = data.interview_score || 65;
     const bar = document.getElementById("emot-bar");
     const val = document.getElementById("emot-val");
     if (bar) bar.style.width = score + "%";
     if (val) val.textContent = score + "%";
 
-    // Add dot to timeline
     const history = document.getElementById("emot-history");
     if (history) {
         const dot = document.createElement("div");
         dot.className = "emot-dot " + (data.dominant_emotion || "neutral");
         dot.title = data.dominant_emotion;
         history.appendChild(dot);
-        // Keep only last 15 dots
         if (history.children.length > 15) history.removeChild(history.firstChild);
     }
   },
@@ -234,19 +231,22 @@ const Emotion = {
       } else if (status === "low_light") {
           el.textContent = "⚠ LOW LIGHTING DETECTED";
           el.className = "cam-face-status warn";
-          if (typeof showToast === "function") showToast("⚠ Room lighting is too low! Please increase room lighting.", "err");
       } else if (status === "multiple_faces") {
           el.textContent = "⚠ MULTIPLE FACES DETECTED";
           el.className = "cam-face-status gone";
-          if (typeof showToast === "function") showToast("⚠ Multiple faces detected in camera frame!", "err");
+      } else if (status === "additional_person_detected") {
+          el.textContent = "⚠ ADDITIONAL PERSON DETECTED";
+          el.className = "cam-face-status gone";
+      } else if (status === "multiple_people_no_face") {
+          el.textContent = "⚠ MULTIPLE PEOPLE (NO FACE)";
+          el.className = "cam-face-status gone";
       } else if (status === "eyes_not_visible" || status === "eye_contact_lost") {
           el.textContent = "⚠ EYES NOT VISIBLE / LOOK AT CAMERA";
           el.className = "cam-face-status warn";
-          if (typeof showToast === "function") showToast("⚠ Eye contact lost or eyes not visible! Please look directly at the camera.", "err");
       } else {
           el.textContent = "⚠ NO FACE DETECTED";
           el.className = "cam-face-status gone";
-          if (typeof showToast === "function") showToast("⚠ No face detected in camera frame! Please face the camera.", "err");
       }
   }
 };
+

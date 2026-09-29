@@ -65,9 +65,10 @@ class TestPreferenceValidation(unittest.TestCase):
         self.assertIsNotNone(err)
 
     def test_unrecognized_field_alone_rejected(self):
-        clean, err = sm.validate_preferences_update({"theme": "light"})
+        clean, err = sm.validate_preferences_update({"unrecognized_foo": "bar"})
         self.assertIsNone(clean)
         self.assertIsNotNone(err)
+
 
     def test_adaptive_is_a_valid_choice(self):
         # "Adaptive" must remain selectable and must be the default -- see

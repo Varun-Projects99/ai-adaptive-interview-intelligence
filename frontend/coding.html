@@ -14,32 +14,66 @@
         }
 
         .coding-layout {
-            max-width: 1400px;
+            max-width: 1600px;
+            width: 100%;
             margin: 0 auto;
-            padding: 90px 24px 20px;
-            display: grid;
-            grid-template-columns: 360px 1fr;
-            gap: 24px;
-            height: calc(100vh - 120px);
-            min-height: 550px;
+            padding: 74px 24px 14px;
+            height: 100vh;
+            height: 100dvh;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
             position: relative;
             z-index: 1;
+            overflow: hidden;
+        }
+
+        .page-header {
+            flex: 0 0 auto;
+            margin-bottom: 6px;
+        }
+
+        .coding-workspace-grid {
+            flex: 1 1 auto;
+            min-height: 0;
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 20px;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        @media (max-width: 1200px) {
+            .coding-workspace-grid {
+                grid-template-columns: 320px 1fr;
+                gap: 16px;
+            }
         }
 
         @media (max-width: 1024px) {
             .coding-layout {
+                height: auto;
+                min-height: 100vh;
+                overflow: visible;
+                padding-bottom: 32px;
+            }
+            .coding-workspace-grid {
                 grid-template-columns: 1fr;
                 height: auto;
+                overflow: visible;
+            }
+            .pane-left {
+                height: 450px !important;
+                min-height: 350px;
+            }
+            .pane-right {
+                height: 750px !important;
+                min-height: 600px;
             }
         }
 
-        .page-header {
-            grid-column: 1 / -1;
-            margin-bottom: -10px;
-        }
-
         .back-nav {
-            margin-bottom: 12px;
+            margin-bottom: 4px;
             display: inline-flex;
             align-items: center;
             gap: 8px;
@@ -67,16 +101,12 @@
             flex-direction: column;
             overflow: hidden;
             height: 100%;
-        }
-
-        @media (max-width: 1024px) {
-            .pane-left, .pane-right {
-                height: 600px;
-            }
+            min-height: 0;
         }
 
         .pane-header {
-            padding: 16px 20px;
+            flex: 0 0 auto;
+            padding: 10px 18px;
             border-bottom: 1px solid var(--border);
             background: rgba(17, 25, 34, 0.5);
             display: flex;
@@ -85,9 +115,10 @@
         }
 
         .pane-body {
-            padding: 24px;
+            flex: 1 1 auto;
+            min-height: 0;
+            padding: 20px;
             overflow-y: auto;
-            flex-grow: 1;
         }
 
         .corner {
@@ -111,8 +142,8 @@
             border: 1px solid var(--border2);
             color: var(--text);
             font-family: var(--fb);
-            font-size: 14px;
-            padding: 10px 14px;
+            font-size: 13.5px;
+            padding: 8px 12px;
             outline: none;
             width: 100%;
             cursor: pointer;
@@ -198,24 +229,23 @@
         /* IDE Workspace layout */
         .ide-editor-container {
             position: relative;
-            flex-grow: 1;
+            flex: 1 1 auto;
+            min-height: 250px;
             display: flex;
             background: var(--editor-bg);
             border-bottom: 1px solid var(--border);
-            min-height: 0;
-            height: 0;
             overflow: hidden;
         }
 
         .line-numbers {
-            width: 40px;
+            width: 44px;
             padding: 16px 8px;
             text-align: right;
             font-family: var(--fm);
-            font-size: 13px;
-            color: #2b3947;
+            font-size: 13.5px;
+            color: #3b4c5e;
             user-select: none;
-            border-right: 1px solid rgba(28, 39, 48, 0.5);
+            border-right: 1px solid rgba(28, 39, 48, 0.6);
             line-height: 1.6;
             height: 100%;
             overflow-y: hidden;
@@ -223,7 +253,8 @@
         }
 
         textarea.code-editor {
-            flex-grow: 1;
+            flex: 1 1 auto;
+            width: 100%;
             background: transparent;
             border: none;
             color: #9cdcfe;
@@ -243,23 +274,22 @@
 
         /* Terminal Console Side-By-Side Layout (Compact) */
         .bottom-panels-wrapper {
+            flex: 0 0 auto;
+            height: 175px;
+            min-height: 140px;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
-            height: 160px;
             background: #05080c;
             border-top: 1px solid var(--border);
-            min-height: 160px;
+            padding: 10px;
+            box-sizing: border-box;
         }
 
         @media (max-width: 768px) {
             .bottom-panels-wrapper {
                 grid-template-columns: 1fr;
-                height: auto;
-                min-height: auto;
-            }
-            .pane-right {
-                height: auto !important;
+                height: 240px;
             }
         }
 
@@ -267,18 +297,20 @@
             display: flex;
             flex-direction: column;
             border: 1px solid var(--border);
-            background: rgba(13, 19, 25, 0.5);
+            background: rgba(13, 19, 25, 0.6);
             overflow: hidden;
             height: 100%;
+            min-height: 0;
         }
 
         .panel-header-title {
+            flex: 0 0 auto;
             font-family: var(--fm);
             font-size: 10px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            padding: 10px 16px;
+            padding: 8px 14px;
             border-bottom: 1px solid var(--border);
             background: rgba(17, 25, 34, 0.7);
             color: var(--accent);
@@ -286,8 +318,9 @@
         }
 
         .console-log-area {
-            flex-grow: 1;
-            padding: 16px;
+            flex: 1 1 auto;
+            min-height: 0;
+            padding: 12px 14px;
             overflow-y: auto;
             font-family: var(--fm);
             font-size: 12px;
@@ -362,100 +395,102 @@
             <a class="back-nav" onclick="window.location.href='/dashboard'">← Back to Mission Control</a>
         </div>
 
-        <!-- LEFT PANE: CHALLENGE INSTRUCTIONS -->
-        <section class="pane-left">
-            <div class="corner corner-tl"></div>
-            <div class="corner corner-br"></div>
-            
-            <div class="pane-header">
-                <span class="chip accent">Challenge Spec</span>
-                <span id="diff-badge" class="diff-badge easy">Easy</span>
-            </div>
-
-            <div class="pane-body">
-                <!-- Challenge Dropdown -->
-                <div class="challenge-selector-wrapper">
-                    <label class="section-subtitle" for="challenge-selector">Select Coding Problem</label>
-                    <select class="custom-select" id="challenge-selector" onchange="loadChallenge(this.value)">
-                        <!-- Dynamically filled -->
-                    </select>
-                </div>
-
-                <!-- Problem Spec details -->
-                <div class="challenge-title-row">
-                    <h2 id="prob-title">Two Sum</h2>
-                </div>
-
-                <div class="challenge-desc" id="prob-desc">
-                    <!-- Loaded dynamically -->
-                </div>
-
-                <div class="section-subtitle">Constraints</div>
-                <ul class="constraints-list" id="prob-constraints">
-                    <!-- Loaded dynamically -->
-                </ul>
-
-                <div class="section-subtitle">Examples</div>
-                <div id="prob-examples">
-                    <!-- Loaded dynamically -->
-                </div>
-            </div>
-        </section>
-
-        <!-- RIGHT PANE: INTEGRATED IDE & CONSOLE -->
-        <section class="pane-right">
-            <div class="corner corner-tl"></div>
-            <div class="corner corner-br"></div>
-
-            <div class="pane-header">
-                <div style="display:flex; align-items:center; gap:16px;">
-                    <!-- Language Selection -->
-                    <select class="custom-select" id="lang-selector" style="width:130px; padding: 6px 10px;" onchange="changeLanguage(this.value)">
-                        <option value="python">Python 3</option>
-                        <option value="javascript">NodeJS / JS</option>
-                    </select>
-                </div>
+        <div class="coding-workspace-grid">
+            <!-- LEFT PANE: CHALLENGE INSTRUCTIONS -->
+            <section class="pane-left">
+                <div class="corner corner-tl"></div>
+                <div class="corner corner-br"></div>
                 
-                <div style="display:flex; gap:12px;">
-                    <button class="btn btn-outline" style="padding: 8px 16px; font-size:12px;" id="review-btn" onclick="requestAiReview()">
-                        <span class="btn-text">🤖 Get AI Review</span>
-                        <div class="spinner" style="border-top-color:var(--accent)"></div>
-                    </button>
-                    <button class="btn btn-primary" style="padding: 8px 20px; font-size:12px;" id="run-btn" onclick="executeUserCode()">
-                        <span class="btn-text">🚀 Run Code</span>
-                        <div class="spinner" style="border-top-color:#000"></div>
-                    </button>
+                <div class="pane-header">
+                    <span class="chip accent">Challenge Spec</span>
+                    <span id="diff-badge" class="diff-badge easy">Easy</span>
                 </div>
-            </div>
 
-            <!-- IDE editor text area with line numbers -->
-            <div class="ide-editor-container">
-                <div class="line-numbers" id="editor-gutters">
-                    1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15
+                <div class="pane-body">
+                    <!-- Challenge Dropdown -->
+                    <div class="challenge-selector-wrapper">
+                        <label class="section-subtitle" for="challenge-selector">Select Coding Problem</label>
+                        <select class="custom-select" id="challenge-selector" onchange="loadChallenge(this.value)">
+                            <!-- Dynamically filled -->
+                        </select>
+                    </div>
+
+                    <!-- Problem Spec details -->
+                    <div class="challenge-title-row">
+                        <h2 id="prob-title">Two Sum</h2>
+                    </div>
+
+                    <div class="challenge-desc" id="prob-desc">
+                        <!-- Loaded dynamically -->
+                    </div>
+
+                    <div class="section-subtitle">Constraints</div>
+                    <ul class="constraints-list" id="prob-constraints">
+                        <!-- Loaded dynamically -->
+                    </ul>
+
+                    <div class="section-subtitle">Examples</div>
+                    <div id="prob-examples">
+                        <!-- Loaded dynamically -->
+                    </div>
                 </div>
-                <textarea class="code-editor" id="code-textarea" spellcheck="false" oninput="onCodeInput()" onkeydown="handleTabIndent(event)"></textarea>
-            </div>
+            </section>
 
-            <!-- Bottom Panels (Console Log & AI Insights) -->
-            <div class="bottom-panels-wrapper">
-                <!-- Console Log Card -->
-                <div class="console-panel-card">
-                    <div class="panel-header-title">Console Log</div>
-                    <div class="console-log-area" id="console-output">
-                        Code compilation results will be shown here...
+            <!-- RIGHT PANE: INTEGRATED IDE & CONSOLE -->
+            <section class="pane-right">
+                <div class="corner corner-tl"></div>
+                <div class="corner corner-br"></div>
+
+                <div class="pane-header">
+                    <div style="display:flex; align-items:center; gap:16px;">
+                        <!-- Language Selection -->
+                        <select class="custom-select" id="lang-selector" style="width:130px; padding: 6px 10px;" onchange="changeLanguage(this.value)">
+                            <option value="python">Python 3</option>
+                            <option value="javascript">NodeJS / JS</option>
+                        </select>
+                    </div>
+                    
+                    <div style="display:flex; gap:12px;">
+                        <button class="btn btn-outline" style="padding: 8px 16px; font-size:12px;" id="review-btn" onclick="requestAiReview()">
+                            <span class="btn-text">🤖 Get AI Review</span>
+                            <div class="spinner" style="border-top-color:var(--accent)"></div>
+                        </button>
+                        <button class="btn btn-primary" style="padding: 8px 20px; font-size:12px;" id="run-btn" onclick="executeUserCode()">
+                            <span class="btn-text">🚀 Run Code</span>
+                            <div class="spinner" style="border-top-color:#000"></div>
+                        </button>
                     </div>
                 </div>
 
-                <!-- AI Insights Card -->
-                <div class="console-panel-card">
-                    <div class="panel-header-title" style="color: var(--accent2);">AI Insights</div>
-                    <div class="console-log-area" id="review-output">
-                        Submit code for complexity analysis...
+                <!-- IDE editor text area with line numbers -->
+                <div class="ide-editor-container">
+                    <div class="line-numbers" id="editor-gutters">
+                        1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15
+                    </div>
+                    <textarea class="code-editor" id="code-textarea" spellcheck="false" oninput="onCodeInput()" onkeydown="handleTabIndent(event)"></textarea>
+                </div>
+
+                <!-- Bottom Panels (Console Log & AI Insights) -->
+                <div class="bottom-panels-wrapper">
+                    <!-- Console Log Card -->
+                    <div class="console-panel-card">
+                        <div class="panel-header-title">Console Log</div>
+                        <div class="console-log-area" id="console-output">
+                            Code compilation results will be shown here...
+                        </div>
+                    </div>
+
+                    <!-- AI Insights Card -->
+                    <div class="console-panel-card">
+                        <div class="panel-header-title" style="color: var(--accent2);">AI Insights</div>
+                        <div class="console-log-area" id="review-output">
+                            Submit code for complexity analysis...
+                        </div>
                     </div>
                 </div>
-            </div>
 
-        </section>
+            </section>
+        </div>
 
     </main>
 
@@ -591,7 +626,7 @@
             
             const linesCount = textarea.value.split("\n").length;
             let linesHtml = "";
-            for (let i = 1; i <= Math.max(linesCount, 15); i++) {
+            for (let i = 1; i <= Math.max(linesCount, 40); i++) {
                 linesHtml += i + "<br>";
             }
             gutters.innerHTML = linesHtml;

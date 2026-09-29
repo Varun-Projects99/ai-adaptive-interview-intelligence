@@ -1437,6 +1437,7 @@ textarea::placeholder, input::placeholder { color: var(--text-muted); }
 }
 
 /* ── THEME TOGGLE BUTTON ─────────────────────── */
+/* ── THEME TOGGLE BUTTON ─────────────────────── */
 .theme-toggle-btn {
   display: inline-flex; align-items: center; justify-content: center;
   width: 34px; height: 34px;
@@ -1445,3 +1446,5 @@ textarea::placeholder, input::placeholder { color: var(--text-muted); }
   color: var(--text); cursor: pointer; transition: all var(--transition);
 }
 .theme-toggle-btn:hover { border-color: var(--accent); box-shadow: 0 0 10px rgba(4,110,59,0.3); }
+
+

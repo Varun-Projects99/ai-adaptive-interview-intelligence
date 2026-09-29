@@ -59,9 +59,12 @@ HEAD_POSE_CONFIRM_SECONDS  = 6.0    # sustained (same non-center direction) span
                                      # before a HEAD_* warning is ever logged -- a brief
                                      # natural glance never reaches this
 
-# ── Phone / object detection (new, Tier 2) ───────────────────────────────
+# ── Phone / object / person detection ──────────────────────────────────
 PHONE_MIN_CONFIDENCE  = 0.50        # NanoDet "cell phone" class score floor
 PHONE_CONFIRM_SECONDS = 6.0         # sustained detection span required before PHONE_DETECTED fires
+
+PERSON_MIN_CONFIDENCE             = 0.40  # NanoDet "person" class score floor
+ADDITIONAL_PERSON_CONFIRM_SECONDS = 3.0   # sustained additional person span before confirm
 
 # ── Generic warning-event confirmation windows (new Tier-1 telemetry) ────
 LOW_LIGHT_CONFIRM_SECONDS     = 6.0
@@ -69,27 +72,30 @@ BLUR_CONFIRM_SECONDS          = 6.0
 FACE_POSITION_CONFIRM_SECONDS = 6.0
 
 # ── Detection state name constants ───────────────────────────────────────
-STATE_FACE_PRESENT           = "FACE_PRESENT"
-STATE_FACE_ABSENT            = "FACE_ABSENT"
-STATE_FACE_PARTIALLY_VISIBLE = "FACE_PARTIALLY_VISIBLE"
-STATE_MULTIPLE_FACES         = "MULTIPLE_FACES"
-STATE_FACE_TOO_FAR           = "FACE_TOO_FAR"
-STATE_FACE_TOO_CLOSE         = "FACE_TOO_CLOSE"
-STATE_FACE_OUT_OF_FRAME      = "FACE_OUT_OF_FRAME"
-STATE_LOW_LIGHT              = "LOW_LIGHT"
-STATE_SEVERE_LOW_LIGHT       = "SEVERE_LOW_LIGHT"
-STATE_BLURRY_IMAGE           = "BLURRY_IMAGE"
-STATE_CAMERA_UNAVAILABLE     = "CAMERA_UNAVAILABLE"
-STATE_HEAD_LEFT              = "HEAD_LEFT"
-STATE_HEAD_RIGHT             = "HEAD_RIGHT"
-STATE_HEAD_UP                = "HEAD_UP"
-STATE_HEAD_DOWN              = "HEAD_DOWN"
-STATE_HEAD_CENTER            = "HEAD_CENTER"
-STATE_HEAD_UNKNOWN           = "HEAD_UNKNOWN"
-STATE_PHONE_DETECTED         = "PHONE_DETECTED"
-STATE_FULLSCREEN_EXIT        = "FULLSCREEN_EXIT"
-STATE_TAB_SWITCH             = "TAB_SWITCH"
-STATE_WINDOW_FOCUS_LOST      = "WINDOW_FOCUS_LOST"
+STATE_FACE_PRESENT               = "FACE_PRESENT"
+STATE_FACE_ABSENT                = "FACE_ABSENT"
+STATE_FACE_PARTIALLY_VISIBLE     = "FACE_PARTIALLY_VISIBLE"
+STATE_MULTIPLE_FACES             = "MULTIPLE_FACES"
+STATE_ADDITIONAL_PERSON          = "ADDITIONAL_PERSON"
+STATE_MULTIPLE_ADDITIONAL_PEOPLE = "MULTIPLE_ADDITIONAL_PEOPLE"
+STATE_MULTIPLE_PEOPLE_NO_FACE    = "MULTIPLE_PEOPLE_NO_FACE"
+STATE_FACE_TOO_FAR               = "FACE_TOO_FAR"
+STATE_FACE_TOO_CLOSE             = "FACE_TOO_CLOSE"
+STATE_FACE_OUT_OF_FRAME          = "FACE_OUT_OF_FRAME"
+STATE_LOW_LIGHT                  = "LOW_LIGHT"
+STATE_SEVERE_LOW_LIGHT           = "SEVERE_LOW_LIGHT"
+STATE_BLURRY_IMAGE               = "BLURRY_IMAGE"
+STATE_CAMERA_UNAVAILABLE         = "CAMERA_UNAVAILABLE"
+STATE_HEAD_LEFT                  = "HEAD_LEFT"
+STATE_HEAD_RIGHT                 = "HEAD_RIGHT"
+STATE_HEAD_UP                    = "HEAD_UP"
+STATE_HEAD_DOWN                  = "HEAD_DOWN"
+STATE_HEAD_CENTER                = "HEAD_CENTER"
+STATE_HEAD_UNKNOWN               = "HEAD_UNKNOWN"
+STATE_PHONE_DETECTED             = "PHONE_DETECTED"
+STATE_FULLSCREEN_EXIT            = "FULLSCREEN_EXIT"
+STATE_TAB_SWITCH                 = "TAB_SWITCH"
+STATE_WINDOW_FOCUS_LOST          = "WINDOW_FOCUS_LOST"
 
 # ── Severity classification ──────────────────────────────────────────────
 SEVERITY_INFO     = "info"
@@ -106,6 +112,9 @@ EVENT_SEVERITY = {
     STATE_FACE_OUT_OF_FRAME:      SEVERITY_WARNING,
     STATE_FACE_ABSENT:            SEVERITY_WARNING,
     STATE_MULTIPLE_FACES:         SEVERITY_CRITICAL,
+    STATE_ADDITIONAL_PERSON:      SEVERITY_CRITICAL,
+    STATE_MULTIPLE_ADDITIONAL_PEOPLE: SEVERITY_CRITICAL,
+    STATE_MULTIPLE_PEOPLE_NO_FACE: SEVERITY_WARNING,
     STATE_HEAD_LEFT:              SEVERITY_WARNING,
     STATE_HEAD_RIGHT:             SEVERITY_WARNING,
     STATE_HEAD_UP:                SEVERITY_WARNING,
@@ -120,18 +129,18 @@ EVENT_SEVERITY = {
 # The ONLY violation types allowed to ever contribute to the 3-strike
 # termination count. Everything else is informational/warning-tier and is
 # only ever appended to the integrity_events log, never to
-# sess["violations"]. tab_switch / camera_exit / window_move /
-# multiple_faces are the pre-existing set (unchanged); fullscreen_exit and
-# phone_detected are the two new additions, both reusing the exact same
-# strike pipeline.
+# sess["violations"].
 STRIKE_ELIGIBLE_VIOLATION_TYPES = {
     "tab_switch",
     "camera_exit",
     "window_move",
     "multiple_faces",
+    "additional_person",
+    "multiple_additional_people",
     "fullscreen_exit",
     "phone_detected",
 }
+
 
 # Defensive hard guarantee (enforced in /api/integrity/violation itself, not
 # just by the frontend choosing which route to call): if any of these ever
