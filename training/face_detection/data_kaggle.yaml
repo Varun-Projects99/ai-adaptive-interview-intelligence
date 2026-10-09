@@ -1,0 +1,6 @@
+names:
+  0: face
+path: c:/Users/Varun B/OneDrive/Desktop/Projects/InterviewIQ/training/face_detection/dataset
+test: images/test
+train: images/train
+val: images/val

@@ -1,0 +1,7 @@
+path: C:/Users/Varun B/OneDrive/Desktop/Projects/InterviewIQ/training/phone_detection/dataset_v2_split
+train: images/train
+val: images/val
+test: images/test
+
+names:
+  0: mobile_phone

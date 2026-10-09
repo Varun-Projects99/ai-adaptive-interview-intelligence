@@ -13,5 +13,19 @@ _incoming/
 _to_delete/
 datasets/
 runs/
-training/
-*.pt
+
+# Training datasets and downloaded archives
+training/**/dataset/
+training/**/dataset_*/
+training/**/yolo_v2_dataset/
+training/**/*.zip
+training/**/*.kaggle-partial
+
+# Training outputs and checkpoints
+training/**/runs/
+training/**/*.pt
+training/**/*.cache
+training/**/__pycache__/
+training/**/*.pyc
+
+*.pt

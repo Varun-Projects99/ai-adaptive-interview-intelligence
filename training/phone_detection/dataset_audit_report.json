@@ -1,0 +1,151 @@
+{
+    "dataset_name": "Datacluster Labs Mobile Phone Image Dataset",
+    "kaggle_url": "https://www.kaggle.com/datasets/dataclusterlabs/mobile-phone-image-dataset",
+    "total_images": 100,
+    "person_and_phone_scenes": 79,
+    "isolated_phone_images": 21,
+    "person_no_phone_images": 0,
+    "total_phone_bounding_boxes": 112,
+    "sample_evidence": [
+        {
+            "image_name": "Datacluster Labs Phone Dataset (1).jpg",
+            "category": "PERSON_AND_PHONE",
+            "faces_detected": 10,
+            "phone_boxes": 1,
+            "sample_image_path": "C:\\Users\\Varun B\\OneDrive\\Desktop\\Projects\\InterviewIQ\\training\\phone_detection\\dataset_verification_samples\\1_PERSON_AND_PHONE_Datacluster Labs Phone Dataset (1).jpg"
+        },
+        {
+            "image_name": "Datacluster Labs Phone Dataset (10).jpg",
+            "category": "ISOLATED_PHONE",
+            "faces_detected": 0,
+            "phone_boxes": 1,
+            "sample_image_path": "C:\\Users\\Varun B\\OneDrive\\Desktop\\Projects\\InterviewIQ\\training\\phone_detection\\dataset_verification_samples\\2_ISOLATED_PHONE_Datacluster Labs Phone Dataset (10).jpg"
+        },
+        {
+            "image_name": "Datacluster Labs Phone Dataset (100).jpg",
+            "category": "PERSON_AND_PHONE",
+            "faces_detected": 14,
+            "phone_boxes": 1,
+            "sample_image_path": "C:\\Users\\Varun B\\OneDrive\\Desktop\\Projects\\InterviewIQ\\training\\phone_detection\\dataset_verification_samples\\3_PERSON_AND_PHONE_Datacluster Labs Phone Dataset (100).jpg"
+        },
+        {
+            "image_name": "Datacluster Labs Phone Dataset (11).jpg",
+            "category": "PERSON_AND_PHONE",
+            "faces_detected": 2,
+            "phone_boxes": 1,
+            "sample_image_path": "C:\\Users\\Varun B\\OneDrive\\Desktop\\Projects\\InterviewIQ\\training\\phone_detection\\dataset_verification_samples\\4_PERSON_AND_PHONE_Datacluster Labs Phone Dataset (11).jpg"
+        },
+        {
+            "image_name": "Datacluster Labs Phone Dataset (12).jpg",
+            "category": "PERSON_AND_PHONE",
+            "faces_detected": 8,
+            "phone_boxes": 1,
+            "sample_image_path": "C:\\Users\\Varun B\\OneDrive\\Desktop\\Projects\\InterviewIQ\\training\\phone_detection\\dataset_verification_samples\\5_PERSON_AND_PHONE_Datacluster Labs Phone Dataset (12).jpg"
+        },
+        {
+            "image_name": "Datacluster Labs Phone Dataset (13).jpg",
+            "category": "ISOLATED_PHONE",
+            "faces_detected": 0,
+            "phone_boxes": 1,
+            "sample_image_path": "C:\\Users\\Varun B\\OneDrive\\Desktop\\Projects\\InterviewIQ\\training\\phone_detection\\dataset_verification_samples\\6_ISOLATED_PHONE_Datacluster Labs Phone Dataset (13).jpg"
+        },
+        {
+            "image_name": "Datacluster Labs Phone Dataset (14).jpg",
+            "category": "PERSON_AND_PHONE",
+            "faces_detected": 1,
+            "phone_boxes": 1,
+            "sample_image_path": "C:\\Users\\Varun B\\OneDrive\\Desktop\\Projects\\InterviewIQ\\training\\phone_detection\\dataset_verification_samples\\7_PERSON_AND_PHONE_Datacluster Labs Phone Dataset (14).jpg"
+        },
+        {
+            "image_name": "Datacluster Labs Phone Dataset (15).jpg",
+            "category": "PERSON_AND_PHONE",
+            "faces_detected": 11,
+            "phone_boxes": 12,
+            "sample_image_path": "C:\\Users\\Varun B\\OneDrive\\Desktop\\Projects\\InterviewIQ\\training\\phone_detection\\dataset_verification_samples\\8_PERSON_AND_PHONE_Datacluster Labs Phone Dataset (15).jpg"
+        },
+        {
+            "image_name": "Datacluster Labs Phone Dataset (16).jpg",
+            "category": "PERSON_AND_PHONE",
+            "faces_detected": 21,
+            "phone_boxes": 1,
+            "sample_image_path": "C:\\Users\\Varun B\\OneDrive\\Desktop\\Projects\\InterviewIQ\\training\\phone_detection\\dataset_verification_samples\\9_PERSON_AND_PHONE_Datacluster Labs Phone Dataset (16).jpg"
+        },
+        {
+            "image_name": "Datacluster Labs Phone Dataset (17).jpg",
+            "category": "PERSON_AND_PHONE",
+            "faces_detected": 5,
+            "phone_boxes": 1,
+            "sample_image_path": "C:\\Users\\Varun B\\OneDrive\\Desktop\\Projects\\InterviewIQ\\training\\phone_detection\\dataset_verification_samples\\10_PERSON_AND_PHONE_Datacluster Labs Phone Dataset (17).jpg"
+        },
+        {
+            "image_name": "Datacluster Labs Phone Dataset (18).jpg",
+            "category": "PERSON_AND_PHONE",
+            "faces_detected": 2,
+            "phone_boxes": 2,
+            "sample_image_path": "C:\\Users\\Varun B\\OneDrive\\Desktop\\Projects\\InterviewIQ\\training\\phone_detection\\dataset_verification_samples\\11_PERSON_AND_PHONE_Datacluster Labs Phone Dataset (18).jpg"
+        },
+        {
+            "image_name": "Datacluster Labs Phone Dataset (19).jpg",
+            "category": "ISOLATED_PHONE",
+            "faces_detected": 0,
+            "phone_boxes": 1,
+            "sample_image_path": "C:\\Users\\Varun B\\OneDrive\\Desktop\\Projects\\InterviewIQ\\training\\phone_detection\\dataset_verification_samples\\12_ISOLATED_PHONE_Datacluster Labs Phone Dataset (19).jpg"
+        },
+        {
+            "image_name": "Datacluster Labs Phone Dataset (2).jpg",
+            "category": "PERSON_AND_PHONE",
+            "faces_detected": 4,
+            "phone_boxes": 1,
+            "sample_image_path": "C:\\Users\\Varun B\\OneDrive\\Desktop\\Projects\\InterviewIQ\\training\\phone_detection\\dataset_verification_samples\\13_PERSON_AND_PHONE_Datacluster Labs Phone Dataset (2).jpg"
+        },
+        {
+            "image_name": "Datacluster Labs Phone Dataset (20).jpg",
+            "category": "PERSON_AND_PHONE",
+            "faces_detected": 6,
+            "phone_boxes": 1,
+            "sample_image_path": "C:\\Users\\Varun B\\OneDrive\\Desktop\\Projects\\InterviewIQ\\training\\phone_detection\\dataset_verification_samples\\14_PERSON_AND_PHONE_Datacluster Labs Phone Dataset (20).jpg"
+        },
+        {
+            "image_name": "Datacluster Labs Phone Dataset (21).jpg",
+            "category": "ISOLATED_PHONE",
+            "faces_detected": 0,
+            "phone_boxes": 1,
+            "sample_image_path": "C:\\Users\\Varun B\\OneDrive\\Desktop\\Projects\\InterviewIQ\\training\\phone_detection\\dataset_verification_samples\\15_ISOLATED_PHONE_Datacluster Labs Phone Dataset (21).jpg"
+        },
+        {
+            "image_name": "Datacluster Labs Phone Dataset (22).jpg",
+            "category": "PERSON_AND_PHONE",
+            "faces_detected": 1,
+            "phone_boxes": 1,
+            "sample_image_path": "C:\\Users\\Varun B\\OneDrive\\Desktop\\Projects\\InterviewIQ\\training\\phone_detection\\dataset_verification_samples\\16_PERSON_AND_PHONE_Datacluster Labs Phone Dataset (22).jpg"
+        },
+        {
+            "image_name": "Datacluster Labs Phone Dataset (23).jpg",
+            "category": "PERSON_AND_PHONE",
+            "faces_detected": 3,
+            "phone_boxes": 1,
+            "sample_image_path": "C:\\Users\\Varun B\\OneDrive\\Desktop\\Projects\\InterviewIQ\\training\\phone_detection\\dataset_verification_samples\\17_PERSON_AND_PHONE_Datacluster Labs Phone Dataset (23).jpg"
+        },
+        {
+            "image_name": "Datacluster Labs Phone Dataset (24).jpg",
+            "category": "PERSON_AND_PHONE",
+            "faces_detected": 12,
+            "phone_boxes": 1,
+            "sample_image_path": "C:\\Users\\Varun B\\OneDrive\\Desktop\\Projects\\InterviewIQ\\training\\phone_detection\\dataset_verification_samples\\18_PERSON_AND_PHONE_Datacluster Labs Phone Dataset (24).jpg"
+        },
+        {
+            "image_name": "Datacluster Labs Phone Dataset (25).jpg",
+            "category": "PERSON_AND_PHONE",
+            "faces_detected": 17,
+            "phone_boxes": 1,
+            "sample_image_path": "C:\\Users\\Varun B\\OneDrive\\Desktop\\Projects\\InterviewIQ\\training\\phone_detection\\dataset_verification_samples\\19_PERSON_AND_PHONE_Datacluster Labs Phone Dataset (25).jpg"
+        },
+        {
+            "image_name": "Datacluster Labs Phone Dataset (26).jpg",
+            "category": "PERSON_AND_PHONE",
+            "faces_detected": 9,
+            "phone_boxes": 1,
+            "sample_image_path": "C:\\Users\\Varun B\\OneDrive\\Desktop\\Projects\\InterviewIQ\\training\\phone_detection\\dataset_verification_samples\\20_PERSON_AND_PHONE_Datacluster Labs Phone Dataset (26).jpg"
+        }
+    ]
+}

@@ -1,0 +1,5 @@
+names:
+  0: cell phone
+path: c:/Users/Varun B/OneDrive/Desktop/Projects/InterviewIQ/training/phone_detection/dataset
+train: images/train
+val: images/val
