@@ -95,15 +95,26 @@ def _generate_llm_questions_for_skills(skills, lang="en", personality="professio
           {{"question": "What is a closure in JavaScript?", "difficulty": "easy", "skill": "{skills[0]}"}}
         ]
         """
-        completion = client.chat.completions.create(
-            model="llama3-8b-8192",
-            messages=[
-                {"role": "system", "content": "You are an expert technical interviewer. You must only output valid JSON arrays."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.7,
-            max_tokens=1200
-        )
+        model_candidates = [os.environ.get("GROQ_MODEL", "").strip(), "llama-3.1-8b-instant", "llama-3.3-70b-versatile", "mixtral-8x7b-32768"]
+        model_candidates = [m for m in model_candidates if m]
+        completion = None
+        for m_name in model_candidates:
+            try:
+                completion = client.chat.completions.create(
+                    model=m_name,
+                    messages=[
+                        {"role": "system", "content": "You are an expert technical interviewer. You must only output valid JSON arrays."},
+                        {"role": "user", "content": prompt}
+                    ],
+                    temperature=0.7,
+                    max_tokens=1200
+                )
+                break
+            except Exception as m_err:
+                print(f"[WARN] Groq model {m_name} failed: {m_err}")
+                continue
+        if not completion:
+            return []
         response_text = completion.choices[0].message.content.strip()
         if "[" in response_text and "]" in response_text:
             start_index = response_text.find("[")
@@ -296,13 +307,20 @@ def translate_text(text, target_lang):
         elif api_key_groq:
             from groq import Groq
             groq_client = Groq(api_key=api_key_groq)
-            completion = groq_client.chat.completions.create(
-                model="llama3-8b-8192",
-                messages=[{"role": "user", "content": prompt}],
-                temperature=0.3,
-                max_tokens=200
-            )
-            return completion.choices[0].message.content.strip()
+            model_candidates = [os.environ.get("GROQ_MODEL", "").strip(), "llama-3.1-8b-instant", "llama-3.3-70b-versatile", "mixtral-8x7b-32768"]
+            model_candidates = [m for m in model_candidates if m]
+            for m_name in model_candidates:
+                try:
+                    completion = groq_client.chat.completions.create(
+                        model=m_name,
+                        messages=[{"role": "user", "content": prompt}],
+                        temperature=0.3,
+                        max_tokens=200
+                    )
+                    return completion.choices[0].message.content.strip()
+                except Exception as m_err:
+                    print(f"[WARN] Translation model {m_name} failed: {m_err}")
+                    continue
     except Exception as e:
         print(f"[Translation] Fallback translation to {lang_name} failed: {e}")
         

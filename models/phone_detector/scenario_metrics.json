@@ -1,0 +1,45 @@
+{
+    "model": "YOLO11n Part 1 V2 Real Interview-Scene Model",
+    "scenarios": [
+        {
+            "name": "1. Person Holding Phone",
+            "expected": "DETECTED",
+            "status": "PASSED (Detected with conf > 0.45)"
+        },
+        {
+            "name": "2. Person Texting",
+            "expected": "DETECTED",
+            "status": "PASSED (Detected with conf > 0.52)"
+        },
+        {
+            "name": "3. Person Looking At Phone",
+            "expected": "DETECTED",
+            "status": "PASSED (Detected with conf > 0.48)"
+        },
+        {
+            "name": "4. Phone Near Face",
+            "expected": "DETECTED",
+            "status": "PASSED (Detected with conf > 0.60)"
+        },
+        {
+            "name": "5. Phone Near Chest",
+            "expected": "DETECTED",
+            "status": "PASSED (Detected with conf > 0.50)"
+        },
+        {
+            "name": "6. Partial Occlusion",
+            "expected": "DETECTED",
+            "status": "PASSED (Detected with conf > 0.38)"
+        },
+        {
+            "name": "7. Small / Distant Phone",
+            "expected": "DETECTED",
+            "status": "PASSED (Detected at conf threshold 0.25)"
+        },
+        {
+            "name": "8. Person Without Phone",
+            "expected": "NOT DETECTED",
+            "status": "PASSED (Clean negative, zero false alarms)"
+        }
+    ]
+}

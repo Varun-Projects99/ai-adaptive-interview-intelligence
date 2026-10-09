@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>(function(){try{var t=localStorage.getItem('iq_theme');if(t==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InterviewIQ — Aptitude Practice Hub</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <style>
+    .apt-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 84px 24px 48px;
+    }
+    .hero-banner {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+    .hero-banner::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -10%;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .metric-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color 0.2s;
+    }
+    .metric-card:hover { border-color: var(--primary); }
+    .metric-val {
+      font-family: var(--fh);
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--cyan);
+    }
+    .modes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 36px;
+    }
+    .mode-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .mode-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(139, 92, 246, 0.15);
+    }
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      align-items: stretch;
+      margin-bottom: 36px;
+    }
+    .cat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      gap: 16px;
+    }
+    .btn-secondary {
+      background: var(--surface2);
+      border: 1px solid var(--border-hover);
+      color: var(--text-primary);
+    }
+    .btn-secondary:hover:not(:disabled) {
+      background: var(--surface-hover);
+      border-color: var(--cyan);
+      color: var(--cyan);
+      box-shadow: 0 0 12px rgba(34, 211, 238, 0.2);
+    }
+    .cat-practice-btn {
+      margin-top: auto !important;
+      width: 100%;
+    }
+    .topic-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .topic-chip:hover, .topic-chip.active {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: rgba(34, 211, 238, 0.08);
+    }
+    .diff-pill {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-family: var(--fm);
+      font-size: 11px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text-muted);
+      transition: all 0.2s;
+    }
+    .diff-pill.active {
+      border-color: var(--primary);
+      color: #FFF;
+      background: var(--primary);
+    }
+    .recco-card {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(34, 211, 238, 0.05) 100%);
+      border: 1px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+    .history-table th, .history-table td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 13.5px;
+    }
+    .history-table th {
+      font-family: var(--fm);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      background: var(--surface2);
+    }
+    .history-table tr:hover { background: var(--surface-hover); }
+  </style>
+  <script src="/assets/js/theme.js" defer></script>
+  <script src="/assets/js/session.js" defer></script>
+  <script src="/assets/js/global-menu.js" defer></script>
+</head>
+<body class="grid-bg">
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <a href="/dashboard" class="navbar-logo" style="text-decoration:none;">
+      <span>🧮</span> InterviewIQ
+    </a>
+    <div class="navbar-right">
+      <a href="/dashboard" class="nav-link">← Dashboard</a>
+    </div>
+  </header>
+
+  <!-- MAIN HUB CONTENT -->
+  <main class="apt-container">
+
+    <!-- HERO BANNER -->
+    <div class="hero-banner">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
+        <div>
+          <div class="section-title">Aptitude & Logical Reasoning Hub</div>
+          <h1 style="font-family:var(--fh); font-size:28px; font-weight:800; margin-bottom:8px;">
+            Master Technical & Placement Aptitude
+          </h1>
+          <p style="color:var(--text-muted); font-size:14.5px; max-width:680px; line-height:1.6;">
+            Practice Quantitative Aptitude, Logical Reasoning, Verbal Ability, and Data Interpretation with timed assessments, weak-area analytics, and detailed step-by-step explanations.
+          </p>
+        </div>
+        <button class="btn btn-primary" style="padding:14px 24px; font-weight:700;" onclick="startQuickPractice()">
+          🚀 Aptitude Practice (50 Qs • 60m)
+        </button>
+      </div>
+    </div>
+
+    <!-- SUMMARY METRICS -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="section-title" style="margin-bottom:0">Tests Completed</div>
+        <div class="metric-val" id="stat-total-tests">0</div>
+        <div style="font-size:12px; color:var(--text-muted);">Recorded assessments</div>
+      </div>
+      <div class="metric-card">
+        <div class="section-title" style="margin-bottom:0">Average Score</div>
+        <div class="metric-val" id="stat-avg-score">0%</div>
+        <div style="font-size:12px; color:var(--text-muted);">Overall test score</div>
+      </div>
+      <div class="metric-card">
+        <div class="section-title" style="margin-bottom:0">Accuracy Rate</div>
+        <div class="metric-val" id="stat-avg-accuracy" style="color:var(--success)">0%</div>
+        <div style="font-size:12px; color:var(--text-muted);">Correct vs Answered</div>
+      </div>
+      <div class="metric-card">
+        <div class="section-title" style="margin-bottom:0">Focus Need</div>
+        <div class="metric-val" id="stat-weak-topic" style="font-size:20px; color:var(--warning)">None</div>
+        <div style="font-size:12px; color:var(--text-muted);">AI identified weak area</div>
+      </div>
+    </div>
+
+    <!-- PERSONALIZED RECOMMENDATION BANNER -->
+    <div class="recco-card" id="recco-banner">
+      <div style="display:flex; align-items:center; gap:16px;">
+        <span style="font-size:36px;">🎯</span>
+        <div>
+          <div style="font-family:var(--fh); font-weight:700; font-size:17px; margin-bottom:4px;" id="recco-title">
+            Personalized Practice Recommendation
+          </div>
+          <div style="font-size:13.5px; color:var(--text-muted);" id="recco-msg">
+            Complete your first practice test to receive personalized AI weak-topic recommendations.
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary" id="recco-btn" onclick="startQuickPractice()">
+        Start Assessment →
+      </button>
+    </div>
+
+    <!-- PRACTICE MODES SELECTOR -->
+    <div style="margin-bottom:16px;">
+      <h2 style="font-family:var(--fh); font-size:20px; font-weight:700; margin-bottom:4px;">Practice Modes</h2>
+      <p style="color:var(--text-muted); font-size:13.5px;">Choose how you want to test your problem-solving skills today.</p>
+    </div>
+
+    <div class="modes-grid">
+      <!-- Quick Practice -->
+      <div class="mode-card" onclick="startQuickPractice()">
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <span style="font-size:28px;">⚡</span>
+            <span class="chip accent">50 Questions • 60m</span>
+          </div>
+          <h3 style="font-family:var(--fh); font-size:18px; font-weight:700; margin-bottom:8px;">Aptitude Practice</h3>
+          <p style="color:var(--text-muted); font-size:13px; line-height:1.6;">
+            Comprehensive 50-question practice assessment across mixed topics (60-minute duration).
+          </p>
+        </div>
+        <div style="margin-top:20px; font-family:var(--fm); font-size:12px; color:var(--cyan); font-weight:600;">
+          Start Aptitude Practice (50 Qs) →
+        </div>
+      </div>
+
+      <!-- Topic Practice -->
+      <div class="mode-card" onclick="scrollToCategories()">
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <span style="font-size:28px;">🎯</span>
+            <span class="chip success">Custom Topic</span>
+          </div>
+          <h3 style="font-family:var(--fh); font-size:18px; font-weight:700; margin-bottom:8px;">Topic Practice</h3>
+          <p style="color:var(--text-muted); font-size:13px; line-height:1.6;">
+            Target a specific category and sub-topic (e.g. Percentages, Syllogisms, DI Pie Charts).
+          </p>
+        </div>
+        <div style="margin-top:20px; font-family:var(--fm); font-size:12px; color:var(--success); font-weight:600;">
+          Select Category Below ↓
+        </div>
+      </div>
+
+      <!-- Full Assessment -->
+      <div class="mode-card" onclick="startFullTest()">
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <span style="font-size:28px;">🏆</span>
+            <span class="chip warn">50 Questions • 60m</span>
+          </div>
+          <h3 style="font-family:var(--fh); font-size:18px; font-weight:700; margin-bottom:8px;">Full Aptitude Test</h3>
+          <p style="color:var(--text-muted); font-size:13px; line-height:1.6;">
+            Comprehensive 50-question timed assessment simulating real company placement exams.
+          </p>
+        </div>
+        <div style="margin-top:20px; font-family:var(--fm); font-size:12px; color:var(--warning); font-weight:600;">
+          Launch Full Assessment (50 Qs) →
+        </div>
+      </div>
+    </div>
+
+    <!-- CATEGORY & TOPIC EXPLORER -->
+    <div id="categories-section" style="margin-bottom:16px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+        <div>
+          <h2 style="font-family:var(--fh); font-size:20px; font-weight:700; margin-bottom:4px;">Aptitude Categories & Topics</h2>
+          <p style="color:var(--text-muted); font-size:13.5px;">Select a category and topic to launch a targeted practice test.</p>
+        </div>
+
+        <!-- DIFFICULTY SELECTOR -->
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-family:var(--fm); font-size:11px; color:var(--text-muted); text-transform:uppercase;">Difficulty:</span>
+          <div class="diff-pill active" onclick="setDifficulty(this, 'All')">All</div>
+          <div class="diff-pill" onclick="setDifficulty(this, 'Easy')">Easy</div>
+          <div class="diff-pill" onclick="setDifficulty(this, 'Medium')">Medium</div>
+          <div class="diff-pill" onclick="setDifficulty(this, 'Hard')">Hard</div>
+        </div>
+      </div>
+
+      <div class="cat-grid" id="categories-grid">
+        <!-- Loaded dynamically -->
+      </div>
+    </div>
+
+    <!-- PERFORMANCE ANALYTICS SECTION -->
+    <div style="margin-top:48px; margin-bottom:36px;">
+      <div class="section-title">Performance Analytics</div>
+      <div class="card" style="padding:28px;">
+        <h3 style="font-family:var(--fh); font-size:18px; font-weight:700; margin-bottom:20px;">Category Performance Breakdown</h3>
+        <div id="category-progress-container" style="display:flex; flex-direction:column; gap:16px;">
+          <!-- Loaded dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <!-- HISTORY TABLE SECTION -->
+    <div style="margin-bottom:48px;">
+      <div class="section-title">Aptitude Test History</div>
+      <div class="card" style="padding:0; overflow:hidden;">
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>Date / Time</th>
+              <th>Mode</th>
+              <th>Category / Topic</th>
+              <th>Score</th>
+              <th>Accuracy</th>
+              <th>Time Taken</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="history-table-body">
+            <tr><td colspan="7" style="text-align:center; color:var(--text-muted); padding:24px;">Loading test history...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- RESULT DETAIL MODAL -->
+  <div class="overlay" id="result-modal" style="z-index: 1000; display: none;">
+    <div class="fb-card" style="max-width: 800px; width: 92%; max-height: 90vh; overflow-y: auto; padding: 28px; background: var(--surface);">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px;">
+        <div>
+          <div style="font-family:var(--fm); font-size:11px; color:var(--cyan); text-transform:uppercase; letter-spacing:0.1em;" id="modal-test-mode">
+            APTITUDE RESULT REPORT
+          </div>
+          <h2 style="font-family:var(--fh); font-size:24px; font-weight:800; margin-top:4px;" id="modal-test-title">
+            Test Results
+          </h2>
+        </div>
+        <button class="btn btn-ghost" onclick="closeResultModal()" style="font-size:20px; padding:4px 10px;">✕</button>
+      </div>
+
+      <!-- SCORE HEADER -->
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:12px; background:var(--surface2); padding:16px; border-radius:8px; border:1px solid var(--border); margin-bottom:24px; text-align:center;">
+        <div>
+          <div style="font-size:11px; font-family:var(--fm); color:var(--text-muted);">SCORE</div>
+          <div style="font-size:28px; font-family:var(--fh); font-weight:800; color:var(--cyan);" id="modal-score">0%</div>
+        </div>
+        <div>
+          <div style="font-size:11px; font-family:var(--fm); color:var(--text-muted);">ACCURACY</div>
+          <div style="font-size:28px; font-family:var(--fh); font-weight:800; color:var(--success);" id="modal-accuracy">0%</div>
+        </div>
+        <div>
+          <div style="font-size:11px; font-family:var(--fm); color:var(--text-muted);">CORRECT / TOTAL</div>
+          <div style="font-size:28px; font-family:var(--fh); font-weight:800; color:var(--text);" id="modal-correct-ratio">0/0</div>
+        </div>
+        <div>
+          <div style="font-size:11px; font-family:var(--fm); color:var(--text-muted);">TIME TAKEN</div>
+          <div style="font-size:28px; font-family:var(--fh); font-weight:800; color:var(--primary-light);" id="modal-time-taken">0s</div>
+        </div>
+      </div>
+
+      <!-- QUESTION BY QUESTION REVIEW -->
+      <h3 style="font-family:var(--fh); font-size:16px; font-weight:700; margin-bottom:12px;">Detailed Question Review</h3>
+      <div id="modal-review-container" style="display:flex; flex-direction:column; gap:16px;">
+        <!-- Populated dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let selectedDifficulty = 'All';
+    let overviewData = null;
+
+    document.addEventListener("DOMContentLoaded", function() {
+      loadOverview();
+    });
+
+    function setDifficulty(el, diff) {
+      document.querySelectorAll('.diff-pill').forEach(p => p.classList.remove('active'));
+      el.classList.add('active');
+      selectedDifficulty = diff;
+    }
+
+    function scrollToCategories() {
+      document.getElementById('categories-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    async function loadOverview() {
+      try {
+        const res = await fetch('/api/aptitude/overview');
+        if (!res.ok) throw new Error("Failed to load overview");
+        overviewData = await res.json();
+        renderOverview(overviewData);
+      } catch(e) {
+        console.warn("Overview load warning:", e);
+      }
+    }
+
+    function renderOverview(data) {
+      const summary = data.summary || {};
+      document.getElementById('stat-total-tests').textContent = summary.total_tests || 0;
+      document.getElementById('stat-avg-score').textContent = (summary.avg_score || 0) + '%';
+      document.getElementById('stat-avg-accuracy').textContent = (summary.avg_accuracy || 0) + '%';
+      document.getElementById('stat-weak-topic').textContent = summary.top_weak_topic || 'None';
+
+      // Recommendation Banner
+      const reccos = data.recommendations || [];
+      if (reccos.length > 0) {
+        const r = reccos[0];
+        document.getElementById('recco-title').textContent = r.topic ? `Focus Recommendation: ${r.topic}` : "Practice Recommendation";
+        document.getElementById('recco-msg').textContent = r.message;
+        document.getElementById('recco-btn').textContent = r.action_text + " →";
+        document.getElementById('recco-btn').onclick = function() {
+          if (r.topic === "Full Assessment") startFullTest();
+          else if (r.topic === "Quantitative Aptitude" && summary.total_tests === 0) startQuickPractice();
+          else startTopicPractice(null, r.topic);
+        };
+      }
+
+      // Categories Grid
+      const catGrid = document.getElementById('categories-grid');
+      catGrid.innerHTML = '';
+      (data.categories || []).forEach(cat => {
+        const card = document.createElement('div');
+        card.className = 'cat-card';
+
+        let topicsHtml = (cat.topics || []).map(t => 
+          `<span class="topic-chip" onclick="startTopicPractice('${cat.name}', '${t.name}')">
+            ${t.name} <span style="font-size:10px; opacity:0.6;">(${t.question_count})</span>
+          </span>`
+        ).join('');
+
+        card.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="font-size:24px;">${cat.icon}</span>
+              <h3 style="font-family:var(--fh); font-size:17px; font-weight:700; color:${cat.color}">${cat.name}</h3>
+            </div>
+            <span class="chip" style="font-size:10px;">${cat.total_questions} Questions</span>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:8px;">
+            ${topicsHtml}
+          </div>
+          <button class="btn btn-secondary cat-practice-btn" onclick="startTopicPractice('${cat.name}', null)">
+            Practice Category (${cat.name})
+          </button>
+        `;
+        catGrid.appendChild(card);
+      });
+
+      // Category Progress
+      const catPerf = summary.category_performance || {};
+      const catProgContainer = document.getElementById('category-progress-container');
+      catProgContainer.innerHTML = '';
+      Object.keys(catPerf).forEach(catName => {
+        const pct = catPerf[catName] || 0;
+        const div = document.createElement('div');
+        div.innerHTML = `
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:13.5px;">
+            <span style="font-weight:600;">${catName}</span>
+            <span style="font-family:var(--fm); color:var(--cyan);">${pct}% Accuracy</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: ${pct}%;"></div>
+          </div>
+        `;
+        catProgContainer.appendChild(div);
+      });
+
+      // History Table
+      const historyBody = document.getElementById('history-table-body');
+      historyBody.innerHTML = '';
+      const history = data.history || [];
+      if (history.length === 0) {
+        historyBody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:var(--text-muted); padding:24px;">No test attempts recorded yet. Launch your first practice test above!</td></tr>`;
+      } else {
+        history.forEach(item => {
+          const dateStr = item.created_at ? new Date(item.created_at).toLocaleString() : 'N/A';
+          const modeLabel = item.mode ? item.mode.toUpperCase() : 'PRACTICE';
+          const catTopic = item.topic && item.topic !== 'All Topics' ? item.topic : item.category || 'Mixed';
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${dateStr}</td>
+            <td><span class="chip accent" style="font-size:10px;">${modeLabel}</span></td>
+            <td><strong>${catTopic}</strong></td>
+            <td><span style="color:var(--cyan); font-weight:700;">${item.score}%</span></td>
+            <td><span style="color:var(--success); font-weight:700;">${item.accuracy}%</span></td>
+            <td>${item.time_taken_seconds || 0}s</td>
+            <td>
+              <button class="btn btn-ghost" style="padding:4px 10px; font-size:12px;" onclick="viewResultModal('${item.id}')">
+                View Report
+              </button>
+            </td>
+          `;
+          historyBody.appendChild(tr);
+        });
+      }
+    }
+
+    function startQuickPractice() {
+      sessionStorage.removeItem('apt_active_test_session');
+      window.location.href = `/aptitude/test?mode=quick&difficulty=${selectedDifficulty}&fresh=1`;
+    }
+
+    function startFullTest() {
+      sessionStorage.removeItem('apt_active_test_session');
+      window.location.href = `/aptitude/test?mode=full&difficulty=${selectedDifficulty}&fresh=1`;
+    }
+
+    function startTopicPractice(cat, topic) {
+      sessionStorage.removeItem('apt_active_test_session');
+      let url = `/aptitude/test?mode=topic&difficulty=${selectedDifficulty}&fresh=1`;
+      if (cat) url += `&category=${encodeURIComponent(cat)}`;
+      if (topic) url += `&topic=${encodeURIComponent(topic)}`;
+      window.location.href = url;
+    }
+
+    async function viewResultModal(resultId) {
+      try {
+        const res = await fetch(`/api/aptitude/result/${resultId}`);
+        if (!res.ok) throw new Error("Could not load result detail");
+        const data = await res.json();
+        
+        document.getElementById('modal-test-mode').textContent = (data.mode || 'PRACTICE').toUpperCase() + " ASSESSMENT";
+        document.getElementById('modal-test-title').textContent = data.topic && data.topic !== 'All Topics' ? data.topic : data.category || 'Aptitude Results';
+        document.getElementById('modal-score').textContent = (data.score || 0) + '%';
+        document.getElementById('modal-accuracy').textContent = (data.accuracy || 0) + '%';
+        document.getElementById('modal-correct-ratio').textContent = `${data.correct_count || 0}/${data.total_questions || 0}`;
+        document.getElementById('modal-time-taken').textContent = (data.time_taken_seconds || 0) + 's';
+
+        const revContainer = document.getElementById('modal-review-container');
+        revContainer.innerHTML = '';
+
+        (data.detailed_review || []).forEach((q, idx) => {
+          const isCorrect = q.status === 'correct';
+          const isUnanswered = q.status === 'unanswered';
+          const badgeClass = isCorrect ? 'success' : isUnanswered ? 'warn' : 'danger';
+          const badgeText = isCorrect ? '✓ CORRECT' : isUnanswered ? '○ UNANSWERED' : '✗ INCORRECT';
+
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.style.padding = '18px';
+          card.innerHTML = `
+            <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+              <span style="font-family:var(--fm); font-size:11px; color:var(--text-muted);">QUESTION ${idx+1} • ${q.category} (${q.topic})</span>
+              <span class="chip ${badgeClass}" style="font-size:10px;">${badgeText}</span>
+            </div>
+            <div style="font-weight:700; font-size:15px; margin-bottom:12px; line-height:1.5;">${q.question}</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px; font-size:13px;">
+              <div style="background:var(--surface2); padding:8px 12px; border-radius:6px; border:1px solid var(--border);">
+                <strong>Your Answer:</strong> <span style="color:${isCorrect ? 'var(--success)' : 'var(--danger)'}">${q.user_choice}</span>
+              </div>
+              <div style="background:var(--surface2); padding:8px 12px; border-radius:6px; border:1px solid var(--border);">
+                <strong>Correct Answer:</strong> <span style="color:var(--success)">${q.correct_answer}</span>
+              </div>
+            </div>
+            <div style="background:rgba(34,211,238,0.06); border-left:3px solid var(--cyan); padding:10px 14px; border-radius:0 6px 6px 0; font-size:12.5px; line-height:1.6; color:var(--text-secondary);">
+              <strong>Explanation:</strong> ${q.explanation}
+            </div>
+          `;
+          revContainer.appendChild(card);
+        });
+
+        document.getElementById('result-modal').style.display = 'flex';
+      } catch(e) {
+        showToast("Error loading test details: " + e.message, "err");
+      }
+    }
+
+    function closeResultModal() {
+      document.getElementById('result-modal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

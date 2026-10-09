@@ -30,7 +30,8 @@ sys.path.append(os.path.dirname(__file__))
 try:
     from modules.resume_parser import extract_skills_from_resume, analyze_resume_data, extract_text_from_pdf, get_ocr_reader
     from modules.resume_validator import validate_resume_document
-    print("[OK] resume_parser and resume_validator loaded")
+    from modules.job_search import fetch_theirstack_jobs
+    print("[OK] resume_parser, resume_validator, job_search loaded")
     import threading
     threading.Thread(target=get_ocr_reader, daemon=True).start()
 except Exception as e:
@@ -195,7 +196,7 @@ except Exception as e:
 from modules.difficulty_engine import initial_difficulty_from_score
 from modules import round_manager
 from modules import outcome_model
-from modules.integrity_config import NEVER_STRIKE_EVENT_TYPES
+from modules.integrity_config import NEVER_STRIKE_EVENT_TYPES, TERMINAL_EVENT_TYPES
 
 
 def _next_question_or_advance_round(sess):
@@ -537,15 +538,26 @@ Format Example:
   ]
 }}
 """
-        completion = client.chat.completions.create(
-            model="llama3-8b-8192",
-            messages=[
-                {"role": "system", "content": "You are a professional technical training advisor. Output only raw JSON."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.7,
-            max_tokens=1000
-        )
+        model_candidates = [os.environ.get("GROQ_MODEL", "").strip(), "llama-3.1-8b-instant", "llama-3.3-70b-versatile", "mixtral-8x7b-32768"]
+        model_candidates = [m for m in model_candidates if m]
+        completion = None
+        for m_name in model_candidates:
+            try:
+                completion = client.chat.completions.create(
+                    model=m_name,
+                    messages=[
+                        {"role": "system", "content": "You are a professional technical training advisor. Output only raw JSON."},
+                        {"role": "user", "content": prompt}
+                    ],
+                    temperature=0.7,
+                    max_tokens=1000
+                )
+                break
+            except Exception as m_err:
+                print(f"[WARN] Roadmap model {m_name} failed: {m_err}")
+                continue
+        if not completion:
+            raise Exception("All Groq model candidates failed")
         res = completion.choices[0].message.content.strip()
         if "[" in res or "{" in res:
             start_index = res.find("{")
@@ -740,16 +752,27 @@ Respond ONLY with a valid JSON object matching this structure:
 }}
 Do NOT include markdown block or explanations outside the JSON object.
 """
-                completion = client.chat.completions.create(
-                    model="llama3-8b-8192",
-                    messages=[
-                        {"role": "system", "content": "You are a technical advisor. Output ONLY valid JSON."},
-                        {"role": "user", "content": prompt}
-                    ],
-                    temperature=0.3,
-                    max_tokens=600,
-                    timeout=8.0
-                )
+                model_candidates = [os.environ.get("GROQ_MODEL", "").strip(), "llama-3.1-8b-instant", "llama-3.3-70b-versatile", "mixtral-8x7b-32768"]
+                model_candidates = [m for m in model_candidates if m]
+                completion = None
+                for m_name in model_candidates:
+                    try:
+                        completion = client.chat.completions.create(
+                            model=m_name,
+                            messages=[
+                                {"role": "system", "content": "You are a technical advisor. Output ONLY valid JSON."},
+                                {"role": "user", "content": prompt}
+                            ],
+                            temperature=0.3,
+                            max_tokens=600,
+                            timeout=8.0
+                        )
+                        break
+                    except Exception as m_err:
+                        print(f"[WARN] Report narrative model {m_name} failed: {m_err}")
+                        continue
+                if not completion:
+                    raise Exception("All Groq model candidates failed for report generation")
                 res_raw = completion.choices[0].message.content.strip()
                 if "{" in res_raw and "}" in res_raw:
                     res_raw = res_raw[res_raw.find("{"):res_raw.rfind("}")+1]
@@ -987,6 +1010,16 @@ def serve_career():
 @login_required
 def serve_coding():
     return send_from_directory(FRONTEND_DIR, "coding.html")
+
+@app.route("/aptitude")
+@login_required
+def serve_aptitude():
+    return send_from_directory(FRONTEND_DIR, "aptitude.html")
+
+@app.route("/aptitude/test")
+@login_required
+def serve_aptitude_test():
+    return send_from_directory(FRONTEND_DIR, "aptitude_test.html")
 
 @app.route("/ai-assistant")
 @login_required
@@ -1802,6 +1835,42 @@ def api_analyze_resume():
         return jsonify({"error": str(e)}), 500
 
 
+@app.route("/api/jobs/live", methods=["POST", "GET"])
+def api_live_jobs():
+    """
+    Returns real live job postings matching the candidate's resume skills using TheirStack API.
+    """
+    if request.method == "GET":
+        skills_param = request.args.get("skills", "")
+        skills = [s.strip() for s in skills_param.split(",") if s.strip()]
+        location = request.args.get("location", os.environ.get("DEFAULT_JOB_LOCATION", "Bengaluru"))
+        force_refresh = request.args.get("refresh", "false").lower() == "true"
+    else:
+        payload = request.json or {}
+        skills = payload.get("skills", [])
+        location = payload.get("location", os.environ.get("DEFAULT_JOB_LOCATION", "Bengaluru"))
+        force_refresh = payload.get("force_refresh", False)
+
+    if not skills:
+        return jsonify({
+            "success": False,
+            "error_type": "no_resume",
+            "message": "Upload or select a resume to see jobs matched to your skills.",
+            "jobs": []
+        }), 200
+
+    try:
+        result = fetch_theirstack_jobs(skills=skills, location=location, force_refresh=force_refresh)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error_type": "exception",
+            "message": f"Error searching live jobs: {str(e)}",
+            "jobs": []
+        }), 500
+
+
 @app.route("/api/questions/generate", methods=["POST"])
 @session_owner_required
 def generate_interview_questions():
@@ -1933,6 +2002,9 @@ def submit_answer():
     if not sess:
         return jsonify({"error": "Invalid session"}), 400
 
+    if sess.get("status") == "terminated":
+        return jsonify({"error": "Interview has been terminated due to integrity violations", "status": "terminated"}), 403
+
     # Response latency (spec: "how long the candidate takes to begin
     # answering") -- purely a performance/UX metric surfaced on the report,
     # never used to adjust scoring or flag anything. Optional and additive:
@@ -1946,7 +2018,21 @@ def submit_answer():
     if data.get("mock_eval"):
         ev = data.get("mock_eval")
     else:
-        ev = evaluate_and_transition(sess, q, ans)
+        try:
+            ev = evaluate_and_transition(sess, q, ans)
+        except Exception as eval_err:
+            print(f"[ERROR] evaluate_and_transition failed: {eval_err}")
+            ev = {
+                "score": 0,
+                "feedback": "Your answer was received, but AI evaluation is temporarily unavailable.",
+                "strengths": [],
+                "improvements": [],
+                "dimensions": {},
+                "action": "next_question",
+                "transition": "",
+                "question": "",
+                "reason": "Evaluation failed"
+            }
     sess["technical_scores"].append(ev["score"])
 
     # Identify the skill corresponding to the question
@@ -1963,13 +2049,20 @@ def submit_answer():
 
     # Format the dimensions, confidence, evidence, reasons for storage
     dims = ev.get("dimensions", {})
-    dimension_scores = {k: v.get("score") for k, v in dims.items()}
-    confidence_map = {k: v.get("confidence") for k, v in dims.items()}
+    if not isinstance(dims, dict):
+        dims = {}
+    dimension_scores = {k: (v.get("score") if isinstance(v, dict) else v) for k, v in dims.items()}
+    confidence_map = {k: (v.get("confidence") if isinstance(v, dict) else 70) for k, v in dims.items()}
     evidence_list = []
     reasons_map = {}
     for k, v in dims.items():
-        reasons_map[k] = v.get("reason", "")
-        evidence_list.extend(v.get("evidence", []))
+        if isinstance(v, dict):
+            reasons_map[k] = v.get("reason", "")
+            ev_list = v.get("evidence", [])
+            if isinstance(ev_list, list):
+                evidence_list.extend(ev_list)
+        else:
+            reasons_map[k] = str(v)
 
     sess["answers"].append(
         {
@@ -2082,8 +2175,8 @@ def submit_answer():
     round_scores = sess["technical_scores"][round_start:] or sess["technical_scores"]
     rt = round_scores[-3:]
     rv = sess["voice_scores"][-3:] if sess["voice_scores"] else [50]
-    at = sum(rt) / len(rt)
-    av = sum(rv) / len(rv)
+    at = sum(rt) / len(rt) if rt else 50
+    av = sum(rv) / len(rv) if rv else 50
 
     if at >= 75 and av >= 65:
         sess["current_difficulty"] = "hard"
@@ -2251,7 +2344,75 @@ def integrity_violation():
             "warning_level": "info",
         })
 
+    # Fullscreen Exit is a SPECIAL TERMINAL EVENT:
+
+    # Immediate termination without strike accumulation (strike_applied: False).
+    if vtype == "fullscreen_exit" or vtype in TERMINAL_EVENT_TYPES:
+        now_ts = datetime.datetime.utcnow().timestamp()
+        sess["status"] = "terminated"
+        sess["termination_type"] = "fullscreen_exit"
+        sess["termination_reason"] = "Fullscreen Exit — Interview Terminated"
+        sess["termination_trigger_event"] = "fullscreen_exit"
+        sess["termination_time"] = datetime.datetime.utcnow().isoformat() + "Z"
+        sess["strike_applied"] = False
+
+        sess.setdefault("integrity_events", []).append({
+            "type": "FULLSCREEN_EXIT",
+            "severity": "terminal",
+            "confidence": None,
+            "start_ts": None,
+            "end_ts": None,
+            "duration_sec": 0,
+            "timestamp": now_ts,
+            "strike": False,
+            "action": "interview_terminated",
+            "details": {
+                "strike_number": None,
+                "reason": "Candidate exited fullscreen during active interview"
+            }
+        })
+        log_audit("INTERVIEW_TERMINATED_FULLSCREEN_EXIT", session_id=session_id)
+
+        if db is not None:
+            try:
+                sess["updated_at"] = datetime.datetime.utcnow().isoformat()
+                db["sessions"].replace_one({"id": session_id}, sess, upsert=True)
+            except Exception as e:
+                print(f"[WARN] Failed to synchronously persist terminated session {session_id}: {e}")
+
+        import threading
+        u_id = session.get("user_id")
+        t = threading.Thread(target=async_generate_report, args=(session_id, u_id))
+        t.daemon = True
+        t.start()
+
+        return jsonify({
+            "violations": sess.get("violations", {}).get("total", 0),
+            "terminate": True,
+            "counts": sess.get("violations", {}),
+            "warning": "Fullscreen Exit — Interview Terminated",
+            "warning_level": "critical",
+            "termination_type": "fullscreen_exit",
+            "strike_applied": False
+        })
+
     sess.setdefault("violations", {})
+    sess.setdefault("_last_strike_ts", {})
+
+    # Server-side cooldown deduplication (5 seconds per vtype to prevent duplicate callbacks)
+    now_ts = datetime.datetime.utcnow().timestamp()
+    last_ts = sess["_last_strike_ts"].get(vtype, 0)
+    if now_ts - last_ts < 5.0 and vtype != "fullscreen_exit":
+        print(f"[INTEGRITY] Backend debounced duplicate violation request for '{vtype}' ({now_ts - last_ts:.2f}s < 5.0s)")
+        return jsonify({
+            "violations": sess.get("violations", {}).get("total", 0),
+            "terminate": sess.get("status") == "terminated",
+            "counts": sess.get("violations", {}),
+            "warning": None,
+            "warning_level": "info",
+        })
+
+    sess["_last_strike_ts"][vtype] = now_ts
     sess["violations"][vtype] = sess["violations"].get(vtype, 0) + 1
     sess["violations"]["total"] = sess["violations"].get("total", 0) + 1
     count = sess["violations"]["total"]
@@ -2326,6 +2487,13 @@ def integrity_violation():
         t = threading.Thread(target=async_generate_report, args=(session_id, u_id))
         t.daemon = True
         t.start()
+
+    if db is not None:
+        try:
+            sess["updated_at"] = datetime.datetime.utcnow().isoformat()
+            db["sessions"].replace_one({"id": session_id}, sess, upsert=True)
+        except Exception as e:
+            print(f"[WARN] Failed to synchronously persist session {session_id}: {e}")
 
     return jsonify({
         "violations": count,
@@ -2732,6 +2900,80 @@ def start_reinterview_session():
     })
 
 
+# ═════════════════════════════════════════════════════════════════════
+# APTITUDE PRACTICE MODULE API ROUTES
+# ═════════════════════════════════════════════════════════════════════
+@app.route("/api/aptitude/overview", methods=["GET"])
+@login_required
+def get_aptitude_overview_api():
+    from modules.aptitude_engine import get_aptitude_overview
+    user_id = session.get("user_id")
+    data = get_aptitude_overview(user_id)
+    return jsonify(data)
+
+@app.route("/api/aptitude/start", methods=["POST"])
+@login_required
+def start_aptitude_test_api():
+    from modules.aptitude_engine import start_aptitude_test
+    user_id = session.get("user_id")
+    req = request.json or {}
+    mode = req.get("mode", "quick")
+    category = req.get("category")
+    topic = req.get("topic")
+    difficulty = req.get("difficulty")
+    num_questions = req.get("num_questions", 50)
+
+    test_data = start_aptitude_test(
+        user_id=user_id,
+        mode=mode,
+        category=category,
+        topic=topic,
+        difficulty=difficulty,
+        num_questions=num_questions
+    )
+    return jsonify(test_data)
+
+@app.route("/api/aptitude/submit", methods=["POST"])
+@login_required
+def submit_aptitude_test_api():
+    from modules.aptitude_engine import evaluate_aptitude_test
+    user_id = session.get("user_id")
+    req = request.json or {}
+    if not req:
+        return jsonify({"error": "No submission data provided"}), 400
+
+    result = evaluate_aptitude_test(user_id=user_id, payload=req)
+    log_audit("APTITUDE_TEST_SUBMITTED", session_id=result.get("id"))
+    return jsonify(result)
+
+@app.route("/api/aptitude/history", methods=["GET"])
+@login_required
+def get_aptitude_history_api():
+    from modules.aptitude_engine import get_user_aptitude_history
+    user_id = session.get("user_id")
+    history = get_user_aptitude_history(user_id)
+    return jsonify({"history": history})
+
+@app.route("/api/aptitude/result/<result_id>", methods=["GET"])
+@login_required
+def get_aptitude_result_detail_api(result_id):
+    from modules.aptitude_engine import get_user_aptitude_history
+    user_id = session.get("user_id")
+    history = get_user_aptitude_history(user_id)
+    match = next((r for r in history if r["id"] == result_id), None)
+    if not match:
+        return jsonify({"error": "Aptitude result not found"}), 404
+    return jsonify(match)
+
+@app.route("/api/aptitude/recommendations", methods=["GET"])
+@login_required
+def get_aptitude_recommendations_api():
+    from modules.aptitude_engine import get_aptitude_overview
+    user_id = session.get("user_id")
+    overview = get_aptitude_overview(user_id)
+    return jsonify({"recommendations": overview.get("recommendations", [])})
+
+
 
 
 @app.route("/api/report/generate", methods=["POST"])
@@ -2856,12 +3098,23 @@ def api_coach_chat():
                     "content": msg.get("content", "")
                 })
                 
-            completion = client.chat.completions.create(
-                model="llama3-8b-8192",
-                messages=groq_messages,
-                temperature=0.7,
-                max_tokens=600
-            )
+            model_candidates = [os.environ.get("GROQ_MODEL", "").strip(), "llama-3.1-8b-instant", "llama-3.3-70b-versatile", "mixtral-8x7b-32768"]
+            model_candidates = [m for m in model_candidates if m]
+            completion = None
+            for m_name in model_candidates:
+                try:
+                    completion = client.chat.completions.create(
+                        model=m_name,
+                        messages=groq_messages,
+                        temperature=0.7,
+                        max_tokens=600
+                    )
+                    break
+                except Exception as m_err:
+                    print(f"[WARN] Coach chat model {m_name} failed: {m_err}")
+                    continue
+            if not completion:
+                raise Exception("All Groq model candidates failed for coach chat")
             reply = completion.choices[0].message.content
             return jsonify({"reply": reply})
         except Exception as e:
@@ -2972,6 +3225,38 @@ def api_ai_assistant_chat():
         return jsonify({"error": "Something went wrong on our end. Please try again."}), 500
 
 
+@app.route("/api/ai-assistant/download-pdf", methods=["POST"])
+@app.route("/ai-assistant/download-pdf", methods=["POST"])
+@login_required
+def api_ai_assistant_download_pdf():
+    from io import BytesIO
+    from modules.ai_assistant import generate_ai_assistant_pdf
+    
+    data = request.json or {}
+    prompt_text = data.get("prompt", "")
+    response_text = data.get("response", "")
+    
+    if not response_text:
+        return jsonify({"error": "No response content provided."}), 400
+
+    try:
+        timestamp_str = datetime.datetime.now().strftime("%B %d, %Y at %I:%M %p")
+        pdf_bytes = generate_ai_assistant_pdf(prompt_text, response_text, timestamp_str)
+        
+        buf = BytesIO(pdf_bytes)
+        buf.seek(0)
+        
+        return send_file(
+            buf,
+            mimetype="application/pdf",
+            as_attachment=True,
+            download_name="InterviewIQ_AI_Assistant_Response.pdf"
+        )
+    except Exception as e:
+        print(f"[ERROR] AI Assistant PDF generation failed: {e}")
+        return jsonify({"error": "Failed to generate PDF response."}), 500
+
+
 import json
 
 @app.route("/api/coding/challenges", methods=["GET"])
@@ -3037,15 +3322,26 @@ def api_review_code():
             Return ONLY the valid JSON block.
             """
             
-            completion = client.chat.completions.create(
-                model="llama3-8b-8192",
-                messages=[
-                    {"role": "system", "content": "You are a senior software engineer and technical interviewer. You must output ONLY a valid JSON object."},
-                    {"role": "user", "content": prompt}
-                ],
-                temperature=0.3,
-                max_tokens=800
-            )
+            model_candidates = [os.environ.get("GROQ_MODEL", "").strip(), "llama-3.1-8b-instant", "llama-3.3-70b-versatile", "mixtral-8x7b-32768"]
+            model_candidates = [m for m in model_candidates if m]
+            completion = None
+            for m_name in model_candidates:
+                try:
+                    completion = client.chat.completions.create(
+                        model=m_name,
+                        messages=[
+                            {"role": "system", "content": "You are a senior software engineer and technical interviewer. You must output ONLY a valid JSON object."},
+                            {"role": "user", "content": prompt}
+                        ],
+                        temperature=0.3,
+                        max_tokens=800
+                    )
+                    break
+                except Exception as m_err:
+                    print(f"[WARN] Code review model {m_name} failed: {m_err}")
+                    continue
+            if not completion:
+                raise Exception("All Groq model candidates failed for code review")
             response_text = completion.choices[0].message.content.strip()
             
             if "{" in response_text and "}" in response_text:

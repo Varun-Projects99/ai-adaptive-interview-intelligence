@@ -2,8 +2,8 @@
 Resume Intelligence Engine
 ==========================
 Transforms raw PDF resumes into an explainable, evidence-based Resume Intelligence system.
-Preserves strict document validation, section-aware skill extraction, skill evidence tracing,
-ATS component scoring, content & formatting analysis, role alignment, and question bank traceability.
+Enforces strict document validation, evidence-backed section extraction ("Accurate Explicit Resume Data > Guessing"),
+structured education/project/skill entity parsing, ATS readiness scoring, and role alignment.
 """
 
 import os
@@ -89,6 +89,27 @@ GENERIC_IGNORE_WORDS = {
     "tools & technologies", "technical expertise", "languages:"
 }
 
+TECH_KEYWORDS_BLACKLIST = {
+    "terraform", "azure", "aws", "docker", "kubernetes", "python", "java", "c++", "c#", "c",
+    "javascript", "typescript", "react", "node", "fastapi", "flask", "django", "mongodb", "mysql",
+    "postgresql", "linux", "git", "github", "devops", "ci/cd", "jenkins", "ansible", "helm",
+    "gcp", "google cloud", "microsoft azure", "azure devops", "india cloud", "cloud", "software",
+    "engineer", "developer", "architect", "built", "developed", "status tracking", "deployments"
+}
+
+KNOWN_CITIES_STATES = {
+    # India
+    "bengaluru", "bangalore", "karnataka", "mumbai", "maharashtra", "delhi", "new delhi",
+    "hyderabad", "telangana", "chennai", "tamil nadu", "pune", "kolkata", "west bengal",
+    "ahmedabad", "gujarat", "noida", "gurugram", "gurgaon", "haryana", "kochi", "kerala",
+    "thiruvananthapuram", "indore", "madhya pradesh", "jaipur", "rajasthan", "chandigarh",
+    # US & International
+    "san francisco", "california", "ca", "new york", "ny", "seattle", "washington", "wa",
+    "austin", "texas", "tx", "boston", "massachusetts", "ma", "chicago", "illinois", "il",
+    "london", "uk", "united kingdom", "toronto", "canada", "singapore", "sydney", "australia",
+    "berlin", "germany", "paris", "france", "tokyo", "japan", "india", "usa", "united states"
+}
+
 ACTION_VERBS = [
     "accelerated", "achieved", "architected", "automated", "built", "created", "decreased",
     "delivered", "designed", "developed", "engineered", "established", "expanded", "generated",
@@ -137,8 +158,8 @@ def extract_pages_and_text(path: str) -> tuple:
                 print("[ResumeParser] Processing scanned PDF with EasyOCR...")
                 doc = fitz.open(path)
                 ocr_pages = []
-                for i, page in enumerate(doc[:3]):
-                    pix = page.get_pixmap(dpi=100)
+                for i, page in enumerate(doc[:5]):
+                    pix = page.get_pixmap(dpi=150)
                     img_np = np.frombuffer(pix.samples, dtype=np.uint8).reshape(pix.height, pix.width, pix.n)
                     if pix.n == 4:
                         img_np = img_np[:, :, :3]
@@ -161,7 +182,7 @@ def extract_text_from_pdf(path: str) -> str:
 
 
 def parse_sections(text: str) -> dict:
-    """Parses text into structured resume sections with boundary detection."""
+    """Parses text into structured resume sections with two-column & strict boundary detection."""
     lines = [line.strip() for line in text.split("\n") if line.strip()]
     sections = {
         "header": [],
@@ -178,86 +199,142 @@ def parse_sections(text: str) -> dict:
     current_section = "header"
 
     section_triggers = [
-        ("summary", ["summary", "objective", "profile", "about me", "professional summary", "executive summary"]),
-        ("education", ["education", "academic background", "academic qualifications", "qualification", "educational background"]),
+        ("summary", ["summary", "objective", "profile", "about me", "professional summary", "executive summary", "career objective"]),
+        ("education", ["education", "academic background", "academic qualifications", "qualification", "educational background", "educational qualifications"]),
         ("skills", ["technical skills", "skills", "technologies", "tools & technologies", "core competencies", "skill set", "technical proficiency", "technical proficiencies", "key skills", "programming skills", "technical expertise", "skills & technologies", "it skills", "technology stack"]),
         ("experience", ["experience", "work experience", "professional experience", "employment history", "work history", "internships", "employment"]),
-        ("projects", ["projects", "academic projects", "personal projects", "technical projects", "key projects"]),
-        ("certifications", ["certifications", "licenses & certifications", "certifications & licenses", "courses", "credentials"]),
+        ("projects", ["projects", "academic projects", "personal projects", "technical projects", "key projects", "project experience"]),
+        ("certifications", ["certifications", "licenses & certifications", "certifications & licenses", "courses & certifications", "credentials"]),
         ("achievements", ["achievements", "honors", "awards", "accomplishments", "key achievements", "honors & awards"]),
         ("links", ["links", "socials", "websites", "online presence", "profiles"])
     ]
 
     for line in lines:
-        lower = line.lower()
-        matched = False
-        if len(line) < 60:
-            for sec_key, triggers in section_triggers:
-                if any(t == lower or lower.startswith(t + ":") or lower == t + "s" for t in triggers):
-                    current_section = sec_key
-                    matched = True
-                    break
-        if not matched:
-            sections[current_section].append(line)
+        # Handle multi-column lines (e.g. TECHNICAL SKILLS        EDUCATION)
+        sub_lines = [l.strip() for l in re.split(r'\s{2,}|\t+', line) if l.strip()]
+        for sub in sub_lines:
+            lower = sub.lower().strip()
+            clean_header = re.sub(r'[:\-\=\|\#]+$', '', lower).strip()
+            matched = False
+            if len(sub) < 60:
+                for sec_key, triggers in section_triggers:
+                    if any(t == clean_header or clean_header == t + "s" for t in triggers):
+                        current_section = sec_key
+                        matched = True
+                        break
+            if not matched:
+                sections[current_section].append(sub)
 
     return {k: "\n".join(v) for k, v in sections.items()}
 
 
+def extract_location(raw_text: str, sections: dict) -> str:
+    """
+    Extracts explicit geographic location.
+    Must NEVER classify technologies (e.g. Terraform, Azure, AWS, Docker) as location.
+    """
+    # 1. Look for explicit Location/Address prefix in header or contact text
+    header_text = sections.get("header", "") + "\n" + raw_text[:500]
+    lines = [l.strip() for l in header_text.split("\n") if l.strip()]
+
+    for line in lines:
+        m = re.search(r'^(?:location|address|residing in|based in)[\s:]+(.+)$', line, re.IGNORECASE)
+        if m:
+            val = m.group(1).strip()
+            if not any(tech in val.lower() for tech in TECH_KEYWORDS_BLACKLIST):
+                return val
+
+    # 2. Look for city, state / country patterns matching known geographical entities
+    # Note: Use [a-zA-Z ]+ without \s to avoid matching newlines
+    city_pattern = r'\b([A-Z][a-zA-Z ]+),\s*([A-Z][a-zA-Z ]+)\b'
+    matches = re.findall(city_pattern, raw_text)
+    for part1, part2 in matches:
+        p1_clean = part1.strip().lower()
+        p2_clean = part2.strip().lower()
+
+        if p1_clean in TECH_KEYWORDS_BLACKLIST or p2_clean in TECH_KEYWORDS_BLACKLIST:
+            continue
+        if any(tech in p1_clean or tech in p2_clean for tech in ["azure", "terraform", "aws", "docker", "kubernetes", "python", "devops", "cloud", "built", "developed"]):
+            continue
+
+        if p1_clean in KNOWN_CITIES_STATES or p2_clean in KNOWN_CITIES_STATES:
+            return f"{part1.strip()}, {part2.strip()}"
+
+    return "Not detected"
+
+
 def extract_profile_summary(raw_text: str, sections: dict) -> dict:
-    """Extracts explicit candidate details from resume text without inferring missing fields."""
+    """
+    Extracts explicit candidate profile details with evidence validation.
+    No inferred or fake values. Missing fields return 'Not detected'.
+    """
     lines = [l.strip() for l in raw_text.split("\n") if l.strip()]
 
-    # Candidate Name
+    # 1. Candidate Name
     candidate_name = "Not detected"
-    if lines:
-        for candidate_line in lines[:5]:
-            if not re.search(r'@|http|\.com|\d{5,}', candidate_line) and len(candidate_line) <= 40:
-                if not any(kw in candidate_line.lower() for kw in ["resume", "curriculum", "vitae", "cv", "page"]):
-                    candidate_name = candidate_line.title()
+    header_lines = sections.get("header", "").split("\n")
+    search_lines = [l.strip() for l in header_lines if l.strip()] or lines[:5]
+
+    for candidate_line in search_lines[:5]:
+        line_clean = candidate_line.strip()
+        if not re.search(r'@|http|\.com|\d{5,}', line_clean) and len(line_clean) <= 40:
+            if not any(kw in line_clean.lower() for kw in ["resume", "curriculum", "vitae", "cv", "page", "developer", "engineer", "contact", "email", "phone"]):
+                if line_clean.lower() not in TECH_KEYWORDS_BLACKLIST:
+                    candidate_name = line_clean.title()
                     break
 
-    # Contact details via regex
+    # 2. Contact details
     email_match = re.search(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b', raw_text)
-    email = email_match.group(0) if email_match else "Not detected"
+    email = email_match.group(0).strip() if email_match else "Not detected"
 
     phone_match = re.search(r'(?:\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b', raw_text)
-    phone = phone_match.group(0) if phone_match else "Not detected"
+    phone = phone_match.group(0).strip() if phone_match else "Not detected"
 
     linkedin_match = re.search(r'(?:https?://)?(?:www\.)?linkedin\.com/in/[A-Za-z0-9_-]+', raw_text, re.IGNORECASE)
-    linkedin = linkedin_match.group(0) if linkedin_match else "Not detected"
+    linkedin = linkedin_match.group(0).strip() if linkedin_match else "Not detected"
 
     github_match = re.search(r'(?:https?://)?(?:www\.)?github\.com/[A-Za-z0-9_-]+', raw_text, re.IGNORECASE)
-    github = github_match.group(0) if github_match else "Not detected"
+    github = github_match.group(0).strip() if github_match else "Not detected"
 
     portfolio_match = re.search(r'(?:https?://)?(?:www\.)?[A-Za-z0-9_-]+\.(?:dev|io|me|app|tech)\b', raw_text, re.IGNORECASE)
-    portfolio = portfolio_match.group(0) if portfolio_match else "Not detected"
+    if not portfolio_match:
+        portfolio_match = re.search(r'(?:https?://)?(?:www\.)?[A-Za-z0-9_-]+\.com\b', raw_text, re.IGNORECASE)
+        if portfolio_match and any(x in portfolio_match.group(0).lower() for x in ["linkedin", "github", "google", "gmail"]):
+            portfolio_match = None
+    portfolio = portfolio_match.group(0).strip() if portfolio_match else "Not detected"
 
-    location = "Not detected"
-    loc_match = re.search(r'\b([A-Z][a-z]+(?: [A-Z][a-z]+)?),\s*([A-Z]{2}|[A-Z][a-z]+)\b', raw_text)
-    if loc_match:
-        location = loc_match.group(0)
+    # 3. Location (Strict Rule)
+    location = extract_location(raw_text, sections)
 
-    # Current Role from Experience
-    exp_text = sections.get("experience", "")
+    # 4. Current / Latest Role
     current_role = "Not detected"
-    if exp_text:
-        role_titles = ["Software Engineer", "Full Stack Developer", "Backend Developer", "Frontend Developer",
-                       "DevOps Engineer", "Data Scientist", "Data Analyst", "AI Engineer", "Software Developer",
-                       "System Engineer", "Intern", "Associate Engineer", "Technical Lead"]
-        for title in role_titles:
-            if title.lower() in exp_text.lower():
-                current_role = title
+    for h_line in search_lines[:5]:
+        h_lower = h_line.lower()
+        for role_title in ["Software Engineer", "Full Stack Developer", "Backend Developer", "Frontend Developer", "DevOps Engineer", "Data Scientist", "Data Analyst", "AI Engineer", "Software Developer", "System Engineer", "Associate Engineer"]:
+            if role_title.lower() == h_lower or h_lower.startswith(role_title.lower() + " ") or h_lower.endswith(" " + role_title.lower()):
+                current_role = role_title
                 break
+        if current_role != "Not detected":
+            break
 
-    # Summaries
+    if current_role == "Not detected":
+        exp_text = sections.get("experience", "")
+        if exp_text:
+            role_titles = ["Software Engineer", "Full Stack Developer", "Backend Developer", "Frontend Developer",
+                           "DevOps Engineer", "Data Scientist", "Data Analyst", "AI Engineer", "Software Developer",
+                           "System Engineer", "Intern", "Associate Engineer", "Technical Lead"]
+            for title in role_titles:
+                if re.search(r'\b' + re.escape(title.lower()) + r'\b', exp_text.lower()):
+                    current_role = title
+                    break
+
+    # 5. Summaries
     edu_text = sections.get("education", "")
     education_summary = edu_text[:120].strip() if edu_text else "Not detected"
-
+    exp_text = sections.get("experience", "")
     exp_summary = exp_text[:120].strip() if exp_text else "Not detected"
-
     proj_text = sections.get("projects", "")
     projects_summary = proj_text[:120].strip() if proj_text else "Not detected"
-
     cert_text = sections.get("certifications", "")
     certifications_summary = cert_text[:120].strip() if cert_text else "Not detected"
 
@@ -324,7 +401,8 @@ def categorize_skill(skill_name: str) -> str:
 
 def extract_skills_and_evidence(pages: list, raw_text: str, sections: dict) -> tuple:
     """
-    Extracts unique technical skills with traceable section and page evidence.
+    Extracts unique technical skills with traceable section evidence.
+    Prioritizes Technical Skills section. Avoids single-character false positives (e.g. C).
     Returns (skills_list, evidence_dict, skills_by_category).
     """
     validation = validate_resume_document(raw_text)
@@ -340,19 +418,23 @@ def extract_skills_and_evidence(pages: list, raw_text: str, sections: dict) -> t
         for part in parts:
             clean = re.sub(r'\(.*?\)', '', part).strip()
             clean = re.sub(r'^[-–—•*\s]+', '', clean).strip()
-            if clean and 2 <= len(clean) <= 35:
+            if clean and 1 <= len(clean) <= 35:
                 skills_found.append((clean, "Technical Skills"))
 
     # 2. Secondary Source: Projects and Experience
     proj_exp_text = (sections.get("projects", "") + "\n" + sections.get("experience", "")).lower()
     for known in KNOWN_SPECIFIC_SKILLS:
-        if known.lower() in AMBIGUOUS_WORD_SKILLS:
+        if known.lower() in AMBIGUOUS_WORD_SKILLS or known == "C":
             continue
         pattern = r'(?:\b|_)' + re.escape(known.lower()) + r'(?:\b|_)'
         if "+" in known or "." in known or "&" in known or "/" in known:
             pattern = re.escape(known.lower())
         if re.search(pattern, proj_exp_text):
             skills_found.append((known, "Projects / Experience"))
+
+    # Explicit check for "C" language
+    if re.search(r'\b(languages?|skills?)\s*:.*?\bC\b', raw_text) or re.search(r'\bC\s*,\s*C\+\+', raw_text) or re.search(r'\bC\s+programming\b', raw_text, re.IGNORECASE):
+        skills_found.append(("C", "Technical Skills"))
 
     # Deduplicate and format skills
     seen = set()
@@ -363,14 +445,16 @@ def extract_skills_and_evidence(pages: list, raw_text: str, sections: dict) -> t
 
     for raw_s, source_sec in skills_found:
         formatted = _format_skill_name(raw_s)
-        if not formatted or len(formatted) < 2:
+        if not formatted:
             continue
 
         norm_s = formatted.lower()
         if norm_s in SPOKEN_LANGUAGES or norm_s in GENERIC_IGNORE_WORDS:
             continue
 
-        # Ambiguous word guards
+        # Ambiguous word & false-positive guards
+        if norm_s == "c" and not (re.search(r'\b(languages?|skills?)\s*:.*?\bC\b', raw_text) or re.search(r'\bC\s*,\s*C\+\+', raw_text) or re.search(r'\bC\s+programming\b', raw_text, re.IGNORECASE)):
+            continue
         if norm_s == "ml" and not re.search(r'\b(machine learning|ai/ml|ml model|ml pipeline)\b', raw_text.lower()):
             continue
         if norm_s == "ai" and not re.search(r'\b(artificial intelligence|ai/ml|genai|llm|deep learning)\b', raw_text.lower()):
@@ -400,12 +484,15 @@ def extract_skills_and_evidence(pages: list, raw_text: str, sections: dict) -> t
                     break
 
             category = categorize_skill(formatted)
+            confidence = 0.99 if source_sec == "Technical Skills" else 0.85
             evidence = {
                 "skill": formatted,
                 "category": category,
                 "source": source_sec,
                 "page": matched_page,
-                "evidence_text": snippet
+                "evidence_text": snippet,
+                "confidence": confidence,
+                "status": "VERIFIED SKILL"
             }
             evidence_map[formatted] = evidence
             categorized[category].append(formatted)
@@ -442,12 +529,12 @@ def _format_skill_name(s: str) -> str:
 def analyze_experience(sections: dict) -> dict:
     """Analyzes experience section for roles, dates, tech, and quantified achievements."""
     exp_text = sections.get("experience", "")
-    if not exp_text:
+    if not exp_text or len(exp_text.strip()) < 10:
         return {
             "has_experience": False,
             "roles_count": 0,
             "roles": [],
-            "duration_text": "No work experience section detected.",
+            "duration_text": "Not detected",
             "duration_calculated": False,
             "quantified_achievements_count": 0,
             "action_verbs_found": [],
@@ -456,7 +543,6 @@ def analyze_experience(sections: dict) -> dict:
 
     lines = [l.strip() for l in exp_text.split("\n") if l.strip()]
 
-    # Extract roles
     roles = []
     current_role = None
     date_pattern = r'\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|January|February|March|April|June|July|August|September|October|November|December|\d{4})\b'
@@ -467,7 +553,7 @@ def analyze_experience(sections: dict) -> dict:
                 roles.append(current_role)
             current_role = {
                 "title": line,
-                "company": "Not explicitly specified",
+                "company": "Not specified",
                 "dates": "Not detected",
                 "bullets": [],
                 "technologies": []
@@ -481,24 +567,21 @@ def analyze_experience(sections: dict) -> dict:
     if current_role:
         roles.append(current_role)
 
-    # Date parsing check
     parsed_dates = [r for r in roles if r["dates"] != "Not detected"]
     if parsed_dates and len(parsed_dates) == len(roles):
         duration_text = f"{len(roles)} employment role(s) detected with clear timeline."
         duration_calculated = True
     else:
-        duration_text = "Experience duration could not be reliably calculated."
+        duration_text = "Experience duration could not be calculated."
         duration_calculated = False
 
-    # Action verbs & quantified statements
     action_verbs_found = list(set([verb for verb in ACTION_VERBS if re.search(r'\b' + verb + r'\b', exp_text, re.IGNORECASE)]))
-
     quantified_bullets = [line for line in lines if re.search(r'\b(?:\d+%(?:\s+reduction|\s+increase|\s+improvement)?|\d+\+|\$\d+)\b', line)]
 
     return {
         "has_experience": True,
         "roles_count": len(roles) if roles else 1,
-        "roles": roles if roles else [{"title": "Detected Experience Block", "company": "Not specified", "dates": "Not detected", "bullets": lines[:5]}],
+        "roles": roles if roles else [{"title": "Work Experience Entry", "company": "Not specified", "dates": "Not detected", "bullets": lines[:5]}],
         "duration_text": duration_text,
         "duration_calculated": duration_calculated,
         "quantified_achievements_count": len(quantified_bullets),
@@ -508,9 +591,13 @@ def analyze_experience(sections: dict) -> dict:
 
 
 def analyze_projects(sections: dict) -> dict:
-    """Analyzes projects for names, tech, descriptions, links, and impact metrics."""
+    """
+    Parses project entries primarily from the Projects section.
+    Fixes segmentation so sentences/action verbs ('Developed', 'Built', 'Deployments:')
+    are NOT converted into standalone project entities.
+    """
     proj_text = sections.get("projects", "")
-    if not proj_text:
+    if not proj_text or len(proj_text.strip()) < 10:
         return {
             "has_projects": False,
             "projects_count": 0,
@@ -521,8 +608,21 @@ def analyze_projects(sections: dict) -> dict:
     projects = []
     current_proj = None
 
+    invalid_title_prefixes = [
+        "developed", "built", "implemented", "designed", "created", "engineered",
+        "deployments:", "status tracking:", "react -", "mongodb:", "azure pipelines",
+        "integrated", "technologies:", "tech stack:", "key features:", "overview:",
+        "description of", "overview of", "built with", "using ", "designed an"
+    ]
+
     for line in lines:
-        if len(line) < 50 and not line.startswith("•") and not line.startswith("-") and not line.lower().startswith("http"):
+        lower_line = line.lower().strip()
+        is_bullet = line.startswith("•") or line.startswith("-") or line.startswith("*")
+        is_url = lower_line.startswith("http://") or lower_line.startswith("https://") or "github.com" in lower_line
+
+        is_invalid_title = any(lower_line.startswith(prefix) for prefix in invalid_title_prefixes) or (" using " in lower_line) or (" with " in lower_line and len(lower_line) > 30)
+
+        if len(line) < 60 and not is_bullet and not is_url and not is_invalid_title:
             if current_proj:
                 projects.append(current_proj)
             current_proj = {
@@ -547,25 +647,35 @@ def analyze_projects(sections: dict) -> dict:
     if current_proj:
         projects.append(current_proj)
 
-    # Detect tech stack per project
     for p in projects:
+        p["description"] = p["description"].strip()
         p_tech = []
         for sk in KNOWN_SPECIFIC_SKILLS:
-            if sk.lower() in p["description"].lower():
+            if sk == "C":
+                if re.search(r'\bC\b', p["description"]) and ("programming" in p["description"].lower() or "c++" in p["description"].lower()):
+                    p_tech.append("C")
+                continue
+            pattern = r'(?:\b|_)' + re.escape(sk.lower()) + r'(?:\b|_)'
+            if "+" in sk or "." in sk or "&" in sk:
+                pattern = re.escape(sk.lower())
+            if re.search(pattern, p["description"].lower()):
                 p_tech.append(sk)
         p["technologies"] = list(set(p_tech))
-        p["description"] = p["description"].strip()
 
     return {
         "has_projects": len(projects) > 0,
         "projects_count": len(projects),
-        "projects": projects if projects else [{"name": "Technical Projects Block", "technologies": [], "description": proj_text[:300], "has_quantified_results": False, "quantified_examples": []}]
+        "projects": projects
     }
 
 
 def analyze_education(sections: dict) -> dict:
+    """
+    Parses education section into degree, institution, specialization, graduation year, CGPA.
+    Prevents degree acronyms (e.g., 'BE', 'B.Tech') or specializations from being classified as institutions.
+    """
     edu_text = sections.get("education", "")
-    if not edu_text:
+    if not edu_text or len(edu_text.strip()) < 5:
         return {
             "degree": "Not detected",
             "institution": "Not detected",
@@ -575,11 +685,49 @@ def analyze_education(sections: dict) -> dict:
             "percentage": "Not detected"
         }
 
+    lines = [l.strip() for l in edu_text.split("\n") if l.strip()]
+
     degree = "Not detected"
-    for d in ["Bachelor of Technology", "B.Tech", "B.E.", "Bachelor of Science", "B.S.", "Master of Technology", "M.Tech", "M.S.", "Master of Computer Applications", "MCA"]:
-        if d.lower() in edu_text.lower():
-            degree = d
+    degree_map = [
+        ("Bachelor of Engineering", ["bachelor of engineering", "b.e.", "b.e", " be "]),
+        ("Bachelor of Technology", ["bachelor of technology", "b.tech", "btech"]),
+        ("Bachelor of Science", ["bachelor of science", "b.s.", "b.s", "bsc"]),
+        ("Master of Technology", ["master of technology", "m.tech", "mtech"]),
+        ("Master of Science", ["master of science", "m.s.", "m.s", "msc"]),
+        ("Master of Computer Applications", ["master of computer applications", "mca"]),
+        ("Bachelor of Computer Applications", ["bachelor of computer applications", "bca"]),
+        ("Master of Business Administration", ["master of business administration", "mba"])
+    ]
+
+    for std_name, patterns in degree_map:
+        if any(re.search(r'\b' + re.escape(p.strip()) + r'\b', edu_text, re.IGNORECASE) for p in patterns):
+            degree = std_name
             break
+
+    if degree == "Not detected":
+        if re.search(r'\bBE\b', edu_text):
+            degree = "Bachelor of Engineering (B.E.)"
+
+    institution = "Not detected"
+    inst_keywords = ["college", "university", "institute", "school", "academy", "polytechnic", "iit", "nit", "iiit", "bits"]
+    degree_terms = ["b.e.", "be", "b.tech", "btech", "m.tech", "mca", "bca", "mba", "bachelor", "master"]
+
+    for line in lines:
+        line_lower = line.lower()
+        if any(kw in line_lower for kw in inst_keywords):
+            if not any(dt == line_lower.strip() for dt in degree_terms):
+                institution = line
+                break
+
+    specialization = "Not detected"
+    if re.search(r'\b(computer science|cse|cs)\b', edu_text, re.IGNORECASE):
+        specialization = "Computer Science and Engineering"
+    elif re.search(r'\b(information technology|it|information science)\b', edu_text, re.IGNORECASE):
+        specialization = "Information Technology"
+    elif re.search(r'\b(electronics|ece)\b', edu_text, re.IGNORECASE):
+        specialization = "Electronics & Communication Engineering"
+    elif re.search(r'\b(mechanical)\b', edu_text, re.IGNORECASE):
+        specialization = "Mechanical Engineering"
 
     year_match = re.search(r'\b(20\d{2}|19\d{2})\b', edu_text)
     year = year_match.group(0) if year_match else "Not detected"
@@ -590,13 +738,10 @@ def analyze_education(sections: dict) -> dict:
     percent_match = re.search(r'\b([7-9][0-9]\.?[0-9]?%)\b', edu_text)
     percentage = percent_match.group(1) if percent_match else "Not detected"
 
-    lines = [l.strip() for l in edu_text.split("\n") if l.strip()]
-    institution = lines[0] if lines else "Not detected"
-
     return {
         "degree": degree,
         "institution": institution,
-        "specialization": "Computer Science & Engineering" if "computer" in edu_text.lower() else "Not detected",
+        "specialization": specialization,
         "graduation_year": year,
         "cgpa": cgpa,
         "percentage": percentage
@@ -605,7 +750,7 @@ def analyze_education(sections: dict) -> dict:
 
 def analyze_certifications(sections: dict) -> dict:
     cert_text = sections.get("certifications", "")
-    if not cert_text:
+    if not cert_text or len(cert_text.strip()) < 5:
         return {
             "has_certifications": False,
             "certifications": [],
@@ -614,8 +759,11 @@ def analyze_certifications(sections: dict) -> dict:
 
     lines = [l.strip() for l in cert_text.split("\n") if l.strip()]
     cert_list = []
+
     for line in lines:
-        if len(line) >= 4:
+        if line.strip().lower() in TECH_KEYWORDS_BLACKLIST or len(line) < 5:
+            continue
+        if any(cert_kw in line.lower() for cert_kw in ["certified", "certification", "certificate", "license", "associate", "practitioner", "coursera", "udemy"]):
             cert_list.append({
                 "name": line,
                 "issuer": "Verified Issuer" if any(w in line.lower() for w in ["aws", "google", "coursera", "udemy", "oracle", "microsoft"]) else "Not specified",
@@ -631,23 +779,15 @@ def analyze_certifications(sections: dict) -> dict:
 
 
 def calculate_ats_analysis(completeness: dict, skills: list, profile: dict, experience_info: dict, pages: list) -> dict:
-    """Calculates explainable ATS scores with exact formulas."""
     section_score = completeness["score"]
-
     contacts_found = sum(1 for k in ["email", "phone", "location", "linkedin", "github"] if profile[k] != "Not detected")
     contact_score = round((contacts_found / 5) * 100)
-
     skill_score = min(100, round((len(skills) / 10) * 100))
-
     date_score = 100 if experience_info["duration_calculated"] else 50
-
     links_found = sum(1 for k in ["linkedin", "github", "portfolio"] if profile[k] != "Not detected")
     link_score = round((links_found / 3) * 100)
-
     keyword_score = min(100, len(skills) * 6)
-
     parsability_score = 100 if len(pages) > 0 else 70
-
     format_score = 90 if section_score >= 70 else 60
 
     components = {
@@ -715,27 +855,23 @@ def calculate_ats_analysis(completeness: dict, skills: list, profile: dict, expe
         "ats_score": avg_ats,
         "components": components,
         "formula": "Average of 8 explainable component scores",
-        "explanation": "Calculates ATS compatibility across 8 distinct parsing dimensions."
+        "explanation": "Calculates ATS readiness score across 8 distinct parsing dimensions."
     }
 
 
 def analyze_formatting(raw_text: str, pages: list) -> dict:
-    """Checks resume visual and structural formatting parameters."""
     warnings = []
     lines = [l.strip() for l in raw_text.split("\n") if l.strip()]
 
-    # Excessive whitespace
     if len(raw_text) / max(1, len(lines)) > 120:
         warnings.append("Dense paragraphs detected. Break long text into bullet points.")
 
-    # Multi-page check
     if len(pages) > 2:
         warnings.append("Resume exceeds 2 pages. Consider condensing to 1-2 pages for ATS efficiency.")
 
-    # Unusual characters check
     unusual_count = len(re.findall(r'[^\x00-\x7F]', raw_text))
     if unusual_count > 50:
-        warnings.append("Unusual special characters or symbols detected that may disrupt ATS text extraction.")
+        warnings.append("Unusual special characters detected that may disrupt ATS text extraction.")
 
     status = "PASS" if len(warnings) == 0 else "WARNING"
 
@@ -743,16 +879,14 @@ def analyze_formatting(raw_text: str, pages: list) -> dict:
         "status": status,
         "readable_section_headings": "PASS",
         "consistent_headings": "PASS",
-        "consistent_date_formatting": "PASS" if "could not be reliably" not in raw_text else "WARNING",
+        "consistent_date_formatting": "PASS",
         "warnings": warnings,
         "feedback": "Layout structure is clean and parseable." if status == "PASS" else "; ".join(warnings)
     }
 
 
 def analyze_content_quality(raw_text: str, exp_info: dict, proj_info: dict) -> dict:
-    """Evaluates action verbs, specificity, and wording quality."""
     action_verbs_found = list(set([verb.title() for verb in ACTION_VERBS if re.search(r'\b' + verb + r'\b', raw_text, re.IGNORECASE)]))
-
     quant_count = exp_info.get("quantified_achievements_count", 0)
 
     strengths = []
@@ -778,10 +912,8 @@ def analyze_content_quality(raw_text: str, exp_info: dict, proj_info: dict) -> d
 
 
 def analyze_impact(raw_text: str) -> dict:
-    """Counts explicit quantified metric statements."""
     lines = [l.strip() for l in raw_text.split("\n") if l.strip()]
     impact_snippets = []
-
     metric_pattern = r'\b(?:\d+(?:\.\d+)?%|\$\d+(?:\.\d+)?[kM]?|\d+\+?\s*(?:users|clients|customers|requests|seconds|ms|hours|queries|projects|services|teams|percent))\b'
 
     for line in lines:
@@ -813,7 +945,6 @@ def validate_links_contacts(profile: dict) -> dict:
 
 
 def calculate_target_role_alignment(skills: list, projects: dict, exp: dict, edu: dict) -> dict:
-    """Calculates explainable candidate alignment across 9 target career roles."""
     role_skill_map = {
         "Software Engineer": ["Python", "Java", "C++", "DSA", "SQL", "Git", "Linux", "REST APIs"],
         "Full Stack Developer": ["JavaScript", "TypeScript", "React", "Node.js", "HTML", "CSS", "MongoDB", "SQL", "Git", "REST APIs"],
@@ -847,9 +978,7 @@ def calculate_target_role_alignment(skills: list, projects: dict, exp: dict, edu
 
 
 def calculate_interview_readiness(skills: list) -> dict:
-    """Connects detected resume skills to the Question Bank datasets."""
     mapped_res = map_resume_skills(skills)
-    canonical_skills = mapped_res["canonical_skills"]
 
     try:
         from modules.question_bank import dataset_stats
@@ -886,8 +1015,44 @@ def calculate_interview_readiness(skills: list) -> dict:
     }
 
 
+def generate_extraction_quality(profile: dict, edu_info: dict, skills: list, proj_info: dict, cert_info: dict) -> list:
+    """Generates Extraction Quality status list for explicit user audit."""
+    return [
+        {
+            "field": "Contact Information",
+            "status": "Verified" if profile["email"] != "Not detected" or profile["phone"] != "Not detected" else "Not detected",
+            "details": f"Email: {profile['email']} | Phone: {profile['phone']}"
+        },
+        {
+            "field": "Education",
+            "status": "Verified" if edu_info["degree"] != "Not detected" or edu_info["institution"] != "Not detected" else "Not detected",
+            "details": f"Degree: {edu_info['degree']} | Institution: {edu_info['institution']}"
+        },
+        {
+            "field": "Technical Skills",
+            "status": "Verified" if len(skills) > 0 else "Not detected",
+            "details": f"{len(skills)} verified skill(s)"
+        },
+        {
+            "field": "Projects",
+            "status": "Verified" if proj_info["has_projects"] else "Not detected",
+            "details": f"{proj_info['projects_count']} project(s)"
+        },
+        {
+            "field": "Location",
+            "status": "Verified" if profile["location"] != "Not detected" else "Not detected",
+            "details": profile["location"]
+        },
+        {
+            "field": "Certifications",
+            "status": "Verified" if cert_info["has_certifications"] else "Not detected",
+            "details": cert_info["message"]
+        }
+    ]
+
+
 def generate_quality_checklist(completeness: dict, profile: dict, skills: list, impact_info: dict, certs: dict) -> list:
-    checklist = [
+    return [
         {"item": "Contact Information", "status": "PASS" if profile["email"] != "Not detected" and profile["phone"] != "Not detected" else "WARNING", "detail": "Email and Phone detected"},
         {"item": "Technical Skills Section", "status": "PASS" if len(skills) >= 3 else "WARNING", "detail": f"{len(skills)} skills detected"},
         {"item": "Projects & Practical Experience", "status": "PASS" if completeness["detected_sections"].count("Projects") > 0 else "WARNING", "detail": "Projects section present"},
@@ -896,7 +1061,6 @@ def generate_quality_checklist(completeness: dict, profile: dict, skills: list, 
         {"item": "Education Background", "status": "PASS" if completeness["detected_sections"].count("Education") > 0 else "WARNING", "detail": "Education section present"},
         {"item": "Certifications", "status": "PASS" if certs["has_certifications"] else "FAIL", "detail": certs["message"]}
     ]
-    return checklist
 
 
 def extract_skills_from_resume(path_or_text: str) -> list:
@@ -963,10 +1127,10 @@ def analyze_resume_data(path: str) -> dict:
     contact_validation = validate_links_contacts(profile)
     role_alignment = calculate_target_role_alignment(skills, proj_info, exp_info, edu_info)
     interview_readiness = calculate_interview_readiness(skills)
+    extraction_quality = generate_extraction_quality(profile, edu_info, skills, proj_info, cert_info)
 
     quality_checklist = generate_quality_checklist(completeness, profile, skills, impact_info, cert_info)
 
-    # Strengths and Improvements
     strengths = [
         f"Detected {len(skills)} verified technical skill(s) with section evidence.",
         f"Resume Completeness score is {completeness['score']}% ({completeness['detected_count']}/9 sections found)."
@@ -986,7 +1150,6 @@ def analyze_resume_data(path: str) -> dict:
     if profile["linkedin"] == "Not detected":
         improvements.append("LinkedIn profile link not detected.")
 
-    # Recommended Career Tracks
     top_paths = []
     sorted_roles = sorted(role_alignment.items(), key=lambda x: x[1]["alignment_score"], reverse=True)
     for r_name, r_data in sorted_roles[:3]:
@@ -995,7 +1158,6 @@ def analyze_resume_data(path: str) -> dict:
     if not top_paths:
         top_paths = ["Software Engineer", "Full Stack Developer"]
 
-    # Overall Profile Match
     overall_match = round((completeness["score"] * 0.4) + (ats_info["ats_score"] * 0.4) + ((80 if formatting_info["status"] == "PASS" else 50) * 0.2))
 
     return {
@@ -1026,6 +1188,7 @@ def analyze_resume_data(path: str) -> dict:
         "strengths": strengths,
         "improvements": improvements,
         "quality_checklist": quality_checklist,
+        "extraction_quality": extraction_quality,
         "interview_readiness": interview_readiness,
         "formatting_feedback": formatting_info["feedback"],
         "calculations": {

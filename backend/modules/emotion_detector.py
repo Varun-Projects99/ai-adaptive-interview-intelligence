@@ -115,13 +115,13 @@ def _lazy_init_nanodet():
     _nanodet_load_attempted = True
     try:
         if not os.path.exists(NANODET_MODEL_PATH):
-            print(f"[EmotionDetector] NanoDet model not found at {NANODET_MODEL_PATH} -- phone detection disabled")
+            print(f"[EmotionDetector] PHONE DETECTOR INITIALIZATION FAILED: Model file missing at {NANODET_MODEL_PATH}")
             return False
         _nanodet_net = cv2.dnn.readNet(NANODET_MODEL_PATH)
-        print("[EmotionDetector] NanoDet phone/object detection model loaded")
+        print(f"[EmotionDetector] Phone detector initialized successfully (model: {os.path.basename(NANODET_MODEL_PATH)})")
         return True
     except Exception as e:
-        print(f"[EmotionDetector] NanoDet load failed (phone detection disabled): {e}")
+        print(f"[EmotionDetector] PHONE DETECTOR INITIALIZATION FAILED: {e}")
         _nanodet_net = None
         return False
 
@@ -133,14 +133,52 @@ EMOTION_MAP = {
 EMOTION_SCORE = {"confident":90,"neutral":65,"nervous":35,"stressed":20}
 
 
+def _suppress_overlapping_faces(faces, overlap_thresh=0.3):
+    """
+    Merge overlapping bounding boxes corresponding to the same physical face
+    (e.g., secondary detections on eyes/nose/mouth/hair of a single candidate).
+    """
+    if len(faces) <= 1:
+        return faces
+
+    boxes = []
+    for (x, y, w, h) in faces:
+        boxes.append([x, y, x + w, y + h, w * h])
+
+    boxes.sort(key=lambda b: b[4], reverse=True)
+
+    keep = []
+    while len(boxes) > 0:
+        current = boxes.pop(0)
+        keep.append(current)
+        filtered = []
+        for b in boxes:
+            xx1 = max(current[0], b[0])
+            yy1 = max(current[1], b[1])
+            xx2 = min(current[2], b[2])
+            yy2 = min(current[3], b[3])
+
+            w_int = max(0, xx2 - xx1)
+            h_int = max(0, yy2 - yy1)
+            area_int = w_int * h_int
+            area_min = min(current[4], b[4])
+
+            if area_min > 0 and (area_int / area_min) > overlap_thresh:
+                continue  # Suppress overlapping detection of the same face
+            filtered.append(b)
+        boxes = filtered
+
+    return [(b[0], b[1], b[2] - b[0], b[3] - b[1]) for b in keep]
+
+
 def _filter_valid_faces(faces, frame_area):
-    """Drop detections too small/thin to plausibly be a real face in frame."""
+    """Drop detections too small/thin to plausibly be a real face in frame, and merge overlapping face boxes."""
     valid = []
     for (x, y, w, h) in faces:
         area_ratio = (w * h) / frame_area
         if w >= MIN_FACE_WIDTH and h >= MIN_FACE_HEIGHT and area_ratio >= MIN_FACE_AREA_RATIO:
             valid.append((x, y, w, h))
-    return valid
+    return _suppress_overlapping_faces(valid)
 
 
 def _resolve_multi_face_count(strict_valid_faces):
@@ -286,20 +324,17 @@ def _estimate_head_pose(frame, face_box):
 
 def _detect_phone(frame):
     """Best-effort phone/object detection using NanoDet-Plus (COCO 80-class,
-    includes 'cell phone'). Returns (detected: bool, confidence: float).
-    Returns (False, 0.0) if the model isn't available or nothing crosses
-    PHONE_MIN_CONFIDENCE -- a graceful degrade, never a crash. This is a
-    general-purpose object detector, not one trained for this project; see
-    integrity_config.py for its published accuracy on the 'cell phone'
-    class and why the confidence floor + temporal confirmation exist."""
+    includes 'cell phone' at NANODET_PHONE_CLASS_INDEX=67). Returns (detected: bool, confidence: float, boxes: list).
+    Returns (False, 0.0, []) if the model isn't available or nothing crosses
+    PHONE_MIN_CONFIDENCE -- a graceful degrade, never a crash."""
     if not _lazy_init_nanodet():
-        return False, 0.0
+        return False, 0.0, []
 
     try:
-        h, w = frame.shape[:2]
-        side = max(h, w)
+        h_orig, w_orig = frame.shape[:2]
+        side = max(h_orig, w_orig)
         square = np.zeros((side, side, 3), dtype=np.uint8)
-        square[:h, :w] = frame
+        square[:h_orig, :w_orig] = frame
         resized = cv2.resize(square, NANODET_INPUT_SIZE).astype(np.float32)
 
         mean = np.array([103.53, 116.28, 123.675], dtype=np.float32).reshape(1, 1, 3)
@@ -310,25 +345,78 @@ def _detect_phone(frame):
         _nanodet_net.setInput(blob)
         outs = _nanodet_net.forward(_nanodet_net.getUnconnectedOutLayersNames())
 
-        # Outputs alternate [cls_scores, bbox_preds] per FPN level (see the
-        # model's own OpenCV Zoo demo/nanodet.py -- only the classification
-        # scores are needed here, since we only care whether a "cell phone"
-        # is present above threshold, not its exact box).
         best_conf = 0.0
-        for cls_score in outs[0::2]:
-            arr = np.asarray(cls_score)
-            if arr.ndim == 3:
-                arr = arr.squeeze(axis=0)
-            if arr.ndim != 2 or arr.shape[1] <= NANODET_PHONE_CLASS_INDEX:
+        phone_boxes = []
+
+        strides = [8, 16, 32]
+        grid_sizes = [52, 26, 13]
+
+        for lvl in range(min(3, len(outs) // 2)):
+            cls_pred = outs[lvl * 2]
+            dis_pred = outs[lvl * 2 + 1]
+            
+            arr_cls = np.asarray(cls_pred)
+            if arr_cls.ndim == 3:
+                arr_cls = arr_cls.squeeze(axis=0)
+            if arr_cls.ndim != 2 or arr_cls.shape[1] <= NANODET_PHONE_CLASS_INDEX:
                 continue
-            level_max = float(arr[:, NANODET_PHONE_CLASS_INDEX].max()) if arr.shape[0] else 0.0
+
+            arr_dis = np.asarray(dis_pred)
+            if arr_dis.ndim == 3:
+                arr_dis = arr_dis.squeeze(axis=0)
+
+            phone_scores = arr_cls[:, NANODET_PHONE_CLASS_INDEX]
+            level_max = float(phone_scores.max()) if phone_scores.shape[0] else 0.0
             best_conf = max(best_conf, level_max)
 
+            stride = strides[lvl]
+            grid_size = grid_sizes[lvl]
+
+            matching_indices = np.where(phone_scores >= PHONE_MIN_CONFIDENCE)[0]
+            for idx in matching_indices:
+                score = float(phone_scores[idx])
+                r = idx // grid_size
+                c = idx % grid_size
+                cell_cx = (c + 0.5) * stride
+                cell_cy = (r + 0.5) * stride
+
+                if arr_dis.ndim == 2 and arr_dis.shape[0] > idx and arr_dis.shape[1] == 32:
+                    dis = arr_dis[idx].reshape(4, 8)
+                    exp_dis = np.exp(dis - np.max(dis, axis=1, keepdims=True))
+                    softmax_dis = exp_dis / np.sum(exp_dis, axis=1, keepdims=True)
+                    project = np.arange(8)
+                    dists = np.sum(softmax_dis * project, axis=1) * stride
+
+                    x1 = max(0, cell_cx - dists[0])
+                    y1 = max(0, cell_cy - dists[1])
+                    x2 = min(side, cell_cx + dists[2])
+                    y2 = min(side, cell_cy + dists[3])
+
+                    scale = side / 416.0
+                    x1_orig = int(x1 * scale)
+                    y1_orig = int(y1 * scale)
+                    x2_orig = int(min(w_orig, x2 * scale))
+                    y2_orig = int(min(h_orig, y2 * scale))
+                    w_box = max(1, x2_orig - x1_orig)
+                    h_box = max(1, y2_orig - y1_orig)
+
+                    phone_boxes.append({
+                        "x": x1_orig,
+                        "y": y1_orig,
+                        "w": w_box,
+                        "h": h_box,
+                        "confidence": round(score, 3),
+                        "class": "cell phone"
+                    })
+
         detected = best_conf >= PHONE_MIN_CONFIDENCE
-        return detected, round(best_conf, 3)
+        if detected:
+            print(f"[EmotionDetector] PHONE DETECTED: class=cell phone, confidence={best_conf:.3f}, boxes={len(phone_boxes)}")
+
+        return detected, round(best_conf, 3), phone_boxes
     except Exception as e:
         print(f"[EmotionDetector] phone detection error: {e}")
-        return False, 0.0
+        return False, 0.0, []
 
 
 def _lazy_init_hog():
@@ -507,7 +595,7 @@ def analyze_emotion_frame(frame_b64: str, sess: dict = None) -> dict:
                              extra={"blur_score": round(blur_score, 1) if blur_score == blur_score else None}):
             new_events.append(STATE_BLURRY_IMAGE)
 
-        phone_detected, phone_confidence = _detect_phone(frame)
+        phone_detected, phone_confidence, phone_boxes = _detect_phone(frame)
         phone_strike = _confirm_episode(sess, "phone", phone_detected, now, PHONE_CONFIRM_SECONDS,
                                          STATE_PHONE_DETECTED, confidence=phone_confidence)
         if phone_strike:
@@ -523,7 +611,7 @@ def analyze_emotion_frame(frame_b64: str, sess: dict = None) -> dict:
                               STATE_LOW_LIGHT, confidence=None,
                               extra={"brightness": round(brightness, 1)})
             result = _default("low_light", "low_light")
-            _attach_quality(result, brightness, blur_score, is_blurry, phone_detected, phone_confidence, phone_strike, person_count, person_conf, person_boxes, 0)
+            _attach_quality(result, brightness, blur_score, is_blurry, phone_detected, phone_confidence, phone_strike, person_count, person_conf, person_boxes, 0, False, phone_boxes)
             return result
         else:
             _confirm_episode(sess, "low_light", False, now, LOW_LIGHT_CONFIRM_SECONDS, STATE_LOW_LIGHT, confidence=None)
@@ -567,7 +655,7 @@ def analyze_emotion_frame(frame_b64: str, sess: dict = None) -> dict:
             # Check if multiple bodies detected with no candidate face
             no_face_status = "multiple_people_no_face" if person_count >= 2 else "no_face"
             result = _default("no_face", no_face_status)
-            _attach_quality(result, brightness, blur_score, is_blurry, phone_detected, phone_confidence, phone_strike, person_count, person_conf, person_boxes, valid_count, additional_person_strike)
+            _attach_quality(result, brightness, blur_score, is_blurry, phone_detected, phone_confidence, phone_strike, person_count, person_conf, person_boxes, valid_count, additional_person_strike, phone_boxes)
             return result
 
         # Case: Multiple Faces Detected -- confirm with a stricter re-detection
@@ -584,7 +672,7 @@ def analyze_emotion_frame(frame_b64: str, sess: dict = None) -> dict:
             print(f"[FACE] multi-face candidate={valid_count}, confirmed={confirmed_count}")
             if confirmed_count > 1:
                 result = _default("multiple_faces", "multiple_faces")
-                _attach_quality(result, brightness, blur_score, is_blurry, phone_detected, phone_confidence, phone_strike, person_count, person_conf, person_boxes, confirmed_count, additional_person_strike)
+                _attach_quality(result, brightness, blur_score, is_blurry, phone_detected, phone_confidence, phone_strike, person_count, person_conf, person_boxes, confirmed_count, additional_person_strike, phone_boxes)
                 result["face_count"] = confirmed_count
                 return result
             # Not confirmed -- fall through and treat as a single face using
@@ -661,7 +749,7 @@ def analyze_emotion_frame(frame_b64: str, sess: dict = None) -> dict:
                 "available": _yunet is not None,
             },
         }
-        _attach_quality(result, brightness, blur_score, is_blurry, phone_detected, phone_confidence, phone_strike, person_count, person_conf, person_boxes, valid_count, additional_person_strike)
+        _attach_quality(result, brightness, blur_score, is_blurry, phone_detected, phone_confidence, phone_strike, person_count, person_conf, person_boxes, valid_count, additional_person_strike, phone_boxes)
         if new_events:
             result["new_events"] = new_events
         return result
@@ -671,7 +759,7 @@ def analyze_emotion_frame(frame_b64: str, sess: dict = None) -> dict:
         return _default("error", "no_face")
 
 
-def _attach_quality(result: dict, brightness, blur_score, is_blurry, phone_detected, phone_confidence, phone_strike, person_count=0, person_conf=0.0, person_boxes=None, face_count=0, additional_person_strike=False):
+def _attach_quality(result: dict, brightness, blur_score, is_blurry, phone_detected, phone_confidence, phone_strike, person_count=0, person_conf=0.0, person_boxes=None, face_count=0, additional_person_strike=False, phone_boxes=None):
     """Additive-only telemetry attached to every response."""
     result["quality"] = {
         "brightness": round(brightness, 1),
@@ -683,6 +771,7 @@ def _attach_quality(result: dict, brightness, blur_score, is_blurry, phone_detec
         "confidence": phone_confidence,
         "confirmed_strike": bool(phone_strike),
         "available": _nanodet_net is not None,
+        "boxes": phone_boxes or [],
     }
     additional_people = max(0, person_count - face_count) if face_count >= 1 else max(0, person_count - 1)
     result["person_summary"] = {

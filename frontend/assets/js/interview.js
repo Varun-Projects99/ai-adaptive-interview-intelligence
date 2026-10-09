@@ -324,6 +324,7 @@ function setAvatarState(state, text) {
 
 /* ── QUESTIONS ──────────────────────────────── */
 async function loadNextQuestion() {
+  if (typeof Integrity !== 'undefined' && (Integrity.terminated || Integrity.fullscreenExitTerminated)) return;
   setAvatarState("thinking", "Generating question...");
   AI_VOICE.stop();
 
@@ -422,18 +423,25 @@ async function loadNextQuestion() {
   }
 }
 
+let isSubmittingAnswer = false;
+
 /* ── SUBMIT ANSWER ──────────────────────────── */
 async function submitAnswer() {
-  AI_VOICE.stop();
+  if (isSubmittingAnswer) return;
+  if (typeof Integrity !== 'undefined' && (Integrity.terminated || Integrity.fullscreenExitTerminated)) return;
+  
   const isText = document.getElementById("tab-text")?.classList.contains("active");
   const answer = isText
     ? (document.getElementById("answer-text")?.value.trim() || "")
-    : Voice.getTranscript();
+    : (Voice.getTranscript() || "").trim();
 
   if (!answer) {
-    showToast("Please type or speak your answer first.", "warn");
+    showToast("Please type or speak your answer before submitting.", "warn");
     return;
   }
+
+  isSubmittingAnswer = true;
+  AI_VOICE.stop();
 
   const btn = document.getElementById("submit-btn");
   if (btn) { btn.classList.add("loading"); btn.disabled = true; }
@@ -469,18 +477,27 @@ async function submitAnswer() {
       showToast("Round complete! Starting " + data.round_progress, "ok");
     }
 
+    // Check if evaluation was unavailable (score 0 with specific message)
+    if (data.score === 0 && data.feedback && data.feedback.includes("temporarily unavailable")) {
+      showToast("Answer received, but AI evaluation is temporarily unavailable.", "warn");
+    }
+
     showFeedback(data);
   } catch(e) {
-    showToast("Submission failed. Please try again.", "err");
+    const errMsg = (e && e.message) ? e.message : "Submission failed. Please try again.";
+    showToast(errMsg, "err");
     console.error("[Submit]", e);
     setAvatarState("idle", "Submission failed.");
   } finally {
+    isSubmittingAnswer = false;
     if (btn) { btn.classList.remove("loading"); btn.disabled = false; }
   }
 }
 
 async function skipQuestion() {
+  if (typeof Integrity !== 'undefined' && (Integrity.terminated || Integrity.fullscreenExitTerminated)) return;
   AI_VOICE.stop();
+
   try {
     const data = await apiPost("/api/answer/submit", {
       session_id: Session.id,

@@ -1,0 +1,10 @@
+{
+    "model": "YOLO11n Part 1 V2 (Real Interview-Scene Phone Detector)",
+    "precision": 0.0035,
+    "recall": 1.0,
+    "map50": 0.995,
+    "map50_95": 0.6886,
+    "inference_fps": 4.36,
+    "dataset": "Real Kaggle Person + Phone Scenes",
+    "num_test_images": 10
+}

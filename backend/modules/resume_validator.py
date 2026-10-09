@@ -2,7 +2,8 @@
 Resume Document Validator Module
 Provides structural, content, and section analysis to determine whether an uploaded
 PDF is a genuine candidate resume/CV or an invalid document (e.g., Interview Performance Report,
-Invoice, Question Paper, Research Paper, User Manual, Certificate).
+Invoice, Question Paper, Project Report, User Manual, Certificate).
+Supports student/fresher resumes containing Education, Technical Skills, Projects, and Certifications.
 """
 
 import re
@@ -46,8 +47,13 @@ QUESTION_PAPER_SIGNALS = [
 ]
 
 RESEARCH_PAPER_SIGNALS = [
-    "abstract", "ieee transactions", "doi:", "arxiv:", "references",
+    "ieee transactions", "doi:", "arxiv:", "references",
     "conclusion and future work"
+]
+
+PROJECT_REPORT_SIGNALS = [
+    "project report", "submitted by", "submitted to", "in partial fulfillment of",
+    "department of", "academic year", "guide:", "coordinator:", "table of contents"
 ]
 
 CERTIFICATE_SIGNALS = [
@@ -55,8 +61,7 @@ CERTIFICATE_SIGNALS = [
 ]
 
 USER_MANUAL_SIGNALS = [
-    "user manual", "installation guide", "getting started", "troubleshooting",
-    "table of contents"
+    "user manual", "installation guide", "getting started", "troubleshooting"
 ]
 
 
@@ -64,16 +69,6 @@ def validate_resume_document(raw_text: str) -> dict:
     """
     Analyzes document text structurally and deterministically calculates a
     resume confidence score (0-100) and document classification type.
-    
-    Returns dict:
-    {
-        "resume_valid": bool,
-        "document_type": str,  # "resume", "interview_report", "invoice", "question_paper", etc.
-        "resume_confidence": int,  # 0 to 100
-        "reason": str,
-        "positive_signals": list,
-        "negative_signals": list
-    }
     """
     if not raw_text or len(raw_text.strip()) < 30:
         return {
@@ -114,7 +109,7 @@ def validate_resume_document(raw_text: str) -> dict:
     for sec in matched_sections:
         positive_signals.append(f"section:{sec}")
 
-    # 3. Check for Structural Patterns (education degrees, dates)
+    # 3. Check for Structural Patterns
     has_dates = bool(re.search(r'\b(20\d{2}|19\d{2})\s*[-–—\to]+\s*(20\d{2}|19\d{2}|present|current)\b', text_lower))
     has_degree = bool(re.search(r'\b(b\.?tech|b\.?e\.?|b\.?s\.?|m\.?tech|m\.?s\.?|bachelor|master|degree|gpa|cgpa)\b', text_lower))
 
@@ -123,11 +118,12 @@ def validate_resume_document(raw_text: str) -> dict:
     if has_degree:
         positive_signals.append("degree_education_found")
 
-    # 4. Check for Negative Signals (Interview Reports, Invoices, Exams, Papers)
+    # 4. Check for Negative Signals
     report_matches = [sig for sig in INTERVIEW_REPORT_SIGNALS if sig in text_lower]
     invoice_matches = [sig for sig in INVOICE_SIGNALS if sig in text_lower]
     exam_matches = [sig for sig in QUESTION_PAPER_SIGNALS if sig in text_lower]
     paper_matches = [sig for sig in RESEARCH_PAPER_SIGNALS if sig in text_lower]
+    proj_report_matches = [sig for sig in PROJECT_REPORT_SIGNALS if sig in text_lower]
     cert_matches = [sig for sig in CERTIFICATE_SIGNALS if sig in text_lower]
 
     for m in report_matches:
@@ -138,6 +134,8 @@ def validate_resume_document(raw_text: str) -> dict:
         negative_signals.append(f"question_paper:{m}")
     for m in paper_matches:
         negative_signals.append(f"research_paper:{m}")
+    for m in proj_report_matches:
+        negative_signals.append(f"project_report:{m}")
     for m in cert_matches:
         negative_signals.append(f"certificate:{m}")
 
@@ -161,59 +159,67 @@ def validate_resume_document(raw_text: str) -> dict:
     report_penalty = len(report_matches) * 20
     invoice_penalty = len(invoice_matches) * 25
     exam_penalty = len(exam_matches) * 25
+    proj_report_penalty = len(proj_report_matches) * 25
 
-    total_penalty = report_penalty + invoice_penalty + exam_penalty
+    total_penalty = report_penalty + invoice_penalty + exam_penalty + proj_report_penalty
     final_confidence = max(0, min(100, score - total_penalty))
 
     # 6. Classification Decision Logic
-    # Interview Report Detection Rule
     if len(report_matches) >= 3 or (len(report_matches) >= 1 and len(matched_sections) == 0):
         return {
             "resume_valid": False,
             "document_type": "interview_report",
             "resume_confidence": final_confidence,
-            "reason": "The uploaded document appears to be an interview performance report rather than a candidate resume/CV.",
+            "reason": "This document appears to be an interview performance report. Please upload a valid candidate resume.",
             "positive_signals": positive_signals,
             "negative_signals": negative_signals
         }
 
-    # Invoice Detection Rule
     if len(invoice_matches) >= 3:
         return {
             "resume_valid": False,
             "document_type": "invoice",
             "resume_confidence": final_confidence,
-            "reason": "The uploaded document appears to be an invoice or billing document.",
+            "reason": "This document appears to be an invoice or billing document. Please upload a valid candidate resume.",
             "positive_signals": positive_signals,
             "negative_signals": negative_signals
         }
 
-    # Question Paper Detection Rule
     if len(exam_matches) >= 2:
         return {
             "resume_valid": False,
             "document_type": "question_paper",
             "resume_confidence": final_confidence,
-            "reason": "The uploaded document appears to be an academic question paper or exam.",
+            "reason": "This document appears to be an academic question paper or exam. Please upload a valid candidate resume.",
             "positive_signals": positive_signals,
             "negative_signals": negative_signals
         }
 
-    # Certificate Detection Rule
+    if len(proj_report_matches) >= 3:
+        return {
+            "resume_valid": False,
+            "document_type": "project_report",
+            "resume_confidence": final_confidence,
+            "reason": "This document appears to be an academic/project report. Please upload a valid candidate resume.",
+            "positive_signals": positive_signals,
+            "negative_signals": negative_signals
+        }
+
     if len(cert_matches) >= 1 and len(matched_sections) <= 1 and not has_dates:
         return {
             "resume_valid": False,
             "document_type": "certificate",
             "resume_confidence": final_confidence,
-            "reason": "The uploaded document appears to be a course or event certificate, not a full resume.",
+            "reason": "This document appears to be a course/event certificate. Please upload a full candidate resume.",
             "positive_signals": positive_signals,
             "negative_signals": negative_signals
         }
 
-    # Minimum Resume Validation Policy: Must have at least 2 independent resume structural signals
-    # e.g. (email/phone/link OR sections >= 2 OR dates+degree) AND no severe negative signals
+    # Student Resume Support: Education + Skills + Projects/Certifications
+    is_student_resume = (has_degree or "education" in text_lower) and (len(matched_sections) >= 2) and (has_email or has_phone or has_link)
+
     is_valid_resume = (
-        final_confidence >= 45 and
+        (final_confidence >= 40 or is_student_resume) and
         (len(matched_sections) >= 1 or (has_email and (has_dates or has_degree))) and
         total_penalty < 30
     )
@@ -222,7 +228,7 @@ def validate_resume_document(raw_text: str) -> dict:
         return {
             "resume_valid": True,
             "document_type": "resume",
-            "resume_confidence": final_confidence,
+            "resume_confidence": max(60, final_confidence),
             "reason": "Valid resume structure and technical candidate sections verified.",
             "positive_signals": positive_signals,
             "negative_signals": negative_signals
@@ -232,7 +238,7 @@ def validate_resume_document(raw_text: str) -> dict:
         "resume_valid": False,
         "document_type": "unknown_document",
         "resume_confidence": final_confidence,
-        "reason": "The uploaded document does not appear to be a resume/CV.",
+        "reason": "This document does not appear to be a resume. Please upload a valid resume.",
         "positive_signals": positive_signals,
         "negative_signals": negative_signals
     }

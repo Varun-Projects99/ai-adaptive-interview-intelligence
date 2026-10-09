@@ -8,11 +8,11 @@
     <link rel="stylesheet" href="/assets/css/style.css">
     <style>
         :root {
-            --card-bg: rgba(13, 28, 21, 0.85);
-            --chat-bubble-user: rgba(4, 110, 59, 0.08);
-            --chat-bubble-assistant: rgba(248, 231, 201, 0.08);
-            --border-user: rgba(4, 110, 59, 0.2);
-            --border-assistant: rgba(248, 231, 201, 0.25);
+            --card-bg: #11182E;
+            --chat-bubble-user: rgba(34, 211, 238, 0.1);
+            --chat-bubble-assistant: rgba(139, 92, 246, 0.12);
+            --border-user: rgba(34, 211, 238, 0.3);
+            --border-assistant: rgba(139, 92, 246, 0.3);
         }
 
         .assistant-layout {
@@ -204,44 +204,55 @@
         }
 
         .message {
-            max-width: 82%;
-            padding: 14px 18px;
-            border: 1px solid;
+            max-width: 100%;
+            padding: 8px 0;
+            border: none;
+            background: transparent;
+            box-shadow: none;
+            outline: none;
             font-size: 14px;
             line-height: 1.6;
+            width: 100%;
         }
 
         .message.assistant {
             align-self: flex-start;
-            background: var(--chat-bubble-assistant);
-            border-color: var(--border-assistant);
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            outline: none;
             color: var(--text);
         }
 
         .message.user {
-            align-self: flex-end;
-            background: var(--chat-bubble-user);
-            border-color: var(--border-user);
+            align-self: flex-start;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            outline: none;
             color: var(--text);
         }
 
         .message.error {
-            border-color: rgba(217, 90, 90, 0.4);
-            background: rgba(217, 90, 90, 0.06);
+            border: none;
+            background: transparent;
+            box-shadow: none;
+            outline: none;
         }
 
         .message-sender {
             font-family: var(--fm);
-            font-size: 10px;
+            font-size: 10.5px;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 6px;
+            letter-spacing: 0.12em;
+            margin-bottom: 4px;
             color: var(--accent2);
+            font-weight: 700;
         }
 
         .message.user .message-sender {
             color: var(--accent);
-            text-align: right;
+            text-align: left;
         }
 
         .retry-btn {
@@ -312,8 +323,9 @@
             align-self: flex-start;
             gap: 4px;
             padding: 12px 18px;
-            background: var(--chat-bubble-assistant);
-            border: 1px solid var(--border-assistant);
+            background: transparent;
+            border: none;
+            box-shadow: none;
         }
 
         .typing-dot {
@@ -390,7 +402,7 @@
 
                 <div class="chat-stream" id="chat-stream-area">
                     <div class="message assistant">
-                        <div class="message-sender">AI Assistant</div>
+                        <div class="message-sender">AI ASSISTANT</div>
                         <div>Hi! I'm the InterviewIQ AI Assistant. Ask me about your interview performance, resume, reports, adaptive difficulty, integrity monitoring, coding practice, or any general interview-prep or technical topic.</div>
                     </div>
                 </div>
@@ -425,6 +437,7 @@
     <script>
         let conversationId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : ("c-" + Date.now() + "-" + Math.random().toString(16).slice(2));
         let lastFailedMessage = null;
+        let lastUserPrompt = "";
         let isSending = false;
 
         window.addEventListener("DOMContentLoaded", async () => {
@@ -464,6 +477,7 @@
                 inputBox.value = "";
                 autoResizeInput(inputBox);
             }
+            lastUserPrompt = text;
             appendMessage("user", text);
             setSending(true);
 
@@ -478,7 +492,7 @@
                 });
                 loader.style.display = "none";
                 if (result.conversation_id) conversationId = result.conversation_id;
-                appendMessage("assistant", result.reply);
+                appendMessage("assistant", result.reply, text);
                 lastFailedMessage = null;
             } catch (e) {
                 loader.style.display = "none";
@@ -498,18 +512,60 @@
             }
         }
 
-        function appendMessage(sender, content) {
+        function appendMessage(sender, content, promptText) {
             const stream = document.getElementById("chat-stream-area");
             const bubble = document.createElement("div");
             bubble.className = `message ${sender}`;
-            const senderLabel = sender === "user" ? "You" : "AI Assistant";
+            const senderLabel = sender === "user" ? "USER" : "AI ASSISTANT";
             const safeContent = escapeHtml(content).replace(/\n/g, "<br>");
+            
             bubble.innerHTML = `
                 <div class="message-sender">${senderLabel}</div>
                 <div>${safeContent}</div>
             `;
+
             stream.appendChild(bubble);
             scrollStreamToBottom();
+        }
+
+        async function downloadAssistantPdf(btn) {
+            const prompt = btn.rawPrompt || btn.getAttribute("data-prompt") || "InterviewIQ AI Assistant Guide";
+            const response = btn.rawResponse || btn.getAttribute("data-response") || "";
+            if (!response) return;
+
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = "⏳ Generating PDF...";
+
+            try {
+                const res = await fetch("/api/ai-assistant/download-pdf", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ prompt, response })
+                });
+
+                if (!res.ok) {
+                    throw new Error("Failed to generate PDF");
+                }
+
+                const blob = await res.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                const timestamp = new Date().toISOString().slice(0, 10);
+                a.download = `InterviewIQ_AI_Assistant_${timestamp}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+                if (typeof showToast === "function") showToast("PDF downloaded successfully!", "ok");
+            } catch (e) {
+                console.error("PDF download error:", e);
+                if (typeof showToast === "function") showToast("Failed to download PDF", "error");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
         }
 
         function appendErrorMessage(message) {
@@ -551,12 +607,8 @@
             conversationId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : ("c-" + Date.now() + "-" + Math.random().toString(16).slice(2));
             lastFailedMessage = null;
             const stream = document.getElementById("chat-stream-area");
-            stream.innerHTML = `
-                <div class="message assistant">
-                    <div class="message-sender">AI Assistant</div>
-                    <div>Conversation cleared. What would you like to know?</div>
-                </div>
-            `;
+            stream.innerHTML = "";
+            appendMessage("assistant", "Conversation cleared. What would you like to know?", "Clear Conversation");
             if (typeof showToast === "function") showToast("Conversation cleared", "ok");
         }
     </script>

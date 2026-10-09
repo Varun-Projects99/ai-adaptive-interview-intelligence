@@ -356,6 +356,14 @@ PROJECT_KNOWLEDGE = {
         "and never exposes API keys, tokens, or internal error details to "
         "the candidate."
     ),
+
+    "pdf_download": (
+        "InterviewIQ supports exporting and downloading any AI Assistant "
+        "response as a formatted PDF document. Candidates can click the "
+        "'Download PDF' button rendered below any AI Assistant response to "
+        "download a clean PDF containing the user query, AI response, "
+        "headings, bullet points, code blocks, and timestamp."
+    ),
 }
 
 # Maps a detected intent to the PROJECT_KNOWLEDGE key(s) worth including in
@@ -366,7 +374,7 @@ _INTENT_KNOWLEDGE_KEYS = {
     "PROJECT_FEATURE": ["overview", "resume_analyzer", "adaptive_interview", "adaptive_difficulty",
                          "answer_evaluation", "voice_analysis", "face_integrity", "report",
                          "history", "coding_practice", "auth", "learning", "datasets",
-                         "database", "ai_architecture"],
+                         "database", "ai_architecture", "pdf_download"],
     "RESUME": ["resume_analyzer"],
     "INTERVIEW_PERFORMANCE": ["report", "answer_evaluation", "adaptive_difficulty"],
     "ADAPTIVE_DIFFICULTY": ["adaptive_difficulty", "adaptive_interview"],
@@ -923,3 +931,175 @@ def handle_chat_message(user_id, message: str, conversation_id=None):
     save_turn(conversation_id, user_id, message, reply)
 
     return {"reply": reply, "conversation_id": conversation_id, "intent": intent}
+
+
+def generate_ai_assistant_pdf(prompt_text: str, response_text: str, timestamp_str: str = None) -> bytes:
+    """
+    Generates a professional, formatted PDF document containing the user query and complete AI Assistant response.
+    """
+    import io
+    import datetime
+    import re
+    from reportlab.lib.pagesizes import letter
+    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Preformatted, HRFlowable
+    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+    from reportlab.lib import colors
+
+    if not timestamp_str:
+        timestamp_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    buffer = io.BytesIO()
+    doc = SimpleDocTemplate(
+        buffer,
+        pagesize=letter,
+        leftMargin=36,
+        rightMargin=36,
+        topMargin=36,
+        bottomMargin=36
+    )
+
+    styles = getSampleStyleSheet()
+
+    brand_title_style = ParagraphStyle(
+        'BrandTitle',
+        parent=styles['Heading1'],
+        fontName='Helvetica-Bold',
+        fontSize=18,
+        leading=22,
+        textColor=colors.HexColor('#0f172a'),
+        spaceAfter=4
+    )
+
+    brand_subtitle_style = ParagraphStyle(
+        'BrandSubtitle',
+        parent=styles['Normal'],
+        fontName='Helvetica',
+        fontSize=10,
+        leading=13,
+        textColor=colors.HexColor('#64748b'),
+        spaceAfter=12
+    )
+
+    prompt_label_style = ParagraphStyle(
+        'PromptLabel',
+        fontName='Helvetica-Bold',
+        fontSize=11,
+        leading=14,
+        textColor=colors.HexColor('#475569'),
+        spaceAfter=4
+    )
+
+    prompt_text_style = ParagraphStyle(
+        'PromptText',
+        fontName='Helvetica-Oblique',
+        fontSize=11,
+        leading=15,
+        textColor=colors.HexColor('#1e293b'),
+        spaceAfter=12
+    )
+
+    heading_style = ParagraphStyle(
+        'AIHeading',
+        fontName='Helvetica-Bold',
+        fontSize=12,
+        leading=16,
+        textColor=colors.HexColor('#1e1b4b'),
+        spaceBefore=10,
+        spaceAfter=6
+    )
+
+    body_style = ParagraphStyle(
+        'AIBody',
+        fontName='Helvetica',
+        fontSize=10,
+        leading=14,
+        textColor=colors.HexColor('#334155'),
+        spaceAfter=8
+    )
+
+    bullet_style = ParagraphStyle(
+        'AIBullet',
+        fontName='Helvetica',
+        fontSize=10,
+        leading=14,
+        textColor=colors.HexColor('#334155'),
+        leftIndent=15,
+        firstLineIndent=-10,
+        spaceAfter=4
+    )
+
+    code_style = ParagraphStyle(
+        'AICode',
+        fontName='Courier',
+        fontSize=9,
+        leading=12,
+        textColor=colors.HexColor('#0f172a'),
+        backColor=colors.HexColor('#f1f5f9'),
+        borderColor=colors.HexColor('#cbd5e1'),
+        borderWidth=1,
+        borderPadding=8,
+        spaceBefore=6,
+        spaceAfter=8
+    )
+
+    story = []
+
+    # Title & Branding Header
+    story.append(Paragraph("INTERVIEWIQ — AI ASSISTANT RESPONSE", brand_title_style))
+    story.append(Paragraph(f"Generated on {timestamp_str} &bull; Authenticated Session", brand_subtitle_style))
+    story.append(HRFlowable(width="100%", thickness=1.5, color=colors.HexColor('#8b5cf6'), spaceAfter=14))
+
+    # User Query Section
+    if prompt_text:
+        story.append(Paragraph("USER QUERY:", prompt_label_style))
+        clean_prompt = prompt_text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br/>")
+        story.append(Paragraph(clean_prompt, prompt_text_style))
+        story.append(HRFlowable(width="100%", thickness=0.5, color=colors.HexColor('#e2e8f0'), spaceAfter=14))
+
+    # AI Response Header
+    story.append(Paragraph("AI ASSISTANT RESPONSE:", prompt_label_style))
+    story.append(Spacer(1, 4))
+
+    # Parse response content
+    code_block_pattern = re.compile(r"```(?:\w+)?\n?(.*?)```", re.DOTALL)
+    parts = code_block_pattern.split(response_text or "")
+
+    is_code = False
+    for part in parts:
+        if not part:
+            continue
+        if is_code:
+            code_text = part.strip().replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            story.append(Preformatted(code_text, code_style))
+            is_code = False
+        else:
+            lines = part.strip().split("\n")
+            for line in lines:
+                l_str = line.strip()
+                if not l_str:
+                    story.append(Spacer(1, 4))
+                    continue
+
+                if l_str.startswith("#"):
+                    clean_h = l_str.lstrip("#").strip()
+                    clean_h = clean_h.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+                    story.append(Paragraph(clean_h, heading_style))
+                elif l_str.startswith("- ") or l_str.startswith("* "):
+                    item_text = l_str[2:].strip().replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+                    item_text = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", item_text)
+                    story.append(Paragraph(f"&bull; {item_text}", bullet_style))
+                elif re.match(r"^\d+\.\s", l_str):
+                    item_text = re.sub(r"^\d+\.\s*", "", l_str).strip().replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+                    item_text = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", item_text)
+                    story.append(Paragraph(f"<b>{l_str.split('.')[0]}.</b> {item_text}", bullet_style))
+                else:
+                    clean_p = l_str.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+                    clean_p = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", clean_p)
+                    story.append(Paragraph(clean_p, body_style))
+
+            is_code = True
+
+    doc.build(story)
+    pdf_bytes = buffer.getvalue()
+    buffer.close()
+    return pdf_bytes

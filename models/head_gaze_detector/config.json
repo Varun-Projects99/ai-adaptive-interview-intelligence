@@ -1,0 +1,22 @@
+{
+    "architecture": "HeadGazeEstimatorNet",
+    "input_shape": [
+        3,
+        112,
+        112
+    ],
+    "outputs": [
+        "head_pitch",
+        "head_yaw",
+        "gaze_pitch",
+        "gaze_yaw"
+    ],
+    "device": "CPU",
+    "epochs": 10,
+    "batch_size": 16,
+    "train_samples": 796,
+    "val_samples": 99,
+    "test_samples": 100,
+    "training_time_sec": 701.82,
+    "best_val_loss": 0.0001
+}

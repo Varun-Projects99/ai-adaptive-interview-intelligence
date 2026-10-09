@@ -13,3 +13,4 @@ dnspython
 bcrypt
 requests
 moviepy
+reportlab==4.0.9

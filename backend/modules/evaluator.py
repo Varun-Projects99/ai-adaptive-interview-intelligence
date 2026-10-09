@@ -125,9 +125,12 @@ def generate_final_report(session: dict) -> dict:
             # still being the reason for termination.
             "strike_count":              viols.get("total", 0),
             "auto_terminated":           is_terminated,
+            "termination_type":          session.get("termination_type") if is_terminated else None,
             "termination_reason":        session.get("termination_reason") if is_terminated else None,
             "termination_trigger_event": session.get("termination_trigger_event") if is_terminated else None,
             "termination_time":          session.get("termination_time") if is_terminated else None,
+            "strike_applied":            session.get("strike_applied", True if (is_terminated and session.get("termination_type") != "fullscreen_exit") else False) if is_terminated else False,
+
         },
         "emotion_breakdown":  ebreakdown,
         "answers":            ans,
@@ -170,7 +173,7 @@ def _recommendations(tech, conf, emot):
 
 
 def evaluate_and_transition(session: dict, current_question: str, answer: str) -> dict:
-    interviewer = session.get("interviewer", {})
+    interviewer = session.get("interviewer") or {}
     personality = interviewer.get("personality", "professional")
     language = interviewer.get("language", "en")
     name = interviewer.get("candidate_name", "Candidate")
@@ -183,7 +186,8 @@ def evaluate_and_transition(session: dict, current_question: str, answer: str) -
         lang_name = "Kannada"
 
     history_str = ""
-    for entry in interviewer.get("conversation", [])[-6:]:
+    conversation = interviewer.get("conversation") or []
+    for entry in conversation[-6:]:
         history_str += f"{entry['role'].capitalize()}: {entry['text']}\n"
 
     prompt = f"""You are an AI Interviewer conducting a mock interview for a candidate named {name}.
@@ -278,16 +282,28 @@ Respond ONLY with a valid raw JSON object. No markdown, no comments.
         else:
             from groq import Groq
             groq_client = Groq(api_key=api_key_groq)
-            completion = groq_client.chat.completions.create(
-                model="llama3-8b-8192",
-                messages=[
-                    {"role": "system", "content": "You are an expert interviewer. You must only output valid JSON objects."},
-                    {"role": "user", "content": prompt}
-                ],
-                temperature=0.4,
-                max_tokens=1500
-            )
-            raw = completion.choices[0].message.content.strip()
+            model_candidates = [os.environ.get("GROQ_MODEL", "").strip(), "llama-3.1-8b-instant", "llama-3.3-70b-versatile", "mixtral-8x7b-32768"]
+            model_candidates = [m for m in model_candidates if m]
+            
+            raw = None
+            last_err = None
+            for model_name in model_candidates:
+                try:
+                    completion = groq_client.chat.completions.create(
+                        model=model_name,
+                        messages=[
+                            {"role": "system", "content": "You are an expert interviewer. You must only output valid JSON objects."},
+                            {"role": "user", "content": prompt}
+                        ],
+                        temperature=0.4,
+                        max_tokens=1500
+                    )
+                    raw = completion.choices[0].message.content.strip()
+                    break
+                except Exception as ex:
+                    last_err = ex
+            if raw is None:
+                raise last_err or Exception("All Groq model candidates failed")
             
         if "```json" in raw:
             raw = raw.split("```json")[1].split("```")[0].strip()
@@ -336,16 +352,50 @@ Respond ONLY with a valid raw JSON object. No markdown, no comments.
         }
         return fallback_res
 
+def validate_evaluation_result(result):
+    """
+    Validate that an evaluation result has the minimum required structure.
+    Returns True if valid, False otherwise.
+    """
+    if not isinstance(result, dict):
+        return False
+    
+    required_keys = ["score", "feedback", "strengths", "improvements"]
+    for key in required_keys:
+        if key not in result:
+            return False
+    
+    try:
+        score = float(result["score"])
+        if not (0 <= score <= 100):
+            return False
+    except (TypeError, ValueError):
+        return False
+    
+    if not isinstance(result["feedback"], str):
+        return False
+    
+    if not isinstance(result["strengths"], list):
+        return False
+    if not isinstance(result["improvements"], list):
+        return False
+    
+    return True
+
+
 def normalize_evaluation_result(result):
     """Ensure all required keys and evaluation dimensions are formatted and score is weighted."""
-    if "dimensions" not in result:
+    if not isinstance(result, dict):
+        return None
+    
+    if "dimensions" not in result or not isinstance(result["dimensions"], dict):
         result["dimensions"] = {}
         
     dims = result["dimensions"]
     default_keys = ["technical_correctness", "relevance", "depth", "clarity", "problem_solving", "communication", "completeness"]
     
     for key in default_keys:
-        if key not in dims:
+        if key not in dims or not isinstance(dims[key], dict):
             dims[key] = {
                 "score": 70 if key != "problem_solving" else None,
                 "confidence": "MEDIUM",

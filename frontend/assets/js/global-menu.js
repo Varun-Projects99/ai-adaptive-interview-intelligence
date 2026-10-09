@@ -73,6 +73,7 @@
 
       panel.appendChild(buildSectionLabel("PRACTICE"));
       panel.appendChild(buildItem("/coding", "Coding Practice", "⌨"));
+      panel.appendChild(buildItem("/aptitude", "Aptitude Practice", "🧮"));
     }
 
     var divider2 = document.createElement("div");

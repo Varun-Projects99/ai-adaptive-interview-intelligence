@@ -106,12 +106,13 @@ body { overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
   width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
 .avatar-core {
-  width: 60px; height: 60px; border-radius: 50%; background: rgba(4,110,59,0.15); border: 2px solid var(--accent);
+  width: 60px; height: 60px; border-radius: 50%; background: rgba(139, 92, 246, 0.15); border: 2px solid var(--primary);
   position: relative; display: flex; align-items: center; justify-content: center;
   transition: all 0.5s ease;
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
 }
 .avatar-face {
-  font-size: 26px; z-index: 10; filter: drop-shadow(0 0 4px var(--accent));
+  font-size: 26px; z-index: 10; filter: drop-shadow(0 0 6px var(--cyan));
   transition: all 0.3s;
 }
 .avatar-ring {
@@ -121,58 +122,58 @@ body { overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
 
 /* State - Idle */
 .avatar-core.idle {
-  background: rgba(4,110,59,0.08); border-color: rgba(4,110,59,0.4);
+  background: rgba(139, 92, 246, 0.08); border-color: rgba(139, 92, 246, 0.4);
   animation: avatar-breathe 3s ease-in-out infinite;
 }
 .avatar-core.idle .avatar-face {
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 /* State - Speaking */
 .avatar-core.speaking {
-  background: rgba(16,245,154,0.15); border-color: var(--success);
-  box-shadow: 0 0 15px rgba(16,245,154,0.25);
+  background: rgba(34, 211, 238, 0.15); border-color: var(--cyan);
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.35);
 }
 .avatar-core.speaking .ring-1 {
-  border-color: rgba(16,245,154,0.4); opacity: 1;
+  border-color: rgba(34, 211, 238, 0.5); opacity: 1;
   animation: ring-pulse 1.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
 }
 .avatar-core.speaking .ring-2 {
-  border-color: rgba(16,245,154,0.25); opacity: 1;
+  border-color: rgba(34, 211, 238, 0.3); opacity: 1;
   animation: ring-pulse 1.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
   animation-delay: 0.4s;
 }
 
 /* State - Listening */
 .avatar-core.listening {
-  background: rgba(255,176,32,0.12); border-color: var(--warn);
+  background: rgba(251, 191, 36, 0.12); border-color: var(--warning);
 }
 .avatar-core.listening .ring-3 {
-  border-color: rgba(255,176,32,0.5); opacity: 1;
+  border-color: rgba(251, 191, 36, 0.5); opacity: 1;
   animation: avatar-listening-glow 1.5s ease-in-out infinite alternate;
 }
 
 /* State - Thinking */
 .avatar-core.thinking {
-  background: rgba(4,110,59,0.15); border-color: var(--accent);
+  background: rgba(139, 92, 246, 0.15); border-color: var(--primary);
 }
 .avatar-core.thinking::after {
   content: ''; position: absolute; inset: -6px; border-radius: 50%;
-  border: 2px solid transparent; border-top-color: var(--accent);
+  border: 2px solid transparent; border-top-color: var(--primary);
   animation: spin 1s linear infinite;
 }
 
 @keyframes avatar-breathe {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 5px rgba(4,110,59,0.1); }
-  50% { transform: scale(1.05); box-shadow: 0 0 12px rgba(4,110,59,0.25); }
+  0%, 100% { transform: scale(1); box-shadow: 0 0 5px rgba(139, 92, 246, 0.15); }
+  50% { transform: scale(1.05); box-shadow: 0 0 15px rgba(139, 92, 246, 0.3); }
 }
 @keyframes ring-pulse {
   0% { transform: scale(1); opacity: 1; }
   100% { transform: scale(1.5); opacity: 0; }
 }
 @keyframes avatar-listening-glow {
-  0% { transform: scale(1); box-shadow: 0 0 5px rgba(255,176,32,0.15); }
-  100% { transform: scale(1.1); box-shadow: 0 0 15px rgba(255,176,32,0.4); }
+  0% { transform: scale(1); box-shadow: 0 0 5px rgba(251, 191, 36, 0.15); }
+  100% { transform: scale(1.1); box-shadow: 0 0 15px rgba(251, 191, 36, 0.4); }
 }
 </style>
 <script src="/assets/js/theme.js" defer></script>
@@ -401,7 +402,14 @@ body { overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
       <div class="cam-face-status ok" id="cam-face">● FACE OK</div>
       <div class="cam-emotion emotion-badge neutral" id="cam-emotion">NEUTRAL</div>
       <div class="cam-quality" id="cam-quality"></div>
+      <div id="cam-fullscreen-overlay" style="position:absolute; inset:0; z-index:20; background:rgba(15,23,42,0.92); border:2px solid var(--danger); display:none; flex-direction:column; align-items:center; justify-content:center; padding:16px; text-align:center; box-sizing:border-box;">
+        <div style="font-size:24px; margin-bottom:6px;">⚠️</div>
+        <div style="font-family:var(--fh); font-size:14px; font-weight:800; color:var(--danger); letter-spacing:-0.3px; text-transform:uppercase; margin-bottom:4px;">FULLSCREEN EXIT DETECTED</div>
+        <div style="font-size:12px; color:#fff; font-weight:600; line-height:1.4; margin-bottom:4px;">Interview terminated.</div>
+        <div style="font-size:11px; color:var(--text-muted);">Please review your report.</div>
+      </div>
     </div>
+
 
 
     <!-- Live performance meters -->
@@ -471,7 +479,7 @@ body { overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
 </div>
 
 <div class="integrity-item viol-row" id="fullscreen-exit-count">
-  Fullscreen Exit 0 / 3
+  Fullscreen Exit <span>Terminal</span>
 </div>
       </div>
     </div>

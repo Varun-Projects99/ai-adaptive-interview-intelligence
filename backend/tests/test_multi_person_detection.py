@@ -21,11 +21,13 @@ from modules.integrity_config import (
     STATE_LOW_LIGHT,
     STATE_BLURRY_IMAGE,
     STRIKE_ELIGIBLE_VIOLATION_TYPES,
+    TERMINAL_EVENT_TYPES,
     NEVER_STRIKE_EVENT_TYPES,
     ADDITIONAL_PERSON_CONFIRM_SECONDS,
 )
 
 from modules import emotion_detector as ed
+
 
 
 class TestMultiPersonDetectionAndIntegrity(unittest.TestCase):
@@ -160,9 +162,11 @@ class TestMultiPersonDetectionAndIntegrity(unittest.TestCase):
 
     def test_strike_eligible_events_registered(self):
         """Critical violations MUST be registered as strike eligible."""
-        expected_strikes = {"tab_switch", "camera_exit", "window_move", "multiple_faces", "additional_person", "phone_detected", "fullscreen_exit"}
+        expected_strikes = {"tab_switch", "camera_exit", "window_move", "multiple_faces", "additional_person", "phone_detected"}
         for evt in expected_strikes:
             self.assertIn(evt, STRIKE_ELIGIBLE_VIOLATION_TYPES)
+        self.assertIn("fullscreen_exit", TERMINAL_EVENT_TYPES)
+
 
 
 if __name__ == "__main__":

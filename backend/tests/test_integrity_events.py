@@ -23,7 +23,7 @@ import cv2
 
 from modules import emotion_detector as ed
 from modules.integrity_config import (
-    NEVER_STRIKE_EVENT_TYPES, STRIKE_ELIGIBLE_VIOLATION_TYPES,
+    NEVER_STRIKE_EVENT_TYPES, STRIKE_ELIGIBLE_VIOLATION_TYPES, TERMINAL_EVENT_TYPES,
     EVENT_SEVERITY, STATE_LOW_LIGHT, STATE_BLURRY_IMAGE, STATE_PHONE_DETECTED,
 )
 
@@ -42,9 +42,11 @@ class TestSeverityAndStrikeClassification(unittest.TestCase):
         self.assertIn("low_light", NEVER_STRIKE_EVENT_TYPES)
         self.assertNotIn("low_light", STRIKE_ELIGIBLE_VIOLATION_TYPES)
 
-    def test_phone_and_fullscreen_are_strike_eligible(self):
+    def test_phone_and_fullscreen_classification(self):
         self.assertIn("phone_detected", STRIKE_ELIGIBLE_VIOLATION_TYPES)
-        self.assertIn("fullscreen_exit", STRIKE_ELIGIBLE_VIOLATION_TYPES)
+        self.assertIn("fullscreen_exit", TERMINAL_EVENT_TYPES)
+        self.assertNotIn("fullscreen_exit", STRIKE_ELIGIBLE_VIOLATION_TYPES)
+
 
     def test_every_severity_is_one_of_the_three_levels(self):
         for state, sev in EVENT_SEVERITY.items():
@@ -56,6 +58,38 @@ class TestSeverityAndStrikeClassification(unittest.TestCase):
 
     def test_phone_is_critical_severity(self):
         self.assertEqual(EVENT_SEVERITY[STATE_PHONE_DETECTED], "critical")
+
+
+class TestFullscreenExitTerminalEvent(unittest.TestCase):
+    def test_fullscreen_exit_report_generation(self):
+        from modules.evaluator import generate_final_report
+        session = {
+            "id": "test_fullscreen_session",
+            "status": "terminated",
+            "termination_type": "fullscreen_exit",
+            "termination_reason": "Fullscreen Exit — Interview Terminated",
+            "termination_trigger_event": "fullscreen_exit",
+            "termination_time": "2026-09-29T10:00:00Z",
+            "strike_applied": False,
+            "violations": {},
+            "integrity_events": [
+                {
+                    "type": "FULLSCREEN_EXIT",
+                    "severity": "terminal",
+                    "timestamp": 1700000000,
+                    "strike": False,
+                    "action": "interview_terminated"
+                }
+            ]
+        }
+        report = generate_final_report(session)
+        self.assertTrue(report["terminated"])
+        summary = report["summary"]
+        self.assertEqual(summary["termination_type"], "fullscreen_exit")
+        self.assertEqual(summary["termination_reason"], "Fullscreen Exit — Interview Terminated")
+        self.assertFalse(summary["strike_applied"])
+        self.assertEqual(summary["strike_count"], 0)
+
 
 
 class TestFacePositionClassification(unittest.TestCase):
@@ -194,5 +228,84 @@ class TestAnalyzeEmotionFrameEndToEnd(unittest.TestCase):
             ed._yunet_load_attempted, ed._nanodet_load_attempted = old_yunet_attempted, old_nano_attempted
 
 
+class TestIntegrityStrikeManagerBackend(unittest.TestCase):
+    def setUp(self):
+        from app import app, db, sessions
+        self.app = app
+        self.client = app.test_client()
+        if db is not None:
+            db["sessions"].delete_one({"id": "test_strike_session_1"})
+        sessions.pop("test_strike_session_1", None)
+
+    def test_strike_accumulation_and_three_strike_termination(self):
+        with self.client.session_transaction() as sess:
+            sess["user_id"] = "test_user_123"
+            sess["authenticated"] = True
+            sess["session_id"] = "test_strike_session_1"
+
+        from app import sessions, get_sess
+        sessions["test_strike_session_1"] = {
+            "id": "test_strike_session_1",
+            "user_id": "test_user_123",
+            "status": "active",
+            "violations": {"total": 0},
+            "technical_scores": [80],
+            "questions": [],
+            "answers": []
+        }
+
+        # Strike 1: Tab Switch
+        r1 = self.client.post("/api/integrity/violation", json={"session_id": "test_strike_session_1", "type": "tab_switch"})
+        d1 = r1.get_json()
+        self.assertEqual(d1["violations"], 1)
+        self.assertFalse(d1["terminate"])
+
+        # Strike 2: Camera Exit
+        r2 = self.client.post("/api/integrity/violation", json={"session_id": "test_strike_session_1", "type": "camera_exit"})
+        d2 = r2.get_json()
+        self.assertEqual(d2["violations"], 2)
+        self.assertFalse(d2["terminate"])
+
+        # Strike 3: Additional Person -> Reaches 3, should terminate!
+        r3 = self.client.post("/api/integrity/violation", json={"session_id": "test_strike_session_1", "type": "additional_person"})
+        d3 = r3.get_json()
+        self.assertEqual(d3["violations"], 3)
+        self.assertTrue(d3["terminate"])
+        target_sess = get_sess("test_strike_session_1")
+        self.assertEqual(target_sess["status"], "terminated")
+
+        # Confirm answer submission is blocked on terminated session
+        r_sub = self.client.post("/api/answer/submit", json={"session_id": "test_strike_session_1", "question": "Q1", "answer": "Ans1"})
+        self.assertEqual(r_sub.status_code, 403)
+
+    def test_fullscreen_exit_immediate_hard_termination(self):
+        with self.client.session_transaction() as sess:
+            sess["user_id"] = "test_user_123"
+            sess["authenticated"] = True
+            sess["session_id"] = "test_fs_session_2"
+
+        from app import sessions, get_sess
+        sessions["test_fs_session_2"] = {
+            "id": "test_fs_session_2",
+            "user_id": "test_user_123",
+            "status": "active",
+            "violations": {"total": 0},
+            "technical_scores": [],
+            "questions": [],
+            "answers": []
+        }
+
+        # Single Fullscreen Exit -> Immediate Termination!
+        r_fs = self.client.post("/api/integrity/violation", json={"session_id": "test_fs_session_2", "type": "fullscreen_exit"})
+        d_fs = r_fs.get_json()
+        self.assertTrue(d_fs["terminate"])
+        self.assertEqual(d_fs["termination_type"], "fullscreen_exit")
+        self.assertFalse(d_fs["strike_applied"])
+        target_sess = get_sess("test_fs_session_2")
+        self.assertEqual(target_sess["status"], "terminated")
+        self.assertEqual(target_sess["termination_reason"], "Fullscreen Exit — Interview Terminated")
+
+
 if __name__ == "__main__":
     unittest.main()
+

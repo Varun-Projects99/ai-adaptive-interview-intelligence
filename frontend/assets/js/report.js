@@ -214,7 +214,9 @@ function renderReport(d) {
   // termination decision the server already made.
   const integrityEvents = (summary.integrity_events || []).slice().sort((a, b) => (a.timestamp||0) - (b.timestamp||0));
   const strikeCount     = summary.strike_count !== undefined ? summary.strike_count : (viols.total || 0);
+  const isFullscreenTerminated = summary.termination_type === "fullscreen_exit" || summary.termination_trigger_event === "fullscreen_exit" || (d.terminated && summary.termination_reason && summary.termination_reason.includes("Fullscreen Exit"));
   const autoTerminated  = summary.auto_terminated === true && summary.termination_reason === "integrity_strike_limit" && strikeCount >= 3;
+  const isTerminated    = d.terminated || autoTerminated || isFullscreenTerminated;
 
   const tScore  = scores.technical  || 0;
   const cScore  = scores.confidence || 0;
@@ -236,13 +238,14 @@ function renderReport(d) {
   document.getElementById("report-body").innerHTML = `
     <div class="report-container fade-up">
       
-      ${d.terminated ? `
+      ${isTerminated ? `
       <div style="background:rgba(255,61,90,.08);border:1px solid rgba(255,61,90,.4);
         padding:14px 20px;color:var(--danger);font-size:14px;
         display:flex;align-items:center;gap:12px;margin-bottom:12px;border-radius:8px">
         <span style="font-size:20px">🚫</span>
-        <span>This interview was <strong>terminated</strong> due to repeated integrity violations.</span>
+        <span>This interview was <strong>terminated</strong> due to ${isFullscreenTerminated ? "a fullscreen exit during the active interview" : "repeated integrity violations"}.</span>
       </div>` : ""}
+
 
       ${d.ended_early ? `
       <div style="background:rgba(255,176,32,.08);border:1px solid rgba(255,176,32,.4);
@@ -547,9 +550,9 @@ function renderReport(d) {
           <!-- Integrity Monitor -->
           <div class="detail-card">
             <h3 class="card-title">Integrity Summary</h3>
-            <div class="integrity-strike-total ${autoTerminated ? 'strike-total-red' : strikeCount > 0 ? 'strike-total-yellow' : 'strike-total-green'}">
-              <span class="strike-total-label">Integrity Strikes</span>
-              <span class="strike-total-value">${strikeCount} / 3</span>
+            <div class="integrity-strike-total ${isTerminated ? 'strike-total-red' : strikeCount > 0 ? 'strike-total-yellow' : 'strike-total-green'}">
+              <span class="strike-total-label">${isFullscreenTerminated ? 'Integrity Status' : 'Integrity Strikes'}</span>
+              <span class="strike-total-value">${isFullscreenTerminated ? 'TERMINATED' : strikeCount + ' / 3'}</span>
             </div>
             <div class="integrity-grid">
               <div class="integrity-stat ${(viols.tab_switch||0)>0 ? 'viol-warning' : 'viol-ok'}">
@@ -576,27 +579,30 @@ function renderReport(d) {
                 <span class="stat-count">${viols.phone_detected||0}</span>
                 <span class="stat-desc">Phone Detection</span>
               </div>
-              <div class="integrity-stat ${(viols.fullscreen_exit||0)>0 ? 'viol-warning' : 'viol-ok'}">
-                <span class="stat-count">${viols.fullscreen_exit||0}</span>
-                <span class="stat-desc">Fullscreen Exits</span>
+              <div class="integrity-stat ${isFullscreenTerminated || (viols.fullscreen_exit||0)>0 ? 'viol-warning' : 'viol-ok'}">
+                <span class="stat-count">${isFullscreenTerminated ? '1' : (viols.fullscreen_exit||0)}</span>
+                <span class="stat-desc">Fullscreen Exit</span>
               </div>
             </div>
 
-            <div class="integrity-status-banner ${autoTerminated ? 'banner-red' : strikeCount > 0 ? 'banner-yellow' : 'banner-green'}">
-              ${autoTerminated
-                ? '⚠️ Session auto-terminated: the integrity strike limit (3/3) was reached.'
-                : strikeCount > 0
-                  ? `⚠️ ${strikeCount} integrity strike${strikeCount === 1 ? '' : 's'} recorded during this interview. This is not proof of any wrongdoing -- review the counts and timeline for context.`
-                  : d.ended_early
-                    ? 'ℹ️ Interview ended early by the candidate. No integrity strikes were recorded.'
-                    : '✓ Full Compliance: Excellent focus and webcam integrity maintained.'}
+            <div class="integrity-status-banner ${isTerminated ? 'banner-red' : strikeCount > 0 ? 'banner-yellow' : 'banner-green'}">
+              ${isFullscreenTerminated
+                ? '⚠️ Session terminated: Candidate exited fullscreen during active interview.'
+                : autoTerminated
+                  ? '⚠️ Session auto-terminated: the integrity strike limit (3/3) was reached.'
+                  : strikeCount > 0
+                    ? `⚠️ ${strikeCount} integrity strike${strikeCount === 1 ? '' : 's'} recorded during this interview. This is not proof of any wrongdoing -- review the counts and timeline for context.`
+                    : d.ended_early
+                      ? 'ℹ️ Interview ended early by the candidate. No integrity strikes were recorded.'
+                      : '✓ Full Compliance: Excellent focus and webcam integrity maintained.'}
             </div>
-            ${autoTerminated ? `
+            ${isTerminated ? `
             <div class="integrity-termination-box">
-              <div class="termination-title">🚫 AUTO-TERMINATED</div>
-              <div class="termination-row"><span>Reason</span><span>Integrity strike limit reached</span></div>
-              <div class="termination-row"><span>Strikes</span><span>${strikeCount} / 3</span></div>
-              <div class="termination-row"><span>Trigger</span><span>${humanEventLabel((summary.termination_trigger_event||'').toUpperCase())}</span></div>
+              <div class="termination-title">🚫 INTERVIEW TERMINATED</div>
+              <div class="termination-row"><span>Integrity Event</span><span>${isFullscreenTerminated ? 'Fullscreen Exit' : humanEventLabel((summary.termination_trigger_event||'').toUpperCase())}</span></div>
+              <div class="termination-row"><span>Action</span><span>Interview Terminated</span></div>
+              <div class="termination-row"><span>Strike</span><span>${isFullscreenTerminated ? 'Not applicable' : strikeCount + ' / 3'}</span></div>
+              <div class="termination-row"><span>Reason</span><span>${isFullscreenTerminated ? 'Candidate exited fullscreen during the active interview.' : (summary.termination_reason || 'Integrity strike limit reached')}</span></div>
               <div class="termination-row"><span>Time</span><span>${summary.termination_time ? new Date(summary.termination_time).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" }) : '--'}</span></div>
             </div>` : ''}
           </div>
@@ -607,22 +613,26 @@ function renderReport(d) {
             ${integrityEvents.length ? `
             <div class="integrity-timeline">
               ${integrityEvents.map(ev => {
-                const isStrike = STRIKE_ELIGIBLE_EVENT_TYPES.has(ev.type) && (ev.details && ev.details.strike_number);
+                const isFsExit = ev.type === "FULLSCREEN_EXIT";
+                const isStrike = !isFsExit && STRIKE_ELIGIBLE_EVENT_TYPES.has(ev.type) && (ev.details && ev.details.strike_number);
                 return `
-                <div class="timeline-event ${isStrike ? 'timeline-strike' : 'timeline-warning'}">
+                <div class="timeline-event ${isFsExit || isStrike ? 'timeline-strike' : 'timeline-warning'}">
                   <div class="timeline-event-main">
                     <span class="timeline-event-name">${humanEventLabel(ev.type)}</span>
-                    <span class="timeline-event-badge ${isStrike ? 'badge-strike' : 'badge-warning'}">${isStrike ? `Strike ${ev.details.strike_number}` : 'Warning (no strike)'}</span>
+                    <span class="timeline-event-badge ${isFsExit || isStrike ? 'badge-strike' : 'badge-warning'}">
+                      ${isFsExit ? 'TERMINAL — INTERVIEW TERMINATED' : isStrike ? `Strike ${ev.details.strike_number}` : 'Warning (no strike)'}
+                    </span>
                   </div>
                   <div class="timeline-event-meta">
-                    <span>${fmtEventTime(ev.timestamp)}</span>
-                    ${ev.duration_sec !== null && ev.duration_sec !== undefined ? `<span>${ev.duration_sec}s</span>` : ''}
-                    ${ev.confidence !== null && ev.confidence !== undefined ? `<span>Confidence: ${(ev.confidence*100).toFixed(0)}%</span>` : ''}
+                    <span>Timestamp: ${fmtEventTime(ev.timestamp)}</span>
+                    <span>Strike: ${isFsExit ? 'Not applicable' : (isStrike ? ev.details.strike_number + '/3' : 'None')}</span>
+                    <span>Action: ${isFsExit ? 'Interview terminated' : (isStrike ? 'Strike applied' : 'Logged')}</span>
                   </div>
                 </div>`;
               }).join("")}
             </div>` : `<div class="empty-state">No integrity events were recorded during this interview.</div>`}
           </div>
+
 
           <!-- Recommendations -->
           <div class="detail-card">

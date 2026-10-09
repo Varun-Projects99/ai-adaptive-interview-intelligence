@@ -60,11 +60,11 @@ HEAD_POSE_CONFIRM_SECONDS  = 6.0    # sustained (same non-center direction) span
                                      # natural glance never reaches this
 
 # ── Phone / object / person detection ──────────────────────────────────
-PHONE_MIN_CONFIDENCE  = 0.50        # NanoDet "cell phone" class score floor
-PHONE_CONFIRM_SECONDS = 6.0         # sustained detection span required before PHONE_DETECTED fires
+PHONE_MIN_CONFIDENCE  = 0.28        # NanoDet "cell phone" class score floor
+PHONE_CONFIRM_SECONDS = 2.0         # sustained detection span required before PHONE_DETECTED fires (2 seconds)
 
 PERSON_MIN_CONFIDENCE             = 0.40  # NanoDet "person" class score floor
-ADDITIONAL_PERSON_CONFIRM_SECONDS = 3.0   # sustained additional person span before confirm
+ADDITIONAL_PERSON_CONFIRM_SECONDS = 2.0   # sustained additional person span before confirm (2 seconds)
 
 # ── Generic warning-event confirmation windows (new Tier-1 telemetry) ────
 LOW_LIGHT_CONFIRM_SECONDS     = 6.0
@@ -127,9 +127,8 @@ EVENT_SEVERITY = {
 
 # ── Strike classification ────────────────────────────────────────────────
 # The ONLY violation types allowed to ever contribute to the 3-strike
-# termination count. Everything else is informational/warning-tier and is
-# only ever appended to the integrity_events log, never to
-# sess["violations"].
+# termination count. Fullscreen exit is a special terminal event (immediate
+# termination without strike accumulation), so it is defined in TERMINAL_EVENT_TYPES.
 STRIKE_ELIGIBLE_VIOLATION_TYPES = {
     "tab_switch",
     "camera_exit",
@@ -137,9 +136,13 @@ STRIKE_ELIGIBLE_VIOLATION_TYPES = {
     "multiple_faces",
     "additional_person",
     "multiple_additional_people",
-    "fullscreen_exit",
     "phone_detected",
 }
+
+TERMINAL_EVENT_TYPES = {
+    "fullscreen_exit",
+}
+
 
 
 # Defensive hard guarantee (enforced in /api/integrity/violation itself, not

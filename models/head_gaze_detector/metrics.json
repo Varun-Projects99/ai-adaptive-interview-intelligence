@@ -1,0 +1,83 @@
+{
+    "num_test_samples": 100,
+    "regression": {
+        "head_yaw_mae_deg": 0.64,
+        "head_pitch_mae_deg": 0.44,
+        "gaze_yaw_mae_deg": 0.84,
+        "gaze_pitch_mae_deg": 0.75
+    },
+    "directional_classification": {
+        "head_accuracy": 0.96,
+        "head_macro_f1": 0.374,
+        "head_per_class": {
+            "LEFT": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 0
+            },
+            "CENTER": {
+                "precision": 1.0,
+                "recall": 0.9518,
+                "f1": 0.9753,
+                "support": 83
+            },
+            "RIGHT": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 0
+            },
+            "UP": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 0
+            },
+            "DOWN": {
+                "precision": 0.8095,
+                "recall": 1.0,
+                "f1": 0.8947,
+                "support": 17
+            }
+        },
+        "gaze_accuracy": 1.0,
+        "gaze_macro_f1": 0.4,
+        "gaze_per_class": {
+            "LEFT": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 0
+            },
+            "CENTER": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "support": 66
+            },
+            "RIGHT": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 0
+            },
+            "UP": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 0
+            },
+            "DOWN": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "support": 34
+            }
+        }
+    },
+    "performance": {
+        "inference_fps": 10.34,
+        "latency_ms": 96.71
+    }
+}

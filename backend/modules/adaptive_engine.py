@@ -390,18 +390,28 @@ Guidelines for the question:
 """
 
     try:
-        from groq import Groq
-        client = Groq(api_key=api_key)
-        completion = client.chat.completions.create(
-            model="llama3-8b-8192",
-            messages=[
-                {"role": "system", "content": "You are a direct, professional technical interviewer. Return only the raw question text."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.7,
-            max_tokens=600
-        )
-        q_text = completion.choices[0].message.content.strip()
+        model_candidates = [os.environ.get("GROQ_MODEL", "").strip(), "llama-3.1-8b-instant", "llama-3.3-70b-versatile", "mixtral-8x7b-32768"]
+        model_candidates = [m for m in model_candidates if m]
+
+        q_text = None
+        last_err = None
+        for model_name in model_candidates:
+            try:
+                completion = client.chat.completions.create(
+                    model=model_name,
+                    messages=[
+                        {"role": "system", "content": "You are a direct, professional technical interviewer. Return only the raw question text."},
+                        {"role": "user", "content": prompt}
+                    ],
+                    temperature=0.7,
+                    max_tokens=600
+                )
+                q_text = completion.choices[0].message.content.strip()
+                break
+            except Exception as ex:
+                last_err = ex
+        if q_text is None:
+            raise last_err or Exception("All Groq model candidates failed")
 
         if q_text.startswith('"') and q_text.endswith('"'):
             q_text = q_text[1:-1]

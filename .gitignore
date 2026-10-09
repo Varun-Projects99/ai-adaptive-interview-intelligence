@@ -10,4 +10,8 @@ scratch/
 *.bak*
 *.tmp
 _incoming/
-_to_delete/
+_to_delete/
+datasets/
+runs/
+training/
+*.pt

@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>(function(){try{var t=localStorage.getItem('iq_theme');if(t==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InterviewIQ — Live Aptitude Assessment</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <style>
+    body {
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .topbar {
+      height: 60px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+    }
+    .layout-grid {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      flex: 1;
+      overflow: hidden;
+    }
+    @media (max-width: 992px) {
+      body { overflow: auto; height: auto; }
+      .layout-grid { grid-template-columns: 1fr; }
+    }
+    .left-workspace {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      overflow-y: auto;
+    }
+    .right-sidebar {
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      overflow-y: auto;
+    }
+    .q-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+    .opt-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 15px;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .opt-card:hover {
+      border-color: var(--primary);
+      background: var(--surface-hover);
+    }
+    .opt-card.selected {
+      border-color: var(--cyan);
+      background: rgba(34, 211, 238, 0.08);
+      box-shadow: 0 0 12px rgba(34, 211, 238, 0.15);
+    }
+    .opt-badge {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--fm);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+    .opt-card.selected .opt-badge {
+      background: var(--cyan);
+      color: #000;
+      border-color: var(--cyan);
+    }
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      max-height: 420px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .palette-btn {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      font-family: var(--fm);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: all 0.2s;
+    }
+    .palette-btn:hover { border-color: var(--primary); color: var(--text-primary); }
+    .palette-btn.active { border: 2px solid var(--cyan) !important; color: var(--text-primary); }
+    .palette-btn.answered { background: rgba(52, 211, 153, 0.15); border-color: var(--success); color: var(--success); }
+    .palette-btn.marked { background: rgba(139, 92, 246, 0.2); border-color: var(--primary); color: var(--primary-light); }
+    .palette-btn.marked::after {
+      content: '★';
+      position: absolute;
+      top: 2px; right: 4px;
+      font-size: 9px;
+      color: var(--primary-light);
+    }
+    .timer-pill {
+      font-family: var(--fm);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--cyan);
+      background: var(--surface2);
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      letter-spacing: 0.05em;
+    }
+    .timer-pill.warning {
+      color: var(--danger);
+      border-color: var(--danger);
+      animation: pulse-timer 1s infinite alternate;
+    }
+    @keyframes pulse-timer {
+      0% { box-shadow: 0 0 0 rgba(251, 113, 133, 0.2); }
+      100% { box-shadow: 0 0 12px rgba(251, 113, 133, 0.5); }
+    }
+  </style>
+  <script src="/assets/js/theme.js" defer></script>
+  <script src="/assets/js/session.js" defer></script>
+</head>
+<body class="grid-bg">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div style="display:flex; align-items:center; gap:16px;">
+      <a href="/aptitude" class="btn btn-ghost" style="padding:6px 12px; font-size:12px;" onclick="confirmQuit(event)">
+        ← Quit Test
+      </a>
+      <span style="font-family:var(--fh); font-weight:800; font-size:16px;" id="test-title">
+        Aptitude Assessment
+      </span>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:16px;">
+      <div class="timer-pill" id="timer-display">00:00</div>
+      <button class="btn btn-primary" onclick="confirmSubmitModal()" style="padding:8px 18px; font-weight:700;">
+        Submit Test
+      </button>
+    </div>
+  </header>
+
+  <!-- WORKSPACE LAYOUT -->
+  <main class="layout-grid">
+
+    <!-- LEFT WORKSPACE -->
+    <div class="left-workspace">
+
+      <!-- PROGRESS BAR -->
+      <div style="display:flex; justify-content:space-between; align-items:center; font-size:13px; color:var(--text-muted);">
+        <span id="q-counter">Question 1 of 10</span>
+        <span id="q-progress-pct">10% Completed</span>
+      </div>
+      <div class="progress-bar" style="margin-top:-10px;">
+        <div class="progress-fill" id="q-progress-bar" style="width: 10%;"></div>
+      </div>
+
+      <!-- QUESTION CARD -->
+      <div class="q-card">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="chip accent" id="q-cat-tag">Category</span>
+            <span class="chip" id="q-topic-tag">Topic</span>
+          </div>
+          <span class="diff-badge easy" id="q-diff-badge">EASY</span>
+        </div>
+
+        <!-- QUESTION TEXT -->
+        <div style="font-family:var(--fh); font-size:20px; font-weight:700; line-height:1.5;" id="q-text">
+          Loading question...
+        </div>
+
+        <!-- OPTIONS GRID -->
+        <div style="display:flex; flex-direction:column; gap:12px;" id="options-container">
+          <!-- Options populated dynamically -->
+        </div>
+
+        <!-- FOOTER CONTROLS -->
+        <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border); padding-top:18px; margin-top:10px; flex-wrap:wrap; gap:12px;">
+          <div style="display:flex; gap:10px;">
+            <button class="btn btn-secondary" style="font-size:12px;" onclick="clearCurrentChoice()">
+              Clear Choice
+            </button>
+            <button class="btn btn-secondary" id="mark-btn" style="font-size:12px;" onclick="toggleMarkForReview()">
+              ★ Mark for Review
+            </button>
+          </div>
+
+          <div style="display:flex; gap:10px;">
+            <button class="btn btn-secondary" id="prev-btn" onclick="prevQuestion()">
+              ← Previous
+            </button>
+            <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()">
+              Next Question →
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT SIDEBAR (QUESTION PALETTE) -->
+    <div class="right-sidebar">
+      <div class="section-title">Question Palette</div>
+
+      <!-- PALETTE LEGEND -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:11.5px; color:var(--text-muted);">
+        <div style="display:flex; align-items:center; gap:6px;">
+          <span style="width:10px; height:10px; border-radius:50%; background:var(--success);"></span> Answered
+        </div>
+        <div style="display:flex; align-items:center; gap:6px;">
+          <span style="width:10px; height:10px; border-radius:50%; background:var(--surface2); border:1px solid var(--border);"></span> Unanswered
+        </div>
+        <div style="display:flex; align-items:center; gap:6px;">
+          <span style="width:10px; height:10px; border-radius:50%; background:var(--primary);"></span> Marked
+        </div>
+        <div style="display:flex; align-items:center; gap:6px;">
+          <span style="width:10px; height:10px; border-radius:50%; border:2px solid var(--cyan);"></span> Active
+        </div>
+      </div>
+
+      <!-- PALETTE GRID -->
+      <div class="palette-grid" id="palette-grid">
+        <!-- Generated dynamically -->
+      </div>
+
+      <!-- SUMMARY STATS -->
+      <div style="background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:14px; font-size:12.5px; display:flex; flex-direction:column; gap:6px; margin-top:auto;">
+        <div style="display:flex; justify-content:space-between;">
+          <span>Answered:</span>
+          <strong style="color:var(--success)" id="pal-stat-answered">0</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between;">
+          <span>Unanswered:</span>
+          <strong style="color:var(--text-muted)" id="pal-stat-unanswered">0</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between;">
+          <span>Marked for Review:</span>
+          <strong style="color:var(--primary-light)" id="pal-stat-marked">0</strong>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="confirmSubmitModal()" style="width:100%; padding:14px; font-weight:700;">
+        Submit Assessment
+      </button>
+    </div>
+
+  </main>
+
+  <!-- CONFIRM SUBMISSION MODAL -->
+  <div class="overlay" id="confirm-modal" style="z-index: 1000; display: none;">
+    <div class="fb-card" style="max-width: 440px; width: 90%; padding: 28px; background: var(--surface); text-align: center;">
+      <div style="font-size: 36px; margin-bottom: 12px;">📑</div>
+      <h2 style="font-family: var(--fh); font-size: 20px; font-weight: 800; margin-bottom: 8px;">
+        Submit Aptitude Assessment?
+      </h2>
+      <p style="color: var(--text-muted); font-size: 13.5px; line-height: 1.6; margin-bottom: 20px;" id="confirm-modal-text">
+        You have answered 0 of 10 questions.
+      </p>
+
+      <div style="display:flex; gap:12px;">
+        <button class="btn btn-secondary" style="flex:1;" onclick="closeConfirmModal()">
+          Continue Test
+        </button>
+        <button class="btn btn-primary" style="flex:1;" onclick="submitTestNow()">
+          Submit Now
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINAL TEST RESULT MODAL -->
+  <div class="overlay" id="test-result-modal" style="z-index: 1001; display: none;">
+    <div class="fb-card" style="max-width: 820px; width: 92%; max-height: 90vh; overflow-y: auto; padding: 28px; background: var(--surface);">
+      <div style="text-align:center; margin-bottom:20px;">
+        <span style="font-size:48px;">🏆</span>
+        <h2 style="font-family:var(--fh); font-size:26px; font-weight:800; margin-top:8px;">Assessment Completed!</h2>
+        <div style="font-family:var(--fm); font-size:12px; color:var(--cyan); text-transform:uppercase; letter-spacing:0.1em;" id="res-mode-label">
+          QUICK PRACTICE REPORT
+        </div>
+      </div>
+
+      <!-- STATS GRID -->
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap:12px; background:var(--surface2); padding:16px; border-radius:8px; border:1px solid var(--border); margin-bottom:24px; text-align:center;">
+        <div>
+          <div style="font-size:11px; font-family:var(--fm); color:var(--text-muted);">SCORE</div>
+          <div style="font-size:32px; font-family:var(--fh); font-weight:800; color:var(--cyan);" id="res-score">0%</div>
+        </div>
+        <div>
+          <div style="font-size:11px; font-family:var(--fm); color:var(--text-muted);">ACCURACY</div>
+          <div style="font-size:32px; font-family:var(--fh); font-weight:800; color:var(--success);" id="res-accuracy">0%</div>
+        </div>
+        <div>
+          <div style="font-size:11px; font-family:var(--fm); color:var(--text-muted);">CORRECT / TOTAL</div>
+          <div style="font-size:32px; font-family:var(--fh); font-weight:800; color:var(--text);" id="res-ratio">0/0</div>
+        </div>
+        <div>
+          <div style="font-size:11px; font-family:var(--fm); color:var(--text-muted);">TIME TAKEN</div>
+          <div style="font-size:32px; font-family:var(--fh); font-weight:800; color:var(--primary-light);" id="res-time">0s</div>
+        </div>
+      </div>
+
+      <!-- DETAILED REVIEW -->
+      <h3 style="font-family:var(--fh); font-size:17px; font-weight:700; margin-bottom:14px;">Question & Answer Breakdown</h3>
+      <div id="res-review-list" style="display:flex; flex-direction:column; gap:16px; margin-bottom:24px;">
+        <!-- Populated dynamically -->
+      </div>
+
+      <div style="display:flex; gap:12px; justify-content:center;">
+        <button class="btn btn-secondary" onclick="window.location.href='/aptitude'">
+          ← Back to Aptitude Hub
+        </button>
+        <button class="btn btn-primary" onclick="window.location.reload()">
+          🔄 Retake / Next Test
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ACTIVE_SESSION_KEY = "apt_active_test_session";
+
+    let testData = null;
+    let currentIndex = 0;
+    let userAnswers = {};      // { [qid]: option_text }
+    let markedForReview = {};  // { [qid]: boolean }
+    let timerInterval = null;
+    let secondsElapsed = 0;
+    let totalTimerSeconds = 3600;
+    let startTime = Date.now();
+
+    document.addEventListener("DOMContentLoaded", async function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const mode = urlParams.get('mode') || 'quick';
+      const category = urlParams.get('category') || null;
+      const topic = urlParams.get('topic') || null;
+      const difficulty = urlParams.get('difficulty') || null;
+      const isFresh = urlParams.get('fresh') === '1';
+
+      if (isFresh) {
+        sessionStorage.removeItem(ACTIVE_SESSION_KEY);
+      }
+
+      await initializeOrRestoreTest(mode, category, topic, difficulty);
+    });
+
+    async function initializeOrRestoreTest(mode, category, topic, difficulty) {
+      try {
+        const saved = sessionStorage.getItem(ACTIVE_SESSION_KEY);
+        if (saved) {
+          try {
+            const activeSession = JSON.parse(saved);
+            const now = Date.now();
+            const elapsed = Math.floor((now - activeSession.startTime) / 1000);
+            const total = activeSession.totalTimerSeconds || 3600;
+
+            if (activeSession.testData && activeSession.testData.questions && elapsed < total) {
+              testData = activeSession.testData;
+              userAnswers = activeSession.userAnswers || {};
+              markedForReview = activeSession.markedForReview || {};
+              startTime = activeSession.startTime || now;
+              totalTimerSeconds = total;
+
+              document.getElementById('test-title').textContent = testData.title || "Aptitude Assessment";
+              startTimer();
+              renderQuestion(0);
+              renderPalette();
+              return;
+            }
+          } catch(e) {
+            console.warn("Could not parse saved session:", e);
+          }
+        }
+
+        // Start fresh test session from backend
+        const res = await fetch('/api/aptitude/start', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mode, category, topic, difficulty })
+        });
+        if (!res.ok) throw new Error("Could not start test session");
+        testData = await res.json();
+
+        document.getElementById('test-title').textContent = testData.title || "Aptitude Assessment";
+        totalTimerSeconds = (testData.time_limit_minutes || 60) * 60;
+        startTime = Date.now();
+        userAnswers = {};
+        markedForReview = {};
+
+        saveActiveSession();
+
+        startTimer();
+        renderQuestion(0);
+        renderPalette();
+      } catch(e) {
+        showToast("Error initializing test: " + e.message, "err");
+      }
+    }
+
+    function saveActiveSession() {
+      if (testData && testData.test_id) {
+        sessionStorage.setItem(ACTIVE_SESSION_KEY, JSON.stringify({
+          testData: testData,
+          userAnswers: userAnswers,
+          markedForReview: markedForReview,
+          startTime: startTime,
+          totalTimerSeconds: totalTimerSeconds
+        }));
+      }
+    }
+
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      const display = document.getElementById('timer-display');
+
+      const updateClock = () => {
+        const now = Date.now();
+        secondsElapsed = Math.floor((now - startTime) / 1000);
+        const remaining = totalTimerSeconds - secondsElapsed;
+
+        saveActiveSession();
+
+        if (remaining <= 0) {
+          clearInterval(timerInterval);
+          display.textContent = "00:00";
+          showToast("Time limit reached! Submitting test automatically...", "warn");
+          submitTestNow();
+          return;
+        }
+
+        const mins = String(Math.floor(remaining / 60)).padStart(2, '0');
+        const secs = String(remaining % 60).padStart(2, '0');
+        display.textContent = `${mins}:${secs}`;
+
+        if (remaining <= 300) { // 5 minutes remaining
+          display.classList.add('warning');
+        } else {
+          display.classList.remove('warning');
+        }
+      };
+
+      updateClock();
+      timerInterval = setInterval(updateClock, 1000);
+    }
+
+    function renderQuestion(index) {
+      if (!testData || !testData.questions || testData.questions.length === 0) return;
+      if (index < 0 || index >= testData.questions.length) return;
+
+      currentIndex = index;
+      const q = testData.questions[index];
+      const total = testData.questions.length;
+
+      // Update counters
+      document.getElementById('q-counter').textContent = `Question ${index + 1} of ${total}`;
+      const pct = Math.round(((index + 1) / total) * 100);
+      document.getElementById('q-progress-pct').textContent = `${pct}% Progress`;
+      document.getElementById('q-progress-bar').style.width = `${pct}%`;
+
+      // Meta tags
+      document.getElementById('q-cat-tag').textContent = q.category;
+      document.getElementById('q-topic-tag').textContent = q.topic;
+
+      const diffBadge = document.getElementById('q-diff-badge');
+      diffBadge.textContent = (q.difficulty || 'Easy').toUpperCase();
+      diffBadge.className = `diff-badge ${q.difficulty ? q.difficulty.toLowerCase() : 'easy'}`;
+
+      // Question text
+      document.getElementById('q-text').textContent = q.question;
+
+      // Options
+      const optionsContainer = document.getElementById('options-container');
+      optionsContainer.innerHTML = '';
+      const letters = ['A', 'B', 'C', 'D'];
+      const currentSelected = userAnswers[q.id];
+
+      q.options.forEach((opt, idx) => {
+        const isSelected = currentSelected === opt;
+        const optCard = document.createElement('div');
+        optCard.className = `opt-card ${isSelected ? 'selected' : ''}`;
+        optCard.onclick = () => selectOption(q.id, opt);
+
+        optCard.innerHTML = `
+          <div class="opt-badge">${letters[idx] || (idx+1)}</div>
+          <div style="flex:1;">${opt}</div>
+        `;
+        optionsContainer.appendChild(optCard);
+      });
+
+      // Mark for Review button state
+      const isMarked = !!markedForReview[q.id];
+      const markBtn = document.getElementById('mark-btn');
+      markBtn.style.color = isMarked ? 'var(--primary-light)' : 'var(--text-muted)';
+      markBtn.style.borderColor = isMarked ? 'var(--primary)' : 'var(--border)';
+      markBtn.textContent = isMarked ? '★ Marked for Review' : '☆ Mark for Review';
+
+      // Navigation buttons state
+      document.getElementById('prev-btn').disabled = (index === 0);
+      document.getElementById('prev-btn').style.opacity = (index === 0) ? '0.5' : '1';
+
+      const nextBtn = document.getElementById('next-btn');
+      if (index === total - 1) {
+        nextBtn.textContent = "Review & Submit →";
+        nextBtn.onclick = confirmSubmitModal;
+      } else {
+        nextBtn.textContent = "Next Question →";
+        nextBtn.onclick = nextQuestion;
+      }
+
+      renderPalette();
+    }
+
+    function selectOption(qid, optionText) {
+      userAnswers[qid] = optionText;
+      saveActiveSession();
+      renderQuestion(currentIndex);
+    }
+
+    function clearCurrentChoice() {
+      const q = testData.questions[currentIndex];
+      if (q && userAnswers[q.id]) {
+        delete userAnswers[q.id];
+        saveActiveSession();
+        renderQuestion(currentIndex);
+      }
+    }
+
+    function toggleMarkForReview() {
+      const q = testData.questions[currentIndex];
+      if (q) {
+        markedForReview[q.id] = !markedForReview[q.id];
+        saveActiveSession();
+        renderQuestion(currentIndex);
+      }
+    }
+
+    function prevQuestion() {
+      if (currentIndex > 0) renderQuestion(currentIndex - 1);
+    }
+
+    function nextQuestion() {
+      if (currentIndex < testData.questions.length - 1) renderQuestion(currentIndex + 1);
+    }
+
+    function jumpToQuestion(index) {
+      renderQuestion(index);
+    }
+
+    function renderPalette() {
+      if (!testData || !testData.questions) return;
+      const grid = document.getElementById('palette-grid');
+      grid.innerHTML = '';
+
+      let answeredCount = 0;
+      let markedCount = 0;
+
+      testData.questions.forEach((q, idx) => {
+        const isAnswered = !!userAnswers[q.id];
+        const isMarked = !!markedForReview[q.id];
+        const isActive = (idx === currentIndex);
+
+        if (isAnswered) answeredCount++;
+        if (isMarked) markedCount++;
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        let cls = 'palette-btn';
+        if (isActive) cls += ' active';
+        if (isAnswered) cls += ' answered';
+        if (isMarked) cls += ' marked';
+
+        btn.className = cls;
+        btn.textContent = idx + 1;
+        btn.onclick = () => jumpToQuestion(idx);
+        grid.appendChild(btn);
+      });
+
+      const total = testData.questions.length;
+      document.getElementById('pal-stat-answered').textContent = answeredCount;
+      document.getElementById('pal-stat-unanswered').textContent = total - answeredCount;
+      document.getElementById('pal-stat-marked').textContent = markedCount;
+    }
+
+    function confirmQuit(e) {
+      e.preventDefault();
+      if (confirm("Are you sure you want to quit this aptitude test? Your current progress will not be saved.")) {
+        sessionStorage.removeItem(ACTIVE_SESSION_KEY);
+        window.location.href = '/aptitude';
+      }
+    }
+
+    function confirmSubmitModal() {
+      const total = testData.questions.length;
+      const answered = Object.keys(userAnswers).length;
+      const unanswered = total - answered;
+
+      document.getElementById('confirm-modal-text').textContent = 
+        `You have answered ${answered} of ${total} questions. (${unanswered} unanswered)`;
+      document.getElementById('confirm-modal').style.display = 'flex';
+    }
+
+    function closeConfirmModal() {
+      document.getElementById('confirm-modal').style.display = 'none';
+    }
+
+    async function submitTestNow() {
+      closeConfirmModal();
+      clearInterval(timerInterval);
+
+      try {
+        const qids = testData.questions.map(q => q.id);
+        const submitPayload = {
+          test_id: testData.test_id,
+          mode: testData.mode,
+          category: testData.category,
+          topic: testData.topic,
+          question_ids: qids,
+          user_answers: userAnswers,
+          time_taken_seconds: secondsElapsed
+        };
+
+        const res = await fetch('/api/aptitude/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(submitPayload)
+        });
+
+        if (!res.ok) throw new Error("Submission failed");
+        const resultDoc = await res.json();
+
+        // Clear active test session from sessionStorage
+        sessionStorage.removeItem(ACTIVE_SESSION_KEY);
+
+        renderResultsModal(resultDoc);
+      } catch(e) {
+        showToast("Error submitting test: " + e.message, "err");
+      }
+    }
+
+    function renderResultsModal(doc) {
+      document.getElementById('res-mode-label').textContent = (doc.mode || 'PRACTICE').toUpperCase() + " RESULT REPORT";
+      document.getElementById('res-score').textContent = (doc.score || 0) + '%';
+      document.getElementById('res-accuracy').textContent = (doc.accuracy || 0) + '%';
+      document.getElementById('res-ratio').textContent = `${doc.correct_count || 0}/${doc.total_questions || 0}`;
+      document.getElementById('res-time').textContent = (doc.time_taken_seconds || 0) + 's';
+
+      const reviewList = document.getElementById('res-review-list');
+      reviewList.innerHTML = '';
+
+      (doc.detailed_review || []).forEach((q, idx) => {
+        const isCorrect = q.status === 'correct';
+        const isUnanswered = q.status === 'unanswered';
+        const badgeClass = isCorrect ? 'success' : isUnanswered ? 'warn' : 'danger';
+        const badgeText = isCorrect ? '✓ CORRECT' : isUnanswered ? '○ UNANSWERED' : '✗ INCORRECT';
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style.padding = '18px';
+        card.innerHTML = `
+          <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+            <span style="font-family:var(--fm); font-size:11px; color:var(--text-muted);">QUESTION ${idx+1} • ${q.category} (${q.topic})</span>
+            <span class="chip ${badgeClass}" style="font-size:10px;">${badgeText}</span>
+          </div>
+          <div style="font-weight:700; font-size:15px; margin-bottom:12px; line-height:1.5;">${q.question}</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px; font-size:13px;">
+            <div style="background:var(--surface2); padding:8px 12px; border-radius:6px; border:1px solid var(--border);">
+              <strong>Your Answer:</strong> <span style="color:${isCorrect ? 'var(--success)' : 'var(--danger)'}">${q.user_choice}</span>
+            </div>
+            <div style="background:var(--surface2); padding:8px 12px; border-radius:6px; border:1px solid var(--border);">
+              <strong>Correct Answer:</strong> <span style="color:var(--success)">${q.correct_answer}</span>
+            </div>
+          </div>
+          <div style="background:rgba(34,211,238,0.06); border-left:3px solid var(--cyan); padding:10px 14px; border-radius:0 6px 6px 0; font-size:12.5px; line-height:1.6; color:var(--text-secondary);">
+            <strong>Explanation:</strong> ${q.explanation}
+          </div>
+        `;
+        reviewList.appendChild(card);
+      });
+
+      document.getElementById('test-result-modal').style.display = 'flex';
+    }
+  </script>
+</body>
+</html>
